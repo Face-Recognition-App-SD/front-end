@@ -25,12 +25,20 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.lightBlue,
         ),
         body: Container(
-          margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+          decoration:
+              BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+          width: double.infinity,
+          margin: EdgeInsets.all(10),
           // EdgeInsets.fromLTRB(left, top, right, bottom)
-          child: Image.asset(
-            'assets/images/logo.jpeg',
-            scale: 10,
-            fit: BoxFit.cover,
+          child: Container(
+            decoration:
+                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+            margin: EdgeInsets.all(10),
+            child: Image.asset(
+              'assets/images/logo.jpeg',
+              scale: 1,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
