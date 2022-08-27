@@ -10,35 +10,43 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Rostro'),
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              'assets/images/logo.jpeg',
-              scale: 0.8,
-              fit: BoxFit.cover,
-            ),
+      home: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.redAccent),
+          image: DecorationImage(
+            image: AssetImage("assets/images/cat.jpeg"),
+            fit: BoxFit.fitHeight,
           ),
-          centerTitle: true,
-          backgroundColor: Colors.lightBlue,
         ),
-        body: Container(
-          decoration:
-              BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-          width: double.infinity,
-          margin: EdgeInsets.all(10),
-          // EdgeInsets.fromLTRB(left, top, right, bottom)
-          child: Container(
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-            margin: EdgeInsets.all(10),
-            child: Image.asset(
-              'assets/images/logo.jpeg',
-              scale: 1,
-              fit: BoxFit.cover,
-            ),
+
+        // EdgeInsets.fromLTRB(left, top, right, bottom)
+
+        //margin: EdgeInsets.all(10),
+        // child: Image.asset(
+        //   'assets/images/logo.jpeg',
+        //   fit: BoxFit.fitWidth,
+        // ),
+        child: Container(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                top: 60,
+                height: 300,
+                width: 300,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.redAccent),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/logo.jpeg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
