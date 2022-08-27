@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
                               MaterialStateProperty.all(Colors.blue),
                         ),
                         onPressed: anything,
-                        child: Text('blablabla'),
+                        child: Text('blablab'),
                       ),
                     ],
                   ),
