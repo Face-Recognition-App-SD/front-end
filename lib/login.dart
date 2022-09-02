@@ -85,7 +85,7 @@ class Login extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 470,
+                top: 460,
                 height: 250,
                 width: 300,
                 child: Row(
@@ -101,8 +101,10 @@ class Login extends StatelessWidget {
                     RaisedButton(
                       color: Colors.blueAccent,
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Regfirst()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Regfirst()));
                       },
                       child: Text('Register'),
                     ),

@@ -30,7 +30,7 @@ class _AvatarState extends State<Avatar> {
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
     } on PlatformException catch (e) {
-      print('Failed to pick image : $e');
+      print('Failed: $e');
     }
   }
 
@@ -51,10 +51,10 @@ class _AvatarState extends State<Avatar> {
   }
 }
 
-class Regsecond extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {}
-}
+// class Regsecond extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {}
+// }
 
 class Regfirst extends StatelessWidget {
   @override
