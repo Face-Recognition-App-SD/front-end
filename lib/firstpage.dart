@@ -1,6 +1,7 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import './login.dart';
 
 class FirstPage extends StatelessWidget {
   var bg = 'assets/images/bg.jpeg';
@@ -54,7 +55,12 @@ class FirstPage extends StatelessWidget {
                         flex: 3,
                         child: ElevatedButton(
                           // color: Colors.blueAccent,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Login()));
+                          },
                           child: Text('User Login'),
                         ),
                       ),

@@ -94,7 +94,7 @@ class Login extends StatelessWidget {
                     RaisedButton(
                       color: Colors.blueAccent,
                       onPressed: () => {
-                        print("anything"),
+                        Navigator.pop(context),
                       },
                       child: Text('Login'),
                     ),

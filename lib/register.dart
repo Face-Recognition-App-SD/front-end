@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
-
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import './register2.dart';
 
 class MyClip extends CustomClipper<Rect> {
   Rect getClip(Size size) {
@@ -51,11 +51,6 @@ class _AvatarState extends State<Avatar> {
   }
 }
 
-// class Regsecond extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {}
-// }
-
 class Regfirst extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -79,8 +74,8 @@ class Regfirst extends StatelessWidget {
                 child: Avatar(),
               ),
               Positioned(
-                top: 300,
-                height: 400,
+                top: 350,
+                height: 300,
                 width: 330,
                 child: Column(
                   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -92,7 +87,11 @@ class Regfirst extends StatelessWidget {
                             flex: 3,
                             child: TextField(
                               decoration: InputDecoration(
-                                labelText: "First Name",
+                                hintText: "First name",
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
                                 labelStyle: TextStyle(
                                     fontSize: 24, color: Colors.white),
                                 border: UnderlineInputBorder(),
@@ -104,7 +103,11 @@ class Regfirst extends StatelessWidget {
                             flex: 3,
                             child: TextField(
                               decoration: InputDecoration(
-                                labelText: "Last Name",
+                                hintText: "Last name",
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
                                 labelStyle: TextStyle(
                                     fontSize: 24, color: Colors.white),
                                 border: UnderlineInputBorder(),
@@ -121,7 +124,27 @@ class Regfirst extends StatelessWidget {
                             flex: 3,
                             child: TextField(
                               decoration: InputDecoration(
-                                labelText: "Email",
+                                hintText: "Email",
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
+                                labelStyle: TextStyle(
+                                    fontSize: 24, color: Colors.white),
+                                border: UnderlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 40),
+                          Expanded(
+                            flex: 3,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Phone number",
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
                                 labelStyle: TextStyle(
                                     fontSize: 24, color: Colors.white),
                                 border: UnderlineInputBorder(),
@@ -138,7 +161,11 @@ class Regfirst extends StatelessWidget {
                             flex: 3,
                             child: TextField(
                               decoration: InputDecoration(
-                                labelText: "Phone number",
+                                hintText: "Password",
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
                                 labelStyle: TextStyle(
                                     fontSize: 24, color: Colors.white),
                                 border: UnderlineInputBorder(),
@@ -155,7 +182,11 @@ class Regfirst extends StatelessWidget {
                             flex: 3,
                             child: TextField(
                               decoration: InputDecoration(
-                                labelText: "Address",
+                                hintText: "Confirm Password",
+                                hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                ),
                                 labelStyle: TextStyle(
                                     fontSize: 24, color: Colors.white),
                                 border: UnderlineInputBorder(),
@@ -163,66 +194,25 @@ class Regfirst extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: "Password",
-                                labelStyle: TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                                border: UnderlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: "Confirm Password",
-                                labelStyle: TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                                border: UnderlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: "Organization ID",
-                          labelStyle:
-                              TextStyle(fontSize: 24, color: Colors.white),
-                          border: UnderlineInputBorder(),
-                        ),
                       ),
                     ),
                   ],
                 ),
               ),
               Positioned(
-                top: 670,
+                top: 680,
                 height: 45,
                 width: 250,
                 child: RaisedButton(
                   color: Colors.blueAccent,
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Regsec()));
                   },
-                  child: Text('Continue to AI Facial Scan'),
+                  child: Text(
+                    'Next',
+                    style: TextStyle(fontSize: 30),
+                  ),
                 ),
               ),
             ],

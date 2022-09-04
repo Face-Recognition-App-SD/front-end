@@ -36,6 +36,8 @@ dependencies:
   google_fonts: ^3.0.1
   simple_animations: ^5.0.0+2
   image_picker: ^0.8.5+3
+  flutter_cupertino_datetime_picker: ^3.0.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
