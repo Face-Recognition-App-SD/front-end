@@ -203,8 +203,8 @@ class Regfirst extends StatelessWidget {
                 top: 680,
                 height: 45,
                 width: 250,
-                child: RaisedButton(
-                  color: Colors.blueAccent,
+                child: ElevatedButton(
+                  // color: Colors.blueAccent,
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Regsec()));

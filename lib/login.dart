@@ -91,15 +91,15 @@ class Login extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    RaisedButton(
-                      color: Colors.blueAccent,
+                    ElevatedButton(
+                      // color: Colors.blueAccent,
                       onPressed: () => {
                         Navigator.pop(context),
                       },
                       child: Text('Login'),
                     ),
-                    RaisedButton(
-                      color: Colors.blueAccent,
+                    ElevatedButton(
+                      // color: Colors.blueAccent,
                       onPressed: () {
                         Navigator.push(
                             context,
