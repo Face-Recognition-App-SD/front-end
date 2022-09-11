@@ -100,8 +100,8 @@ class Regsec extends StatelessWidget {
                 top: 690,
                 height: 45,
                 width: 250,
-                child: RaisedButton(
-                  color: Colors.blueAccent,
+                child: ElevatedButton(
+                  // color: Colors.blueAccent,
                   onPressed: () {
                     Navigator.pop(context);
                   },
