@@ -124,7 +124,7 @@ class CDP extends StatefulWidget {
   _CDPState createState() {
     return _CDPState();
   }
-}
+} //cupertinodatepicker
 
 class _CDPState extends State {
   DateTime? selectedDate;
@@ -153,7 +153,8 @@ class _CDPState extends State {
           SizedBox(height: 25),
           Text(
             selectedDate == null ? "" : "${selectedDate}".split(' ')[0],
-            style: TextStyle(color: Colors.white, fontSize: 25),
+            style: TextStyle(
+                color: Colors.white, fontSize: 25), //display selected date
           ),
         ],
       ),
@@ -184,5 +185,5 @@ class _CDPState extends State {
         );
       },
     );
-  }
+  } //function for datepicker
 }

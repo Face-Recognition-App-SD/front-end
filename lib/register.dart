@@ -5,6 +5,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import './register2.dart';
+import 'package:http/http.dart' as http;
+import 'models/class.dart';
+import 'dart:convert';
 
 class MyClip extends CustomClipper<Rect> {
   Rect getClip(Size size) {
@@ -14,14 +17,15 @@ class MyClip extends CustomClipper<Rect> {
   bool shouldReclip(oldClipper) {
     return false;
   }
-}
+} //something that suppose to work with profile image but doesn't work, but i kept it for now
 
 class Avatar extends StatefulWidget {
   @override
   State<Avatar> createState() => _AvatarState();
-}
+} //class for profile image but doesn't work, kept it for now
 
 class _AvatarState extends State<Avatar> {
+  @override
   File? image;
   Future pickImage() async {
     try {
@@ -32,7 +36,7 @@ class _AvatarState extends State<Avatar> {
     } on PlatformException catch (e) {
       print('Failed: $e');
     }
-  }
+  } //private class for profile image but doesn't work, kept it for now
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,27 @@ class _AvatarState extends State<Avatar> {
           : Image.asset('assets/images/icon_sample.jpeg'),
     );
   }
+} //profile image
+
+Future<Album> httpGet() async {
+  final response = await http.get(
+      Uri.parse('http://localhost:8000/api/docs/#/user/user_create_create'));
+  if (response.statusCode == 200) {
+    return Album.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load album');
+  }
 }
+
+// Future<Album> httpPost() async {
+//   final response =
+//       await http.post(Uri.parse('http://localhost:8000/api/docs/'));
+//   if (response.statusCode == 200) {
+//     return Album.fromJson(jsonDecode(response.body));
+//   } else {
+//     throw Exception('Failed to load album');
+//   }
+// }
 
 class Regfirst extends StatelessWidget {
   @override
@@ -135,7 +159,7 @@ class Regfirst extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(width: 40),
+                          SizedBox(width: 40), //set a spacer
                           Expanded(
                             flex: 3,
                             child: TextField(
@@ -215,6 +239,14 @@ class Regfirst extends StatelessWidget {
                   ),
                 ),
               ),
+              // Column(children: [
+              //   InkWell(child:Text("whatever"),
+              //   onTap:(){
+              //     httpGet().then((Album value)){
+              //       setState((){httpGetResult = "HTTP GET 请求结果 :\nuserid:${value.icon}\n"+"title:${value.title}\nurl:${value.url}";});
+              //     }
+              //   }
+              // ],)
             ],
           ),
         ),

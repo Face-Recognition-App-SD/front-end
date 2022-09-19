@@ -10,48 +10,60 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
+        //create a container space to wrap around the entire page
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(bg),
             fit: BoxFit.cover,
-          ),
+          ), // neccessary widgets for setting up background image
         ),
         child: Container(
+          //set another container
           child: Stack(
+            //stack widget helps to contain multiple sub widgets
             alignment: Alignment.center,
             children: [
               Positioned(
+                //position widget lets us set the position of the element
                 // alignment: Alignment.center,
                 top: 90,
                 height: 300,
                 width: 300,
                 child: Container(
+                  //another container
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/logo.jpeg'),
                       fit: BoxFit.cover,
-                    ),
+                    ), //logo
                   ),
                 ),
-              ),
+              ), //end of first Positioned widget
               Positioned(
+                //second positioned
                 top: 450,
                 height: 100,
                 width: 250,
                 child: IntrinsicWidth(
+                  // I forgot what this does, but i think this helps to stretch the width so that the container box can have the full width of the screen
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    //column widget, so all the sub widgets within this will be in column
+                    crossAxisAlignment: CrossAxisAlignment.stretch, // stretch
                     children: [
                       Expanded(
-                        flex: 3,
+                        //allow the button to stretch? i think thats what i did
+                        flex: 3, //set the height
                         child: ElevatedButton(
-                          // color: Colors.blueAccent,
-                          onPressed: () {},
-                          child: Text('Admin Login'),
+                          // a type of button
+                          //color: Colors.blueAccent,
+                          onPressed: () {}, //no on press effect yet
+                          child: Text(
+                              'Admin Login'), //print admin login on the button
                         ),
                       ),
-                      Spacer(),
+                      Spacer(), //set a space in between the two buttons
                       Expanded(
+                        // user login button below admin login button
                         flex: 3,
                         child: ElevatedButton(
                           // color: Colors.blueAccent,
@@ -60,8 +72,9 @@ class FirstPage extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Login()));
-                          },
-                          child: Text('User Login'),
+                          }, // on press effect directs to the login page from login.dart
+                          child: Text(
+                              'User Login'), //print user login on the button
                         ),
                       ),
                     ],
@@ -74,4 +87,4 @@ class FirstPage extends StatelessWidget {
       ),
     );
   }
-}
+} //a bunch of brackets lol
