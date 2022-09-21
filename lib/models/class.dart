@@ -4,7 +4,7 @@ Album albumFromJson(String str) => Album.fromJson(json.decode(str));
 String albumToJson(Album data) => json.encode(data.toJson());
 
 class Album {
-  String? first_name;
+  String? firstname;
   String? email;
   //final String? lastname;
   // final int? phone;
@@ -15,7 +15,7 @@ class Album {
   // final String? org;
 
   Album({
-    required this.first_name,
+    required this.firstname,
     required this.email,
     // required this.lastname,
     // required this.phone,
@@ -28,12 +28,12 @@ class Album {
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
-      first_name: json['first_name'],
+      firstname: json['firstname'],
       email: json['email'],
       // lastname: json['lastname'],
       // phone: json['phone'],
       // password: json['password'],
-      password: "",
+      password: json['password'],
       // cpass: json['cpass'],
       // ssn: json['ssn'],
       // address: json['address'],
@@ -42,7 +42,7 @@ class Album {
   }
 
   Map<String, dynamic> toJson() => {
-        "first_name": first_name,
+        "firstname": firstname,
         "email": email,
         "password": password,
       };

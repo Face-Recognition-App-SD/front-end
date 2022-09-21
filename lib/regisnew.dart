@@ -20,7 +20,7 @@ class RegisNewFirst extends StatefulWidget {
 Future<Album?> fetchData(
     String email, String password, String first_name) async {
   var response = await http.post(
-      Uri.http('api.rostro-authentication.com', 'api/docs/create'),
+      Uri.https('api.rostro-authentication.com', 'api/user/create/'),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
       },
@@ -34,11 +34,13 @@ Future<Album?> fetchData(
   if (response.statusCode == 201) {
     String responseString = response.body;
     return albumFromJson(responseString);
-  } else
+  } else {
     return null;
+  }
 }
 
 class _RegisNewFirstState extends State<RegisNewFirst> {
+  Album? albumModel;
   TextEditingController fnController = TextEditingController();
   TextEditingController emController = TextEditingController();
   TextEditingController pwController = TextEditingController();
@@ -201,13 +203,12 @@ class _RegisNewFirstState extends State<RegisNewFirst> {
                   onPressed: () async {
                     String email = emController.text;
                     String password = pwController.text;
-                    String first_name = fnController.text;
-                    Album? data = await fetchData(email, password, first_name);
+                    String firstName = fnController.text;
+                    Album? data = await fetchData(email, password, firstName);
 
                     setState(() {
-                      Album _albumModel = data!;
-
-                      _albumModel.password = password;
+                      albumModel = data;
+                      print(albumModel);
                     });
                     //   Navigator.push(context,
                     //       MaterialPageRoute(builder: (context) => Regsec()));
