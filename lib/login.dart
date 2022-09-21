@@ -1,7 +1,9 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:rostro_app/regisnew.dart';
 import './register.dart';
+import './regisnew.dart';
 
 class Login extends StatelessWidget {
   var bg = 'assets/images/bg.jpeg';
@@ -111,7 +113,7 @@ class Login extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Regfirst()));
+                                builder: (context) => RegisNewFirst()));
                       },
                       child: Text('Register'),
                     ), //button connects to register page
