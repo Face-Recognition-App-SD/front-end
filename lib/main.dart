@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import './register.dart';
-import './login.dart';
-import './firstpage.dart';
+import './screens/regisnew.dart';
+import './screens/login.dart';
+import './admins/firstpage.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {

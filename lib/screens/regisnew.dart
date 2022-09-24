@@ -4,9 +4,9 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import './register2.dart';
+
 import 'package:http/http.dart' as http;
-import 'models/class.dart';
+import '../models/class.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
@@ -17,11 +17,11 @@ class RegisNewFirst extends StatefulWidget {
   _RegisNewFirstState createState() => _RegisNewFirstState();
 }
 
-Future<Album?> fetchData(
+Future<UserInfo?> fetchData(
     String email, String password, String first_name) async {
   var response = await http.post(
     //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-       Uri.http('10.32.237.110:8000', 'api/user/create/'),
+       Uri.http('192.168.1.80:8000', 'api/user/create/'),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
       },
@@ -41,7 +41,7 @@ Future<Album?> fetchData(
 }
 
 class _RegisNewFirstState extends State<RegisNewFirst> {
-  Album? albumModel;
+  UserInfo? albumModel;
   TextEditingController fnController = TextEditingController();
   TextEditingController emController = TextEditingController();
   TextEditingController pwController = TextEditingController();
@@ -205,7 +205,7 @@ class _RegisNewFirstState extends State<RegisNewFirst> {
                     String email = emController.text;
                     String password = pwController.text;
                     String firstName = fnController.text;
-                    Album? data = await fetchData(email, password, firstName);
+                    UserInfo? data = await fetchData(email, password, firstName);
 
                     setState(() {
                       albumModel = data;
