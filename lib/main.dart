@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'screens/register.dart';
-import 'screens/login.dart';
+
+import './screens/regisnew.dart';
+import './screens/login.dart';
+
 import 'screens/firstpage.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyApp()); //run MyApp()
 }
 
 class MyApp extends StatelessWidget {
@@ -13,8 +15,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Rostro',
-      home: FirstPage(),
+      title: 'Rostro', //title
+      home:
+          FirstPage(), //starting page links to FirstPage() from firstpage.dart
     );
   }
 }
