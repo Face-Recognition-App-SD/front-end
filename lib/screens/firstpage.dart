@@ -1,8 +1,8 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import '../screens/regisnew.dart';
-import '../screens/login.dart';
+import 'regisnew.dart';
+import 'login.dart';
 
 class FirstPage extends StatelessWidget {
   var bg = 'assets/images/bg.jpeg';
