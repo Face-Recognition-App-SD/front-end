@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import './register2.dart';
 import 'package:http/http.dart' as http;
-import 'models/class.dart';
+import 'models/regist1class.dart';
 import 'dart:convert';
 
 class MyClip extends CustomClipper<Rect> {
@@ -55,11 +55,11 @@ class _AvatarState extends State<Avatar> {
   }
 } //profile image
 
-Future<Album> httpGet() async {
+Future<RegisterModel> httpGet() async {
   final response = await http.get(
       Uri.parse('http://localhost:8000/api/docs/#/user/user_create_create'));
   if (response.statusCode == 200) {
-    return Album.fromJson(jsonDecode(response.body));
+    return RegisterModel.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load album');
   }

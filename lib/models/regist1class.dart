@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-Album albumFromJson(String str) => Album.fromJson(json.decode(str));
-String albumToJson(Album data) => json.encode(data.toJson());
+RegisterModel modelFromJson(String str) =>
+    RegisterModel.fromJson(json.decode(str));
+String modeltoJson(RegisterModel data) => json.encode(data.toJson());
 
-class Album {
+class RegisterModel {
   String? firstname;
   String? email;
   //final String? lastname;
@@ -14,7 +15,7 @@ class Album {
   // final String? address;
   // final String? org;
 
-  Album({
+  RegisterModel({
     required this.firstname,
     required this.email,
     // required this.lastname,
@@ -26,8 +27,8 @@ class Album {
     // required this.org,
   });
 
-  factory Album.fromJson(Map<String, dynamic> json) {
-    return Album(
+  factory RegisterModel.fromJson(Map<String, dynamic> json) {
+    return RegisterModel(
       firstname: json['firstname'],
       email: json['email'],
       // lastname: json['lastname'],
