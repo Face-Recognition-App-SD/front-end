@@ -5,8 +5,14 @@ import 'package:rostro_app/screens/regisnew.dart';
 
 import './regisnew.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   var bg = 'assets/images/bg.jpeg';
+
   Widget build(BuildContext context) {
     return Material(
       child: Container(
@@ -23,7 +29,7 @@ class Login extends StatelessWidget {
               Positioned(
                 // set a postion to the widget
                 // alignment: Alignment.center,
-                top: 90,
+                top: 10,
                 height: 300,
                 width: 300,
                 child: Container(
@@ -37,7 +43,7 @@ class Login extends StatelessWidget {
               ), //logo
               Positioned(
                 // set a postion to the widget
-                top: 400,
+                top: 320,
                 height: 150,
                 width: 330,
                 child: Column(
@@ -50,8 +56,9 @@ class Login extends StatelessWidget {
                         children: [
                           Expanded(
                             flex: 3,
-                            child: TextField(
+                            child: TextFormField(
                               //text input box
+                              style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 labelText: "Username",
                                 labelStyle: TextStyle(
@@ -78,12 +85,14 @@ class Login extends StatelessWidget {
                         children: [
                           Expanded(
                             flex: 3,
-                            child: TextField(
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 labelText: "Password",
                                 labelStyle: TextStyle(
                                     fontSize: 24, color: Colors.white),
-                                border: UnderlineInputBorder(),
+                                border: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.blue)),
                               ), //input box decoration
                             ),
                           ),
@@ -94,7 +103,7 @@ class Login extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 460,
+                top: 370,
                 height: 250,
                 width: 300,
                 child: Row(
