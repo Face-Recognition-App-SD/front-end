@@ -155,10 +155,10 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
   if (response.statusCode == 201) {
     String responseString = response.body;
 
-     setState(() {
-          _isLoading = false;
-        });
-        sharedPreferences.setString('token', jsonResponse['token']);
+    //  setState(() {
+    //       _isLoading = false;
+    //     });
+    //     sharedPreferences.setString('token', jsonResponse['token']);
         
     return albumFromJson(responseString);
   } else {
