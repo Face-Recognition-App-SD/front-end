@@ -137,21 +137,23 @@ class _LoginPageState extends State<LoginPage> {
 
 
 Future<UserLogin?> fetchDataLogin(String email, String password) async {
+    print("hello");
        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+       print("trying");
        var response = await http.post(
     //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-       Uri.http('192.168.1.80:8000', 'api/user/token/'),
+       Uri.https('api.rostro-authentication.com', 'api/user/token/'),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
       },
       body: {
         "email": email,
         "password": password,
-     
+
       });
       var jsonResponse = null;
   var data = response.body;
-  print(data);
+  print(data.substring(10, data.length-2));
   if (response.statusCode == 201) {
     String responseString = response.body;
 
@@ -159,7 +161,7 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
           _isLoading = false;
         });
         sharedPreferences.setString('token', jsonResponse['token']);
-        
+
     return albumFromJson(responseString);
   } else {
     return null;
