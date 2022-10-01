@@ -19,7 +19,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var bg = './assets/images/bg.jpeg';
   bool _isLoading = false;
-
+  late String token;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                    
                     });
            Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => Homepage()),
+            MaterialPageRoute(builder: (BuildContext context) => Homepage(token: token)),
             (Route<dynamic> route) => false);
           
            
@@ -153,7 +153,7 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
       });
       var jsonResponse = null;
   var data = response.body;
-  print(data.substring(10, data.length-2));
+  token = data.substring(10, data.length-2);
   if (response.statusCode == 201) {
     String responseString = response.body;
 
