@@ -1,6 +1,7 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:rostro_app/screens/login_page.dart';
 import './regisnew.dart';
 import './login.dart';
 
@@ -72,7 +73,7 @@ class FirstPage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Login()));
+                                    builder: (context) => LoginPage()));
                           }, // on press effect directs to the login page from login.dart
                           child: Text(
                               'User Login'), //print user login on the button
