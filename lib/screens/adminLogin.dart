@@ -96,12 +96,12 @@ class AdminLogin extends StatelessWidget {
                     ElevatedButton(
                       // color: Colors.blueAccent,
                       onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AdminHome()));
-                          },
-                          
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => AdminHome()));
+                      },
+
                       child: Text('Login'),
                     ),
                   ],

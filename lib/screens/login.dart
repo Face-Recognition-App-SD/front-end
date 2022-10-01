@@ -2,7 +2,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/regisnew.dart';
-
+import 'loggedinpage.dart';
 import './regisnew.dart';
 
 class Login extends StatelessWidget {
@@ -103,7 +103,8 @@ class Login extends StatelessWidget {
                     ElevatedButton(
                       // color: Colors.blueAccent,
                       onPressed: () => {
-                        Navigator.pop(context),
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Logged()))
                       },
                       child: Text('Login'),
                     ), //end of button
