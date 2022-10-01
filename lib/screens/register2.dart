@@ -25,7 +25,7 @@ class Regsec extends StatelessWidget {
                 top: 0,
                 height: 400,
                 width: 330,
-                child: Avatar(),
+                child: Text('hi'),
               ),
               Positioned(
                 top: 350,
@@ -124,7 +124,7 @@ class CDP extends StatefulWidget {
   _CDPState createState() {
     return _CDPState();
   }
-} //cupertinodatepicker
+}
 
 class _CDPState extends State {
   DateTime? selectedDate;
@@ -153,8 +153,7 @@ class _CDPState extends State {
           SizedBox(height: 25),
           Text(
             selectedDate == null ? "" : "${selectedDate}".split(' ')[0],
-            style: TextStyle(
-                color: Colors.white, fontSize: 25), //display selected date
+            style: TextStyle(color: Colors.white, fontSize: 25),
           ),
         ],
       ),
@@ -185,5 +184,5 @@ class _CDPState extends State {
         );
       },
     );
-  } //function for datepicker
+  }
 }

@@ -4,12 +4,13 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import './register2.dart';
+
 import 'package:http/http.dart' as http;
-import 'models/regist1class.dart';
+import '../models/regist1class.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'register2.dart';
 
 class RegisNewFirst extends StatefulWidget {
   const RegisNewFirst({super.key});
@@ -20,7 +21,7 @@ class RegisNewFirst extends StatefulWidget {
 Future<RegisterModel?> fetchData(
     String email, String password, String first_name) async {
   var response = await http
-      .post(Uri.http('10.32.219.74:8000', 'api/user/create/'), headers: {
+      .post(Uri.http('10.32.24.248:8000', 'api/user/create/'), headers: {
     HttpHeaders.acceptHeader: 'application/json',
   }, body: {
     "email": email,
