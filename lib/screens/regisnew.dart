@@ -21,7 +21,7 @@ Future<UserInfo?> fetchData(
     String email, String password, String first_name) async {
   var response = await http.post(
     //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-       Uri.http('192.168.1.80:8000', 'api/user/create/'),
+       Uri.https('api.rostro-authentication.com', 'api/user/create/'),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
       },
