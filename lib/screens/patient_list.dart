@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/PatientsData.dart';
 import '../utils/patient_list_widget.dart';
+import '../utils/constant.dart';
 
 
 class PatientList extends StatefulWidget {
@@ -51,14 +52,14 @@ class _PatientList extends State<PatientList> {
     return Container(
          
         child: FutureBuilder(
-          future: fetchPatients(),
+          future: fetchPatients(token),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               http.Response resp = snapshot.data as http.Response;
               print(resp.statusCode);
-              print(resp.body);
-              if (resp.statusCode == 200) {
              
+              if (resp.statusCode == 200) {
+                  print('uns');
                 final jsonMap = jsonDecode(resp.body);
                 patients = (jsonMap as List)
                     .map((patientItem) => PatientsData.fromJson(patientItem))
@@ -114,20 +115,19 @@ class _PatientList extends State<PatientList> {
         
   }
 
- Future<http.Response?> fetchPatients() async {
+ Future<http.Response?> fetchPatients(token) async {
 
-    final response = await http.get(    
-      Uri.http('192.168.1.80:8000', 'api/patients​/patientss​/'),
+      var myProfileUri =  Uri.parse('http://192.168.1.80:8000/api/patients/patientss/');
+    final res = await http.get(myProfileUri,
+    headers: {
+        HttpHeaders.acceptHeader: 'application/json',
       
-      headers: {
-        HttpHeaders.contentTypeHeader: "application/json",
-
-        HttpHeaders.authorizationHeader: "Token " + token,
+        HttpHeaders.authorizationHeader: 'Token '+ token,
       },
     );
     // final responseJson = jsonDecode(response.body);
 
-    return response;
+    return res;
   }
 
 }
