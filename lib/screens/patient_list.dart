@@ -69,7 +69,7 @@ class _PatientList extends State<PatientList> {
                     ? Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 10.0),
-                        child: PatientListWidget(patientList: [],)
+                        child: PatientListWidget(patientList:patients,)
                       )
                     : const Center(
                         child: Padding(
