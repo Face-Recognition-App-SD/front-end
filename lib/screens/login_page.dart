@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+
+import '../utils/constant.dart';
 import './homepage.dart';
 import './regisnew.dart';
 import 'dart:io';
@@ -137,12 +139,9 @@ class _LoginPageState extends State<LoginPage> {
 
 
 Future<UserLogin?> fetchDataLogin(String email, String password) async {
-    print("hello");
-       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-       print("trying");
-       var response = await http.post(
+   var response = await http.post(
     //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-       Uri.https('api.rostro-authentication.com', 'api/user/token/'),
+     Uri.parse('${Constants.BASE_URL}/api/user/token/'),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
       },
@@ -160,7 +159,6 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
      setState(() {
           _isLoading = false;
         });
-        sharedPreferences.setString('token', jsonResponse['token']);
 
     return albumFromJson(responseString);
   } else {

@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.17.0
   http: ^0.13.5
   shared_preferences: any
+  flutter_easyloading: ^3.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
