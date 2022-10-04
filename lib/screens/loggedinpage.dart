@@ -4,12 +4,20 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 
-class Logged extends StatelessWidget {
-  const Logged({super.key});
+class Logged extends StatefulWidget {
+  @override
+  _LoggedState createState() => _LoggedState();
+}
+
+class _LoggedState extends State<Logged> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var bg = 'assets/images/med.jpeg';
+    var bg = 'assets/images/bg.jpeg';
     return Material(
         child: Container(
       decoration: BoxDecoration(
@@ -55,6 +63,21 @@ class Logged extends StatelessWidget {
                           child: Text('Welcome'),
                         ),
                         Spacer(flex: 3),
+                        ElevatedButton(
+                          child: Text('View Patients'),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Patients'),
+                                content: Container(
+                                    child: ExpansionTile(
+                                        title: Text('Patient Names'),
+                                        children: [Text("patient")])),
+                              ),
+                            );
+                          },
+                        ),
                         Positioned(
                           top: 60,
                           height: 300,

@@ -20,7 +20,7 @@ class RegisNewFirst extends StatefulWidget {
 Future<RegisterModel?> fetchData(
     String email, String password, String first_name) async {
   var response = await http
-      .post(Uri.http('10.32.24.248:8000', 'api/user/create/'), headers: {
+      .post(Uri.http('10.32.53.57:8000', 'api/user/create/'), headers: {
     HttpHeaders.acceptHeader: 'application/json',
   }, body: {
     "email": email,

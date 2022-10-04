@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import './homepage.dart';
 import './regisnew.dart';
 import 'dart:io';
+import 'loggedinpage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -92,28 +93,25 @@ class _LoginPageState extends State<LoginPage> {
 
   Container loginButtonSection() {
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: ElevatedButton(
-        child: Text('Login'),
-        onPressed: () async {
-              String email = emailController.text;
-              String password =passwordController.text;
-             UserLogin? data = await fetchDataLogin(email, password);
+        margin: EdgeInsets.only(top: 30.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: ElevatedButton(
+          child: Text('Login'),
+          onPressed: () async {
+            String email = emailController.text;
+            String password = passwordController.text;
+            UserLogin? data = await fetchDataLogin(email, password);
 
-                    setState(() {
-                   
-                    });
-           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => Homepage(token: token)),
-            (Route<dynamic> route) => false);
-          
-           
-        },
-      )
+            setState(() {});
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (BuildContext context) => Homepage(token: token)),
+                (Route<dynamic> route) => false);
+          },
+        )
 
-     //end of button
-    );
+        //end of button
+        );
   }
 
   Container signUpButtonSection() {
@@ -133,41 +131,36 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-
-
-
-Future<UserLogin?> fetchDataLogin(String email, String password) async {
+  Future<UserLogin?> fetchDataLogin(String email, String password) async {
     print("hello");
-       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-       print("trying");
-       var response = await http.post(
-    //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-       Uri.https('api.rostro-authentication.com', 'api/user/token/'),
-      headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-      },
-      body: {
-        "email": email,
-        "password": password,
-
-      });
-      var jsonResponse = null;
-  var data = response.body;
-  token = data.substring(10, data.length-2);
-  if (response.statusCode == 201) {
-    String responseString = response.body;
-
-     setState(() {
-          _isLoading = false;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    print("trying");
+    var response = await http.post(
+        //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
+        Uri.http('10.32.53.57:8000', 'api/user/token/'),
+        headers: {
+          HttpHeaders.acceptHeader: 'application/json',
+        },
+        body: {
+          "email": email,
+          "password": password,
         });
-        sharedPreferences.setString('token', jsonResponse['token']);
+    var jsonResponse = null;
+    var data = response.body;
+    token = data.substring(10, data.length - 2);
+    if (response.statusCode == 201) {
+      String responseString = response.body;
 
-    return albumFromJson(responseString);
-  } else {
-    return null;
+      setState(() {
+        _isLoading = false;
+      });
+      sharedPreferences.setString('token', jsonResponse['token']);
+
+      return albumFromJson(responseString);
+    } else {
+      return null;
+    }
   }
-}
-
 
   // signIn(String email, pass) async {
   //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -186,7 +179,7 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
   //   if (response.statusCode == 200) {
   //     jsonResponse = json.decode(response.body);
   //     if (jsonResponse != null) {
-       
+
   //     }
   //     else{
   //       setState(() {
