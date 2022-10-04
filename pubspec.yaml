@@ -44,7 +44,6 @@ dependencies:
   http: ^0.13.5
   shared_preferences: ^2.0.15
   flutter_admin_scaffold: ^1.1.2
-  shared_preferences: any
   flutter_easyloading: ^3.0.0
 
 
