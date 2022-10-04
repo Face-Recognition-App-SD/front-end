@@ -10,6 +10,7 @@ import '../utils/constant.dart';
 import './homepage.dart';
 import './regisnew.dart';
 import 'dart:io';
+import 'loggedinpage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -94,28 +95,25 @@ class _LoginPageState extends State<LoginPage> {
 
   Container loginButtonSection() {
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: ElevatedButton(
-        child: Text('Login'),
-        onPressed: () async {
-              String email = emailController.text;
-              String password =passwordController.text;
-             UserLogin? data = await fetchDataLogin(email, password);
+        margin: EdgeInsets.only(top: 30.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: ElevatedButton(
+          child: Text('Login'),
+          onPressed: () async {
+            String email = emailController.text;
+            String password = passwordController.text;
+            UserLogin? data = await fetchDataLogin(email, password);
 
-                    setState(() {
-                   
-                    });
-           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => Homepage(token: token)),
-            (Route<dynamic> route) => false);
-          
-           
-        },
-      )
+            setState(() {});
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (BuildContext context) => Homepage(token: token)),
+                (Route<dynamic> route) => false);
+          },
+        )
 
-     //end of button
-    );
+        //end of button
+        );
   }
 
   Container signUpButtonSection() {
@@ -134,9 +132,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-
-
 
 Future<UserLogin?> fetchDataLogin(String email, String password) async {
    var response = await http.post(
@@ -160,12 +155,12 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
           _isLoading = false;
         });
 
-    return albumFromJson(responseString);
-  } else {
-    return null;
-  }
-}
 
+      return albumFromJson(responseString);
+    } else {
+      return null;
+    }
+  }
 
   // signIn(String email, pass) async {
   //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -184,7 +179,7 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
   //   if (response.statusCode == 200) {
   //     jsonResponse = json.decode(response.body);
   //     if (jsonResponse != null) {
-       
+
   //     }
   //     else{
   //       setState(() {

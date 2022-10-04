@@ -1,18 +1,12 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:rostro_app/screens/regisnew.dart';
-import 'loggedinpage.dart';
-import './regisnew.dart';
+import 'package:rostro_app/screens/adminHome.dart';
+import './register.dart';
+import './adminHome.dart';
 
-class Login extends StatefulWidget {
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
+class AdminLogin extends StatelessWidget {
   var bg = 'assets/images/bg.jpeg';
-
   Widget build(BuildContext context) {
     return Material(
       child: Container(
@@ -21,15 +15,14 @@ class _LoginState extends State<Login> {
             image: AssetImage(bg),
             fit: BoxFit.cover,
           ),
-        ), //background image
+        ),
         child: Container(
           child: Stack(
             alignment: Alignment.center,
             children: [
               Positioned(
-                // set a postion to the widget
                 // alignment: Alignment.center,
-                top: 10,
+                top: 90,
                 height: 300,
                 width: 300,
                 child: Container(
@@ -40,43 +33,36 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-              ), //logo
+              ),
               Positioned(
-                // set a postion to the widget
-                top: 320,
+                top: 400,
                 height: 150,
                 width: 330,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment
-                      .spaceEvenly, //i dont know what exactly this do, i just put there because stackoverflow tells me to lol
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
                       child: Row(
-                        //elements within this widget will be in row
                         children: [
                           Expanded(
                             flex: 3,
-                            child: TextFormField(
-                              //text input box
-                              style: TextStyle(color: Colors.white),
+                            child: TextField(
                               decoration: InputDecoration(
                                 labelText: "Username",
                                 labelStyle: TextStyle(
                                     fontSize: 24, color: Colors.white),
-                                border: UnderlineInputBorder(), //style
-                              ), //decorate the input box
+                                border: UnderlineInputBorder(),
+                              ),
                             ),
                           ),
                           IconButton(
-                            //reserved feature, facial recognition button
                             icon: Image.asset('assets/images/facescan.jpeg'),
                             iconSize: 60.0,
-                            color: Colors.blue, //styles
+                            color: Colors.blue,
                             onPressed: () => {
-                              print(
-                                  'anything'), //useless on press effect i just put there to check if it can works
+                              print('anything 2'),
                             },
-                          ), //end of iconbutton
+                          )
                         ],
                       ),
                     ),
@@ -85,25 +71,23 @@ class _LoginState extends State<Login> {
                         children: [
                           Expanded(
                             flex: 3,
-                            child: TextFormField(
-                              style: TextStyle(color: Colors.white),
+                            child: TextField(
                               decoration: InputDecoration(
                                 labelText: "Password",
                                 labelStyle: TextStyle(
                                     fontSize: 24, color: Colors.white),
-                                border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blue)),
-                              ), //input box decoration
+                                border: UnderlineInputBorder(),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ) //end of password input box widget
+                    )
                   ],
                 ),
               ),
               Positioned(
-                top: 370,
+                top: 460,
                 height: 250,
                 width: 300,
                 child: Row(
@@ -111,22 +95,15 @@ class _LoginState extends State<Login> {
                   children: [
                     ElevatedButton(
                       // color: Colors.blueAccent,
-                      onPressed: () => {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Logged()))
-                      },
-                      child: Text('Login'),
-                    ), //end of button
-                    ElevatedButton(
-                      // color: Colors.blueAccent,
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisNewFirst()));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => AdminHome()));
                       },
-                      child: Text('Register'),
-                    ), //button connects to register page
+
+                      child: Text('Login'),
+                    ),
                   ],
                 ),
               ),
