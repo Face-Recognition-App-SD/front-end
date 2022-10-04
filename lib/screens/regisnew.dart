@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -6,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:http/http.dart' as http;
-import '../models/class.dart';
+import '../models/regist1class.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'register2.dart';
 
 class RegisNewFirst extends StatefulWidget {
   const RegisNewFirst({super.key});
@@ -17,31 +17,27 @@ class RegisNewFirst extends StatefulWidget {
   _RegisNewFirstState createState() => _RegisNewFirstState();
 }
 
-Future<UserInfo?> fetchData(
+Future<RegisterModel?> fetchData(
     String email, String password, String first_name) async {
-  var response = await http.post(
-    //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-       Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-      headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-      },
-      body: {
-        "email": email,
-        "password": password,
-        "first_name": first_name
-      });
+  var response = await http
+      .post(Uri.http('10.32.53.57:8000', 'api/user/create/'), headers: {
+    HttpHeaders.acceptHeader: 'application/json',
+  }, body: {
+    "email": email,
+    "password": password,
+    "first_name": first_name
+  });
   var data = response.body;
   print(data);
   if (response.statusCode == 201) {
     String responseString = response.body;
-    return albumFromJson(responseString);
-  } else {
+    return modelFromJson(responseString);
+  } else
     return null;
-  }
 }
 
 class _RegisNewFirstState extends State<RegisNewFirst> {
-  UserInfo? albumModel;
+  RegisterModel? registerModel;
   TextEditingController fnController = TextEditingController();
   TextEditingController emController = TextEditingController();
   TextEditingController pwController = TextEditingController();
@@ -205,14 +201,14 @@ class _RegisNewFirstState extends State<RegisNewFirst> {
                     String email = emController.text;
                     String password = pwController.text;
                     String firstName = fnController.text;
-                    UserInfo? data = await fetchData(email, password, firstName);
+                    RegisterModel? data =
+                        await fetchData(email, password, firstName);
 
                     setState(() {
-                      albumModel = data;
-                      print(albumModel);
+                      registerModel = data;
                     });
-                    //   Navigator.push(context,
-                    //       MaterialPageRoute(builder: (context) => Regsec()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Regsec()));
                   },
                   child: Text(
                     'Next',
@@ -220,14 +216,6 @@ class _RegisNewFirstState extends State<RegisNewFirst> {
                   ),
                 ),
               ),
-              // Column(children: [
-              //   InkWell(child:Text("whatever"),
-              //   onTap:(){
-              //     httpGet().then((Album value)){
-              //       setState((){httpGetResult = "HTTP GET 请求结果 :\nuserid:${value.icon}\n"+"title:${value.title}\nurl:${value.url}";});
-              //     }
-              //   }
-              // ],)
             ],
           ),
         ),
