@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+
+import '../utils/constant.dart';
 import './homepage.dart';
 import './regisnew.dart';
 import 'dart:io';
@@ -131,30 +133,28 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<UserLogin?> fetchDataLogin(String email, String password) async {
-    print("hello");
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    print("trying");
-    var response = await http.post(
-        //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-        Uri.http('10.32.53.57:8000', 'api/user/token/'),
-        headers: {
-          HttpHeaders.acceptHeader: 'application/json',
-        },
-        body: {
-          "email": email,
-          "password": password,
-        });
-    var jsonResponse = null;
-    var data = response.body;
-    token = data.substring(10, data.length - 2);
-    if (response.statusCode == 201) {
-      String responseString = response.body;
+Future<UserLogin?> fetchDataLogin(String email, String password) async {
+   var response = await http.post(
+    //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
+     Uri.parse('${Constants.BASE_URL}/api/user/token/'),
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+      },
+      body: {
+        "email": email,
+        "password": password,
 
-      setState(() {
-        _isLoading = false;
       });
-      sharedPreferences.setString('token', jsonResponse['token']);
+      var jsonResponse = null;
+  var data = response.body;
+  token = data.substring(10, data.length-2);
+  if (response.statusCode == 201) {
+    String responseString = response.body;
+
+     setState(() {
+          _isLoading = false;
+        });
+
 
       return albumFromJson(responseString);
     } else {
