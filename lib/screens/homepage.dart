@@ -1,9 +1,10 @@
 import 'package:camera/camera.dart';
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import './camera.dart';
+import './patient_list.dart';
 
-import 'patient_list.dart';
+
 
 class Homepage extends StatefulWidget {
   final String token;
@@ -34,20 +35,33 @@ class _homeState extends State<Homepage> {
         ), //background image
         child: ListView(
           children: <Widget>[
-            cameraButtonSection(),
+              
+           cameraButtonSection(),
             PatientListContainer(),
+     
           ],
         ),
       ),
     );
   }
 
+Container welcomeContainer(){
+  return Container(
+        margin: EdgeInsets.only(top: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+         child: ClipRRect(
+                child: Text('tem'),
+              ),
+        
+
+  );
+}
   Container cameraButtonSection() {
-    print("eeeeeeeeee");
+  
     print(token);
-    print("eeeeeeeeee");
+    print("inside camera button");
     return Container(
-        margin: EdgeInsets.only(top: 30.0),
+        margin: EdgeInsets.only(top: 50.0),
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
           child: Text('Camera'),
@@ -77,4 +91,6 @@ class _homeState extends State<Homepage> {
           },
         ));
   }
+
+  
 }

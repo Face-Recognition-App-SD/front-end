@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/login_page.dart';
 import './regisnew.dart';
-import './login.dart';
+
 
 class FirstPage extends StatelessWidget {
   var bg = 'assets/images/bg.jpeg';
