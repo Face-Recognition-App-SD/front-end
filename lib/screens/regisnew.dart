@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 import 'register2.dart';
+import '../utils/constant.dart';
 
 class RegisNewFirst extends StatefulWidget {
   const RegisNewFirst({super.key});
@@ -19,8 +20,12 @@ class RegisNewFirst extends StatefulWidget {
 
 Future<RegisterModel?> fetchData(
     String email, String password, String first_name) async {
+  // var response = await http
+  //     .post(Uri.http('10.32.53.57:8000', 'api/user/create/'), headers: {
+  //   HttpHeaders.acceptHeader: 'application/json',
+  // },
   var response = await http
-      .post(Uri.http('10.32.53.57:8000', 'api/user/create/'), headers: {
+      .post(Uri.parse('${Constants.BASE_URL}/api/user/create/'), headers: {
     HttpHeaders.acceptHeader: 'application/json',
   }, body: {
     "email": email,
