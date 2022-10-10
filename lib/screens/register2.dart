@@ -1,7 +1,7 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import './register.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 

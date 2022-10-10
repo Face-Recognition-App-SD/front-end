@@ -10,7 +10,7 @@ import '../utils/constant.dart';
 import './homepage.dart';
 import './regisnew.dart';
 import 'dart:io';
-import 'loggedinpage.dart';
+//import 'loggedinpage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -103,12 +103,14 @@ class _LoginPageState extends State<LoginPage> {
             String email = emailController.text;
             String password = passwordController.text;
             UserLogin? data = await fetchDataLogin(email, password);
-
+            print('info after login');
+                print(token);
             setState(() {});
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (BuildContext context) => Homepage(token: token)),
                 (Route<dynamic> route) => false);
+              
           },
         )
 
@@ -161,33 +163,4 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
       return null;
     }
   }
-
-  // signIn(String email, pass) async {
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   Map data = {
-  //     'email': email,
-  //     'password': pass,
-  //   };
-  //   var jsonResponse = null;
-  //   var response = await http.post(
-  //     Uri.http('192.168.1.80:8000', 'api/user/token/'),
-  //     headers: {
-  //       HttpHeaders.acceptHeader: 'application/json',
-  //     },
-  //     body: {data},
-  //   );
-  //   if (response.statusCode == 200) {
-  //     jsonResponse = json.decode(response.body);
-  //     if (jsonResponse != null) {
-
-  //     }
-  //     else{
-  //       setState(() {
-  //         _isLoading = false;
-  //       });
-  //       print(response.body);
-
-  //     }
-  //   }
-  // }
 }

@@ -48,16 +48,14 @@ class _PatientList extends State<PatientList> {
     );
   }
 
-  Container showPatients() {
+  Container showPatients() {  
     return Container(
-         
-        child: FutureBuilder(
+          child: FutureBuilder(
           future: fetchPatients(token),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               http.Response resp = snapshot.data as http.Response;
               print(resp.statusCode);
-             
               if (resp.statusCode == 200) {
                   print('uns');
                 final jsonMap = jsonDecode(resp.body);
@@ -89,7 +87,7 @@ class _PatientList extends State<PatientList> {
                           ),
                         ),
                       );
-              } else if (resp.statusCode == 401) {
+              } else if (resp.statusCode == 401) { print('npatient');
     
                 Future.delayed(Duration.zero, () {
                  
@@ -100,12 +98,14 @@ class _PatientList extends State<PatientList> {
                  
                 });
               }
-            } else if (snapshot.hasError) {
-           
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('${snapshot.error}'),
-              ));
             }
+            // } else if (snapshot.hasError) {
+           
+            //     print('to snack bar');
+            //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //     content: Text('${snapshot.error}'),
+            //   ));
+            // }
             return const Center(
               child: Text(''''''),
             );
@@ -116,17 +116,17 @@ class _PatientList extends State<PatientList> {
   }
 
  Future<http.Response?> fetchPatients(token) async {
-
-      var myProfileUri =  Uri.parse('http://192.168.1.80:8000/api/patients/patientss/');
+      var myProfileUri =  Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
+      print('come to fetch data');
+      print(token);
     final res = await http.get(myProfileUri,
     headers: {
         HttpHeaders.acceptHeader: 'application/json',
-      
         HttpHeaders.authorizationHeader: 'Token '+ token,
       },
     );
-    // final responseJson = jsonDecode(response.body);
-
+    print(res.body);
+          print('end of fetch');
     return res;
   }
 
