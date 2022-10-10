@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +11,7 @@ class Camera extends StatefulWidget {
   final token;
   final List<CameraDescription>? cameras;
   const Camera({super.key, required this.token, required this.cameras});
+  @override
   State<Camera> createState() => _CameraState();
 }
 class _CameraState extends State<Camera> {
@@ -36,16 +40,18 @@ class _CameraState extends State<Camera> {
     try {
       await _cameraController.setFlashMode(FlashMode.off);
       XFile picture = await _cameraController.takePicture();
-      Navigator.push(
+      Navigator.pop(context, picture);
+      /*Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => PreviewPage(
                 picture: picture,
-              )));
+              )));*/
     } on CameraException catch (e) {
       debugPrint('Error occured while taking picture: $e');
       return null;
     }
+    return null;
   }
 
   Future initCamera(CameraDescription cameraDescription) async {
@@ -110,33 +116,3 @@ class _CameraState extends State<Camera> {
         ));
   }
 }
-/*class _CameraState extends State<Camera>{
-
-  @override
-  Widget build(BuildContext context) {
-    var bg = './assets/images/bg.jpeg';
-    return Scaffold(
-      appBar: AppBar( title: Text('Take A Picture'),),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(bg),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: ListView(
-          children: <Widget>[
-            takePictureSection(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container takePictureSection(){
-    return Container(
-
-    );
-  }
-}
-*/

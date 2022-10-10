@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import './camera.dart';
 import './patient_list.dart';
+import './get_patient_pictures.dart';
 
 
 
@@ -18,7 +19,7 @@ class Homepage extends StatefulWidget {
 class _homeState extends State<Homepage> {
   var bg = './assets/images/bg.jpeg';
   late String token;
-
+  var patientPictures;
   void initState() {
     token = widget.token;
   }
@@ -64,14 +65,17 @@ Container welcomeContainer(){
         margin: EdgeInsets.only(top: 50.0),
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
-          child: Text('Camera'),
+          child: Text('Add User Pictures'),
+          onPressed: (){
+            patientPictures = Navigator.push(context, MaterialPageRoute(builder: (_) => GetPatientPictures(token: token)));
+          },
           // Within the `FirstRoute` widget
-          onPressed: () async {
+          /*onPressed: () async {
             await availableCameras().then((value) => Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (_) => Camera(token: token, cameras: value))));
-          },
+          },*/
         )
 
         //end of button
