@@ -1,11 +1,12 @@
 import 'package:camera/camera.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:rostro_app/screens/add_new_patient.dart';
 import './camera.dart';
 import './patient_list.dart';
 import './get_patient_pictures.dart';
-
-
+import '../utils/new_patient_widget.dart';
+import './add_new_patient.dart';
 
 class Homepage extends StatefulWidget {
   final String token;
@@ -36,29 +37,26 @@ class _homeState extends State<Homepage> {
         ), //background image
         child: ListView(
           children: <Widget>[
-              
-           cameraButtonSection(),
+            cameraButtonSection(),
             PatientListContainer(),
-     
+            // AddNewPatientButton(),
           ],
         ),
       ),
     );
   }
 
-Container welcomeContainer(){
-  return Container(
-        margin: EdgeInsets.only(top: 10.0),
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-         child: ClipRRect(
-                child: Text('tem'),
-              ),
-        
+  Container welcomeContainer() {
+    return Container(
+      margin: EdgeInsets.only(top: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: ClipRRect(
+        child: Text('tem'),
+      ),
+    );
+  }
 
-  );
-}
   Container cameraButtonSection() {
-  
     print(token);
     print("inside camera button");
     return Container(
@@ -66,8 +64,11 @@ Container welcomeContainer(){
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
           child: Text('Add User Pictures'),
-          onPressed: (){
-            patientPictures = Navigator.push(context, MaterialPageRoute(builder: (_) => GetPatientPictures(token: token)));
+          onPressed: () {
+            patientPictures = Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => GetPatientPictures(token: token)));
           },
           // Within the `FirstRoute` widget
           /*onPressed: () async {
@@ -96,5 +97,17 @@ Container welcomeContainer(){
         ));
   }
 
-  
-}
+//   Container AddNewPatientButton() {
+//     return Container(
+//         margin: EdgeInsets.only(top: 10.0),
+//         padding: EdgeInsets.symmetric(horizontal: 20.0),
+//         child: ElevatedButton(
+//           child: Text('Add New Patient'),
+//           // Within the `FirstRoute` widget
+//           onPressed: () async {
+//             Navigator.push(context,
+//                 MaterialPageRoute(builder: (_) => AddNewPatient(token: token)));
+//           },
+//         ));
+//   }
+ }

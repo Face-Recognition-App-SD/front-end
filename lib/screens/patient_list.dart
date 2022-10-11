@@ -1,10 +1,12 @@
 
 import 'dart:convert';
+
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/PatientsData.dart';
+import 'package:rostro_app/screens/homepage.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
 
@@ -41,6 +43,14 @@ class _PatientList extends State<PatientList> {
           children: <Widget>[
             //containers
             showPatients(),
+            ElevatedButton(
+              child: Text('Back to HomePage'),
+                onPressed: () async {
+                  Navigator.pop(context);
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (_) => Homepage(token: token)));
+          },
+              )
           ],
         ),
       ),
