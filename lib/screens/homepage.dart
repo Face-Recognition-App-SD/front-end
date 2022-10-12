@@ -39,7 +39,7 @@ class _homeState extends State<Homepage> {
           children: <Widget>[
             cameraButtonSection(),
             PatientListContainer(),
-            // AddNewPatientButton(),
+             AddNewPatientButton(),
           ],
         ),
       ),
@@ -97,17 +97,17 @@ class _homeState extends State<Homepage> {
         ));
   }
 
-//   Container AddNewPatientButton() {
-//     return Container(
-//         margin: EdgeInsets.only(top: 10.0),
-//         padding: EdgeInsets.symmetric(horizontal: 20.0),
-//         child: ElevatedButton(
-//           child: Text('Add New Patient'),
-//           // Within the `FirstRoute` widget
-//           onPressed: () async {
-//             Navigator.push(context,
-//                 MaterialPageRoute(builder: (_) => AddNewPatient(token: token)));
-//           },
-//         ));
-//   }
+  Container AddNewPatientButton() {
+    return Container(
+        margin: EdgeInsets.only(top: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: ElevatedButton(
+          child: Text('Add New Patient'),
+          // Within the `FirstRoute` widget
+          onPressed: () async {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) => AddNewPatient(token: token)));
+          },
+        ));
+  }
  }
