@@ -27,9 +27,9 @@ final token;
 class _AddNewPatientState extends State<AddNewPatient> {
   var bg = './assets/images/bg.jpeg';
   late String token;      
-  TextEditingController  firstNameController = new TextEditingController();
-  TextEditingController lastNameController = new TextEditingController();
-  TextEditingController ageController = new TextEditingController();
+  TextEditingController  firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
   void initState() {
      token = widget.token;
     super.initState();
@@ -148,9 +148,9 @@ Widget AddPhoto(){
         HttpHeaders.authorizationHeader: 'Token '+ token,
       },
     body: {
-        "first_name": firstNameController,
-        "last_name": lastNameController,
-        "age":ageController,
+        "first_name": firstNameController.text,
+        "last_name": lastNameController.text,
+        "age":ageController.text,
 }
     );
 
