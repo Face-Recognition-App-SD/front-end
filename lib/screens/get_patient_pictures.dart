@@ -22,7 +22,7 @@ class Pictures extends State<GetPatientPictures> {
     // initCamera(widget.patients![0]);
   }
   int step = 3;
-  var picture = List<XFile?>.filled(3, null);
+  var pictures = List<XFile?>.filled(3, null);
 
   void reduceStep(){
     setState(() {
@@ -56,13 +56,14 @@ class Pictures extends State<GetPatientPictures> {
         child: ElevatedButton(
           child: const Text('Take Picture'),
           onPressed: () async {
-            picture[3-step] = await availableCameras().then((value) => Navigator.push(
+            pictures[3-step] = await availableCameras().then((value) => Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (_) => Camera(token: token, cameras: value))));
             reduceStep();
             if(step == 0){
-              Navigator.pop(context, picture);
+              print(pictures[0]?.path);
+              Navigator.pop(context, pictures);
             }
           },
         )
