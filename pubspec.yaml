@@ -43,9 +43,9 @@ dependencies:
   flutter_cupertino_datetime_picker: ^3.0.0
   intl: ^0.17.0
   http: ^0.13.5
-  shared_preferences: ^2.0.15
   flutter_admin_scaffold: ^1.1.2
   flutter_easyloading: ^3.0.0
+
 
 
 dev_dependencies:
