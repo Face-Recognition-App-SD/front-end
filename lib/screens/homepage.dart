@@ -9,6 +9,7 @@ import './get_patient_pictures.dart';
 import '../utils/new_patient_widget.dart';
 import './add_new_patient.dart';
 import './Home.dart';
+import './profile.dart';
 
 class Homepage extends StatefulWidget {
   final String token;
@@ -20,27 +21,25 @@ class Homepage extends StatefulWidget {
 }
 
 class _homeState extends State<Homepage> {
- 
-   static String token1="";
+  static String token1 = "";
   // late String token;
 
   var patientPictures;
-   var pages;
+  var pages;
   void initState() {
     token1 = widget.token;
-    print ('token in HP: $token1');
-       pages = [
-    Home(token: token1),
-    GetPatientPictures(token: token1,),
-     PatientList(token: token1),
-     Home(token: token1),
-
-  ];
+    print('token in HP: $token1');
+    pages = [
+      Home(token: token1),
+      GetPatientPictures(
+        token: token1,
+      ),
+      PatientList(token: token1),
+      Profile(token: token1),
+    ];
   }
-  
+
   int currentPage = 0;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +59,8 @@ class _homeState extends State<Homepage> {
       //   //   ],
       //   // ),
       // ),
-      
-     body: pages[currentPage],
+
+      body: pages[currentPage],
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
@@ -78,7 +77,6 @@ class _homeState extends State<Homepage> {
         },
         selectedIndex: currentPage,
       ),
-     
     );
   }
 
@@ -141,8 +139,10 @@ class _homeState extends State<Homepage> {
           child: Text('Add New Patient'),
           // Within the `FirstRoute` widget
           onPressed: () async {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => AddNewPatient(token: token1)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => AddNewPatient(token: token1)));
           },
         ));
   }
