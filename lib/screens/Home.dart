@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _home2State extends State<Home> {
-  var bg = './assets/images/logo.jpeg';
+  var bg = './assets/images/bg.jpeg';
   late String? token;
   var patientPictures;
   void initState() {
