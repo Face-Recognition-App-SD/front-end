@@ -5,7 +5,7 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'camera.dart';
 
 class GetPatientPictures extends StatefulWidget{
-  final token;
+  final String token;
   const GetPatientPictures({super.key, required this.token});
 
   @override
@@ -13,14 +13,20 @@ class GetPatientPictures extends StatefulWidget{
 }
 
 class Pictures extends State<GetPatientPictures> {
+  
   var bg = './assets/images/bg.jpeg';
   late String token;
+
+
   @override
   void initState() {
     token = widget.token;
+       print('Token in get patient pic: $token');
     super.initState();
+   
     // initCamera(widget.patients![0]);
   }
+
   int step = 3;
   var pictures = List<XFile?>.filled(3, null);
 
@@ -34,6 +40,7 @@ class Pictures extends State<GetPatientPictures> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(bg),
@@ -61,8 +68,10 @@ class Pictures extends State<GetPatientPictures> {
                 MaterialPageRoute(
                     builder: (_) => Camera(token: token, cameras: value))));
             reduceStep();
+               print('Token in get patient pic $token');
             if(step == 0){
               print(pictures[0]?.path);
+              
               Navigator.pop(context, pictures);
             }
           },

@@ -33,7 +33,7 @@ class FirstPage extends StatelessWidget {
                 width: 300,
                 child: Container(
                   //another container
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/logo.jpeg'),
                       fit: BoxFit.cover,
