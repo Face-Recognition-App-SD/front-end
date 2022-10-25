@@ -4,6 +4,13 @@ import 'package:rostro_app/screens/add_new_patient.dart';
 import 'package:rostro_app/screens/recognize_patient.dart';
 import './patient_list.dart';
 import './get_patient_pictures.dart';
+<<<<<<< HEAD
+=======
+import '../utils/new_patient_widget.dart';
+import './add_new_patient.dart';
+import './Home.dart';
+import './profile.dart';
+>>>>>>> main
 
 class Homepage extends StatefulWidget {
   final String token;
@@ -15,14 +22,19 @@ class Homepage extends StatefulWidget {
 }
 
 class _homeState extends State<Homepage> {
+<<<<<<< HEAD
 
    static String token1="";
+=======
+  static String token1 = "";
+>>>>>>> main
   // late String token;
 
   var patientPictures;
-   var pages;
+  var pages;
   void initState() {
     token1 = widget.token;
+<<<<<<< HEAD
     print ('token in HP: $token1');
        pages = [
     Home(token: token1),
@@ -31,11 +43,20 @@ class _homeState extends State<Homepage> {
          PatientList(token: token1),
          Home(token: token1),
   ];
+=======
+    print('token in HP: $token1');
+    pages = [
+      Home(token: token1),
+      GetPatientPictures(
+        token: token1,
+      ),
+      PatientList(token: token1),
+      Profile(token: token1),
+    ];
+>>>>>>> main
   }
 
   int currentPage = 0;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +77,11 @@ class _homeState extends State<Homepage> {
       //   // ),
       // ),
 
+<<<<<<< HEAD
      body: pages[currentPage],
+=======
+      body: pages[currentPage],
+>>>>>>> main
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
@@ -129,8 +154,10 @@ class _homeState extends State<Homepage> {
           child: Text('Add New Patient'),
           // Within the `FirstRoute` widget
           onPressed: () async {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => AddNewPatient(token: token1)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => AddNewPatient(token: token1)));
           },
         ));
   }

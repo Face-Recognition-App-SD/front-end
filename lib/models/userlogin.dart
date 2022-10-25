@@ -6,9 +6,13 @@ String albumToJson(UserLogin data) => json.encode(data.toJson());
 class UserLogin {
 
   String? email;
+  String? first_name;
+  String? last_name;
   //final String? lastname;
-  // final int? phone;
+  int? department_id;
   String? password;
+  String? gender;
+  String? role;
   //final String? cpass;
   // final int? ssn;
   // final String? address;
@@ -16,10 +20,14 @@ class UserLogin {
 
   UserLogin({
     
-    required this.email,
-    // required this.lastname,
-    // required this.phone,
-    required this.password,
+     this.email,
+     this.first_name,
+     this.last_name,
+     this.department_id,
+     this.gender,
+     this.role,
+  
+     this.password,
     // required this.cpass,
     // required this.ssn,
     // required this.address,
@@ -30,10 +38,11 @@ class UserLogin {
     return UserLogin(
       
       email: json['email'],
-      // lastname: json['lastname'],
-      // phone: json['phone'],
-      // password: json['password'],
-      password: json['password'],
+      first_name: json['first_name'],
+      last_name: json['last_name'],
+      department_id: json['department_id'],
+      gender: json['gender'],
+      role: json['role'],
       // cpass: json['cpass'],
       // ssn: json['ssn'],
       // address: json['address'],
@@ -45,5 +54,10 @@ class UserLogin {
      
         "email": email,
         "password": password,
+        "first_name": first_name,
+        "last_name" : last_name, 
+        "department_id" : department_id,
+        "gender": gender,
+        "role":role,
       };
 }
