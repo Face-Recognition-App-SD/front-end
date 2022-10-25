@@ -1,17 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:camera/camera.dart';
-import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:rostro_app/screens/add_new_patient.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
 import './camera.dart';
-import './patient_list.dart';
-import './get_patient_pictures.dart';
-import '../utils/new_patient_widget.dart';
-import './add_new_patient.dart';
 
 class RecognizePatient extends StatefulWidget {
   final String token;
