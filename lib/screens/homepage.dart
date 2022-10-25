@@ -1,15 +1,16 @@
-import 'package:camera/camera.dart';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/Home.dart';
 import 'package:rostro_app/screens/add_new_patient.dart';
-import './camera.dart';
+import 'package:rostro_app/screens/recognize_patient.dart';
 import './patient_list.dart';
 import './get_patient_pictures.dart';
+<<<<<<< HEAD
+=======
 import '../utils/new_patient_widget.dart';
 import './add_new_patient.dart';
 import './Home.dart';
 import './profile.dart';
+>>>>>>> main
 
 class Homepage extends StatefulWidget {
   final String token;
@@ -21,13 +22,28 @@ class Homepage extends StatefulWidget {
 }
 
 class _homeState extends State<Homepage> {
+<<<<<<< HEAD
+
+   static String token1="";
+=======
   static String token1 = "";
+>>>>>>> main
   // late String token;
 
   var patientPictures;
   var pages;
   void initState() {
     token1 = widget.token;
+<<<<<<< HEAD
+    print ('token in HP: $token1');
+       pages = [
+    Home(token: token1),
+         RecognizePatient(token: token1),
+         //GetPatientPictures(token: token1,),
+         PatientList(token: token1),
+         Home(token: token1),
+  ];
+=======
     print('token in HP: $token1');
     pages = [
       Home(token: token1),
@@ -37,6 +53,7 @@ class _homeState extends State<Homepage> {
       PatientList(token: token1),
       Profile(token: token1),
     ];
+>>>>>>> main
   }
 
   int currentPage = 0;
@@ -60,7 +77,11 @@ class _homeState extends State<Homepage> {
       //   // ),
       // ),
 
+<<<<<<< HEAD
+     body: pages[currentPage],
+=======
       body: pages[currentPage],
+>>>>>>> main
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
@@ -77,6 +98,7 @@ class _homeState extends State<Homepage> {
         },
         selectedIndex: currentPage,
       ),
+
     );
   }
 
@@ -94,23 +116,16 @@ class _homeState extends State<Homepage> {
     print(token1);
     print("inside camera button");
     return Container(
-        margin: EdgeInsets.only(top: 50.0),
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        margin: const EdgeInsets.only(top: 50.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
-          child: Text('Add User Pictures'),
+          child: const Text('Add User Pictures'),
           onPressed: () {
             patientPictures = Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (_) => GetPatientPictures(token: token1)));
           },
-          // Within the `FirstRoute` widget
-          /*onPressed: () async {
-            await availableCameras().then((value) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => Camera(token: token, cameras: value))));
-          },*/
         )
 
         //end of button
@@ -146,4 +161,17 @@ class _homeState extends State<Homepage> {
           },
         ));
   }
+   Container RecogPatient() {
+     return Container(
+         margin: EdgeInsets.only(top: 10.0),
+         padding: EdgeInsets.symmetric(horizontal: 20.0),
+         child: ElevatedButton(
+           child: Text('Find Patient'),
+           // Within the `FirstRoute` widget
+           onPressed: () async {
+             Navigator.push(context,
+                 MaterialPageRoute(builder: (_) => RecognizePatient(token: token1)));
+           },
+         ));
+   }
 }

@@ -54,7 +54,6 @@ class _AddNewPatientState extends State<AddNewPatient> {
           children: <Widget>[
             addTextInfo(),
             SubmitButton(),
-          
           ],
         ),
     ));
@@ -161,7 +160,6 @@ Widget AddPhoto(){
      setState(() {
           
         });
-
 
       return patientFromJson(responseString);
     } else {
