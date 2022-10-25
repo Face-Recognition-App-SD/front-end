@@ -26,10 +26,10 @@ class _homeState extends State<Homepage> {
     print ('token in HP: $token1');
        pages = [
     Home(token: token1),
-    GetPatientPictures(token: token1,),
-     PatientList(token: token1),
-     Home(token: token1),
-    RecognizePatient(token: token1)
+         RecognizePatient(token: token1),
+         //GetPatientPictures(token: token1,),
+         PatientList(token: token1),
+         Home(token: token1),
   ];
   }
 
@@ -91,23 +91,16 @@ class _homeState extends State<Homepage> {
     print(token1);
     print("inside camera button");
     return Container(
-        margin: EdgeInsets.only(top: 50.0),
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        margin: const EdgeInsets.only(top: 50.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
-          child: Text('Add User Pictures'),
+          child: const Text('Add User Pictures'),
           onPressed: () {
             patientPictures = Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (_) => GetPatientPictures(token: token1)));
           },
-          // Within the `FirstRoute` widget
-          /*onPressed: () async {
-            await availableCameras().then((value) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => Camera(token: token, cameras: value))));
-          },*/
         )
 
         //end of button

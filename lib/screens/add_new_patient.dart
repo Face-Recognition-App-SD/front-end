@@ -54,7 +54,6 @@ class _AddNewPatientState extends State<AddNewPatient> {
           children: <Widget>[
             addTextInfo(),
             SubmitButton(),
-          
           ],
         ),
     ));
