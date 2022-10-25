@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/login_page.dart';
 import './regisnew.dart';
-import './login.dart';
+
 
 class FirstPage extends StatelessWidget {
   var bg = 'assets/images/bg.jpeg';
@@ -33,7 +33,7 @@ class FirstPage extends StatelessWidget {
                 width: 300,
                 child: Container(
                   //another container
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/logo.jpeg'),
                       fit: BoxFit.cover,

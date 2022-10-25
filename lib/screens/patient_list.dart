@@ -1,16 +1,18 @@
 
 import 'dart:convert';
+
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/PatientsData.dart';
+import 'package:rostro_app/screens/homepage.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
 
 
 class PatientList extends StatefulWidget {
-  final token;
+  final String token;
 
   const PatientList({super.key, required this.token});
   State<PatientList> createState() => _PatientList();
@@ -23,7 +25,6 @@ class _PatientList extends State<PatientList> {
   @override
   void initState() {
      token = widget.token;
-    super.initState();
     // initCamera(widget.patients![0]);
   }
 
@@ -41,6 +42,14 @@ class _PatientList extends State<PatientList> {
           children: <Widget>[
             //containers
             showPatients(),
+            ElevatedButton(
+              child: Text('Back to HomePage'),
+                onPressed: () async {
+                  // Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) => Homepage(token: token)));
+          },
+              )
           ],
         ),
       ),
@@ -48,16 +57,15 @@ class _PatientList extends State<PatientList> {
     );
   }
 
-  Container showPatients() {
+  Container showPatients() {  
     return Container(
-         
-        child: FutureBuilder(
+          child: FutureBuilder(
           future: fetchPatients(token),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               http.Response resp = snapshot.data as http.Response;
-              print(resp.statusCode);
-             
+              print('token inside showPatient: $token');
+                print(resp.statusCode);
               if (resp.statusCode == 200) {
                   print('uns');
                 final jsonMap = jsonDecode(resp.body);
@@ -89,7 +97,7 @@ class _PatientList extends State<PatientList> {
                           ),
                         ),
                       );
-              } else if (resp.statusCode == 401) {
+              } else if (resp.statusCode == 401) { print('no patient return');
     
                 Future.delayed(Duration.zero, () {
                  
@@ -100,12 +108,14 @@ class _PatientList extends State<PatientList> {
                  
                 });
               }
-            } else if (snapshot.hasError) {
-           
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('${snapshot.error}'),
-              ));
             }
+            // } else if (snapshot.hasError) {
+           
+            //     print('to snack bar');
+            //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //     content: Text('${snapshot.error}'),
+            //   ));
+            // }
             return const Center(
               child: Text(''''''),
             );
@@ -116,17 +126,17 @@ class _PatientList extends State<PatientList> {
   }
 
  Future<http.Response?> fetchPatients(token) async {
-
-      var myProfileUri =  Uri.parse('http://192.168.1.80:8000/api/patients/patientss/');
+      var myProfileUri =  Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
+      print('come to fetch data');
+      print(token);
     final res = await http.get(myProfileUri,
     headers: {
         HttpHeaders.acceptHeader: 'application/json',
-      
         HttpHeaders.authorizationHeader: 'Token '+ token,
       },
     );
-    // final responseJson = jsonDecode(response.body);
-
+    print(res.body);
+          print('end of fetch');
     return res;
   }
 
