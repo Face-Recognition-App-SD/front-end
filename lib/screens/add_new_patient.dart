@@ -162,7 +162,6 @@ Widget AddPhoto(){
           
         });
 
-
       return patientFromJson(responseString);
     } else {
       print('nothing return');

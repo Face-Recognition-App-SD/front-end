@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/add_new_patient.dart';
+import 'package:rostro_app/screens/recognize_patient.dart';
 import './camera.dart';
 import './patient_list.dart';
 import './get_patient_pictures.dart';
@@ -39,7 +40,8 @@ class _homeState extends State<Homepage> {
           children: <Widget>[
             cameraButtonSection(),
             PatientListContainer(),
-             AddNewPatientButton(),
+            AddNewPatientButton(),
+            RecogPatient(),
           ],
         ),
       ),
@@ -107,6 +109,19 @@ class _homeState extends State<Homepage> {
           onPressed: () async {
             Navigator.push(context,
                 MaterialPageRoute(builder: (_) => AddNewPatient(token: token)));
+          },
+        ));
+  }
+  Container RecogPatient() {
+    return Container(
+        margin: EdgeInsets.only(top: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: ElevatedButton(
+          child: Text('Find Patient'),
+          // Within the `FirstRoute` widget
+          onPressed: () async {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) => RecognizePatient(token: token)));
           },
         ));
   }
