@@ -84,14 +84,14 @@ class _Profile extends State<Profile> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      CircleAvatar(
-                        backgroundColor: Color.fromARGB(255, 50, 181, 109),
-                        minRadius: 35.0,
-                        child: Icon(
-                          Icons.call,
-                          size: 30.0
-                        ),
-                      ),
+                      // CircleAvatar(
+                      //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
+                      //   minRadius: 35.0,
+                      //   child: Icon(
+                      //     Icons.call,
+                      //     size: 30.0
+                      //   ),
+                      // ),
                       CircleAvatar(
                         backgroundColor: Colors.white70,
                         minRadius: 60.0,
@@ -101,14 +101,14 @@ class _Profile extends State<Profile> {
                               AssetImage('assets/images/icon_sample.jpeg'),
                         ),
                       ),
-                      CircleAvatar(
-                        backgroundColor: Color.fromARGB(255, 50, 181, 109),
-                        minRadius: 35.0,
-                        child: Icon(
-                          Icons.message,
-                          size: 30.0
-                        ),
-                      ),
+                      // CircleAvatar(
+                      //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
+                      //   minRadius: 35.0,
+                      //   child: Icon(
+                      //     Icons.message,
+                      //     size: 30.0
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(
