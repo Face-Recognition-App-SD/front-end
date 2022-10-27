@@ -32,7 +32,7 @@ class _homeState extends State<Homepage> {
          RecognizePatient(token: token1),
          //GetPatientPictures(token: token1,),
          PatientList(token: token1),
-         Home(token: token1),
+         Profile(token: token1),
   ];
   }
 

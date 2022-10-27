@@ -30,6 +30,8 @@ class _Profile extends State<Profile> {
   String? email = "";
   String? firstname = "";
   String? last_name = "";
+  String? role = "";
+  String? gender = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,28 +46,10 @@ class _Profile extends State<Profile> {
               email = snapshot.data!.email;
               firstname = snapshot.data!.first_name;
               last_name = snapshot.data!.last_name;
+              role = snapshot.data!.role;
+              gender = snapshot.data!.gender;
 
-              return ListView(children: <Widget>[
-                Text('Welcome, $last_name',style: const TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 20,
-                  color: Color.fromARGB(255, 10, 3, 20),
-                ),),
-
-                Text('My fullname: $firstname $last_name',style: const TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 15,
-                  color: Color.fromARGB(255, 37, 23, 57),
-                ),),
-
-                 Text('My email: $email',style: const TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 15,
-                  color: Color.fromARGB(255, 37, 23, 57),
-                ),),
-               // DisplayProfile(context),
-              ] //background image
-                  );
+              return DisplayProfile();
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -78,63 +62,139 @@ class _Profile extends State<Profile> {
     );
   }
 
-  Widget DisplayProfile(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
-        child: Card(
-          color: Color.fromARGB(255, 225, 227, 231),
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(
-                color: Color.fromARGB(255, 190, 192, 251), width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: InkWell(
-            child: ListTile(
-              leading: const Icon(
-                Icons.person,
-                size: 48,
-                color: Color.fromARGB(255, 58, 54, 118),
-              ),
-              title: Text(
-                email!,
-                style: const TextStyle(
-                  fontFamily: 'Roboto',
-                  color: Color.fromARGB(255, 207, 201, 216),
+  Widget DisplayProfile() {
+   
+    return ListView(
+      children: <Widget>[
+            Container(
+              height: 250,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color.fromARGB(255, 49, 74, 173), Color.fromARGB(255, 160, 162, 235)],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  stops: [0.5, 0.9],
                 ),
               ),
-              subtitle: Text(
-                firstname!,
-                style: const TextStyle(
-                  fontFamily: 'Roboto',
-                  color: Color.fromARGB(255, 222, 222, 236),
-                ),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+              
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundColor: Color.fromARGB(255, 50, 181, 109),
+                        minRadius: 35.0,
+                        child: Icon(
+                          Icons.call,
+                          size: 30.0
+                        ),
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Colors.white70,
+                        minRadius: 60.0,
+                        child: CircleAvatar(
+                          radius: 50.0,
+                          backgroundImage:
+                              AssetImage('assets/images/icon_sample.jpeg'),
+                        ),
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Color.fromARGB(255, 50, 181, 109),
+                        minRadius: 35.0,
+                        child: Icon(
+                          Icons.message,
+                          size: 30.0
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '$firstname $last_name ',
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    '$role',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                    ),
+                  ),
+                ],
+              ),
+            
+            ),
+
+               Container(
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      'Email',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 40, 8, 164),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '$email',
+                      style: TextStyle(
+                        fontSize: 18
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Text(
+                      'Role',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 40, 8, 164),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '$role',
+                      style: TextStyle(
+                        fontSize: 18
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Text(
+                      'Gender',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 40, 8, 164),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '$gender',
+                      style: TextStyle(
+                        fontSize: 18
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ),
-      ),
+  
+              ]
     );
   }
 
-  // Center showProfile() {
-  //   return Center(
-  //     child: FutureBuilder<UserLogin?>(
-  //       future: futureUser,
-  //       builder: (context, snapshot) {
-  //         if (snapshot.hasData) {
-  //           String? temp = snapshot.data!.email;
-  //           return Text(temp!);
-  //         } else if (snapshot.hasError) {
-  //           return Text('${snapshot.error}');
-  //         }
-
-  //         // By default, show a loading spinner.
-  //         return const CircularProgressIndicator();
-  //       },
-  //     ),
-  //   );
-  // }
 
   Future<UserLogin?> fetchUserProfile(token) async {
     UserLogin? newuser;
