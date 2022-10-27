@@ -26,6 +26,7 @@ class _homeState extends State<Homepage> {
   var pages;
   void initState() {
     token1 = widget.token;
+
     print ('token in HP: $token1');
        pages = [
     Home(token: token1),
@@ -34,6 +35,7 @@ class _homeState extends State<Homepage> {
          PatientList(token: token1),
          Profile(token: token1),
   ];
+
   }
 
   int currentPage = 0;
@@ -57,7 +59,9 @@ class _homeState extends State<Homepage> {
       //   // ),
       // ),
 
+
      body: pages[currentPage],
+
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
