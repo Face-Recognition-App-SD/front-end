@@ -106,23 +106,25 @@ class _recognizePatient extends State<RecognizePatient> {
             var request = http.MultipartRequest("POST", faceCompareUri);
             request.headers.addAll({"Authorization": "Token $token"});
             request.fields['id'] = id.toString();
-            var image1 = await http.MultipartFile.fromPath("image", patientPicture.path);
-            request.files.add(image1);
+            var image = await http.MultipartFile.fromPath("image", patientPicture.path);
+            request.files.add(image);
             http.StreamedResponse response = await request.send();
 
-            print("000000000000k");
             var decodedPatient = jsonDecode(patientRes.body);
             pictures = json.decode(imageRes.body);
             XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
-            print(responseString);
-            print("0000000000k");
+            if(responseString.substring(0, 14) == '{"status":true'){
+              Navigator.push(context, MaterialPageRoute(builder: (_) => ShowPatient(token: token, details: decodedPatient, picture: retrievedPicture)));
+            }
+            else{
+              const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
+              ScaffoldMessenger.of(context).showSnackBar(snackbar);
+            }
 
-            Navigator.push(context, MaterialPageRoute(builder: (_) => ShowPatient(token: token, details: decodedPatient, picture: retrievedPicture)));
           },
         )
-
       //end of button
     );
   }
