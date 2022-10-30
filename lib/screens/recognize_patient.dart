@@ -101,12 +101,11 @@ class _recognizePatient extends State<RecognizePatient> {
             );
             if (picture==null) return;
             String path = picture!.path;
-            final File patientPicture = File(path);
 
             var request = http.MultipartRequest("POST", faceCompareUri);
             request.headers.addAll({"Authorization": "Token $token"});
             request.fields['id'] = id.toString();
-            var image = await http.MultipartFile.fromPath("image", patientPicture.path);
+            var image = await http.MultipartFile.fromPath("image", path);
             request.files.add(image);
             http.StreamedResponse response = await request.send();
 
