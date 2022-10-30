@@ -45,7 +45,7 @@ class _recognizePatient extends State<RecognizePatient> {
             cameraButtonSection(),
            // textSection(),
 
-            compareFace(picture),
+            compareFace(),
           ],
         ),
       ),
@@ -123,10 +123,10 @@ class _recognizePatient extends State<RecognizePatient> {
         );
   }
 
-  Container compareFace(picture) {
+  Container compareFace() {
     var faceCompareUri =
         Uri.parse('${Constants.BASE_URL}/api/user/faceCompare/');
-       
+       print('inside Compare');
     return Container(
         margin: const EdgeInsets.only(top: 50.0),
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -146,9 +146,13 @@ class _recognizePatient extends State<RecognizePatient> {
                 "image1",path);
             http.StreamedResponse response = await request.send();
             print('resonse code $response.statusCode');
-            if (response.statusCode == 201){
+            if (response.statusCode == 200){
                var decodedPatient = jsonDecode(response.toString());
                print(decodedPatient);
+            }
+            else 
+            {
+                throw Exception('Failed to load data');
             }
               
           },
