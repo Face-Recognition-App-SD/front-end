@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
           controller: emailController,
           cursorColor: Colors.white,
           style: TextStyle(color: Colors.white70),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             icon: Icon(Icons.email, color: Colors.white70),
             hintText: 'Email',
             border: UnderlineInputBorder(
@@ -77,12 +77,12 @@ class _LoginPageState extends State<LoginPage> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-        SizedBox(height: 30.0),
+        const SizedBox(height: 30.0),
         TextFormField(
           controller: passwordController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70),
-          decoration: InputDecoration(
+          style: const TextStyle(color: Colors.white70),
+          decoration: const InputDecoration(
             icon: Icon(Icons.lock, color: Colors.white70),
             hintText: 'Password',
             border: UnderlineInputBorder(
