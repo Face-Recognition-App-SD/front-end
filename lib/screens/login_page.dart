@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Container textSection() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(children: <Widget>[
         TextFormField(
           controller: emailController,
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-        const SizedBox(height: 30.0),
+       const SizedBox(height: 30.0),
         TextFormField(
           controller: passwordController,
           cursorColor: Colors.white,

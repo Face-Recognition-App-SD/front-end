@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+
 import '../utils/constant.dart';
 import '../models/userlogin.dart';
 
@@ -24,6 +25,7 @@ class _Profile extends State<Profile> {
     token = widget.token;
     super.initState();
     futureUser = fetchUserProfile(token);
+  
   }
 
   int currentPage = 0;
@@ -46,6 +48,7 @@ class _Profile extends State<Profile> {
               email = snapshot.data!.email;
               firstname = snapshot.data!.first_name;
               last_name = snapshot.data!.last_name;
+            
               role = snapshot.data!.role;
               gender = snapshot.data!.gender;
 
@@ -198,6 +201,7 @@ class _Profile extends State<Profile> {
 
   Future<UserLogin?> fetchUserProfile(token) async {
     UserLogin? newuser;
+  
     var response = await http.get(
       //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
       Uri.parse('${Constants.BASE_URL}/api/user/me/'),
@@ -212,6 +216,7 @@ class _Profile extends State<Profile> {
     if (response.statusCode == 200) {
       String responseString = response.body;
       newuser = albumFromJson(responseString);
+    
       return newuser;
     } else {
       // If the server did not return a 200 OK response,
