@@ -21,10 +21,7 @@ class Pictures extends State<GetPatientPictures> {
   @override
   void initState() {
     token = widget.token;
-       print('Token in get patient pic: $token');
     super.initState();
-   
-    // initCamera(widget.patients![0]);
   }
 
   int step = 3;
@@ -68,7 +65,6 @@ class Pictures extends State<GetPatientPictures> {
                 MaterialPageRoute(
                     builder: (_) => Camera(token: token, cameras: value))));
             reduceStep();
-               print('Token in get patient pic $token');
             if(step == 0){
               print(pictures[0]?.path);
               

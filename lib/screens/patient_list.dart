@@ -88,15 +88,11 @@ class _PatientList extends State<PatientList> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             http.Response resp = snapshot.data as http.Response;
-            print('token inside showPatient: $token');
-            print(resp.statusCode);
             if (resp.statusCode == 200) {
-              print('uns');
               final jsonMap = jsonDecode(resp.body);
               patients = (jsonMap as List)
                   .map((patientItem) => PatientsData.fromJson(patientItem))
                   .toList();
-              print(patients[0].id);
               return patients.isNotEmpty
                   ? Padding(
                       padding: const EdgeInsets.symmetric(
@@ -123,7 +119,6 @@ class _PatientList extends State<PatientList> {
                       ),
                     );
             } else if (resp.statusCode == 401) {
-              print('no patient return');
 
               Future.delayed(Duration.zero, () {});
             } else if (resp.statusCode == 403) {
@@ -148,8 +143,6 @@ class _PatientList extends State<PatientList> {
   Future<http.Response?> fetchPatients(token) async {
     var myProfileUri =
         Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
-    print('come to fetch data');
-    print(token);
     final res = await http.get(
       myProfileUri,
       headers: {
@@ -157,8 +150,6 @@ class _PatientList extends State<PatientList> {
         HttpHeaders.authorizationHeader: 'Token ' + token,
       },
     );
-    print(res.body);
-    print('end of fetch');
     return res;
   }
 }
