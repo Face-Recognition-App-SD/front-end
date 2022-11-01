@@ -1,24 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:rostro_app/models/patientsdata.dart';
-
-
-
+import 'package:rostro_app/screens/get_patient_pictures.dart';
 import '../utils/constant.dart';
+import 'package:camera/camera.dart';
 
-
-//import 'package:flutter_auth_roleperm/screens/userdetailsscreen.dart';
-import '../models/patientsdata.dart';
 class AddNewPatient extends StatefulWidget {
-final token;
+  final String token;
 
-
-   const AddNewPatient({super.key, required this.token});
+  const AddNewPatient({super.key, required this.token});
 
   @override
   State<AddNewPatient> createState() => _AddNewPatientState();
@@ -26,12 +18,19 @@ final token;
 
 class _AddNewPatientState extends State<AddNewPatient> {
   var bg = './assets/images/bg.jpeg';
-  late String token;      
-  TextEditingController  firstNameController = TextEditingController();
+  late String token;
+
+  //late Map<String, dynamic> pictures;
+  late int id;
+  XFile? picture;
+  late List<XFile?> pictures;
+
+  TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
+  @override
   void initState() {
-     token = widget.token;
+    token = widget.token;
     super.initState();
     // initCamera(widget.patients![0]);
   }
@@ -40,36 +39,36 @@ class _AddNewPatientState extends State<AddNewPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
-        title: const Text('Add New Patient'),
-      ),
-       body: Container(
-        decoration:BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(bg),
-            fit: BoxFit.cover,
-          ),
-        ), //background image
-         child: ListView(
-          children: <Widget>[
-            addTextInfo(),
-            SubmitButton(),
-          ],
+        appBar: AppBar(
+          title: const Text('Add New Patient'),
         ),
-    ));
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(bg),
+              fit: BoxFit.cover,
+            ),
+          ), //background image
+          child: ListView(
+            children: <Widget>[
+              addTextInfo(),
+              addPhotos(),
+              submitButton(),
+            ],
+          ),
+        ));
   }
 
-  Widget addTextInfo(){
+  Widget addTextInfo() {
     return Container(
-
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(children: <Widget>[
-        SizedBox(height: 30.0),
+        const SizedBox(height: 30.0),
         TextFormField(
           controller: firstNameController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70),
-          decoration: InputDecoration(
+          style: const TextStyle(color: Colors.white70),
+          decoration: const InputDecoration(
             icon: Icon(Icons.person, color: Colors.white70),
             hintText: 'First Name',
             border: UnderlineInputBorder(
@@ -77,12 +76,12 @@ class _AddNewPatientState extends State<AddNewPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-        SizedBox(height: 30.0),
+        const SizedBox(height: 30.0),
         TextFormField(
           controller: lastNameController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70),
-          decoration: InputDecoration(
+          style: const TextStyle(color: Colors.white70),
+          decoration: const InputDecoration(
             icon: Icon(Icons.person, color: Colors.white70),
             hintText: 'Last Name',
             border: UnderlineInputBorder(
@@ -90,12 +89,12 @@ class _AddNewPatientState extends State<AddNewPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-          SizedBox(height: 30.0),
-          TextFormField(
+        const SizedBox(height: 30.0),
+        TextFormField(
           controller: ageController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70),
-          decoration: InputDecoration(
+          style: const TextStyle(color: Colors.white70),
+          decoration: const InputDecoration(
             icon: Icon(Icons.numbers_rounded, color: Colors.white70),
             hintText: 'Age',
             border: UnderlineInputBorder(
@@ -104,68 +103,89 @@ class _AddNewPatientState extends State<AddNewPatient> {
           ),
         ),
       ]),
-
     );
-
   }
 
-  Widget SubmitButton(){
-  return Container(
-     margin: EdgeInsets.only(top: 30.0),
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+  Widget submitButton() {
+    return Container(
+        margin: const EdgeInsets.only(top: 30.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
-          child: Text('Submit'),
+          child: const Text('Submit'),
           onPressed: () async {
-            PatientsData? data = await postPatient(token);
-            print('info after login');
-            if(data!=null)
-              print(data.id);
+            PatientsData? data = await postPatient();
+            if (data != null)
             setState(() {});
             // Navigator.of(context).pushAndRemoveUntil(
             //     MaterialPageRoute(
             //         builder: (BuildContext context) => Homepage(token: token)),
             //     (Route<dynamic> route) => false);
-              
           },
-        )
+        ));
+  }
 
-
-  );
-}
-
-Widget AddPhoto(){
-  return Container();
-}
-
- Future<PatientsData?> postPatient(token) async {
-      var myProfileUri =  Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
-      print('come to post data');
-      print(token);
-    final res = await http.post(myProfileUri,
-    headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token '+ token,
-      },
-    body: {
-        "first_name": firstNameController.text,
-        "last_name": lastNameController.text,
-        "age":ageController.text,
-}
+  Widget addPhotos() {
+    return Container(
+      color: Colors.transparent,
+      child: Container(
+          decoration: const BoxDecoration(
+            //color: Color.fromARGB(255, 199, 201, 224),
+            shape: BoxShape.rectangle,
+            //borderRadius: BorderRadius.all(Radius.circular(5.0))
+          ),
+          child: TextButton(
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(
+                  fontSize: 18, 
+                  color: Color.fromARGB(30, 0, 0, 0),
+                  decoration: TextDecoration.underline,
+                  ),
+            ),
+            child: const Text('Add Photo'),
+            onPressed: () async {
+             pictures = await Navigator.push(context, MaterialPageRoute(builder: (context) => GetPatientPictures(token: token)));
+            },
+          )),
     );
+  }
 
-  var data = res.body;
-  if (res.statusCode == 201) {
-    String responseString = res.body;
+  Future<PatientsData?> postPatient() async {
+    var addPatientTextUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
 
-     setState(() {
-          
-        });
+    final res = await http.post(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "first_name": firstNameController.text,
+      "last_name": lastNameController.text,
+      "age": ageController.text,
+    });
 
+    var data = json.decode(res.body);
+    id = data['id'];
+    var addPatientPictures = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/');
+
+    var request = http.MultipartRequest("POST", addPatientPictures);
+    request.headers.addAll({"Authorization": "Token $token"});
+    request.fields['id'] = id.toString();
+    var image1 = await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
+    request.files.add(image1);
+    var image2 = await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
+    request.files.add(image2);
+    var image3 = await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
+    request.files.add(image3);
+
+    http.StreamedResponse response = await request.send();
+
+    var responseData = await response.stream.toBytes();
+    var responseString = String.fromCharCodes(responseData);
+
+    if (res.statusCode < 300 && res.statusCode > 199) {
+      String responseString = res.body;
+      setState(() {});
       return patientFromJson(responseString);
     } else {
-      print('nothing return');
       return null;
     }
   }
-
 }

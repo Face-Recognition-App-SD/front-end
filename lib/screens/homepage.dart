@@ -11,8 +11,9 @@ import './profile.dart';
 
 class Homepage extends StatefulWidget {
   final String token;
-
-  const Homepage({super.key, required this.token});
+  final String? firstname;
+  final String? lastname;
+  const Homepage({super.key, required this.token, this.firstname, this.lastname});
 
   @override
   State<Homepage> createState() => _homeState();
@@ -20,12 +21,15 @@ class Homepage extends StatefulWidget {
 
 class _homeState extends State<Homepage> {
   static String token1 = "";
+  static String firstname = "";
+  static String lastname = "";
   // late String token;
 
   var patientPictures;
   var pages;
   void initState() {
     token1 = widget.token;
+    
 
     print ('token in HP: $token1');
        pages = [
