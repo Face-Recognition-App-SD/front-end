@@ -9,6 +9,7 @@ import 'package:rostro_app/screens/homepage.dart';
 import './add_new_patient.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
+import '../utils/scroll.dart';
 
 class PatientList extends StatefulWidget {
   final String token;
@@ -31,6 +32,7 @@ class _PatientList extends State<PatientList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -77,6 +79,7 @@ class _PatientList extends State<PatientList> {
             ),
           ],
         ),
+      
       ),
     );
   }
