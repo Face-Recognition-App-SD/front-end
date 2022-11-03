@@ -42,7 +42,7 @@ class ShowPatientDetails extends State<ShowPatient>{
               physics: const ClampingScrollPhysics(),
               children: <Widget>[
                pic(),
-                delete(token, id),
+                delete(id, token),
                 textData(),
               ],
           ),

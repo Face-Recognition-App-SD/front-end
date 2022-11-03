@@ -13,13 +13,13 @@ import '../utils/constant.dart';
 
   // NetworkImage getImage(String pfimg) {
     Future <http.Response> deletePatient(String id, String token) async {
-    var response = await http.delete(Uri.parse('${Constants.BASE_URL}/api/patients/all/$token/'), 
+    var response = await http.delete(Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/'), 
   
     ///api/patients/all/{id}/
     headers: 
     {
         HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token ' + id,
+        HttpHeaders.authorizationHeader: 'Token ' + token,
       },
      );
        print('token $token');
