@@ -107,7 +107,7 @@ class _PatientDetail extends State<PatientDetail> {
             if(responseString !=null && retrievedPicture!=null){
                     print('can go insdide resp');
 
-              Navigator.push(context, MaterialPageRoute(builder: (_) => ShowPatient(token: token, details: decodedPatient, picture: retrievedPicture)));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => ShowPatient(token: token, id: id, details: decodedPatient, picture: retrievedPicture)));
             }
             else{
               const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));

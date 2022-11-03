@@ -1,14 +1,17 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 import '../utils/constant.dart';
+import '../screens/delete.dart';
 
 
 class ShowPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
   final XFile picture;
-  const ShowPatient({super.key, required this.token, required this.details, required this.picture});
+  final String id;
+  const ShowPatient({super.key, required this.token, required this.id, required this.details, required this.picture});
 
   @override
   State<ShowPatient> createState() => ShowPatientDetails();
@@ -18,6 +21,7 @@ class ShowPatientDetails extends State<ShowPatient>{
   var bg = './assets/images/bg.jpeg';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
+  late String id = widget.id;
   late XFile picture = widget.picture;
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,8 @@ class ShowPatientDetails extends State<ShowPatient>{
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               children: <Widget>[
-                pic(),
+               pic(),
+                delete(token, id),
                 textData(),
               ],
           ),
@@ -52,6 +57,23 @@ class ShowPatientDetails extends State<ShowPatient>{
       //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
       const SizedBox(height: 24),
     ]);
+  }
+  Widget delete(String id, String token){
+    return ElevatedButton(
+      child: Text('Delete'),
+        // color: Colors.blueAccent,
+        onPressed: () async {
+          
+          var rest = await deletePatient(id, token);
+          setState(() {   
+            
+          });
+        },
+   
+      
+      );
+
+
   }
   Widget textData(){
     int? id = details['id'];
@@ -141,6 +163,9 @@ class ShowPatientDetails extends State<ShowPatient>{
         Text("\t\tUser: $user\n\n",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),),
+            Text("\t\NewPatient: $user\n\n",),
+              Text("\t\Inhre: $user\n\n",),
+                Text("\t\New infp: $user\n\n",),
       ],
     );
   }

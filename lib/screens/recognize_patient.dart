@@ -110,12 +110,14 @@ class _recognizePatient extends State<RecognizePatient> {
             http.StreamedResponse response = await request.send();
 
             var decodedPatient = jsonDecode(patientRes.body);
-            pictures = json.decode(imageRes.body);
+            pictures = json.decode(imageRes.body); 
+            
             XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
             if(responseString.substring(0, 14) == '{"status":true'){
-              Navigator.push(context, MaterialPageRoute(builder: (_) => ShowPatient(token: token, details: decodedPatient, picture: retrievedPicture)));
+              String foundID =  id.toString();
+              Navigator.push(context, MaterialPageRoute(builder: (_) => ShowPatient(token: token, id: foundID, details: decodedPatient, picture: retrievedPicture)));
             }
             else{
               const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
