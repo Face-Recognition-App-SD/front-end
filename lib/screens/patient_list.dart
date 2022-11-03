@@ -101,6 +101,7 @@ class _PatientList extends State<PatientList> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 10.0),
                       child: PatientListWidget(
+                        token: token,
                         patientList: patients,
                       ))
                   : const Center(

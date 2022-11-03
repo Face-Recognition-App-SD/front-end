@@ -2,19 +2,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/firstpage.dart';
 import 'package:rostro_app/screens/homepage.dart';
-
+import '../screens/patient_detail.dart';
 //import 'package:flutter_auth_roleperm/screens/userdetailsscreen.dart';
 import '../models/PatientsData.dart';
-class PatientListWidget extends StatelessWidget {
+class PatientListWidget extends StatefulWidget {
   final List<PatientsData> patientList;
+  final String token;
 
-  const PatientListWidget({Key? key, required this.patientList}) : super(key: key);
+  const PatientListWidget({Key? key, required this.patientList, required this.token}) : super(key: key);
 
+  @override
+  State<PatientListWidget> createState() => _PatientListWidgetState();
+}
+
+class _PatientListWidgetState extends State<PatientListWidget> {
+  late String token;
+  late String id;
+  void initState() {
+    token = widget.token;
+  
+    // initCamera(widget.patients![0]);
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: patientList.isEmpty ? 0 : patientList.length,
+      itemCount: widget.patientList.isEmpty ? 0 : widget.patientList.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
@@ -31,7 +46,7 @@ class PatientListWidget extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          FirstPage()),
+                          PatientDetail(token: token,id:widget.patientList[index].id.toString())),
                 );
               },
               child: ListTile(
@@ -41,14 +56,14 @@ class PatientListWidget extends StatelessWidget {
                   color: Color.fromARGB(255, 58, 54, 118),
                 ),
                 title: Text(
-                  patientList[index].id.toString(),
+                  widget.patientList[index].id.toString(),
                   style: const TextStyle(
                     fontFamily: 'Roboto',
                     color: Color.fromARGB(255, 74, 10, 184),
                   ),
                 ),
                 subtitle: Text(
-                  patientList[index].first_name.toString(),
+                  widget.patientList[index].first_name.toString(),
                   style: const TextStyle(
                     fontFamily: 'Roboto',
                     color: Color.fromARGB(255, 37, 37, 146),
