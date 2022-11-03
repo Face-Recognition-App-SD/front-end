@@ -6,7 +6,7 @@ import 'screens/regisnew.dart';
 
 import 'screens/firstpage.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-
+import 'utils/scroll.dart';
 
 void main() {
   runApp(MyApp()); //run MyApp()
@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Rostro', //title
       debugShowCheckedModeBanner: false,
+      scrollBehavior: const ConstantScrollBehavior(),
       theme: ThemeData(
        
         backgroundColor: const Color.fromARGB(255, 4, 20, 59),
