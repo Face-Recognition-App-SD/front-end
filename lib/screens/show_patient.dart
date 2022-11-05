@@ -10,8 +10,8 @@ class ShowPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
   final XFile picture;
-  final String id;
-  const ShowPatient({super.key, required this.token, required this.id, required this.details, required this.picture});
+  // final String? id;
+  const ShowPatient({super.key, required this.token, required this.details, required this.picture});
 
   @override
   State<ShowPatient> createState() => ShowPatientDetails();
@@ -21,7 +21,7 @@ class ShowPatientDetails extends State<ShowPatient>{
   var bg = './assets/images/bg.jpeg';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
-  late String id = widget.id;
+  //late String? id = widget.id;
   late XFile picture = widget.picture;
   @override
   Widget build(BuildContext context) {
@@ -41,23 +41,23 @@ class ShowPatientDetails extends State<ShowPatient>{
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               children: <Widget>[
-               pic(),
-                delete(id, token),
+              // pic(),
+               // delete(id!, token),
                 textData(),
               ],
           ),
           ),
         ));
   }
-  Widget pic(){
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min, children: [
-      Image.network("${Constants.BASE_URL}${picture.path}", fit: BoxFit.fill, width: 250),
-      //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
-      const SizedBox(height: 24),
-    ]);
-  }
+  // Widget pic(){
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.start,
+  //       mainAxisSize: MainAxisSize.min, children: [
+  //     Image.network("${Constants.BASE_URL}${picture.path}", fit: BoxFit.fill, width: 250),
+  //     //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
+  //     const SizedBox(height: 24),
+  //   ]);
+  // }
   Widget delete(String id, String token){
     return ElevatedButton(
       child: Text('Delete'),
