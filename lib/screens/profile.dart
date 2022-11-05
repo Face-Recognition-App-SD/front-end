@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-
+import 'package:rostro_app/screens/login_page.dart';
 
 import '../utils/constant.dart';
 import '../models/userlogin.dart';
+import '../screens/login_page.dart';
 
 class Profile extends StatefulWidget {
   final String? token;
@@ -21,11 +22,11 @@ class _Profile extends State<Profile> {
   late String? token;
   // late UserLogin? currUser;
   late Future<UserLogin?> futureUser;
+
   void initState() {
     token = widget.token;
     super.initState();
     futureUser = fetchUserProfile(token);
-  
   }
 
   int currentPage = 0;
@@ -39,169 +40,179 @@ class _Profile extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile Page'),
+       
+       actions: <Widget>[
+    Padding(
+      padding: EdgeInsets.only(right: 20.0),
+      child: GestureDetector(
+        onTap: () {
+           Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => LoginPage()),
+          );
+        },
+        child: Icon(Icons.logout_rounded),
+        
       ),
-      body: Container(
-        child: FutureBuilder<UserLogin?>(
-          future: futureUser,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              email = snapshot.data!.email;
-              firstname = snapshot.data!.first_name;
-              last_name = snapshot.data!.last_name;
-            
-              role = snapshot.data!.role;
-              gender = snapshot.data!.gender;
-
-              return DisplayProfile();
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-
-            // By default, show a loading spinner.
-            return const CircularProgressIndicator();
-          },
-        ),
+    ),
+    
+       ],
       ),
+     
+      body: 
+          Container(
+            child: FutureBuilder<UserLogin?>(
+              future: futureUser,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  email = snapshot.data!.email;
+                  firstname = snapshot.data!.first_name;
+                  last_name = snapshot.data!.last_name;
+
+                  role = snapshot.data!.role;
+                  gender = snapshot.data!.gender;
+
+                  return DisplayProfile();
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+
+                // By default, show a loading spinner.
+                return const CircularProgressIndicator();
+              },
+            ),
+          ),
+        
+      
     );
   }
 
   Widget DisplayProfile() {
-   
-    return ListView(
-      children: <Widget>[
-            Container(
-              height: 250,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color.fromARGB(255, 49, 74, 173), Color.fromARGB(255, 160, 162, 235)],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  stops: [0.5, 0.9],
+    return ListView(children: <Widget>[
+      Container(
+        height: 250,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 49, 74, 173),
+              Color.fromARGB(255, 160, 162, 235)
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            stops: [0.5, 0.9],
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                // CircleAvatar(
+                //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
+                //   minRadius: 35.0,
+                //   child: Icon(
+                //     Icons.call,
+                //     size: 30.0
+                //   ),
+                // ),
+                CircleAvatar(
+                  backgroundColor: Colors.white70,
+                  minRadius: 60.0,
+                  child: CircleAvatar(
+                    radius: 50.0,
+                    backgroundImage:
+                        AssetImage('assets/images/icon_sample.jpeg'),
+                  ),
+                ),
+                // CircleAvatar(
+                //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
+                //   minRadius: 35.0,
+                //   child: Icon(
+                //     Icons.message,
+                //     size: 30.0
+                //   ),
+                // ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              '$firstname $last_name ',
+              style: TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              '$role',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+              ),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                'Email',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 40, 8, 164),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      // CircleAvatar(
-                      //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
-                      //   minRadius: 35.0,
-                      //   child: Icon(
-                      //     Icons.call,
-                      //     size: 30.0
-                      //   ),
-                      // ),
-                      CircleAvatar(
-                        backgroundColor: Colors.white70,
-                        minRadius: 60.0,
-                        child: CircleAvatar(
-                          radius: 50.0,
-                          backgroundImage:
-                              AssetImage('assets/images/icon_sample.jpeg'),
-                        ),
-                      ),
-                      // CircleAvatar(
-                      //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
-                      //   minRadius: 35.0,
-                      //   child: Icon(
-                      //     Icons.message,
-                      //     size: 30.0
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '$firstname $last_name ',
-                    style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    '$role',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                    ),
-                  ),
-                ],
-              ),
-            
-            ),
-
-               Container(
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    title: Text(
-                      'Email',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 40, 8, 164),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$email',
-                      style: TextStyle(
-                        fontSize: 18
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title: Text(
-                      'Role',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 40, 8, 164),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$role',
-                      style: TextStyle(
-                        fontSize: 18
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title: Text(
-                      'Gender',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 40, 8, 164),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$gender',
-                      style: TextStyle(
-                        fontSize: 18
-                      ),
-                    ),
-                  ),
-                ],
+              subtitle: Text(
+                '$email',
+                style: TextStyle(fontSize: 18),
               ),
             ),
-  
-              ]
-    );
+            Divider(),
+            ListTile(
+              title: Text(
+                'Role',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 40, 8, 164),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                '$role',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+            Divider(),
+            ListTile(
+              title: Text(
+                'Gender',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 40, 8, 164),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                '$gender',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ]);
   }
-
 
   Future<UserLogin?> fetchUserProfile(token) async {
     UserLogin? newuser;
-  
+
     var response = await http.get(
       //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
       Uri.parse('${Constants.BASE_URL}/api/user/me/'),
@@ -216,7 +227,7 @@ class _Profile extends State<Profile> {
     if (response.statusCode == 200) {
       String responseString = response.body;
       newuser = albumFromJson(responseString);
-    
+
       return newuser;
     } else {
       // If the server did not return a 200 OK response,
