@@ -22,7 +22,7 @@ import '../utils/constant.dart';
         HttpHeaders.authorizationHeader: 'Token ' + token,
       },
      );
-       print('token $token');
+       print('token inside Delete Paitne $token');
      print(response.statusCode);
     if(response.statusCode == 204){
      
