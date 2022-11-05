@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:rostro_app/models/patientsdata.dart';
 import 'package:rostro_app/screens/get_patient_pictures.dart';
+import 'package:rostro_app/screens/patient_list.dart';
 import '../utils/constant.dart';
 import 'package:camera/camera.dart';
 
@@ -53,7 +55,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
             children: <Widget>[
               addTextInfo(),
               addPhotos(),
-              submitButton(),
+              submitButton(context),
             ],
           ),
         ));
@@ -106,7 +108,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
     );
   }
 
-  Widget submitButton() {
+  Widget submitButton(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(top: 30.0),
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -114,15 +116,20 @@ class _AddNewPatientState extends State<AddNewPatient> {
           child: const Text('Submit'),
           onPressed: () async {
             PatientsData? data = await postPatient();
-            if (data != null)
+            if (data != null){
+              _showDialog(context, token);
+
             setState(() {});
             // Navigator.of(context).pushAndRemoveUntil(
             //     MaterialPageRoute(
             //         builder: (BuildContext context) => Homepage(token: token)),
             //     (Route<dynamic> route) => false);
-          },
+          }
+          }
         ));
   }
+
+
 
   Widget addPhotos() {
     return Container(
@@ -188,4 +195,26 @@ class _AddNewPatientState extends State<AddNewPatient> {
       return null;
     }
   }
+}
+Widget? _showDialog(BuildContext context, String token) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: new Text("Message!!"),
+        content: new Text("New patient has been created successfully!"),
+        actions: <Widget>[
+          new TextButton(
+            child: new Text("OK"),
+            onPressed: () {
+               Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => PatientList(token: token,)),
+          );
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
