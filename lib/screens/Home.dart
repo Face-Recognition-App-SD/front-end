@@ -65,8 +65,8 @@ class _home2State extends State<Home> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Color.fromARGB(255, 73, 108, 248),
-                          Color.fromARGB(255, 160, 162, 235)
+                          Color.fromARGB(55, 73, 108, 248),
+                          Color.fromARGB(52, 163, 163, 172)
                         ],
                         begin: Alignment.centerRight,
                         end: Alignment.bottomCenter,
@@ -100,7 +100,7 @@ class _home2State extends State<Home> {
                  MaterialPageRoute(builder: (_) => PatientList(token: token!)));
            },
          ),
-             const SizedBox(height: 30.0),
+             const SizedBox(height: 20.0),
          ElevatedButton(
            child: Text('Verify Patient'),
            // Within the `FirstRoute` widget
