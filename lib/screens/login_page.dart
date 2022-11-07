@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
             headerSection(),
             textSection(),
             loginButtonSection(),
-            signUpButtonSection(),
+        //    signUpButtonSection(),
           ],
         ),
       ),

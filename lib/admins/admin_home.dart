@@ -4,12 +4,16 @@ import 'package:camera/camera.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/add_new_patient.dart';
+import 'package:rostro_app/screens/firstpage.dart';
 import '../screens/regisnew.dart';
+import '../screens/login_page.dart';
+import '../screens/firstpage.dart';
 // import './camera.dart';
 // import './patient_list.dart';
 // import './get_patient_pictures.dart';
 // import '../utils/new_patient_widget.dart';
 // import './add_new_patient.dart';
+
 
 class AdminHome extends StatefulWidget {
   final String? token;
@@ -40,6 +44,27 @@ class _AdminHome extends State<AdminHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Admin Page'),
+       
+       actions: <Widget>[
+    Padding(
+      padding: EdgeInsets.only(right: 20.0),
+      child: GestureDetector(
+        onTap: () {
+           Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => FirstPage()),
+          );
+        },
+        child: Icon(Icons.logout_rounded),
+        
+      ),
+    ),
+    
+       ],
+      ),
+     
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -67,7 +92,7 @@ class _AdminHome extends State<AdminHome> {
                     ],
                   ),
                   const SizedBox(height: 30.0),
-                  signUpButtonSection(),
+               //   signUpButtonSection(),
                  
                   const SizedBox(height: 30.0),
                 ],

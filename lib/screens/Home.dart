@@ -1,5 +1,3 @@
-
-
 import 'package:camera/camera.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -9,6 +7,7 @@ import './patient_list.dart';
 import './get_patient_pictures.dart';
 import '../utils/new_patient_widget.dart';
 import './add_new_patient.dart';
+import './recognize_patient.dart';
 
 class Home extends StatefulWidget {
   final String? token;
@@ -59,29 +58,60 @@ class _home2State extends State<Home> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 30.0),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                      
-                  //     color: Color.fromARGB(255, 188, 191, 196),
-                  //     image: const DecorationImage(
-                  //       image: NetworkImage(
-                  //           'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
-                        
-                  //     ),
-                  //     border: Border.all(
-                  //       width: 50,
-                  //     ),
-                  //     borderRadius: BorderRadius.circular(12),
-                  //   ),
-                    // child: const Text(
-                    //   'Want to check out your assigned patients for today',
-                    //   textAlign: TextAlign.center,
+                  const SizedBox(height: 200.0),
+
+                  Container(
+                    height: 250,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color.fromARGB(55, 73, 108, 248),
+                          Color.fromARGB(52, 163, 163, 172)
+                        ],
+                        begin: Alignment.centerRight,
+                        end: Alignment.bottomCenter,
+                        stops: [0.5, 0.9],
+                      ),
+
+                      color: Color.fromARGB(255, 188, 191, 196),
+                      // image: const DecorationImage(
+                      //   image: NetworkImage(
+                      //       'https://imageio.forbes.com/specials-images/imageserve/5dbb4182d85e3000078fddae/0x0.jpg?format=jpg&width=1200'),
+
+                      // ),
+                      // border: Border.all(
+                      //   width: 50,
+                      // ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     
-                     
-                    //   style: TextStyle(fontSize: 15, color: Colors.white),
-                    // ),
-                 // ),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Want to check out your patients ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                         ElevatedButton(
+           child: Text('Patient List'),
+           // Within the `FirstRoute` widget
+           onPressed: () async {
+             Navigator.push(context,
+                 MaterialPageRoute(builder: (_) => PatientList(token: token!)));
+           },
+         ),
+             const SizedBox(height: 20.0),
+         ElevatedButton(
+           child: Text('Verify Patient'),
+           // Within the `FirstRoute` widget
+           onPressed: () async {
+             Navigator.push(context,
+                 MaterialPageRoute(builder: (_) => RecognizePatient(token: token!),));
+           },
+         ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 30.0),
                 ],
               ),
