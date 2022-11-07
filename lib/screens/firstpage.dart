@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/login_page.dart';
 import './regisnew.dart';
-
+import '../admins/admin_login.dart';
 
 class FirstPage extends StatelessWidget {
   var bg = 'assets/images/bg.jpeg';
@@ -52,18 +52,8 @@ class FirstPage extends StatelessWidget {
                     //column widget, so all the sub widgets within this will be in column
                     crossAxisAlignment: CrossAxisAlignment.stretch, // stretch
                     children: [
-                      Expanded(
-                        //allow the button to stretch? i think thats what i did
-                        flex: 3, //set the height
-                        child: ElevatedButton(
-                          // a type of button
-                          //color: Colors.blueAccent,
-                          onPressed: () {}, //no on press effect yet
-                          child: Text(
-                              'Admin Login'), //print admin login on the button
-                        ),
-                      ),
-                      Spacer(), //set a space in between the two buttons
+                      
+                    
                       Expanded(
                         // user login button below admin login button
                         flex: 3,
@@ -77,6 +67,21 @@ class FirstPage extends StatelessWidget {
                           }, // on press effect directs to the login page from login.dart
                           child: Text(
                               'User Login'), //print user login on the button
+                        ),
+                      ),
+                       Spacer(), //set a space in between the two buttons
+                      Expanded(
+                        //allow the button to stretch? i think thats what i did
+                        flex: 3, //set the height
+                        child: ElevatedButton(
+                          // a type of button
+                          //color: Colors.blueAccent,
+                          onPressed: () { Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdminLoginPage()));}, //no on press effect yet
+                          child: Text(
+                              'Admin Login'), //print admin login on the button
                         ),
                       ),
                     ],

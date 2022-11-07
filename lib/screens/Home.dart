@@ -55,7 +55,7 @@ class _home2State extends State<Home> {
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25),
+                            fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ],
                   ),
