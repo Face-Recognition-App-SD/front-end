@@ -31,7 +31,7 @@ class ShowPatientDetails extends State<ShowPatient> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add New Patient'),
+          title: const Text('Patient Detail'),
           actions: <Widget>[
             Padding(
               padding: EdgeInsets.only(right: 20.0),
