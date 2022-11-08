@@ -43,7 +43,7 @@ class _Register extends State<Register> {
           children: <Widget>[
             headerSection(),
             textSection(),
-            SubmitButtonSection(),
+            SubmitButtonSection(context),
             //    signUpButtonSection(),
           ],
         ),
@@ -233,7 +233,7 @@ class _Register extends State<Register> {
     );
   }
 
-  Container SubmitButtonSection() {
+  Container SubmitButtonSection(BuildContext context) {
     return Container(
         margin: EdgeInsets.only(top: 30.0),
         padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -252,17 +252,43 @@ class _Register extends State<Register> {
                 selectedValueforGender ?? "Male");
             print('info after login');
             print(token);
+            
+             if (data != null){
+              ShowDialogSucc(context);
+
             setState(() {});
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (BuildContext context) => LoginPage()),
-                (Route<dynamic> route) => false);
-          },
-        )
+            // Navigator.of(context).pushAndRemoveUntil(
+            //     MaterialPageRoute(
+            //         builder: (BuildContext context) => Homepage(token: token)),
+            //     (Route<dynamic> route) => false);
+          }
+          else {
+            showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text("Alert Dialog Box"),
+                  content: const Text("User with this email already exists"),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                      child: Container(
+                        color: Color.fromARGB(236, 9, 96, 168),
+                        padding: const EdgeInsets.all(14),
+                        child: const Text("OK"),
+                      ),
+                    ),
+                  ],
+                ),
+            );
+          }
+          }
 
         //end of button
-        );
+        ),);
   }
+
 
   Future<UserLogin?> fetchDataSignUp(
       String email,
@@ -299,7 +325,36 @@ class _Register extends State<Register> {
 
       return albumFromJson(responseString);
     } else {
+       if (response.statusCode == 400) {
+      String responseString = response.body;
+      
+       print(responseString);
+      }
       return null;
     }
   }
+
+Widget? ShowDialogSucc(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: new Text("Message!"),
+        content: new Text("Your account have been created. Please check your email to verify your account."),
+        actions: <Widget>[
+          new TextButton(
+            child: new Text("Go to Login Page"),
+            onPressed: () {
+               Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => LoginPage()),
+          );
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 }
