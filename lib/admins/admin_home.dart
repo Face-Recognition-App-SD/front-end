@@ -116,7 +116,7 @@ class _AdminHome extends State<AdminHome> {
         onPressed: () => {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => RegisNewFirst()),
+            MaterialPageRoute(builder: (context) => Register()),
           ), //button connects to register page
         },
       ),
