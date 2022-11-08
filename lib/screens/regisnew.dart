@@ -216,7 +216,7 @@ class _RegisNewFirstState extends State<RegisNewFirst> {
                         MaterialPageRoute(builder: (context) => Regsec()));
                   },
                   child: Text(
-                    'Next',
+                    'Submit',
                     style: TextStyle(fontSize: 30),
                   ),
                 ),

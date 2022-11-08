@@ -92,7 +92,7 @@ class _AdminHome extends State<AdminHome> {
                     ],
                   ),
                   const SizedBox(height: 30.0),
-               //   signUpButtonSection(),
+                  signUpButtonSection(),
                  
                   const SizedBox(height: 30.0),
                 ],
