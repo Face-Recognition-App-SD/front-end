@@ -1,9 +1,12 @@
 class Constants{
   Constants._();
-
-  static const BASE_URL = 'http://192.168.1.80:8000';//Ann
+ 
+ static const BASE_URL = 'http://192.168.1.80:8000';//Ann Home IP
   // static const BASE_URL = 'http://192.168.1.5:8000';//Gustavo
 
-  //Ann's clocalhost IP : 192.168.1.80
+  //static const BASE_URL = 'http://192.168.137.1:8000';//Ann with sharing hotpot
+
+  
+  
   //'https://api.rostro-authentication.com'
-}
+}     

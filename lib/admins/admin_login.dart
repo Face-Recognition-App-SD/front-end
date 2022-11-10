@@ -7,22 +7,24 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 import '../utils/constant.dart';
-import './homepage.dart';
-import './regisnew.dart';
+import './admin_home.dart';
+
 import 'dart:io';
 //import 'loggedinpage.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class AdminLoginPage extends StatefulWidget {
+  const AdminLoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AdminLoginPage> createState() => _AdminLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AdminLoginPageState extends State<AdminLoginPage> {
   var bg = './assets/images/bg.jpeg';
   bool _isLoading = false;
   late String token;
+  late String? firstName;
+  late String? lastName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
             headerSection(),
             textSection(),
             loginButtonSection(),
-            signUpButtonSection(),
+           
           ],
         ),
       ),
@@ -46,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
   } //build
 
   Container headerSection() {
-    print("HHHHHHHHH");
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
         child: Image.asset(
@@ -101,15 +102,19 @@ class _LoginPageState extends State<LoginPage> {
         child: ElevatedButton(
           child: Text('Login'),
           onPressed: () async {
+           
             String email = emailController.text;
             String password = passwordController.text;
             UserLogin? data = await fetchDataLogin(email, password);
+            firstName = data!.first_name;
+            lastName = data!.last_name;
             print('info after login');
                 print(token);
             setState(() {});
+            // ignore: use_build_context_synchronously
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (BuildContext context) => Homepage(token: token)),
+                    builder: (BuildContext context) => AdminHome(token:token,firstname: firstName, lastname: lastName)),
                 (Route<dynamic> route) => false);
               
           },
@@ -119,30 +124,7 @@ class _LoginPageState extends State<LoginPage> {
         );
   }
 
-  Row signUpButtonSection() {
-    return Row(
- children: <Widget>[
-                const Text('Does not have account?'),
-                TextButton(
-                  child: const Text(
-                    'Sign up',
-                    style: TextStyle(fontSize: 15, ),
-                  ),
-        
-        // color: Colors.blueAccent,
-        onPressed: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Register()),
-          ), //button connects to register page
-        },
-        
-                ),
-        ],
-              mainAxisAlignment: MainAxisAlignment.center,
-    );
 
-  }
 
 Future<UserLogin?> fetchDataLogin(String email, String password) async {
    var response = await http.post(
@@ -156,10 +138,11 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
         "password": password,
 
       });
-    
+      var jsonResponse = null;
   var data = response.body;
   token = data.substring(10, data.length-2);
-  if (response.statusCode == 201) {
+  print(response.statusCode);
+  if (response.statusCode > 199 && response.statusCode < 301 ) {
     String responseString = response.body;
 
      setState(() {
