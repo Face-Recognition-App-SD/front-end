@@ -13,6 +13,7 @@ import '../utils/constant.dart';
 import './homepage.dart';
 import './login_page.dart';
 import 'dart:io';
+import './verifyEmail.dart';
 //import 'loggedinpage.dart';
 
 class Register extends StatefulWidget {
@@ -343,11 +344,11 @@ Widget? ShowDialogSucc(BuildContext context) {
         content: new Text("Your account have been created. Please check your email to verify your account."),
         actions: <Widget>[
           new TextButton(
-            child: new Text("Go to Login Page"),
+            child: new Text("Verify Email"),
             onPressed: () {
                Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => LoginPage()),
+            MaterialPageRoute(builder: (_) => VerifyEmail(email: emailController.text,)),
           );
             },
           ),

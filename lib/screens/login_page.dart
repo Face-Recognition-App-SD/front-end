@@ -156,7 +156,7 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
         "password": password,
 
       });
-      var jsonResponse = null;
+    
   var data = response.body;
   token = data.substring(10, data.length-2);
   if (response.statusCode == 201) {
