@@ -47,6 +47,7 @@ dependencies:
   flutter_easyloading: ^3.0.0
   draggable_scrollbar: ^0.1.0
   shared_preferences: ^2.0.15
+  dropdown_button2: ^1.8.9
 
 
 

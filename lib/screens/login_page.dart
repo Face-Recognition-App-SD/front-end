@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
             headerSection(),
             textSection(),
             loginButtonSection(),
-        //    signUpButtonSection(),
+            signUpButtonSection(),
           ],
         ),
       ),
@@ -119,21 +119,29 @@ class _LoginPageState extends State<LoginPage> {
         );
   }
 
-  Container signUpButtonSection() {
-    return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: ElevatedButton(
-        child: Text('Sign Up'),
+  Row signUpButtonSection() {
+    return Row(
+ children: <Widget>[
+                const Text('Does not have account?'),
+                TextButton(
+                  child: const Text(
+                    'Sign up',
+                    style: TextStyle(fontSize: 15, ),
+                  ),
+        
         // color: Colors.blueAccent,
         onPressed: () => {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => RegisNewFirst()),
+            MaterialPageRoute(builder: (context) => const Register()),
           ), //button connects to register page
         },
-      ),
+        
+                ),
+        ],
+              mainAxisAlignment: MainAxisAlignment.center,
     );
+
   }
 
 Future<UserLogin?> fetchDataLogin(String email, String password) async {
