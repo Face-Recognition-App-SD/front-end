@@ -24,8 +24,9 @@ Future<RegisterModel?> fetchData(
   //     .post(Uri.http('10.32.53.57:8000', 'api/user/create/'), headers: {
   //   HttpHeaders.acceptHeader: 'application/json',
   // },
-  var response = await http
-      .post(Uri.parse('${Constants.BASE_URL}/api/user/create/'), headers: {
+  var response = await http.post(Uri.parse('${Constants.BASE_URL}/api/user/create/')
+  //var response = await http.post(Uri.https(Constants.BASE_URL,'/api/user/create/')
+      , headers: {
     HttpHeaders.acceptHeader: 'application/json',
   }, body: {
     "email": email,

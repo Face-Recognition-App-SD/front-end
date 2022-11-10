@@ -69,10 +69,12 @@ class ShowPatientDetails extends State<ShowPatient> {
   }
 
   Widget pic(){
+    String picturePath = "${Constants.BASE_URL}${picture.path}";
+    //String picturePath = picture.path;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min, children: [
-      Image.network("${Constants.BASE_URL}${picture.path}", fit: BoxFit.fill, width: 250),
+      Image.network(picturePath, fit: BoxFit.fill, width: 250),
       //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
       const SizedBox(height: 24),
     ]);
@@ -85,6 +87,7 @@ class ShowPatientDetails extends State<ShowPatient> {
   }
 
   Widget textData() {
+    print("kjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
     int? id = details['id'];
     String? firstname = details['first_name'];
     String? lastname = details['last_name'];

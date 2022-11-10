@@ -3,20 +3,21 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:rostro_app/screens/face_compare.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
 import './camera.dart';
 
-class RecognizePatient extends StatefulWidget {
+class VerifyPatient extends StatefulWidget {
   final String token;
 
-  const RecognizePatient({super.key, required this.token});
+  const VerifyPatient({super.key, required this.token});
 
   @override
-  State<RecognizePatient> createState() => _recognizePatient();
+  State<VerifyPatient> createState() => ExtendVerifyPatient();
 }
 
-class _recognizePatient extends State<RecognizePatient> {
+class ExtendVerifyPatient extends State<VerifyPatient> {
   var bg = './assets/images/bg.jpeg';
   late String token;
   late Map<String, dynamic> pictures;
@@ -71,22 +72,33 @@ class _recognizePatient extends State<RecognizePatient> {
     );
   }
   Container cameraButtonSection() {
-    
+    id = 1;
     return Container(
         margin: const EdgeInsets.only(top: 50.0),
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
           child: const Text('Take Picture of Patient'),
           onPressed: () async {
-            id = int.parse(patientId.text);
             var getPatientUri =  Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
             var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
             var faceCompareUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/faceverify/');
+
             picture = await availableCameras().then((value) => Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (_) => Camera(token: token, cameras: value))));
+            if (picture==null) return;
+            String path = picture!.path;
+            var request = http.MultipartRequest("POST", faceCompareUri);
+            request.headers.addAll({"Authorization": "Token $token"});
+            request.fields['id'] = id.toString();
+            var image = await http.MultipartFile.fromPath("image", path);
+            request.files.add(image);
+            http.StreamedResponse response = await request.send();
 
+            var responseData = await response.stream.toBytes();
+            var responseString = String.fromCharCodes(responseData);
+            id = int.parse(responseString.substring(5, responseString.length-1));
             final imageRes = await http.get(getImagesUri,
               headers: {
                 HttpHeaders.acceptHeader: 'application/json',
@@ -99,25 +111,15 @@ class _recognizePatient extends State<RecognizePatient> {
                 HttpHeaders.authorizationHeader: 'Token $token',
               },
             );
-            if (picture==null) return;
-            String path = picture!.path;
-
-            var request = http.MultipartRequest("POST", faceCompareUri);
-            request.headers.addAll({"Authorization": "Token $token"});
-            request.fields['id'] = id.toString();
-            var image = await http.MultipartFile.fromPath("image", path);
-            request.files.add(image);
-            http.StreamedResponse response = await request.send();
 
             var decodedPatient = jsonDecode(patientRes.body);
-            pictures = json.decode(imageRes.body); 
-            
+            pictures = json.decode(imageRes.body);
             XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
-            var responseData = await response.stream.toBytes();
-            var responseString = String.fromCharCodes(responseData);
-            if(responseString.substring(0, 14) == '{"status":true'){
-              String foundID =  id.toString();
-              Navigator.push(context, MaterialPageRoute(builder: (_) => ShowPatient(token: token,details: decodedPatient, picture: retrievedPicture)));
+
+            if(responseString.substring(5, responseString.length-1) != '-1'
+                && responseString.substring(5, responseString.length-1) != 'None'){
+              Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                  ShowPatient(token: token,details: decodedPatient, picture: retrievedPicture)));
             }
             else{
               const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));

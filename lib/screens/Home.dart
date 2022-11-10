@@ -2,12 +2,13 @@ import 'package:camera/camera.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/add_new_patient.dart';
+import 'package:rostro_app/screens/face_compare.dart';
 import './camera.dart';
 import './patient_list.dart';
 import './get_patient_pictures.dart';
 import '../utils/new_patient_widget.dart';
 import './add_new_patient.dart';
-import './recognize_patient.dart';
+import './verify_patient.dart';
 
 class Home extends StatefulWidget {
   final String? token;
@@ -106,7 +107,7 @@ class _home2State extends State<Home> {
            // Within the `FirstRoute` widget
            onPressed: () async {
              Navigator.push(context,
-                 MaterialPageRoute(builder: (_) => RecognizePatient(token: token!),));
+                 MaterialPageRoute(builder: (_) => CompareFace(token: token!),));
            },
          ),
                       ],

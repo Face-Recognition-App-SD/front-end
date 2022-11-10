@@ -157,7 +157,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
   }
 
   Future<PatientsData?> postPatient() async {
-    var addPatientTextUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
+    var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
 
     final res = await http.post(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
@@ -169,8 +169,9 @@ class _AddNewPatientState extends State<AddNewPatient> {
     });
 
     var data = json.decode(res.body);
+    print(data);
     id = data['id'];
-    var addPatientPictures = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/');
+    var addPatientPictures = Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/upload-image/');
 
     var request = http.MultipartRequest("POST", addPatientPictures);
     request.headers.addAll({"Authorization": "Token $token"});
@@ -201,11 +202,11 @@ Widget? _showDialog(BuildContext context, String token) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: new Text("Message!!"),
-        content: new Text("New patient has been created successfully!"),
+        title: const Text("Message!!"),
+        content: const Text("New patient has been created successfully!"),
         actions: <Widget>[
-          new TextButton(
-            child: new Text("OK"),
+          TextButton(
+            child: const Text("OK"),
             onPressed: () {
                Navigator.push(
             context,
