@@ -111,6 +111,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
             print('info after login');
                 print(token);
             setState(() {});
+            // ignore: use_build_context_synchronously
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (BuildContext context) => AdminHome(token:token,firstname: firstName, lastname: lastName)),
