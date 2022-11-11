@@ -215,7 +215,7 @@ class _Profile extends State<Profile> {
 
     var response = await http.get(
       //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-      Uri.https(Constants.BASE_URL,'/api/user/me/'),
+      Uri.parse('${Constants.BASE_URL}/api/user/me/'),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.authorizationHeader: 'Token ' + token,
