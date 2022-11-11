@@ -35,7 +35,8 @@ class _homeState extends State<Homepage> {
     print ('token in HP: $token1');
        pages = [
     Home(token: token1),
-         CompareFace(token: token1),
+         VerifyPatient(token: token1),
+         //CompareFace(token: token1),
          //GetPatientPictures(token: token1,),
          PatientList(token: token1),
          Profile(token: token1),

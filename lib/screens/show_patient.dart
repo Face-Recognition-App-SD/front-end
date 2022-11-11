@@ -41,7 +41,7 @@ class ShowPatientDetails extends State<ShowPatient> {
             context,
             MaterialPageRoute(builder: (_) => PatientList(token: token,)),
           );},
-                child: const Icon(Icons.delete),
+                child: const Icon(Icons.delete, color: Colors.red,),
               ),
             ),
 

@@ -75,38 +75,37 @@ class ExtendedCompareFace extends State<CompareFace> {
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
             id = int.parse(responseString.substring(5, responseString.length-1));
-            print(id.toString());
-            //var getPatientUri =  Uri.https('${Constants.BASE_URL}','/api/patients/patientss/$id/');
-            var getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
-            //var getImagesUri = Uri.https('${Constants.BASE_URL}','/api/patients/all/$id/get_images/');
-            var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
-            final imageRes = await http.get(getImagesUri,
-              headers: {
-                HttpHeaders.acceptHeader: 'application/json',
-                HttpHeaders.authorizationHeader: 'Token $token',
-              },
-            );
-            final patientRes = await http.get(getPatientUri,
-              headers: {
-                HttpHeaders.acceptHeader: 'application/json',
-                HttpHeaders.authorizationHeader: 'Token $token',
-              },
-            );
-            print(imageRes.statusCode);
-            var decodedPatient = jsonDecode(patientRes.body);
-            pictures = json.decode(imageRes.body);
-            print(pictures);
-            print("Neonlllllllllllllllllllllllllllllllllllll");
-            XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
-
-            if(responseString.substring(5, responseString.length-1) != '-1'
-                && responseString.substring(5, responseString.length-1) != 'None'){
-              Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                  ShowPatient(token: token,details: decodedPatient, picture: retrievedPicture)));
-            }
-            else{
+            if(responseString.substring(5, responseString.length-1) == '-1'
+                || responseString.substring(5, responseString.length-1) == 'None'){
               const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
+            }
+            else {
+              print(id.toString());
+              //var getPatientUri =  Uri.https('${Constants.BASE_URL}','/api/patients/patientss/$id/');
+              var getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+              //var getImagesUri = Uri.https('${Constants.BASE_URL}','/api/patients/all/$id/get_images/');
+              var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+              final imageRes = await http.get(getImagesUri,
+                headers: {
+                  HttpHeaders.acceptHeader: 'application/json',
+                  HttpHeaders.authorizationHeader: 'Token $token',
+                },
+              );
+              final patientRes = await http.get(getPatientUri,
+                headers: {
+                  HttpHeaders.acceptHeader: 'application/json',
+                  HttpHeaders.authorizationHeader: 'Token $token',
+                },
+              );
+              print(imageRes.statusCode);
+              var decodedPatient = jsonDecode(patientRes.body);
+              pictures = json.decode(imageRes.body);
+              print(pictures);
+              print("Neonlllllllllllllllllllllllllllllllllllll");
+              XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
+              Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                  ShowPatient(token: token,details: decodedPatient, picture: retrievedPicture)));
             }
           },
         )

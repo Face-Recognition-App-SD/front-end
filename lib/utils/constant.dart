@@ -6,6 +6,6 @@ class Constants{
   //static const BASE_URL = 'api.rostro-authentication.com';//aws
   //static const BASE_URL = 'http://192.168.137.1:8000';//Ann with sharing hotpot
   
-  //Ann's clocalhost IP : 192.168.1.80
+
   //'https://api.rostro-authentication.com'
 }     
