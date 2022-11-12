@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/Home.dart';
 import 'package:rostro_app/screens/add_new_patient.dart';
-import 'package:rostro_app/screens/recognize_patient.dart';
+import 'package:rostro_app/screens/face_compare.dart';
+import 'package:rostro_app/screens/verify_patient.dart';
 import './patient_list.dart';
 import './get_patient_pictures.dart';
 import '../utils/new_patient_widget.dart';
@@ -34,7 +35,8 @@ class _homeState extends State<Homepage> {
     print ('token in HP: $token1');
        pages = [
     Home(token: token1),
-         RecognizePatient(token: token1),
+         VerifyPatient(token: token1),
+         //CompareFace(token: token1),
          //GetPatientPictures(token: token1,),
          PatientList(token: token1),
          Profile(token: token1),
@@ -145,7 +147,7 @@ class _homeState extends State<Homepage> {
           },
         ));
   }
-   Container RecogPatient() {
+   Container RecogPatienst() {
      return Container(
          margin: EdgeInsets.only(top: 10.0),
          padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -154,7 +156,7 @@ class _homeState extends State<Homepage> {
            // Within the `FirstRoute` widget
            onPressed: () async {
              Navigator.push(context,
-                 MaterialPageRoute(builder: (_) => RecognizePatient(token: token1)));
+                 MaterialPageRoute(builder: (_) => CompareFace(token: token1)));
            },
          ));
    }

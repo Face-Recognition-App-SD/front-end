@@ -253,7 +253,7 @@ class _Register extends State<Register> {
                 selectedValueforGender ?? "Male");
             print('info after login');
             print(token);
-            
+
              if (data != null){
               ShowDialogSucc(context);
 
@@ -328,7 +328,7 @@ class _Register extends State<Register> {
     } else {
        if (response.statusCode == 400) {
       String responseString = response.body;
-      
+
        print(responseString);
       }
       return null;
