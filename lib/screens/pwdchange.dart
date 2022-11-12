@@ -10,7 +10,7 @@ import '../utils/constant.dart';
 import 'package:http/http.dart' as http;
 
 class pwdchange extends StatefulWidget {
-  final String? token;
+  final String token;
   const pwdchange({super.key, required this.token});
 
   @override
@@ -23,10 +23,7 @@ class _pwdchangeState extends State<pwdchange> {
   TextEditingController npwdController = TextEditingController();
   TextEditingController cnpwdController = TextEditingController();
 
-  void initState() {
-    String? token = widget.token;
-    super.initState();
-  }
+  late String token = widget.token;
 
   var bg = './assets/images/bg.jpeg';
   Widget build(BuildContext context) {
@@ -118,21 +115,17 @@ class _pwdchangeState extends State<pwdchange> {
       child: ElevatedButton(
         child: Text('Submit'),
         onPressed: () async {
-          String oldpass = opwdController.text;
-          String newpassword = npwdController.text;
-          String cnewpass = cnpwdController.text;
-          UserLogin? user = await pwdchg(oldpass, newpassword, cnewpass);
+          UserLogin? user = await pwdchg();
           setState(() {});
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-              (Route<dynamic> route) => false);
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+          );
         },
       ),
     );
   }
 
-  Future<UserLogin?> pwdchg(
-      String oldpass, String newpassword, String confirmpassword) async {
+  Future<UserLogin?> pwdchg() async {
     String? token = widget.token;
     final response =
         await http.patch(Uri.parse("${Constants.BASE_URL}/api/user/changepwd/"),
@@ -141,13 +134,14 @@ class _pwdchangeState extends State<pwdchange> {
               HttpHeaders.authorizationHeader: 'Token $token',
             },
             body: jsonEncode({
-              'old_password': oldpass,
-              'new_password': newpassword,
-              'new_password_confirm': confirmpassword,
+              'old_password': opwdController.text,
+              'new_password': npwdController.text,
+              'new_password_confirm': cnpwdController.text,
             }));
+    setState(() {});
     if (response.statusCode == 200) {
       String responseString = response.body;
-
+      print(response.body);
       setState(() {});
 
       return albumFromJson(responseString);
