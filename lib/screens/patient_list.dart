@@ -43,6 +43,7 @@ class _PatientList extends State<PatientList> {
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: ListView(
+            reverse: true,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
