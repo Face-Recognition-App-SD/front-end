@@ -39,47 +39,51 @@ class _PatientList extends State<PatientList> {
             image: AssetImage(bg),
             fit: BoxFit.cover,
           ),
-        ), //background image
-        child: ListView(
-          children: <Widget>[
-            //containers
-            showPatients(),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                ElevatedButton(
-                  child: Text('Back to HomePage'),
-                  onPressed: () async {
-                    // Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => Homepage(token: token)));
-                  },
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ElevatedButton(
-                      child: Text('New Patient'),
-                      
-                      onPressed: () async {
-                        // Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => AddNewPatient(token: token)));
-                      },
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ],
         ),
-      
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              //containers
+              showPatients(),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  ElevatedButton(
+                    child: Text('Back to HomePage'),
+                    onPressed: () async {
+                      // Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => Homepage(token: token)));
+                    },
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ElevatedButton(
+                        child: Text('New Patient'),
+
+                        onPressed: () async {
+                          // Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => AddNewPatient(token: token)));
+                        },
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
       ),
     );
   }
