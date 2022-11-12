@@ -28,7 +28,9 @@ class _PatientListWidgetState extends State<PatientListWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
+      reverse: true,
       itemCount: widget.patientList.isEmpty ? 0 : widget.patientList.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
