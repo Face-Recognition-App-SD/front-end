@@ -5,7 +5,7 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "80e5141fafcb3361653ce308776cfd7d45e6e9fbb429e14eec571382c0c5fecb"
+      sha256: "76d919e063a09d19d61f99463a20dba1c1e8d0bc3a5eba91bac2853fac095373"
       url: "https://pub.dev"
     source: hosted
     version: "3.3.4"
@@ -96,18 +96,15 @@ packages:
       sha256: cfc915e6923fe5ce6e153b0723c753045de46de1b4d63771530504004a45fae0
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "1.17.0"
-=======
-    version: "1.16.0"
   convert:
     dependency: transitive
     description:
       name: convert
-      url: "https://pub.dartlang.org"
+      sha256: "0f08b14755d163f6e2134cb58222dd25ea2a2ee8a195e53983d57c075324d592"
+      url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
->>>>>>> 9f6af54c70b02bbbd6941da0f59f3d1865d83e32
   cross_file:
     dependency: transitive
     description:
@@ -148,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.0"
+  dropdown_button2:
+    dependency: "direct main"
+    description:
+      name: dropdown_button2
+      sha256: ce05e42529768244e8bab0d0259ae9bbf748e7303d71cf1d128f4681518dcc31
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.8.9"
   fake_async:
     dependency: transitive
     description:
@@ -213,14 +218,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_native_splash
-      sha256: dc64aa215301ab22ef9ab14f9e87cb0175f937173d68de7971ba2ec5a4840195
+      sha256: "13e50afa9e94912f319ec0944182c55843ce32ebce9bb857a2ee4f8b9f19bb26"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
-    version: "2.2.13"
-=======
     version: "2.2.14"
->>>>>>> 9f6af54c70b02bbbd6941da0f59f3d1865d83e32
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -467,7 +468,8 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      url: "https://pub.dartlang.org"
+      sha256: db7306cf0249f838d1a24af52b5a5887c5bf7f31d8bb4e827d071dc0939ad346
+      url: "https://pub.dev"
     source: hosted
     version: "3.6.2"
   process:
@@ -655,7 +657,7 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "9555cd63283445e101f0df32105862fdc0b30adb9b84fd0553e9433b3e074d4c"
+      sha256: d13ac5deea7327f027b3b97ee19ee210f68256ecf3f1a304bcfb992ee947637c
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
