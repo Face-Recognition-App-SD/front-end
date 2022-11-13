@@ -90,6 +90,13 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                       builder: (_) => Camera(token: token, cameras: value))));
               if (picture==null) return;
               String path = picture!.path;
+
+              showDialog(
+                  context: context,
+                  builder: (context){
+                    return const Center(child: CircularProgressIndicator(),);
+                  }
+              );
               var request = http.MultipartRequest("POST", faceCompareUri);
               request.headers.addAll({"Authorization": "Token $token"});
               request.fields['id'] = id.toString();
@@ -105,6 +112,7 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
               var responseData = await response.stream.toBytes();
               var responseString = String.fromCharCodes(responseData);
               print(responseString.substring(0, 15));
+              Navigator.of(context).pop();
                     if(responseString.substring(0, 15) == '{"status":false'){
                     const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);

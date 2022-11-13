@@ -72,9 +72,19 @@ class ExtendedCompareFace extends State<CompareFace> {
             request.files.add(image);
             http.StreamedResponse response = await request.send();
 
+            showDialog(
+                context: context,
+                builder: (context){
+                  return const Center(child: CircularProgressIndicator(),);
+                }
+            );
+
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
             id = int.parse(responseString.substring(5, responseString.length-1));
+
+            Navigator.of(context).pop();
+
             if(responseString.substring(5, responseString.length-1) == '-1'
                 || responseString.substring(5, responseString.length-1) == 'None'){
               const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
