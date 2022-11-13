@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:rostro_app/screens/face_compare.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
 import './camera.dart';
@@ -82,6 +81,7 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
             if (patientId.text.isNotEmpty) {
               id = int.parse(patientId.text);
 
+              //var faceCompareUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/faceverify/');
               var faceCompareUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/faceverify/');
               
               picture = await availableCameras().then((value) => Navigator.push(
@@ -100,25 +100,17 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
               var request = http.MultipartRequest("POST", faceCompareUri);
               request.headers.addAll({"Authorization": "Token $token"});
               request.fields['id'] = id.toString();
-              print("ZIIIIIIIIIIIIIIIIIIIIIIIIIIIIP");
-              print(id);
-              print(path);
               var image = await http.MultipartFile.fromPath("image", path);
-              print(image);
               request.files.add(image);
               http.StreamedResponse response = await request.send();
-              print("Truueeeeeeeeeee");
-              print(response.headers);
               var responseData = await response.stream.toBytes();
               var responseString = String.fromCharCodes(responseData);
-              print(responseString.substring(0, 15));
               Navigator.of(context).pop();
                     if(responseString.substring(0, 15) == '{"status":false'){
                     const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                     }
                     else {
-                      print(id.toString());
                       //var getPatientUri =  Uri.https('${Constants.BASE_URL}','/api/patients/patientss/$id/');
                       var getPatientUri = Uri.parse(
               '${Constants.BASE_URL}/api/patients/patientss/$id/');
@@ -137,11 +129,8 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
               HttpHeaders.authorizationHeader: 'Token $token',
                         },
                       );
-                      print(imageRes.statusCode);
                       var decodedPatient = jsonDecode(patientRes.body);
                       pictures = json.decode(imageRes.body);
-                      print(pictures);
-                      print("Neonlllllllllllllllllllllllllllllllllllll");
                       XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
                       Navigator.push(context, MaterialPageRoute(builder: (_) =>
               ShowPatient(token: token,

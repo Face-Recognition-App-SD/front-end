@@ -1,8 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:rostro_app/screens/patient_list.dart';
-import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:rostro_app/models/patientsdata.dart';
@@ -13,46 +11,42 @@ import '../screens/delete.dart';
 import 'package:camera/camera.dart';
 import 'package:rostro_app/screens/get_patient_pictures.dart';
 
-class editPatient extends StatefulWidget {
+class EditPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
-  final XFile picture;
 
-  // final String? id;
-  const editPatient({
+  const EditPatient({
     super.key,
     required this.token,
     required this.details,
-    required this.picture,
   });
 
   @override
-  State<editPatient> createState() => _editPatient();
+  State<EditPatient> createState() => ExtendEditPatient();
 }
 
-class _editPatient extends State<editPatient> {
+class ExtendEditPatient extends State<EditPatient> {
   var bg = './assets/images/bg.jpeg';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
   late String id = widget.details['id'].toString();
-  late XFile picture = widget.picture;
-  late List<XFile?> pictures;
+  List<XFile?> pictures = [];
 
  // TextEditingController idController = TextEditingController();
   TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
-  TextEditingController med_listController = TextEditingController();
-  TextEditingController phone_numberController = TextEditingController();
-  TextEditingController date_of_birthController = TextEditingController();
-  TextEditingController street_addressController = TextEditingController();
-  TextEditingController city_addressController = TextEditingController();
-  TextEditingController zipcode_addressController = TextEditingController();
-  TextEditingController state_addressController = TextEditingController();
+  TextEditingController medListController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
+  TextEditingController streetAddressController = TextEditingController();
+  TextEditingController cityAddressController = TextEditingController();
+  TextEditingController zipcodeAddressController = TextEditingController();
+  TextEditingController stateAddressController = TextEditingController();
   TextEditingController linkController = TextEditingController();
-  TextEditingController emergency_contact_nameController =
+  TextEditingController emergencyContactNameController =
       TextEditingController();
-  TextEditingController emergency_phone_number = TextEditingController();
+  TextEditingController emergencyPhoneNumber = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
   @override
@@ -62,7 +56,7 @@ class _editPatient extends State<editPatient> {
           title: const Text('Edit Patient'),
           actions: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
                   delete(id, token);
@@ -102,63 +96,24 @@ class _editPatient extends State<editPatient> {
                   style: const TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 const SizedBox(height: 10.0),
-            //    pic(),
-
                 //  delete(id, token),
           //      addPhotos(),
                 textData(),
-
+                getImages( context),
                 submitButton(context),
-                 EditImageButton( context) 
               ],
             ),
           ),
         ));
   }
 
-  Widget pic() {
-    String picturePath = "${Constants.BASE_URL}${picture.path}";
-    //String picturePath = picture.path;
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.network(picturePath, fit: BoxFit.fill, width: 250),
-          //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
-          const SizedBox(height: 24),
-        ]);
-  }
-
   delete(String id, String token) async {
     var rest = await deletePatient(id, token);
-    print('inside delete');
-    print(rest);
     setState(() {});
   }
 
-  Widget submitButton(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 30.0),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
-            child: const Text('Submit'),
-            onPressed: () async {
-              PatientsData? data = await editPatientInfo();
-print('datat inside $data');
-               if (data != null) {
-                 _showDialog(context, token);
-               }
 
-              //   setState(() {});
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(
-                //         builder: (BuildContext context) => Homepage(token: token)),
-                //     (Route<dynamic> route) => false);
-              
-            },),);
-  }
-
- Widget EditImageButton(BuildContext context) {
+ Widget getImages(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(top: 30.0),
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -167,74 +122,229 @@ print('datat inside $data');
             onPressed: () async {
               
              pictures = await Navigator.push(context, MaterialPageRoute(builder: (context) => GetPatientPictures(token: token)));
-             print ('chup hinh');
-          print(pictures.length);
-          print('co du lieu');
-      editPatientInfo();
-
-              //   setState(() {});
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(
-                //         builder: (BuildContext context) => Homepage(token: token)),
-                //     (Route<dynamic> route) => false);
-              
             },),);
   }
 
-
-
-  Future<PatientsData?> editPatientInfo() async {
+  Future<bool> editPatientInfo() async {
     //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    bool flag = false;
    var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
+   if(firstnameController.text.isNotEmpty){
+     editFirstName(addPatientTextUri);
+     flag = true;
+   }
+   if(lastnameController.text.isNotEmpty){
+     editLastName(addPatientTextUri);
+     flag = true;
+   }
+   if(ageController.text.isNotEmpty){
+     editAge(addPatientTextUri);
+     flag = true;
+   }
+   if(medListController.text.isNotEmpty){
+     editMed(addPatientTextUri);
+     flag = true;
+   }
+   if(phoneNumberController.text.isNotEmpty){
+     editPhone(addPatientTextUri);
+     flag = true;
+   }
+   if(dobController.text.isNotEmpty){
+     editDOB(addPatientTextUri);
+     flag = true;
+   }
+   if(streetAddressController.text.isNotEmpty){
+     editStreet(addPatientTextUri);
+     flag = true;
+   }
+   if(cityAddressController.text.isNotEmpty){
+     editCity(addPatientTextUri);
+     flag = true;
+   }
+   if(zipcodeAddressController.text.isNotEmpty){
+     editZip(addPatientTextUri);
+     flag = true;
+   }
+   if(stateAddressController.text.isNotEmpty){
+     editState(addPatientTextUri);
+     flag = true;
+   }
+   if(linkController.text.isNotEmpty){
+     editLink(addPatientTextUri);
+     flag = true;
+   }
+   if(emergencyContactNameController.text.isNotEmpty){
+     editEmerCon(addPatientTextUri);
+     flag = true;
+   }
+   if(emergencyPhoneNumber.text.isNotEmpty){
+     editEmerPho(addPatientTextUri);
+     flag = true;
+   }
+   if(genderController.text.isNotEmpty){
+     editGender(addPatientTextUri);
+     flag = true;
+   }
+   return flag;
+  }
+
+  Future<PatientsData?> editFirstName(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
       "first_name": firstnameController.text,
-      "last_name": lastnameController.text,
-      "age": ageController.text,
-      "med_list": med_listController.text,
-      "phone_number": phone_numberController.text,
-     // "date_of_birth": date_of_birthController.text,
     });
-
-
-    if (res.statusCode < 300 && res.statusCode > 199) {
-      String responseString = res.body;
-      setState(() {});
-      return patientFromJson(responseString);
-    } else throw Exception('Failed to update patient.');
   }
-  
-  Future <HttpClientResponse?> updateImages() async{
-     //   var data = json.decode(res.body);
-    // print(data);
-    // id = data['id'];
-    //var addPatientPictures = Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/upload-image/');
-    var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
-    var request = http.MultipartRequest("POST", addPatientPictures);
-    request.headers.addAll({"Authorization": "Token $token"});
-    request.fields['id'] = id.toString();
-    var image1 = await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
-    request.files.add(image1);
-    var image2 = await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
-    request.files.add(image2);
-    var image3 = await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
-    request.files.add(image3);
+  Future<PatientsData?> editLastName(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "last_name": lastnameController.text,
+    });
+  }
+  Future<PatientsData?> editAge(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "age": ageController.text,
+    });
+  }
+  Future<PatientsData?> editMed(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "med_list": medListController.text,
+    });
+  }
+  Future<PatientsData?> editPhone(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "phone_number": phoneNumberController.text,
+    });
+  }
+  Future<PatientsData?> editDOB(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "date_of_birth": dobController.text,
+    });
+  }
+  Future<PatientsData?> editStreet(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "street_address": streetAddressController.text,
+    });
+  }
+  Future<PatientsData?> editCity(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "city_address": streetAddressController.text,
+    });
+  }
+  Future<PatientsData?> editZip(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "zipcode_address": zipcodeAddressController.text,
+    });
+  }
+  Future<PatientsData?> editState(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "link": stateAddressController.text,
+    });
+  }
+  Future<PatientsData?> editLink(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "state_address": linkController.text,
+    });
+  }
+  Future<PatientsData?> editEmerCon(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "emergency_contact_name": emergencyContactNameController.text,
+    });
+  }
+  Future<PatientsData?> editEmerPho(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "emergency_phone_number": emergencyPhoneNumber.text,
+    });
+  }
+  Future<PatientsData?> editGender(addPatientTextUri) async {
+    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      "gender": genderController.text,
+    });
+  }
+  Future<bool> updateImages() async{
+    print("HEREEEEEEEEEEEEEEEEEEEE");
+    if (pictures.isNotEmpty) {
+      var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+      var request = http.MultipartRequest("POST", addPatientPictures);
+      request.headers.addAll({"Authorization": "Token $token"});
+      request.fields['id'] = id.toString();
+      var image1 = await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
+      request.files.add(image1);
+      var image2 = await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
+      request.files.add(image2);
+      var image3 = await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
+      request.files.add(image3);
+      
+      http.StreamedResponse response = await request.send();
 
-    http.StreamedResponse response = await request.send();
-
-    var responseData = await response.stream.toBytes();
-    var responseString = String.fromCharCodes(responseData);
-   print (responseString);
-  
+      if(response.statusCode > 199 && response.statusCode < 300){
+        return true;
+      }
+      //var responseData = await response.stream.toBytes();
+      //var responseString = String.fromCharCodes(responseData);
+      // print (responseString);
+    }
+    return false;
   }
   Widget textData() {
     firstnameController.text = details['first_name'];
     lastnameController.text = details['last_name'];
     ageController.text = details['age'].toString();
-     med_listController.text = details['med_list'] ?? 'Not provided';
-     phone_numberController.text = details['phone_number'] ?? 'Not provided';
+    medListController.text = details['med_list'] ?? 'Not provided';
+    phoneNumberController.text = details['phone_number'] ?? 'Not provided';
     // date_of_birthController.text = details['date_of_birth'] ?? "0000-00-000";
 
     return Column(
@@ -242,7 +352,7 @@ print('datat inside $data');
       children: <Widget>[
         const SizedBox(height: 20.0),
 
-        Text(
+        const Text(
           "\t Firstname:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
@@ -251,7 +361,7 @@ print('datat inside $data');
         TextFormField(
           controller: firstnameController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 14),
+          style: const TextStyle(color: Colors.white70, fontSize: 14),
           decoration: const InputDecoration(
             icon: Icon(Icons.person, color: Colors.white70),
             // hintText: 'DepartID',
@@ -262,7 +372,7 @@ print('datat inside $data');
         ),
 
         const SizedBox(height: 20.0),
-        Text(
+        const Text(
           "\t Lastname:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
@@ -271,7 +381,7 @@ print('datat inside $data');
         TextFormField(
           controller: lastnameController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 14),
+          style: const TextStyle(color: Colors.white70, fontSize: 14),
           decoration: const InputDecoration(
             icon: Icon(Icons.person, color: Colors.white70),
             // hintText: 'DepartID',
@@ -282,7 +392,7 @@ print('datat inside $data');
         ),
 
         const SizedBox(height: 20.0),
-        Text(
+        const Text(
           "\t Age:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
@@ -291,7 +401,7 @@ print('datat inside $data');
         TextFormField(
           controller: ageController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 13),
+          style: const TextStyle(color: Colors.white70, fontSize: 13),
           decoration: const InputDecoration(
             icon: Icon(Icons.person, color: Colors.white70),
             // hintText: 'DepartID',
@@ -302,16 +412,16 @@ print('datat inside $data');
         ),
        
          const SizedBox(height: 20.0),
-        Text(
+        const Text(
           "\t Medical List:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
 
         TextFormField(
-          controller: med_listController,
+          controller: medListController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 13),
+          style: const TextStyle(color: Colors.white70, fontSize: 13),
           decoration: const InputDecoration(
             icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
             // hintText: 'DepartID',
@@ -322,16 +432,16 @@ print('datat inside $data');
         ),
       
   const SizedBox(height: 20.0),
-        Text(
+        const Text(
           "\t Phone Number:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
 
         TextFormField(
-          controller: phone_numberController,
+          controller: phoneNumberController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 13),
+          style: const TextStyle(color: Colors.white70, fontSize: 13),
           decoration: const InputDecoration(
             icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
             // hintText: 'DepartID',
@@ -340,62 +450,10 @@ print('datat inside $data');
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-      
-
-//  const SizedBox(height: 20.0),
-//         Text(
-//           "\t Date of Birth:",
-//           textAlign: TextAlign.left,
-//           style: TextStyle(fontSize: 14, color: Colors.white),
-//         ),
-
-//         TextFormField(
-//           controller: date_of_birthController,
-//           cursorColor: Colors.white,
-//           style: TextStyle(color: Colors.white70, fontSize: 13),
-//           decoration: const InputDecoration(
-//             icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
-//             // hintText: 'DepartID',
-//             border: UnderlineInputBorder(
-//                 borderSide: BorderSide(color: Colors.white70)),
-//             hintStyle: TextStyle(color: Colors.white70),
-//           ),
-//         ),
-      
-
       ],
     );
   }
 
-
-//to display Patient images on the edit page
-  Widget addPhotos() {
-    return Container(
-      color: Colors.transparent,
-      child: Container(
-          decoration: const BoxDecoration(
-            //color: Color.fromARGB(255, 199, 201, 224),
-            shape: BoxShape.rectangle,
-            //borderRadius: BorderRadius.all(Radius.circular(5.0))
-          ),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                color: Color.fromARGB(30, 0, 0, 0),
-                decoration: TextDecoration.underline,
-              ),
-            ),
-            child: const Text('Edit Photo'),
-            onPressed: () async {
-              picture = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => GetPatientPictures(token: token)));
-            },
-          )),
-    );
-  }
 
   Widget? _showDialog(BuildContext context, String token) {
     showDialog(
@@ -422,5 +480,29 @@ print('datat inside $data');
         );
       },
     );
+  }
+  Widget submitButton(BuildContext context) {
+    var resPics = false;
+    return Container(
+      margin: const EdgeInsets.only(top: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: ElevatedButton(
+        child: const Text('Submit'),
+        onPressed: () async {
+          showDialog(
+              context: context,
+              builder: (context){
+                return const Center(child: CircularProgressIndicator(),);
+              }
+          );
+          var resText = await editPatientInfo();
+          if (pictures.isNotEmpty) {
+           resPics = await updateImages();
+          }
+          Navigator.of(context).pop();
+          if(resText || resPics){
+            _showDialog(context, token);
+          }
+        },),);
   }
 }

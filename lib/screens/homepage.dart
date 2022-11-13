@@ -49,23 +49,6 @@ class _homeState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: Container(
-      //   decoration: BoxDecoration(
-      //     image: DecorationImage(
-      //       image: AssetImage(bg),
-      //       fit: BoxFit.cover,
-      //     ),
-      //   ), //background image
-      //   // child: ListView(
-      //   //   children: <Widget>[
-      //   //     cameraButtonSection(),
-      //   //     PatientListContainer(),
-      //   //      AddNewPatientButton(),
-      //   //   ],
-      //   // ),
-      // ),
-
-
      body: pages[currentPage],
 
       bottomNavigationBar: NavigationBar(

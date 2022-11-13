@@ -51,7 +51,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 onTap: () {
                  Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => editPatient(token: token, details: details,picture: picture),),);
+            MaterialPageRoute(builder: (_) => EditPatient(token: token, details: details),),);
           },
                 child: const Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),
               ),
