@@ -80,8 +80,8 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
           onPressed: () async {
             if (patientId.text.isNotEmpty) {
               id = int.parse(patientId.text);
-             var faceCompareUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
-         //     var faceCompareUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/faceverify/');
+             var faceCompareUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/faceverify/');
+         //     var faceCompareUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/faceverify/');
               
               picture = await availableCameras().then((value) => Navigator.push(
                   context,
