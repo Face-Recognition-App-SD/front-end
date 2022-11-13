@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   Container headerSection() {
     print("HHHHHHHHH");
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
+        padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
         child: Image.asset(
           './assets/images/logo.jpeg',
           height: 170,
@@ -58,8 +58,8 @@ class _LoginPageState extends State<LoginPage> {
     //background im
   }
 
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   Container textSection() {
     return Container(
@@ -121,6 +121,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Row signUpButtonSection() {
     return Row(
+ mainAxisAlignment: MainAxisAlignment.center,
  children: <Widget>[
                 const Text('Does not have account?'),
                 TextButton(
@@ -128,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                     'Sign up',
                     style: TextStyle(fontSize: 15, ),
                   ),
-        
+
         // color: Colors.blueAccent,
         onPressed: () => {
           Navigator.push(
@@ -136,15 +137,20 @@ class _LoginPageState extends State<LoginPage> {
             MaterialPageRoute(builder: (context) => const Register()),
           ), //button connects to register page
         },
-        
+
                 ),
         ],
-              mainAxisAlignment: MainAxisAlignment.center,
     );
 
   }
 
 Future<UserLogin?> fetchDataLogin(String email, String password) async {
+  showDialog(
+      context: context,
+      builder: (context){
+        return const Center(child: CircularProgressIndicator(),);
+      }
+  );
    var response = await http.post(
     //Uri.https(Constants.BASE_URL, '/api/user/token/'),
      Uri.parse('${Constants.BASE_URL}/api/user/token/'),
@@ -159,6 +165,7 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
     
   var data = response.body;
   token = data.substring(10, data.length-2);
+  Navigator.of(context).pop();
   if (response.statusCode == 201) {
     String responseString = response.body;
 

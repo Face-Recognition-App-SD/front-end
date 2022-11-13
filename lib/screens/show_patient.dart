@@ -53,18 +53,19 @@ class ShowPatientDetails extends State<ShowPatient> {
               image: AssetImage(bg),
               fit: BoxFit.cover,
             ),
-          ), //background image
+          ),
           child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: ListView(
               shrinkWrap: true,
-              physics: const ClampingScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                  pic(),
                 //  delete(id, token),
                 textData(),
               ],
             ),
-          ),
+          )
         ));
   }
 
@@ -87,7 +88,6 @@ class ShowPatientDetails extends State<ShowPatient> {
   }
 
   Widget textData() {
-    print("kjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
     int? id = details['id'];
     String? firstname = details['first_name'];
     String? lastname = details['last_name'];
@@ -213,18 +213,24 @@ class ShowPatientDetails extends State<ShowPatient> {
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
         Text(
-          "\t\tUser: $user\n\n",
+          "\t\tUser: $user",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
         Text(
-          "\t\NewPatient: $user\n\n",
+          "\t\NewPatient: $user",
+          textAlign: TextAlign.left,
+          style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
         Text(
-          "\t\Inhre: $user\n\n",
+          "\t\Inhre: $user",
+          textAlign: TextAlign.left,
+          style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
         Text(
-          "\t\New infp: $user\n\n",
+          "\t\New infp: $user",
+          textAlign: TextAlign.left,
+          style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
       ],
     );

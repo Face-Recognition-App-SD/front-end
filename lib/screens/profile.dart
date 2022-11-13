@@ -4,14 +4,15 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/login_page.dart';
+import 'package:rostro_app/screens/pwdchange.dart';
 
 import '../utils/constant.dart';
 import '../models/userlogin.dart';
 import '../screens/login_page.dart';
 
 class Profile extends StatefulWidget {
-  final String? token;
-  const Profile({super.key, this.token});
+  final String token;
+  const Profile({super.key, required this.token});
 
   @override
   State<Profile> createState() => _Profile();
@@ -19,10 +20,11 @@ class Profile extends StatefulWidget {
 
 class _Profile extends State<Profile> {
   var bg = './assets/images/bg.jpeg';
-  late String? token;
+  late String token;
   // late UserLogin? currUser;
   late Future<UserLogin?> futureUser;
 
+  @override
   void initState() {
     token = widget.token;
     super.initState();
@@ -40,50 +42,43 @@ class _Profile extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile Page'),
-       
-       actions: <Widget>[
-    Padding(
-      padding: EdgeInsets.only(right: 20.0),
-      child: GestureDetector(
-        onTap: () {
-           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => LoginPage()),
-          );
-        },
-        child: Icon(Icons.logout_rounded),
-        
-      ),
-    ),
-    
-       ],
-      ),
-     
-      body: 
-          Container(
-            child: FutureBuilder<UserLogin?>(
-              future: futureUser,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  email = snapshot.data!.email;
-                  firstname = snapshot.data!.first_name;
-                  last_name = snapshot.data!.last_name;
-
-                  role = snapshot.data!.role;
-                  gender = snapshot.data!.gender;
-
-                  return DisplayProfile();
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-
-                // By default, show a loading spinner.
-                return const CircularProgressIndicator();
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => LoginPage()),
+                );
               },
+              child: const Icon(Icons.logout_rounded),
             ),
           ),
-        
-      
+        ],
+      ),
+      body: Container(
+        child: FutureBuilder<UserLogin?>(
+          future: futureUser,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              email = snapshot.data!.email;
+              firstname = snapshot.data!.first_name;
+              last_name = snapshot.data!.last_name;
+
+              role = snapshot.data!.role;
+              gender = snapshot.data!.gender;
+
+              return DisplayProfile();
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
+        ),
+      ),
     );
   }
 
@@ -91,7 +86,7 @@ class _Profile extends State<Profile> {
     return ListView(children: <Widget>[
       Container(
         height: 250,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Color.fromARGB(255, 49, 74, 173),
@@ -108,7 +103,7 @@ class _Profile extends State<Profile> {
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
+              children: const <Widget>[
                 // CircleAvatar(
                 //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
                 //   minRadius: 35.0,
@@ -136,12 +131,12 @@ class _Profile extends State<Profile> {
                 // ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               '$firstname $last_name ',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -149,7 +144,7 @@ class _Profile extends State<Profile> {
             ),
             Text(
               '$role',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 25,
               ),
@@ -161,7 +156,7 @@ class _Profile extends State<Profile> {
         child: Column(
           children: <Widget>[
             ListTile(
-              title: Text(
+              title: const Text(
                 'Email',
                 style: TextStyle(
                   color: Color.fromARGB(255, 40, 8, 164),
@@ -176,7 +171,7 @@ class _Profile extends State<Profile> {
             ),
             Divider(),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Role',
                 style: TextStyle(
                   color: Color.fromARGB(255, 40, 8, 164),
@@ -191,7 +186,7 @@ class _Profile extends State<Profile> {
             ),
             Divider(),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Gender',
                 style: TextStyle(
                   color: Color.fromARGB(255, 40, 8, 164),
@@ -204,6 +199,7 @@ class _Profile extends State<Profile> {
                 style: TextStyle(fontSize: 18),
               ),
             ),
+            changePasswordButton(context)
           ],
         ),
       ),
@@ -236,6 +232,19 @@ class _Profile extends State<Profile> {
     }
   }
 
+  Widget changePasswordButton(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.only(top: 30.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: ElevatedButton(
+            child: const Text('Change Password'),
+            onPressed: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => pwdchange(token: token)));
+            }));
+  }
   // Future<http.Response?> fetchUser(token) async {
   //   var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
   //   print('come to fetch data');
@@ -251,5 +260,4 @@ class _Profile extends State<Profile> {
   //   print('end of fetch');
   //   return res;
   // }
-
 }
