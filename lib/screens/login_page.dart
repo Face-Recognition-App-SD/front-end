@@ -152,8 +152,8 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
       }
   );
    var response = await http.post(
-    //Uri.https(Constants.BASE_URL, '/api/user/token/'),
-     Uri.parse('${Constants.BASE_URL}/api/user/token/'),
+    Uri.https(Constants.BASE_URL, '/api/user/token/'),
+     //Uri.parse('${Constants.BASE_URL}/api/user/token/'),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
       },
