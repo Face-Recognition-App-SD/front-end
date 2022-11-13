@@ -132,7 +132,7 @@ class _home2State extends State<Home> {
                           Container(
                             width: 200,
                             child: ElevatedButton(
-                              child: Text('Verify Patient'),
+                              child: Text('Recognize Patient'),
                               // Within the `FirstRoute` widget
                               onPressed: () async {
                                 Navigator.push(
