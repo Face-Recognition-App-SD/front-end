@@ -255,6 +255,7 @@ class _Register extends State<Register> {
             print(token);
 
              if (data != null){
+              sendVerifyEmail(email);
               ShowDialogSucc(context);
 
             setState(() {});
@@ -322,9 +323,9 @@ class _Register extends State<Register> {
     if (response.statusCode == 201) {
       String responseString = response.body;
 
-      setState(() {
-        _isLoading = false;
-      });
+      // setState(() {
+      //   _isLoading = false;
+      // });
 
       return albumFromJson(responseString);
     } else {
@@ -334,6 +335,35 @@ class _Register extends State<Register> {
        print(responseString);
       }
       return null;
+    }
+  }
+
+ Future<String?> sendVerifyEmail(
+      String email,
+     ) async {
+          var myVerifyUri = Uri.https(Constants.BASE_URL, '/api/user/send_verifyemail/');
+          
+    var response = await http.post(
+      myVerifyUri,
+        //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
+    //    Uri.parse('${Constants.BASE_URL}/api/user/create/'),
+        headers: {
+          HttpHeaders.acceptHeader: 'application/json',
+        },
+        body: {
+          "email": email,
+        
+        });
+    var jsonResponse = null;
+    var data = response.body;
+    var returnStatus = data.substring(24, data.length - 2);
+    print(returnStatus);
+    if (response.statusCode == 201) {
+      return returnStatus;
+
+    } else {
+       throw('Can not send verify code to this email');
+
     }
   }
 
