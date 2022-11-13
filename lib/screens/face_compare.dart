@@ -56,9 +56,9 @@ class ExtendedCompareFace extends State<CompareFace> {
         child: ElevatedButton(
           child: const Text('Take Picture of Patient'),
           onPressed: () async {
-            //var faceCompareUri = Uri.https('${Constants.BASE_URL}','/api/user/faceCompare/');
-            var faceCompareUri =
-                Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
+            var faceCompareUri = Uri.https('${Constants.BASE_URL}','/api/user/faceCompare/');
+            // var faceCompareUri =
+                // Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
             picture = await availableCameras().then((value) => Navigator.push(
                 context,
                 MaterialPageRoute(

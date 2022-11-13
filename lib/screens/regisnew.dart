@@ -299,9 +299,11 @@ class _Register extends State<Register> {
       String role,
       String dep,
       String gender) async {
+          var myRegUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
     var response = await http.post(
+      myRegUri,
         //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-        Uri.parse('${Constants.BASE_URL}/api/user/create/'),
+    //    Uri.parse('${Constants.BASE_URL}/api/user/create/'),
         headers: {
           HttpHeaders.acceptHeader: 'application/json',
         },

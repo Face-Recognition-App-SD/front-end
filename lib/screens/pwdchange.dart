@@ -126,8 +126,12 @@ class _pwdchangeState extends State<pwdchange> {
   }
 
   Future<UserLogin?> pwdchg() async {
+   var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/changepwd/');
+   // Uri.parse("${Constants.BASE_URL}/api/user/changepwd/"),
+     
     final response = await http.patch(
-        Uri.parse("${Constants.BASE_URL}/api/user/changepwd/"),
+        myProfileUri,
+
         headers: {
           HttpHeaders.acceptHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Token $token',

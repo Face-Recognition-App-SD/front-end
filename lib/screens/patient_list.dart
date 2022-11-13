@@ -150,8 +150,8 @@ class _PatientList extends State<PatientList> {
   }
 
   Future<http.Response?> fetchPatients(token) async {
-    //var myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
-    var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
+    var myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
+    //var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
     final res = await http.get(
       myProfileUri,
       headers: {

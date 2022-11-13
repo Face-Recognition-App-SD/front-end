@@ -81,8 +81,8 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
           onPressed: () async {
             if (patientId.text.isNotEmpty) {
               id = int.parse(patientId.text);
-
-              var faceCompareUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/faceverify/');
+             var faceCompareUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
+         //     var faceCompareUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/faceverify/');
               
               picture = await availableCameras().then((value) => Navigator.push(
                   context,
@@ -119,12 +119,12 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                     }
                     else {
                       print(id.toString());
-                      //var getPatientUri =  Uri.https('${Constants.BASE_URL}','/api/patients/patientss/$id/');
-                      var getPatientUri = Uri.parse(
-              '${Constants.BASE_URL}/api/patients/patientss/$id/');
-                      //var getImagesUri = Uri.https('${Constants.BASE_URL}','/api/patients/all/$id/get_images/');
-                      var getImagesUri = Uri.parse(
-              '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+                      var getPatientUri =  Uri.https('${Constants.BASE_URL}','/api/patients/patientss/$id/');
+                     // var getPatientUri = Uri.parse(
+             // '${Constants.BASE_URL}/api/patients/patientss/$id/');
+                      var getImagesUri = Uri.https('${Constants.BASE_URL}','/api/patients/all/$id/get_images/');
+              //         var getImagesUri = Uri.parse(
+              // '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
                       final imageRes = await http.get(getImagesUri,
                         headers: {
               HttpHeaders.acceptHeader: 'application/json',
