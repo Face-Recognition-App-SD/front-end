@@ -357,6 +357,7 @@ class _Register extends State<Register> {
     var jsonResponse = null;
     var data = response.body;
     var returnStatus = data.substring(24, data.length - 2);
+    print('return from sendGrid');
     print(returnStatus);
     if (response.statusCode == 201) {
       return returnStatus;
