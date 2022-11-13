@@ -195,7 +195,7 @@ print('datat inside $data');
       "age": ageController.text,
       "med_list": med_listController.text,
       "phone_number": phone_numberController.text,
-      "date_of_birth": date_of_birthController.text,
+     // "date_of_birth": date_of_birthController.text,
     });
 
 
@@ -233,8 +233,8 @@ print('datat inside $data');
     firstnameController.text = details['first_name'];
     lastnameController.text = details['last_name'];
     ageController.text = details['age'].toString();
-    //  med_listController.text = details['med_list'] ?? 'Not provided';
-    //  phone_numberController.text = details['phone_number'] ?? 'Not provided';
+     med_listController.text = details['med_list'] ?? 'Not provided';
+     phone_numberController.text = details['phone_number'] ?? 'Not provided';
     // date_of_birthController.text = details['date_of_birth'] ?? "0000-00-000";
 
     return Column(
@@ -300,46 +300,46 @@ print('datat inside $data');
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-        // const SizedBox(height: 40.0),
-//          const SizedBox(height: 20.0),
-//         Text(
-//           "\t Medical List:",
-//           textAlign: TextAlign.left,
-//           style: TextStyle(fontSize: 14, color: Colors.white),
-//         ),
+       
+         const SizedBox(height: 20.0),
+        Text(
+          "\t Medical List:",
+          textAlign: TextAlign.left,
+          style: TextStyle(fontSize: 14, color: Colors.white),
+        ),
 
-//         TextFormField(
-//           controller: med_listController,
-//           cursorColor: Colors.white,
-//           style: TextStyle(color: Colors.white70, fontSize: 13),
-//           decoration: const InputDecoration(
-//             icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
-//             // hintText: 'DepartID',
-//             border: UnderlineInputBorder(
-//                 borderSide: BorderSide(color: Colors.white70)),
-//             hintStyle: TextStyle(color: Colors.white70),
-//           ),
-//         ),
+        TextFormField(
+          controller: med_listController,
+          cursorColor: Colors.white,
+          style: TextStyle(color: Colors.white70, fontSize: 13),
+          decoration: const InputDecoration(
+            icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
+            // hintText: 'DepartID',
+            border: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white70)),
+            hintStyle: TextStyle(color: Colors.white70),
+          ),
+        ),
       
-//   const SizedBox(height: 20.0),
-//         Text(
-//           "\t Phone Number:",
-//           textAlign: TextAlign.left,
-//           style: TextStyle(fontSize: 14, color: Colors.white),
-//         ),
+  const SizedBox(height: 20.0),
+        Text(
+          "\t Phone Number:",
+          textAlign: TextAlign.left,
+          style: TextStyle(fontSize: 14, color: Colors.white),
+        ),
 
-//         TextFormField(
-//           controller: phone_numberController,
-//           cursorColor: Colors.white,
-//           style: TextStyle(color: Colors.white70, fontSize: 13),
-//           decoration: const InputDecoration(
-//             icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
-//             // hintText: 'DepartID',
-//             border: UnderlineInputBorder(
-//                 borderSide: BorderSide(color: Colors.white70)),
-//             hintStyle: TextStyle(color: Colors.white70),
-//           ),
-//         ),
+        TextFormField(
+          controller: phone_numberController,
+          cursorColor: Colors.white,
+          style: TextStyle(color: Colors.white70, fontSize: 13),
+          decoration: const InputDecoration(
+            icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
+            // hintText: 'DepartID',
+            border: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white70)),
+            hintStyle: TextStyle(color: Colors.white70),
+          ),
+        ),
       
 
 //  const SizedBox(height: 20.0),
@@ -367,6 +367,8 @@ print('datat inside $data');
     );
   }
 
+
+//to display Patient images on the edit page
   Widget addPhotos() {
     return Container(
       color: Colors.transparent,
@@ -402,7 +404,7 @@ print('datat inside $data');
         return AlertDialog(
           title: const Text("Message!!"),
           content:
-              const Text("Patient informatinon has been edited successfully!"),
+              const Text("Patient information has been edited successfully!"),
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),
