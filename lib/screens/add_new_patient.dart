@@ -211,7 +211,12 @@ class _AddNewPatientState extends State<AddNewPatient> {
   Future<PatientsData?> postPatient() async {
   var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
    // var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
-
+  showDialog(
+      context: context,
+      builder: (context){
+        return const Center(child: CircularProgressIndicator(),);
+      }
+  );
     final res = await http.post(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -242,7 +247,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
 
     var responseData = await response.stream.toBytes();
     var responseString = String.fromCharCodes(responseData);
-
+  Navigator.of(context).pop();
     if (res.statusCode < 300 && res.statusCode > 199) {
       String responseString = res.body;
       setState(() {});

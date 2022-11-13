@@ -126,9 +126,9 @@ class ExtendEditPatient extends State<EditPatient> {
   }
 
   Future<bool> editPatientInfo() async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     bool flag = false;
-   var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
+   //var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
    if(firstnameController.text.isNotEmpty){
      editFirstName(addPatientTextUri);
      flag = true;
@@ -189,7 +189,6 @@ class ExtendEditPatient extends State<EditPatient> {
   }
 
   Future<PatientsData?> editFirstName(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -198,7 +197,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editLastName(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -207,7 +205,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editAge(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -216,7 +213,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editMed(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -225,7 +221,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editPhone(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -234,7 +229,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editDOB(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -243,7 +237,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editStreet(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -252,7 +245,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editCity(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -261,7 +253,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editZip(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -270,7 +261,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editState(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -279,7 +269,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editLink(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -288,7 +277,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editEmerCon(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -297,7 +285,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editEmerPho(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -306,7 +293,6 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editGender(addPatientTextUri) async {
-    //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -315,9 +301,9 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<bool> updateImages() async{
-    print("HEREEEEEEEEEEEEEEEEEEEE");
     if (pictures.isNotEmpty) {
-      var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+      //var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+      var addPatientPictures = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
       var request = http.MultipartRequest("POST", addPatientPictures);
       request.headers.addAll({"Authorization": "Token $token"});
       request.fields['id'] = id.toString();
