@@ -145,6 +145,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 Future<UserLogin?> fetchDataLogin(String email, String password) async {
+  showDialog(
+      context: context,
+      builder: (context){
+        return const Center(child: CircularProgressIndicator(),);
+      }
+  );
    var response = await http.post(
     //Uri.https(Constants.BASE_URL, '/api/user/token/'),
      Uri.parse('${Constants.BASE_URL}/api/user/token/'),
@@ -159,6 +165,7 @@ Future<UserLogin?> fetchDataLogin(String email, String password) async {
     
   var data = response.body;
   token = data.substring(10, data.length-2);
+  Navigator.of(context).pop();
   if (response.statusCode == 201) {
     String responseString = response.body;
 
