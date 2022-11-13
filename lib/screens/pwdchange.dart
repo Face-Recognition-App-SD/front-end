@@ -39,7 +39,7 @@ class _pwdchangeState extends State<pwdchange> {
         body: ListView(
           children: <Widget>[
             headerSection(),
-            oldpwd(),
+            pwd(),
             confirmButton(),
           ],
         ),
@@ -47,16 +47,16 @@ class _pwdchangeState extends State<pwdchange> {
     );
   }
 
-  Container oldpwd() {
+  Container pwd() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         children: <Widget>[
           TextFormField(
             controller: opwdController,
             cursorColor: Colors.white70,
-            style: TextStyle(color: Colors.white70),
-            decoration: InputDecoration(
+            style: const TextStyle(color: Colors.white70),
+            decoration: const InputDecoration(
               icon: Icon(Icons.lock, color: Colors.white70),
               hintText: 'Please enter your old password',
               border: UnderlineInputBorder(
@@ -64,12 +64,12 @@ class _pwdchangeState extends State<pwdchange> {
               hintStyle: TextStyle(color: Colors.white70),
             ),
           ),
-          SizedBox(height: 30.0),
+          const SizedBox(height: 30.0),
           TextFormField(
             controller: npwdController,
             cursorColor: Colors.white70,
             style: TextStyle(color: Colors.white70),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               icon: Icon(Icons.lock, color: Colors.white70),
               hintText: 'Please enter your new password',
               border: UnderlineInputBorder(
@@ -82,7 +82,7 @@ class _pwdchangeState extends State<pwdchange> {
             controller: cnpwdController,
             cursorColor: Colors.white70,
             style: TextStyle(color: Colors.white70),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               icon: Icon(Icons.lock, color: Colors.white70),
               hintText: 'Please confirm your new password',
               border: UnderlineInputBorder(
@@ -110,12 +110,12 @@ class _pwdchangeState extends State<pwdchange> {
 
   Container confirmButton() {
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      margin: const EdgeInsets.only(top: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: ElevatedButton(
-        child: Text('Submit'),
+        child: const Text('Submit'),
         onPressed: () async {
-          UserLogin? user = await pwdchg();
+          await pwdchg();
           setState(() {});
           Navigator.of(context).push(
             MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
@@ -126,18 +126,18 @@ class _pwdchangeState extends State<pwdchange> {
   }
 
   Future<UserLogin?> pwdchg() async {
-    String? token = widget.token;
     final response =
         await http.patch(Uri.parse("${Constants.BASE_URL}/api/user/changepwd/"),
             headers: {
               HttpHeaders.acceptHeader: 'application/json',
               HttpHeaders.authorizationHeader: 'Token $token',
             },
-            body: jsonEncode({
+            body: {
               'old_password': opwdController.text,
               'new_password': npwdController.text,
               'new_password_confirm': cnpwdController.text,
-            }));
+            });
+    /*
     setState(() {});
     if (response.statusCode == 200) {
       String responseString = response.body;
@@ -148,5 +148,6 @@ class _pwdchangeState extends State<pwdchange> {
     } else {
       return null;
     }
+    */
   }
 }
