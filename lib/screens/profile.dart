@@ -42,50 +42,43 @@ class _Profile extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile Page'),
-       
-       actions: <Widget>[
-    Padding(
-      padding: const EdgeInsets.only(right: 20.0),
-      child: GestureDetector(
-        onTap: () {
-           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => LoginPage()),
-          );
-        },
-        child: const Icon(Icons.logout_rounded),
-        
-      ),
-    ),
-    
-       ],
-      ),
-     
-      body: 
-          Container(
-            child: FutureBuilder<UserLogin?>(
-              future: futureUser,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  email = snapshot.data!.email;
-                  firstname = snapshot.data!.first_name;
-                  last_name = snapshot.data!.last_name;
-
-                  role = snapshot.data!.role;
-                  gender = snapshot.data!.gender;
-
-                  return DisplayProfile();
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-
-                // By default, show a loading spinner.
-                return const CircularProgressIndicator();
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => LoginPage()),
+                );
               },
+              child: const Icon(Icons.logout_rounded),
             ),
           ),
-        
-      
+        ],
+      ),
+      body: Container(
+        child: FutureBuilder<UserLogin?>(
+          future: futureUser,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              email = snapshot.data!.email;
+              firstname = snapshot.data!.first_name;
+              last_name = snapshot.data!.last_name;
+
+              role = snapshot.data!.role;
+              gender = snapshot.data!.gender;
+
+              return DisplayProfile();
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
+        ),
+      ),
     );
   }
 
@@ -244,11 +237,13 @@ class _Profile extends State<Profile> {
         margin: const EdgeInsets.only(top: 30.0),
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
-            child: const Text('Submit'),
+            child: const Text('Change Password'),
             onPressed: () async {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => pwdchange(token: token)));
-            }
-        ));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => pwdchange(token: token)));
+            }));
   }
   // Future<http.Response?> fetchUser(token) async {
   //   var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
@@ -265,5 +260,4 @@ class _Profile extends State<Profile> {
   //   print('end of fetch');
   //   return res;
   // }
-
 }

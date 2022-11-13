@@ -126,17 +126,34 @@ class _pwdchangeState extends State<pwdchange> {
   }
 
   Future<UserLogin?> pwdchg() async {
-    final response =
-        await http.patch(Uri.parse("${Constants.BASE_URL}/api/user/changepwd/"),
-            headers: {
-              HttpHeaders.acceptHeader: 'application/json',
-              HttpHeaders.authorizationHeader: 'Token $token',
-            },
-            body: {
-              'old_password': opwdController.text,
-              'new_password': npwdController.text,
-              'new_password_confirm': cnpwdController.text,
-            });
+    final response = await http.patch(
+        Uri.parse("${Constants.BASE_URL}/api/user/changepwd/"),
+        headers: {
+          HttpHeaders.acceptHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Token $token',
+        },
+        body: {
+          'old_password': opwdController.text,
+          'new_password': npwdController.text,
+          'new_password_confirm': cnpwdController.text,
+        });
+    if (response.statusCode == 200) {
+      const snackbar = SnackBar(
+          content: Text(
+        "successfully changed password",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 20.0),
+      ));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    } else {
+      const snackbar = SnackBar(
+          content: Text(
+        "password change failed",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 20.0),
+      ));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
     /*
     setState(() {});
     if (response.statusCode == 200) {
