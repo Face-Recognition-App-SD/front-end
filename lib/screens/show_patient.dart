@@ -33,18 +33,39 @@ class ShowPatientDetails extends State<ShowPatient> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Patient Detail'),
+          leading: IconButton(
+            icon: new Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PatientList(
+                          token: token,
+                        )),
+              );
+            },
+          ),
           actions: <Widget>[
             Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () { delete(id, token);
-                 Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => PatientList(token: token,)),
-          );},
-                child: const Icon(Icons.delete, color: Colors.red,),
+                onTap: () {
+                  delete(id, token);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => PatientList(
+                              token: token,
+                            )),
+                  );
+                },
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
               ),
             ),
+
            Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
@@ -56,41 +77,43 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: const Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),
               ),
             ),
+
           ],
         ),
         body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(bg),
-              fit: BoxFit.cover,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(bg),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: ListView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                 pic(),
-                //  delete(id, token),
-                textData(),
-              ],
-            ),
-          )
-        ));
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: <Widget>[
+                  pic(),
+                  //  delete(id, token),
+                  textData(),
+                ],
+              ),
+            )));
   }
 
-  Widget pic(){
-   // String picturePath = "${Constants.BASE_URL}${picture.path}";
+  Widget pic() {
+    // String picturePath = "${Constants.BASE_URL}${picture.path}";
     String picturePath = picture.path;
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min, children: [
-      Image.network(picturePath, fit: BoxFit.fill, width: 250),
-      //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
-      const SizedBox(height: 24),
-    ]);
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.network(picturePath, fit: BoxFit.fill, width: 250),
+          //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
+          const SizedBox(height: 24),
+        ]);
   }
+
   delete(String id, String token) async {
     var rest = await deletePatient(id, token);
     print('inside delete');
