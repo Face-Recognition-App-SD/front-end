@@ -249,19 +249,4 @@ class _Profile extends State<Profile> {
                       builder: (context) => pwdchange(token: token)));
             }));
   }
-  // Future<http.Response?> fetchUser(token) async {
-  //   var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
-  //   print('come to fetch data');
-  //   print(token);
-  //   final res = await http.get(
-  //     myProfileUri,
-  //     headers: {
-  //       HttpHeaders.acceptHeader: 'application/json',
-  //       HttpHeaders.authorizationHeader: 'Token ' + token,
-  //     },
-  //   );
-  //   print(res.body);
-  //   print('end of fetch');
-  //   return res;
-  // }
 }

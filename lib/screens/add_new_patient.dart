@@ -30,6 +30,9 @@ class _AddNewPatientState extends State<AddNewPatient> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
+  TextEditingController med_listController = TextEditingController();
+  TextEditingController phone_numberController = TextEditingController();
+ // TextEditingController date_of_birthController = TextEditingController();
   @override
   void initState() {
     token = widget.token;
@@ -65,7 +68,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(children: <Widget>[
-        const SizedBox(height: 30.0),
+        const SizedBox(height: 20.0),
         TextFormField(
           controller: firstNameController,
           cursorColor: Colors.white,
@@ -78,7 +81,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-        const SizedBox(height: 30.0),
+        const SizedBox(height: 20.0),
         TextFormField(
           controller: lastNameController,
           cursorColor: Colors.white,
@@ -91,7 +94,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-        const SizedBox(height: 30.0),
+        const SizedBox(height: 20.0),
         TextFormField(
           controller: ageController,
           cursorColor: Colors.white,
@@ -104,6 +107,55 @@ class _AddNewPatientState extends State<AddNewPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
+
+   const SizedBox(height: 20.0),
+    
+        TextFormField(
+          controller: med_listController,
+          cursorColor: Colors.white,
+          style: TextStyle(color: Colors.white70, fontSize: 13),
+          decoration: const InputDecoration(
+            icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
+             hintText: 'Medical List',
+            border: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white70)),
+            hintStyle: TextStyle(color: Colors.white70),
+          ),
+        ),
+      
+  const SizedBox(height: 20.0),
+    
+
+        TextFormField(
+          controller: phone_numberController,
+          cursorColor: Colors.white,
+          style: TextStyle(color: Colors.white70, fontSize: 13),
+          decoration: const InputDecoration(
+            icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
+            hintText: 'Phone Number',
+            border: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white70)),
+            hintStyle: TextStyle(color: Colors.white70),
+          ),
+        ),
+      
+
+ const SizedBox(height: 20.0),
+ 
+
+        // TextFormField(
+        //   controller: date_of_birthController,
+        //   cursorColor: Colors.white,
+        //   style: TextStyle(color: Colors.white70, fontSize: 13),
+        //   decoration: const InputDecoration(
+        //     icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
+        //      hintText: 'Date of birth yyyy-mm-dd',
+        //     border: UnderlineInputBorder(
+        //         borderSide: BorderSide(color: Colors.white70)),
+        //     hintStyle: TextStyle(color: Colors.white70),
+        //   ),
+        // ),
+
       ]),
     );
   }
@@ -159,7 +211,12 @@ class _AddNewPatientState extends State<AddNewPatient> {
   Future<PatientsData?> postPatient() async {
   var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
    // var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
-
+  showDialog(
+      context: context,
+      builder: (context){
+        return const Center(child: CircularProgressIndicator(),);
+      }
+  );
     final res = await http.post(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -167,6 +224,8 @@ class _AddNewPatientState extends State<AddNewPatient> {
       "first_name": firstNameController.text,
       "last_name": lastNameController.text,
       "age": ageController.text,
+      "med_list": med_listController.text,
+      "phone_number": phone_numberController.text,
     });
 
     var data = json.decode(res.body);
@@ -188,7 +247,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
 
     var responseData = await response.stream.toBytes();
     var responseString = String.fromCharCodes(responseData);
-
+  Navigator.of(context).pop();
     if (res.statusCode < 300 && res.statusCode > 199) {
       String responseString = res.body;
       setState(() {});

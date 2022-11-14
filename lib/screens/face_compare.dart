@@ -49,13 +49,13 @@ class ExtendedCompareFace extends State<CompareFace> {
   }
 
   Container cameraButtonSection() {
-    id = 1;
     return Container(
         margin: const EdgeInsets.only(top: 50.0),
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
           child: const Text('Take Picture of Patient'),
           onPressed: () async {
+            print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
             var faceCompareUri = Uri.https('${Constants.BASE_URL}','/api/user/faceCompare/');
             // var faceCompareUri =
                 // Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
@@ -63,7 +63,15 @@ class ExtendedCompareFace extends State<CompareFace> {
                 context,
                 MaterialPageRoute(
                     builder: (_) => Camera(token: token, cameras: value))));
-
+            print("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                });
+            print(picture);
             if (picture == null) return;
             String path = picture!.path;
             var request = http.MultipartRequest("POST", faceCompareUri);
@@ -72,14 +80,7 @@ class ExtendedCompareFace extends State<CompareFace> {
             var image = await http.MultipartFile.fromPath("image1", path);
             request.files.add(image);
             http.StreamedResponse response = await request.send();
-
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                });
+            print("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
@@ -87,11 +88,10 @@ class ExtendedCompareFace extends State<CompareFace> {
                 responseString.substring(5, responseString.length - 1));
 
             Navigator.of(context).pop();
-
-            if (responseString.substring(5, responseString.length - 1) ==
-                    '-1' ||
-                responseString.substring(5, responseString.length - 1) ==
-                    'None') {
+            print("KOOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOK");
+            print(responseString);
+            if (responseString.substring(5, responseString.length - 1) == '-1' ||
+                responseString.substring(5, responseString.length - 1) == 'None') {
               const snackbar = SnackBar(
                   content: Text(
                 "No Match",
@@ -101,12 +101,10 @@ class ExtendedCompareFace extends State<CompareFace> {
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
             } else {
               print(id.toString());
-              //var getPatientUri =  Uri.https('${Constants.BASE_URL}','/api/patients/patientss/$id/');
-              var getPatientUri = Uri.parse(
-                  '${Constants.BASE_URL}/api/patients/patientss/$id/');
-              //var getImagesUri = Uri.https('${Constants.BASE_URL}','/api/patients/all/$id/get_images/');
-              var getImagesUri = Uri.parse(
-                  '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+              var getPatientUri =  Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/');
+              //var getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+              var getImagesUri = Uri.https(Constants.BASE_URL,'/api/patients/all/$id/get_images/');
+              //var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
               final imageRes = await http.get(
                 getImagesUri,
                 headers: {

@@ -1,11 +1,12 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:rostro_app/screens/get_patient_pictures.dart';
 import 'package:rostro_app/screens/patient_list.dart';
 
 import '../utils/constant.dart';
 import '../screens/delete.dart';
-
+import '../screens/edit_patient.dart';
 class ShowPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
@@ -64,6 +65,19 @@ class ShowPatientDetails extends State<ShowPatient> {
                 ),
               ),
             ),
+
+           Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                 Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => EditPatient(token: token, details: details),),);
+          },
+                child: const Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),
+              ),
+            ),
+
           ],
         ),
         body: Container(
