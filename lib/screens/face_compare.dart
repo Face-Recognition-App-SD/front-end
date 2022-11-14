@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:async/async.dart';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -56,22 +57,21 @@ class ExtendedCompareFace extends State<CompareFace> {
         child: ElevatedButton(
           child: const Text('Take Picture of Patient'),
           onPressed: () async {
-            var faceCompareUri = Uri.https('${Constants.BASE_URL}','/api/user/faceCompare/');
+            var faceCompareUri = Uri.https('${Constants.BASE_URL}', '/api/user/faceCompare/');
             // var faceCompareUri =
-                // Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
-            picture = await availableCameras().then((value) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => Camera(token: token, cameras: value))));
+            // Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
+            picture = await availableCameras().then((value) =>
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => Camera(token: token, cameras: value))));
 
             if (picture == null) return;
             String path = picture!.path;
+            print("GOOOOOOOOOOOOOOOOOOOOOOOO");
             var request = http.MultipartRequest("POST", faceCompareUri);
             request.headers.addAll({"Authorization": "Token $token"});
-            print(path);
-            var image = await http.MultipartFile.fromPath("image1", path);
-            request.files.add(image);
-            http.StreamedResponse response = await request.send();
+            print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 
             showDialog(
                 context: context,
@@ -81,32 +81,36 @@ class ExtendedCompareFace extends State<CompareFace> {
                   );
                 });
 
+            var image = await http.MultipartFile.fromPath("image1", path);
+            request.files.add(image);
+            http.StreamedResponse response = await request.send();
+            print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
-            id = int.parse(
-                responseString.substring(5, responseString.length - 1));
-
+            var respues = jsonDecode(responseString);
+            print(respues);
+            print(respues["T"]);
+            print("ZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+            print(responseString);
             Navigator.of(context).pop();
-
-            if (responseString.substring(5, responseString.length - 1) ==
-                    '-1' ||
-                responseString.substring(5, responseString.length - 1) ==
-                    'None') {
+            if (respues['T'] == '-1' || respues['T'] == 'Not Found') {
               const snackbar = SnackBar(
                   content: Text(
-                "No Match",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
-              ));
+                    "No Match",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
+                  ));
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
-            } else {
-              print(id.toString());
-              //var getPatientUri =  Uri.https('${Constants.BASE_URL}','/api/patients/patientss/$id/');
-              var getPatientUri = Uri.parse(
-                  '${Constants.BASE_URL}/api/patients/patientss/$id/');
-              //var getImagesUri = Uri.https('${Constants.BASE_URL}','/api/patients/all/$id/get_images/');
-              var getImagesUri = Uri.parse(
-                  '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+            }
+            else {
+              print("KKOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+              print(respues['T']);
+              id = int.parse(respues['T'].toString());
+              print("ROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+              var getPatientUri = Uri.https('${Constants.BASE_URL}', '/api/patients/patientss/$id/');
+              //var getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+              var getImagesUri = Uri.https('${Constants.BASE_URL}', '/api/patients/all/$id/get_images/');
+              //var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
               final imageRes = await http.get(
                 getImagesUri,
                 headers: {
@@ -127,18 +131,19 @@ class ExtendedCompareFace extends State<CompareFace> {
               print(pictures);
               print("Neonlllllllllllllllllllllllllllllllllllll");
               XFile retrievedPicture =
-                  XFile(pictures['image_lists'][0]['image']);
+              XFile(pictures['image_lists'][0]['image']);
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => ShowPatient(
-                          token: token,
-                          details: decodedPatient,
-                          picture: retrievedPicture)));
+                      builder: (_) =>
+                          ShowPatient(
+                              token: token,
+                              details: decodedPatient,
+                              picture: retrievedPicture)));
             }
-          },
-        )
-        //end of button
+          }
+        )//end of button
         );
   }
 }
+
