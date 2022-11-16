@@ -232,26 +232,7 @@ class ShowPatientDetails extends State<ShowPatient> {
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
-        Text(
-          "\t\tUser: $user",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Text(
-          "\t\NewPatient: $user",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Text(
-          "\t\Inhre: $user",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Text(
-          "\t\New infp: $user",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
+
       ],
     );
   }

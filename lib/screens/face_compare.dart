@@ -130,8 +130,7 @@ class ExtendedCompareFace extends State<CompareFace> {
               pictures = json.decode(imageRes.body);
               print(pictures);
               print("Neonlllllllllllllllllllllllllllllllllllll");
-              XFile retrievedPicture =
-              XFile(pictures['image_lists'][0]['image']);
+              XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
               Navigator.push(
                   context,
                   MaterialPageRoute(

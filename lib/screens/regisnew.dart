@@ -166,7 +166,7 @@ class _Register extends State<Register> {
                     });
                   },
                   buttonHeight: 30,
-                  buttonWidth: 300,
+                  buttonWidth: 200,
                   itemHeight: 30,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
@@ -218,7 +218,7 @@ class _Register extends State<Register> {
                     });
                   },
                   buttonHeight: 30,
-                  buttonWidth: 300,
+                  buttonWidth: 200,
                   itemHeight: 30,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),

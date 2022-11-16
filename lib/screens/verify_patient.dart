@@ -81,7 +81,7 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
           onPressed: () async {
             if (patientId.text.isNotEmpty) {
               id = int.parse(patientId.text);
-             var faceCompareUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
+             var faceCompareUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/faceverify/');
          //     var faceCompareUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/faceverify/');
               
               picture = await availableCameras().then((value) => Navigator.push(
@@ -90,63 +90,77 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                       builder: (_) => Camera(token: token, cameras: value))));
               if (picture==null) return;
               String path = picture!.path;
+              print("GOOOOOOOOOOOOOOOOOOOOOOOO");
+              var request = http.MultipartRequest("POST", faceCompareUri);
+              request.headers.addAll({"Authorization": "Token $token"});
+              print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 
               showDialog(
                   context: context,
-                  builder: (context){
-                    return const Center(child: CircularProgressIndicator(),);
-                  }
-              );
-              var request = http.MultipartRequest("POST", faceCompareUri);
-              request.headers.addAll({"Authorization": "Token $token"});
-              request.fields['id'] = id.toString();
-              print("ZIIIIIIIIIIIIIIIIIIIIIIIIIIIIP");
-              print(id);
-              print(path);
-              var image = await http.MultipartFile.fromPath("image", path);
-              print(image);
+                  builder: (context) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  });
+
+              var image = await http.MultipartFile.fromPath("image1", path);
               request.files.add(image);
               http.StreamedResponse response = await request.send();
-              print("Truueeeeeeeeeee");
-              print(response.headers);
+              print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
               var responseData = await response.stream.toBytes();
               var responseString = String.fromCharCodes(responseData);
-              print(responseString.substring(0, 15));
+              var respues = jsonDecode(responseString);
+              print(respues);
+              print("ZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+              print(responseString);
               Navigator.of(context).pop();
-                    if(responseString.substring(0, 15) == '{"status":false'){
-                    const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
-                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                    }
-                    else {
-                      print(id.toString());
-                      var getPatientUri =  Uri.https('${Constants.BASE_URL}','/api/patients/patientss/$id/');
-                     // var getPatientUri = Uri.parse(
-             // '${Constants.BASE_URL}/api/patients/patientss/$id/');
-                      var getImagesUri = Uri.https('${Constants.BASE_URL}','/api/patients/all/$id/get_images/');
-              //         var getImagesUri = Uri.parse(
-              // '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
-                      final imageRes = await http.get(getImagesUri,
-                        headers: {
-              HttpHeaders.acceptHeader: 'application/json',
-              HttpHeaders.authorizationHeader: 'Token $token',
-                        },
-                      );
-                      final patientRes = await http.get(getPatientUri,
-                        headers: {
-              HttpHeaders.acceptHeader: 'application/json',
-              HttpHeaders.authorizationHeader: 'Token $token',
-                        },
-                      );
-                      print(imageRes.statusCode);
-                      var decodedPatient = jsonDecode(patientRes.body);
-                      pictures = json.decode(imageRes.body);
-                      print(pictures);
-                      print("Neonlllllllllllllllllllllllllllllllllllll");
-                      XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) =>
-              ShowPatient(token: token,
-                  details: decodedPatient,
-                  picture: retrievedPicture)));
+              print(respues['status']);
+              print('false');
+              print(respues['status'] == 'false');
+              if (respues['status'] == false) {
+                const snackbar = SnackBar(
+                    content: Text(
+                      "No Match",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20),
+                    ));
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+              }
+              else {
+                print("KKOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                print("ROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                var getPatientUri = Uri.https('${Constants.BASE_URL}', '/api/patients/patientss/$id/');
+                //var getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+                var getImagesUri = Uri.https('${Constants.BASE_URL}', '/api/patients/all/$id/get_images/');
+                //var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+                final imageRes = await http.get(
+                  getImagesUri,
+                  headers: {
+                    HttpHeaders.acceptHeader: 'application/json',
+                    HttpHeaders.authorizationHeader: 'Token $token',
+                  },
+                );
+                final patientRes = await http.get(
+                  getPatientUri,
+                  headers: {
+                    HttpHeaders.acceptHeader: 'application/json',
+                    HttpHeaders.authorizationHeader: 'Token $token',
+                  },
+                );
+                print(imageRes.statusCode);
+                var decodedPatient = jsonDecode(patientRes.body);
+                pictures = json.decode(imageRes.body);
+                print(pictures);
+                print("Neonlllllllllllllllllllllllllllllllllllll");
+                XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) =>
+                            ShowPatient(
+                                token: token,
+                                details: decodedPatient,
+                                picture: retrievedPicture)));
               }
             }
           },
