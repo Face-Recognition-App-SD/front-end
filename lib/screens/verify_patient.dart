@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:rostro_app/screens/face_compare.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
 import './camera.dart';

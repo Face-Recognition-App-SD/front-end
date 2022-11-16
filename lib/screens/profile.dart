@@ -209,12 +209,12 @@ class _Profile extends State<Profile> {
   Future<UserLogin?> fetchUserProfile(token) async {
     UserLogin? newuser;
 
-    // var response = await http.get(
-    var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
-    //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
+   // var response = await http.get(
+       var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
+      //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
 
-    // Uri.parse('${Constants.BASE_URL}/api/user/me/'),
-    final response = await http.get(
+     // Uri.parse('${Constants.BASE_URL}/api/user/me/'),
+        final response = await http.get(
       myProfileUri,
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
@@ -249,19 +249,4 @@ class _Profile extends State<Profile> {
                       builder: (context) => pwdchange(token: token)));
             }));
   }
-  // Future<http.Response?> fetchUser(token) async {
-  //   var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
-  //   print('come to fetch data');
-  //   print(token);
-  //   final res = await http.get(
-  //     myProfileUri,
-  //     headers: {
-  //       HttpHeaders.acceptHeader: 'application/json',
-  //       HttpHeaders.authorizationHeader: 'Token ' + token,
-  //     },
-  //   );
-  //   print(res.body);
-  //   print('end of fetch');
-  //   return res;
-  // }
 }

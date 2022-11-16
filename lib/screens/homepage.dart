@@ -1,26 +1,20 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/Home.dart';
 import 'package:rostro_app/screens/add_new_patient.dart';
 import 'package:rostro_app/screens/face_compare.dart';
 import 'package:rostro_app/screens/verify_patient.dart';
-import '../utils/constant.dart';
 import './patient_list.dart';
 import './get_patient_pictures.dart';
 import '../utils/new_patient_widget.dart';
 import './add_new_patient.dart';
 import './Home.dart';
 import './profile.dart';
-import '../models/userlogin.dart';
-import 'package:http/http.dart' as http;
 
 class Homepage extends StatefulWidget {
   final String token;
   final String? firstname;
   final String? lastname;
-  const Homepage(
-      {super.key, required this.token, this.firstname, this.lastname});
+  const Homepage({super.key, required this.token, this.firstname, this.lastname});
 
   @override
   State<Homepage> createState() => _homeState();
@@ -31,22 +25,23 @@ class _homeState extends State<Homepage> {
   static String firstname = "";
   static String lastname = "";
   // late String token;
-  late Future<UserLogin?> futureUser;
 
   var patientPictures;
   var pages;
   void initState() {
     token1 = widget.token;
+    
 
-    print('token in HP: $token1');
-    pages = [
-      Home(token: token1, firstname: firstname),
-      VerifyPatient(token: token1),
-      //CompareFace(token: token1),
-      //GetPatientPictures(token: token1,),
-      PatientList(token: token1),
-      Profile(token: token1),
-    ];
+    print ('token in HP: $token1');
+       pages = [
+    Home(token: token1),
+         VerifyPatient(token: token1),
+         //CompareFace(token: token1),
+         //GetPatientPictures(token: token1,),
+         PatientList(token: token1),
+         Profile(token: token1),
+  ];
+
   }
 
   int currentPage = 0;
@@ -54,23 +49,7 @@ class _homeState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: Container(
-      //   decoration: BoxDecoration(
-      //     image: DecorationImage(
-      //       image: AssetImage(bg),
-      //       fit: BoxFit.cover,
-      //     ),
-      //   ), //background image
-      //   // child: ListView(
-      //   //   children: <Widget>[
-      //   //     cameraButtonSection(),
-      //   //     PatientListContainer(),
-      //   //      AddNewPatientButton(),
-      //   //   ],
-      //   // ),
-      // ),
-
-      body: pages[currentPage],
+     body: pages[currentPage],
 
       bottomNavigationBar: NavigationBar(
         destinations: const [
@@ -88,6 +67,7 @@ class _homeState extends State<Homepage> {
         },
         selectedIndex: currentPage,
       ),
+
     );
   }
 
@@ -150,18 +130,17 @@ class _homeState extends State<Homepage> {
           },
         ));
   }
-
-  Container RecogPatienst() {
-    return Container(
-        margin: EdgeInsets.only(top: 10.0),
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
-          child: Text('Find Patient'),
-          // Within the `FirstRoute` widget
-          onPressed: () async {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => CompareFace(token: token1)));
-          },
-        ));
-  }
+   Container RecogPatienst() {
+     return Container(
+         margin: EdgeInsets.only(top: 10.0),
+         padding: EdgeInsets.symmetric(horizontal: 20.0),
+         child: ElevatedButton(
+           child: Text('Find Patient'),
+           // Within the `FirstRoute` widget
+           onPressed: () async {
+             Navigator.push(context,
+                 MaterialPageRoute(builder: (_) => CompareFace(token: token1)));
+           },
+         ));
+   }
 }
