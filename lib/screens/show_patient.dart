@@ -32,8 +32,20 @@ class ShowPatientDetails extends State<ShowPatient> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Patient Detail'),
-          actions: <Widget>[
+          title: const Text('Patient Detail'),  
+          leading: IconButton(
+            icon: new Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PatientList(
+                          token: token,
+                        )),
+              );
+            },
+          ),
+            actions: <Widget>[
             Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(

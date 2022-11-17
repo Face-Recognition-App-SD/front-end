@@ -33,7 +33,7 @@ class _PatientDetail extends State<PatientDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Verify Patient Identity"), centerTitle: true),
+     // appBar: AppBar(title: const Text("Verify Patient Identity"), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -92,6 +92,13 @@ class _PatientDetail extends State<PatientDetail> {
             );
             // if (picture==null) return;
             // String path = picture!.path;
+                showDialog(
+                context: context,
+                builder: (context) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                });
       
             var request = http.MultipartRequest("GET", getPatientUri);
             request.headers.addAll({"Authorization": "Token $token"});
