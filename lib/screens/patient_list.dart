@@ -68,7 +68,7 @@ class _PatientList extends State<PatientList> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ElevatedButton(
-                        child: Text('New Patient'),
+                        child: Text('Add New Patient'),
 
                         onPressed: () async {
                           // Navigator.pop(context);
