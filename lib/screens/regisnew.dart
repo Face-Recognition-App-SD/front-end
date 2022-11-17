@@ -27,6 +27,8 @@ class _Register extends State<Register> {
   var bg = './assets/images/bg.jpeg';
   bool _isLoading = false;
   late String token;
+  bool _passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,12 +72,7 @@ class _Register extends State<Register> {
   TextEditingController last_nameController = TextEditingController();
   TextEditingController department_idController = TextEditingController();
 
-  final List<String> gender = [
-    'Male',
-    'Female',
-    'Transgender',
-    'Non-binary'
-  ];
+  final List<String> gender = ['Male', 'Female', 'Transgender', 'Non-binary'];
 
   final List<String> roles = ['Doctor', 'Nurse', 'Physical Therapist'];
   String? selectedValueforGender;
@@ -87,6 +84,7 @@ class _Register extends State<Register> {
       child: SingleChildScrollView(
         child: Column(children: <Widget>[
           TextFormField(
+            keyboardType: TextInputType.emailAddress,
             controller: emailController,
             cursorColor: Colors.white,
             style: TextStyle(color: Colors.white70, fontSize: 13),
@@ -100,19 +98,33 @@ class _Register extends State<Register> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
+            obscureText: !_passwordVisible,
+            keyboardType: TextInputType.text,
             controller: passwordController,
             cursorColor: Colors.white,
             style: TextStyle(color: Colors.white70, fontSize: 13),
-            decoration: const InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.white70),
+            decoration: InputDecoration(
               hintText: 'Password',
               border: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.white70),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                  color: Theme.of(context).primaryColorDark,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
+              icon: Icon(Icons.lock, color: Colors.white70),
             ),
           ),
           const SizedBox(height: 20.0),
           TextFormField(
+            keyboardType: TextInputType.text,
             controller: first_nameController,
             cursorColor: Colors.white,
             style: TextStyle(color: Colors.white70, fontSize: 13),
@@ -126,6 +138,7 @@ class _Register extends State<Register> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
+            keyboardType: TextInputType.text,
             controller: last_nameController,
             cursorColor: Colors.white,
             style: TextStyle(color: Colors.white70, fontSize: 13),
@@ -144,7 +157,7 @@ class _Register extends State<Register> {
               DropdownButtonHideUnderline(
                 child: DropdownButton2(
                   hint: const Text(
-                    '   Roles',
+                    '     Roles',
                     style: TextStyle(fontSize: 14, color: Colors.white70),
                   ),
                   items: roles
@@ -178,6 +191,7 @@ class _Register extends State<Register> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
+            keyboardType: TextInputType.number,
             controller: department_idController,
             cursorColor: Colors.white,
             style: TextStyle(color: Colors.white70, fontSize: 13),
@@ -196,7 +210,7 @@ class _Register extends State<Register> {
               DropdownButtonHideUnderline(
                 child: DropdownButton2(
                   hint: const Text(
-                    '   Gender',
+                    '     Gender',
                     style: TextStyle(fontSize: 14, color: Colors.white70),
                   ),
                   items: gender
@@ -236,9 +250,9 @@ class _Register extends State<Register> {
 
   Container SubmitButtonSection(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 30.0),
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
+      margin: EdgeInsets.only(top: 30.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: ElevatedButton(
           child: Text('Submit'),
           onPressed: () async {
             String email = emailController.text;
@@ -254,17 +268,16 @@ class _Register extends State<Register> {
             print('info after login');
             print(token);
 
-             if (data != null){
+            if (data != null) {
               ShowDialogSucc(context);
 
-            setState(() {});
-            // Navigator.of(context).pushAndRemoveUntil(
-            //     MaterialPageRoute(
-            //         builder: (BuildContext context) => Homepage(token: token)),
-            //     (Route<dynamic> route) => false);
-          }
-          else {
-            showDialog(
+              setState(() {});
+              // Navigator.of(context).pushAndRemoveUntil(
+              //     MaterialPageRoute(
+              //         builder: (BuildContext context) => Homepage(token: token)),
+              //     (Route<dynamic> route) => false);
+            } else {
+              showDialog(
                 context: context,
                 builder: (ctx) => AlertDialog(
                   title: const Text("Alert Dialog Box"),
@@ -282,14 +295,14 @@ class _Register extends State<Register> {
                     ),
                   ],
                 ),
-            );
-          }
+              );
+            }
           }
 
-        //end of button
-        ),);
+          //end of button
+          ),
+    );
   }
-
 
   Future<UserLogin?> fetchDataSignUp(
       String email,
@@ -299,11 +312,10 @@ class _Register extends State<Register> {
       String role,
       String dep,
       String gender) async {
-          var myRegUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
-    var response = await http.post(
-      myRegUri,
+    var myRegUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
+    var response = await http.post(myRegUri,
         //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-    //    Uri.parse('${Constants.BASE_URL}/api/user/create/'),
+        //    Uri.parse('${Constants.BASE_URL}/api/user/create/'),
         headers: {
           HttpHeaders.acceptHeader: 'application/json',
         },
@@ -328,36 +340,39 @@ class _Register extends State<Register> {
 
       return albumFromJson(responseString);
     } else {
-       if (response.statusCode == 400) {
-      String responseString = response.body;
+      if (response.statusCode == 400) {
+        String responseString = response.body;
 
-       print(responseString);
+        print(responseString);
       }
       return null;
     }
   }
 
-Widget? ShowDialogSucc(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: new Text("Message!"),
-        content: new Text("Your account have been created. Please check your email to verify your account."),
-        actions: <Widget>[
-          new TextButton(
-            child: new Text("Verify Email"),
-            onPressed: () {
-               Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => VerifyEmail(email: emailController.text,)),
-          );
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
+  Widget? ShowDialogSucc(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Message!"),
+          content: new Text(
+              "Your account have been created. Please check your email to verify your account."),
+          actions: <Widget>[
+            new TextButton(
+              child: new Text("Verify Email"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => VerifyEmail(
+                            email: emailController.text,
+                          )),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

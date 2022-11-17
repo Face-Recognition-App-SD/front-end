@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/add_new_patient.dart';
 import '../models/userlogin.dart';
+import '../utils/constant.dart';
 import './camera.dart';
 import './patient_list.dart';
 import './get_patient_pictures.dart';
@@ -10,6 +13,7 @@ import '../utils/new_patient_widget.dart';
 import './add_new_patient.dart';
 import '../screens/face_compare.dart';
 import '../screens/verify_patient.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   final String? token;
@@ -24,13 +28,17 @@ class _home2State extends State<Home> {
   var bg = './assets/images/bg.jpeg';
   late String? token;
   late Future<UserLogin?> futureUser;
+  late String? fn;
   var patientPictures;
+  @override
   void initState() {
     token = widget.token;
+    super.initState();
+
+    futureUser = fetchUserProfile(token);
   }
 
   int currentPage = 0;
-  String? fn = "";
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +50,12 @@ class _home2State extends State<Home> {
             fit: BoxFit.cover,
           ),
         ),
-        child: homeview(),
+        child: futureBuilder(),
       ),
     );
   }
 
   Widget homeview() {
-    fn = widget.firstname;
     return ListView(
       children: <Widget>[
         Container(
@@ -157,5 +164,50 @@ class _home2State extends State<Home> {
         ),
       ],
     );
+  }
+
+  Widget futureBuilder() {
+    return Container(
+      child: FutureBuilder<UserLogin?>(
+        future: futureUser,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            fn = snapshot.data!.first_name;
+            return homeview();
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const CircularProgressIndicator();
+        },
+      ),
+    );
+  }
+
+  Future<UserLogin?> fetchUserProfile(token) async {
+    UserLogin? newuser; //var respons = await http.get()
+    var myProfileUri = Uri.https(Constants.BASE_URL,
+        '/api/user/me/'); //Uri.https('api.rostro-authentication.com','api/user/create/'),
+    final response = await http.get(
+      myProfileUri,
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Token ' + token,
+      },
+    );
+    var data = response.body;
+    token = data.substring(10, data.length - 2);
+    if (response.statusCode == 200) {
+      String responseString = response.body;
+      newuser = albumFromJson(responseString);
+      return newuser;
+    } else {
+      //If the server did not return a 200 OK response,
+      //then throw an exception,
+      const snackbar = SnackBar(
+          content: Text("No user found",
+              textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(snackbar); //throw Exception('Failed to load album');
+    }
   }
 }
