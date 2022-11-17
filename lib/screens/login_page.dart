@@ -23,6 +23,13 @@ class _LoginPageState extends State<LoginPage> {
   var bg = './assets/images/bg.jpeg';
   bool _isLoading = false;
   late String token;
+  bool _passwordVisible = false;
+
+  // @override
+  // void initState() {
+
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,33 +71,49 @@ class _LoginPageState extends State<LoginPage> {
   Container textSection() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(children: <Widget>[
-        TextFormField(
-          controller: emailController,
-          cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.email, color: Colors.white70),
-            hintText: 'Email',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            controller: emailController,
+            cursorColor: Colors.white,
+            style: TextStyle(color: Colors.white70),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.email, color: Colors.white70),
+              hintText: 'Email',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+            ),
           ),
-        ),
-       const SizedBox(height: 30.0),
-        TextFormField(
-          controller: passwordController,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.lock, color: Colors.white70),
-            hintText: 'Password',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
+          const SizedBox(height: 30.0),
+          TextFormField(
+            keyboardType: TextInputType.text,
+            controller: passwordController,
+            cursorColor: Colors.white,
+            obscureText: !_passwordVisible,
+            style: const TextStyle(color: Colors.white70),
+            decoration: InputDecoration(
+              hintText: 'Password',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                  color: Theme.of(context).primaryColorDark,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
+              icon: Icon(Icons.lock, color: Colors.white70),
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 
@@ -105,13 +128,12 @@ class _LoginPageState extends State<LoginPage> {
             String password = passwordController.text;
             UserLogin? data = await fetchDataLogin(email, password);
             print('info after login');
-                print(token);
+            print(token);
             setState(() {});
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (BuildContext context) => Homepage(token: token)),
                 (Route<dynamic> route) => false);
-              
           },
         )
 
@@ -121,58 +143,57 @@ class _LoginPageState extends State<LoginPage> {
 
   Row signUpButtonSection() {
     return Row(
- mainAxisAlignment: MainAxisAlignment.center,
- children: <Widget>[
-                const Text('Does not have account?'),
-                TextButton(
-                  child: const Text(
-                    'Sign up',
-                    style: TextStyle(fontSize: 15, ),
-                  ),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Text('Does not have account?'),
+        TextButton(
+          child: const Text(
+            'Sign up',
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
 
-        // color: Colors.blueAccent,
-        onPressed: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Register()),
-          ), //button connects to register page
-        },
-
-                ),
-        ],
+          // color: Colors.blueAccent,
+          onPressed: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Register()),
+            ), //button connects to register page
+          },
+        ),
+      ],
     );
-
   }
 
-Future<UserLogin?> fetchDataLogin(String email, String password) async {
-  showDialog(
-      context: context,
-      builder: (context){
-        return const Center(child: CircularProgressIndicator(),);
-      }
-  );
-   var response = await http.post(
-    Uri.https(Constants.BASE_URL, '/api/user/token/'),
-     //Uri.parse('${Constants.BASE_URL}/api/user/token/'),
-      headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-      },
-      body: {
-        "email": email,
-        "password": password,
-
-      });
-    
-  var data = response.body;
-  token = data.substring(10, data.length-2);
-  Navigator.of(context).pop();
-  if (response.statusCode == 201) {
-    String responseString = response.body;
-
-     setState(() {
-          _isLoading = false;
+  Future<UserLogin?> fetchDataLogin(String email, String password) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+    var response =
+        await http.post(Uri.https(Constants.BASE_URL, '/api/user/token/'),
+            //Uri.parse('${Constants.BASE_URL}/api/user/token/'),
+            headers: {
+          HttpHeaders.acceptHeader: 'application/json',
+        },
+            body: {
+          "email": email,
+          "password": password,
         });
 
+    var data = response.body;
+    token = data.substring(10, data.length - 2);
+    Navigator.of(context).pop();
+    if (response.statusCode == 201) {
+      String responseString = response.body;
+
+      setState(() {
+        _isLoading = false;
+      });
 
       return albumFromJson(responseString);
     } else {
