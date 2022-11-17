@@ -174,9 +174,10 @@ class _LoginPageState extends State<LoginPage> {
             child: CircularProgressIndicator(),
           );
         });
+    var tokenUrl = Uri.parse('${Constants.BASE_URL}/api/user/token/');
+    //var tokenUrl = Uri.https(Constants.BASE_URL, '/api/user/token/');
     var response =
-        await http.post(Uri.https(Constants.BASE_URL, '/api/user/token/'),
-            //Uri.parse('${Constants.BASE_URL}/api/user/token/'),
+        await http.post(tokenUrl,
             headers: {
           HttpHeaders.acceptHeader: 'application/json',
         },

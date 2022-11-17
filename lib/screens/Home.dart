@@ -201,8 +201,8 @@ class _home2State extends State<Home> {
 
   Future<UserLogin?> fetchUserProfile(token) async {
     UserLogin? newuser; //var respons = await http.get()
-    var myProfileUri = Uri.https(Constants.BASE_URL,
-        '/api/user/me/'); //Uri.https('api.rostro-authentication.com','api/user/create/'),
+    //var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
+    var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
     final response = await http.get(
       myProfileUri,
       headers: {
