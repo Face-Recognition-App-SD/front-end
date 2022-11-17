@@ -56,7 +56,7 @@ class _homeState extends State<Homepage> {
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(
               icon: Icon(Icons.add_a_photo_outlined), label: 'Verify'),
-          NavigationDestination(icon: Icon(Icons.list), label: 'Patient List'),
+          NavigationDestination(icon: Icon(Icons.list), label: 'My Patient List'),
           NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
         ],
         onDestinationSelected: (int index) {

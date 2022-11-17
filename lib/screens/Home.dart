@@ -14,6 +14,7 @@ import './add_new_patient.dart';
 import '../screens/face_compare.dart';
 import '../screens/verify_patient.dart';
 import 'package:http/http.dart' as http;
+import '../screens/all_patient_list.dart';
 
 class Home extends StatefulWidget {
   final String? token;
@@ -124,7 +125,7 @@ class _home2State extends State<Home> {
                           Container(
                             width: 200,
                             child: ElevatedButton(
-                              child: Text('Patient List'),
+                              child: Text('My Patient List'),
                               // Within the `FirstRoute` widget
                               onPressed: () async {
                                 Navigator.push(
@@ -152,6 +153,21 @@ class _home2State extends State<Home> {
                             ),
                           ),
                           const SizedBox(height: 15.0),
+                           Container(
+                            width: 200,
+                            child: ElevatedButton(
+                              child: Text('All Patient List'),
+                              // Within the `FirstRoute` widget
+                              onPressed: () async {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          AllPatientList(token: token!),
+                                    ));
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     )
