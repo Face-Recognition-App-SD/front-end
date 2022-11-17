@@ -70,13 +70,8 @@ class _PatientDetail extends State<PatientDetail> {
             
             //var getPatientUri =  Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
             var getPatientUri =  Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/');
-          //  var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+            //var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
             var getImagesUri = Uri.https(Constants.BASE_URL,'/api/patients/all/$id/get_images/');
-          //  var faceCompareUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/faceverify/');
-            // picture = await availableCameras().then((value) => Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (_) => Camera(token: token, cameras: value))));
 
             final imageRes = await http.get(getImagesUri,
               headers: {

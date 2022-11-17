@@ -257,6 +257,14 @@ class _AddNewPatientState extends State<AddNewPatient> {
             child: CircularProgressIndicator(),
           );
         });
+  var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+  //var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
+  showDialog(
+      context: context,
+      builder: (context){
+        return const Center(child: CircularProgressIndicator(),);
+      }
+  );
     final res = await http.post(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',

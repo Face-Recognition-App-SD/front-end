@@ -80,8 +80,8 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
           onPressed: () async {
             if (patientId.text.isNotEmpty) {
               id = int.parse(patientId.text);
-             var faceCompareUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/faceverify/');
-         //     var faceCompareUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/faceverify/');
+             var faceVerify = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/faceverify/');
+             //var faceVerify = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/faceverify/');
               
               picture = await availableCameras().then((value) => Navigator.push(
                   context,
@@ -89,8 +89,10 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                       builder: (_) => Camera(token: token, cameras: value))));
               if (picture==null) return;
               String path = picture!.path;
+              String picturePath = "${Constants.BASE_URL}${picture!.path}";
+              print(path);
               print("GOOOOOOOOOOOOOOOOOOOOOOOO");
-              var request = http.MultipartRequest("POST", faceCompareUri);
+              var request = http.MultipartRequest("POST", faceVerify);
               request.headers.addAll({"Authorization": "Token $token"});
               print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 
@@ -101,10 +103,11 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                       child: CircularProgressIndicator(),
                     );
                   });
-
-              var image = await http.MultipartFile.fromPath("image1", path);
+              var image = await http.MultipartFile.fromPath("image1", picturePath);
+              print(image.filename);
               request.files.add(image);
               http.StreamedResponse response = await request.send();
+              print(response.statusCode);
               print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
               var responseData = await response.stream.toBytes();
               var responseString = String.fromCharCodes(responseData);

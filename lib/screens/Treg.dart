@@ -16,19 +16,20 @@ import 'dart:io';
 import './verifyEmail.dart';
 //import 'loggedinpage.dart';
 
-class Register extends StatefulWidget {
-  const Register({super.key});
+class TRegister extends StatefulWidget {
+  const TRegister({super.key});
 
   @override
-  State<Register> createState() => _Register();
+  State<TRegister> createState() => _TRegister();
 }
 
-class _Register extends State<Register> {
+class _TRegister extends State<TRegister> {
   var bg = './assets/images/bg.jpeg';
   bool _isLoading = false;
   late String token;
-  bool _passwordVisible = false;
-
+  bool _passwordVisible1 = false;
+  bool _passwordVisible2 = false;
+  // bool _isEqual = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,13 +69,23 @@ class _Register extends State<Register> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController cpController = TextEditingController();
   TextEditingController first_nameController = TextEditingController();
   TextEditingController last_nameController = TextEditingController();
   TextEditingController department_idController = TextEditingController();
 
-  final List<String> gender = ['Male', 'Female', 'Transgender', 'Non-binary'];
+  final List<String> gender = [
+    'Male',
+    'Female',
+    'Transgender',
+    'Non-binary'
+  ];
 
-  final List<String> roles = ['Doctor', 'Nurse', 'Physical Therapist'];
+  final List<String> roles = [
+    'Doctor',
+    'Nurse',
+    'Physical Therapist'
+  ];
   String? selectedValueforGender;
   String? selectedValueforRoles;
 
@@ -98,7 +109,7 @@ class _Register extends State<Register> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
-            obscureText: !_passwordVisible,
+            obscureText: !_passwordVisible1,
             keyboardType: TextInputType.text,
             controller: passwordController,
             cursorColor: Colors.white,
@@ -110,12 +121,38 @@ class _Register extends State<Register> {
               hintStyle: TextStyle(color: Colors.white70),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                  _passwordVisible1 ? Icons.visibility : Icons.visibility_off,
                   color: Theme.of(context).primaryColorDark,
                 ),
                 onPressed: () {
                   setState(() {
-                    _passwordVisible = !_passwordVisible;
+                    _passwordVisible1 = !_passwordVisible1;
+                  });
+                },
+              ),
+              icon: Icon(Icons.lock, color: Colors.white70),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          TextFormField(
+            obscureText: !_passwordVisible2,
+            keyboardType: TextInputType.text,
+            controller: cpController,
+            cursorColor: Colors.white,
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+            decoration: InputDecoration(
+              hintText: 'Confirm Password',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _passwordVisible2 ? Icons.visibility : Icons.visibility_off,
+                  color: Theme.of(context).primaryColorDark,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible2 = !_passwordVisible2;
                   });
                 },
               ),
@@ -257,47 +294,102 @@ class _Register extends State<Register> {
           onPressed: () async {
             String email = emailController.text;
             String password = passwordController.text;
-            UserLogin? data = await fetchDataSignUp(
-                email,
-                password,
-                first_nameController.text,
-                last_nameController.text,
-                selectedValueforRoles ?? "Nurse",
-                department_idController.text,
-                selectedValueforGender ?? "Male");
-            print('info after login');
-            print(token);
+            String cpassword = cpController.text;
+            if (password.isNotEmpty && cpassword.isNotEmpty && password == cpassword) {
 
-            if (data != null) {
-              ShowDialogSucc(context);
+              UserLogin? data = await fetchDataSignUp(
+                  email,
+                  password,
+                  first_nameController.text,
+                  last_nameController.text,
+                  selectedValueforRoles ?? "Nurse",
+                  department_idController.text,
+                  selectedValueforGender ?? "Male");
+              print('info after login');
+              print(token);
+              print(data?.cpassword);
 
-              setState(() {});
-              // Navigator.of(context).pushAndRemoveUntil(
-              //     MaterialPageRoute(
-              //         builder: (BuildContext context) => Homepage(token: token)),
-              //     (Route<dynamic> route) => false);
-            } else {
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: const Text("Alert Dialog Box"),
-                  content: const Text("User with this email already exists"),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Container(
-                        color: Color.fromARGB(236, 9, 96, 168),
-                        padding: const EdgeInsets.all(14),
-                        child: const Text("OK"),
-                      ),
+              if (data != null) {
+                if (data.password != data.cpassword) {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text("Alert Dialog Box"),
+                      content: const Text("Both Password must be the same!"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Container(
+                            color: Color.fromARGB(236, 9, 96, 168),
+                            padding: const EdgeInsets.all(14),
+                            child: const Text("OK"),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
+                  );
+
+                  setState(() {});
+                } else {
+                  ShowDialogSucc(context);
+
+                  setState(() {});
+                }
+              } else if (data == null) {
+                print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                print(data);
+
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text("Alert Dialog Box"),
+                    content: const Text("Please Input Account Information!"),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Container(
+                          color: Color.fromARGB(236, 9, 96, 168),
+                          padding: const EdgeInsets.all(14),
+                          child: const Text("OK"),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+
+                setState(() {});
+              } else {
+                print(data);
+                print("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text("Alert Dialog Box"),
+                    content: const Text("User with this email already exists"),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Container(
+                          color: Color.fromARGB(236, 9, 96, 168),
+                          padding: const EdgeInsets.all(14),
+                          child: const Text("OK"),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+                setState(() {});
+              }
             }
-          }
+
+          }//JJJJJJJJJJJJJJJJJJJJJ
 
           //end of button
           ),
@@ -313,8 +405,9 @@ class _Register extends State<Register> {
       String dep,
       String gender) async {
     var myRegUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
-    //var myRegUri = Uri.parse('${Constants.BASE_URL}/api/user/create/');
     var response = await http.post(myRegUri,
+        //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
+        //    Uri.parse('${Constants.BASE_URL}/api/user/create/'),
         headers: {
           HttpHeaders.acceptHeader: 'application/json',
         },

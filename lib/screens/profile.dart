@@ -209,12 +209,9 @@ class _Profile extends State<Profile> {
   Future<UserLogin?> fetchUserProfile(token) async {
     UserLogin? newuser;
 
-   // var response = await http.get(
-       var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
-      //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-
-     // Uri.parse('${Constants.BASE_URL}/api/user/me/'),
-        final response = await http.get(
+    var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
+    //var myProfileUri =  Uri.parse('${Constants.BASE_URL}/api/user/me/');
+    final response = await http.get(
       myProfileUri,
       headers: {
         HttpHeaders.acceptHeader: 'application/json',

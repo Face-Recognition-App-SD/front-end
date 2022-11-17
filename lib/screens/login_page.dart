@@ -10,7 +10,10 @@ import '../utils/constant.dart';
 import './homepage.dart';
 import './regisnew.dart';
 import 'dart:io';
+
+import 'Treg.dart';
 //import 'loggedinpage.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -158,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () => {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Register()),
+              MaterialPageRoute(builder: (context) => const TRegister()),
             ), //button connects to register page
           },
         ),
@@ -174,9 +177,10 @@ class _LoginPageState extends State<LoginPage> {
             child: CircularProgressIndicator(),
           );
         });
+    //var tokenUrl = Uri.parse('${Constants.BASE_URL}/api/user/token/');
+    var tokenUrl = Uri.https(Constants.BASE_URL, '/api/user/token/');
     var response =
-        await http.post(Uri.https(Constants.BASE_URL, '/api/user/token/'),
-            //Uri.parse('${Constants.BASE_URL}/api/user/token/'),
+        await http.post(tokenUrl,
             headers: {
           HttpHeaders.acceptHeader: 'application/json',
         },

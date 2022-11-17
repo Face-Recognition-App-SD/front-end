@@ -155,6 +155,7 @@ class _VerifyEmail extends State<VerifyEmail> {
 
   Future<http.Response> fetchVerify(email, key) async {
      var myfetchUri = Uri.https(Constants.BASE_URL, '/api/user/email/verify/');
+     //var myfetchUri = Uri.parse('${Constants.BASE_URL}/api/user/email/verify/');
     var response = await http.post(
 
         // Uri.parse('${Constants.BASE_URL}/api/user/email/verify/'),

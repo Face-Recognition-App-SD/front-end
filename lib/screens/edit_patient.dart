@@ -37,7 +37,7 @@ class ExtendEditPatient extends State<EditPatient> {
   TextEditingController lastnameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController medListController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController streetAddressController = TextEditingController();
   TextEditingController cityAddressController = TextEditingController();
@@ -126,7 +126,7 @@ class ExtendEditPatient extends State<EditPatient> {
   }
 
   Future<bool> editPatientInfo() async {
-    var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/');
     bool flag = false;
    //var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
    if(firstnameController.text.isNotEmpty){
@@ -221,12 +221,14 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<PatientsData?> editPhone(addPatientTextUri) async {
+    print("JOJOJOJOJOJOJOJJOJOJOJ");
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
       "phone_number": phoneNumberController.text,
     });
+    print(res.statusCode);
   }
   Future<PatientsData?> editDOB(addPatientTextUri) async {
     final res = await http.patch(addPatientTextUri, headers: {
@@ -301,6 +303,9 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<bool> updateImages() async{
+    print("ZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    print(id);
+    print("ZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     if (pictures.isNotEmpty) {
       //var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
       var addPatientPictures = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
