@@ -75,16 +75,16 @@ class _TRegister extends State<TRegister> {
   TextEditingController department_idController = TextEditingController();
 
   final List<String> gender = [
-    '     Male',
-    '      Female',
-    '     Transgender',
-    '     Non-binary'
+    'Male',
+    'Female',
+    'Transgender',
+    'Non-binary'
   ];
 
   final List<String> roles = [
-    '     Doctor',
-    '      Nurse',
-    '     Physical Therapist'
+    'Doctor',
+    'Nurse',
+    'Physical Therapist'
   ];
   String? selectedValueforGender;
   String? selectedValueforRoles;
@@ -295,26 +295,57 @@ class _TRegister extends State<TRegister> {
             String email = emailController.text;
             String password = passwordController.text;
             String cpassword = cpController.text;
-            UserLogin? data = await fetchDataSignUp(
-                email,
-                password,
-                cpassword,
-                first_nameController.text,
-                last_nameController.text,
-                selectedValueforRoles ?? "Nurse",
-                department_idController.text,
-                selectedValueforGender ?? "Male");
-            print('info after login');
-            print(token);
-            print(data?.cpassword);
+            if (password.isNotEmpty && cpassword.isNotEmpty && password == cpassword) {
 
-            if (data != null) {
-              if (data.password != data.cpassword) {
+              UserLogin? data = await fetchDataSignUp(
+                  email,
+                  password,
+                  first_nameController.text,
+                  last_nameController.text,
+                  selectedValueforRoles ?? "Nurse",
+                  department_idController.text,
+                  selectedValueforGender ?? "Male");
+              print('info after login');
+              print(token);
+              print(data?.cpassword);
+
+              if (data != null) {
+                if (data.password != data.cpassword) {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text("Alert Dialog Box"),
+                      content: const Text("Both Password must be the same!"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Container(
+                            color: Color.fromARGB(236, 9, 96, 168),
+                            padding: const EdgeInsets.all(14),
+                            child: const Text("OK"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  setState(() {});
+                } else {
+                  ShowDialogSucc(context);
+
+                  setState(() {});
+                }
+              } else if (data == null) {
+                print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                print(data);
+
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
                     title: const Text("Alert Dialog Box"),
-                    content: const Text("Both Password must be the same!"),
+                    content: const Text("Please Input Account Information!"),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () {
@@ -332,59 +363,33 @@ class _TRegister extends State<TRegister> {
 
                 setState(() {});
               } else {
-                ShowDialogSucc(context);
+                print(data);
+                print("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text("Alert Dialog Box"),
+                    content: const Text("User with this email already exists"),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Container(
+                          color: Color.fromARGB(236, 9, 96, 168),
+                          padding: const EdgeInsets.all(14),
+                          child: const Text("OK"),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
                 setState(() {});
               }
-            } else if (data == null) {
-              print(data);
-
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: const Text("Alert Dialog Box"),
-                  content: const Text("Please Input Account Information!"),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Container(
-                        color: Color.fromARGB(236, 9, 96, 168),
-                        padding: const EdgeInsets.all(14),
-                        child: const Text("OK"),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-
-              setState(() {});
-            } else {
-              print(data);
-
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: const Text("Alert Dialog Box"),
-                  content: const Text("User with this email already exists"),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Container(
-                        color: Color.fromARGB(236, 9, 96, 168),
-                        padding: const EdgeInsets.all(14),
-                        child: const Text("OK"),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-              setState(() {});
             }
-          }
+
+          }//JJJJJJJJJJJJJJJJJJJJJ
 
           //end of button
           ),
@@ -394,7 +399,6 @@ class _TRegister extends State<TRegister> {
   Future<UserLogin?> fetchDataSignUp(
       String email,
       String password,
-      String cpassword,
       String first_name,
       String last_name,
       String role,
@@ -410,7 +414,6 @@ class _TRegister extends State<TRegister> {
         body: {
           "email": email,
           "password": password,
-          "cpassword": cpassword,
           "first_name": first_name,
           "last_name": last_name,
           "role": role,

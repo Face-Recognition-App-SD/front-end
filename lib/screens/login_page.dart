@@ -10,7 +10,10 @@ import '../utils/constant.dart';
 import './homepage.dart';
 import './regisnew.dart';
 import 'dart:io';
+
+import 'Treg.dart';
 //import 'loggedinpage.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -158,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () => {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Register()),
+              MaterialPageRoute(builder: (context) => const TRegister()),
             ), //button connects to register page
           },
         ),
