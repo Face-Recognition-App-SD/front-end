@@ -74,12 +74,7 @@ class _TRegister extends State<TRegister> {
   TextEditingController last_nameController = TextEditingController();
   TextEditingController department_idController = TextEditingController();
 
-  final List<String> gender = [
-    'Male',
-    'Female',
-    'Transgender',
-    'Non-binary'
-  ];
+  var genderList = Constants.genderList;
 
   final List<String> roles = [
     'Doctor',
@@ -250,7 +245,7 @@ class _TRegister extends State<TRegister> {
                     '     Gender',
                     style: TextStyle(fontSize: 14, color: Colors.white70),
                   ),
-                  items: gender
+                  items: genderList
                       .map((item) => DropdownMenuItem<String>(
                             value: item,
                             child: Text(

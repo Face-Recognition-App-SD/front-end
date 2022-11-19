@@ -8,6 +8,8 @@ import 'package:rostro_app/screens/get_patient_pictures.dart';
 import 'package:rostro_app/screens/patient_list.dart';
 import '../utils/constant.dart';
 import 'package:camera/camera.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:country_state_city_picker/country_state_city_picker.dart';
 
 class AddNewPatient extends StatefulWidget {
   final String token;
@@ -21,9 +23,12 @@ class AddNewPatient extends StatefulWidget {
 class _AddNewPatientState extends State<AddNewPatient> {
   var bg = './assets/images/bg.jpeg';
   late String token;
-  String? selectedGenderVal ="";
+  String? selectedGenderVal = "";
+  String? selectedState = "";
+  String? selectedCountry = "";
+  String? selectedCity = "";
 
-  final _genderList = ["Male", "Female", "Transgender"];
+  var genderList = Constants.genderList;
 
   //late Map<String, dynamic> pictures;
   late int id;
@@ -47,12 +52,12 @@ class _AddNewPatientState extends State<AddNewPatient> {
   TextEditingController relationshipController = TextEditingController(); //
   TextEditingController genderController = TextEditingController();
   TextEditingController is_in_hospitalController = TextEditingController();
-
+  String? selectedValueforGender;
   @override
   void StepState() {
     token = widget.token;
     super.initState();
-    selectedGenderVal = _genderList[0];
+    // selectedGenderVal =  Constants.genderList[0];
     // initCamera(widget.patients![0]);
   }
 
@@ -144,7 +149,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
           cursorColor: Colors.white,
           style: TextStyle(color: Colors.white70, fontSize: 13),
           decoration: const InputDecoration(
-            icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
+            icon: Icon(Icons.numbers, color: Colors.white70),
             hintText: 'Phone Number',
             border: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white70)),
@@ -166,35 +171,122 @@ class _AddNewPatientState extends State<AddNewPatient> {
           ),
         ),
         const SizedBox(height: 20.0),
+        Row(
+          children: [
+            const Icon(Icons.person, color: Colors.white70),
+            DropdownButtonHideUnderline(
+              child: DropdownButton2(
+                hint: const Text(
+                  '     Gender',
+                  style: TextStyle(fontSize: 14, color: Colors.white70),
+                ),
+                items: genderList
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white70,
+                            ),
+                          ),
+                        ))
+                    .toList(),
+                value: selectedValueforGender,
+                onChanged: (value) {
+                  setState(() {
+                    selectedValueforGender = value as String;
+                    token = widget.token;
+                  });
+                },
+                buttonHeight: 30,
+                buttonWidth: 200,
+                itemHeight: 30,
+                dropdownDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Color.fromARGB(236, 9, 96, 168),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20.0),
         TextFormField(
-          controller: date_of_birthController,
+          controller: street_addressController,
           keyboardType: TextInputType.datetime,
           cursorColor: Colors.white,
           style: TextStyle(color: Colors.white70, fontSize: 13),
           decoration: const InputDecoration(
-            icon: Icon(Icons.date_range, color: Colors.white70),
-            hintText: 'Gender',
+            icon: Icon(Icons.house, color: Colors.white70),
+            hintText: 'Street Address',
             border: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white70)),
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-         const SizedBox(height: 20.0),
-        // DropdownButtonFormField(
-        //   value: selectedGenderVal,
-        //   items: _genderList.map(
-        //   (e) =>DropdownMenuItem(child: Text(e), value: e,)).toList(),
-        //   onChanged: (val){
-        //     setState(() {
-        //       selectedGenderVal = val as String;
-
-        //     }); },
-        //     icon: const Icon(Icons.arrow_drop_down_circle),
-        //     decoration: InputDecoration(labelText: "Gender"),
-        //   ),
-
-          
-      ]),
+        const SizedBox(height: 20.0),
+        TextFormField(
+          controller: city_addressController,
+          keyboardType: TextInputType.datetime,
+          cursorColor: Colors.white,
+          style: TextStyle(color: Colors.white70, fontSize: 13),
+          decoration: const InputDecoration(
+            icon: Icon(Icons.house, color: Colors.white70),
+            hintText: 'City Address',
+            border: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white70)),
+            hintStyle: TextStyle(color: Colors.white70),
+          ),
+        ),
+        const SizedBox(height: 20.0),
+        Row(
+          children: [
+            Column(
+              children: [
+                TextFormField(
+                  controller: zipcode_addressController,
+                  keyboardType: TextInputType.datetime,
+                  cursorColor: Colors.white,
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.house, color: Colors.white70),
+                    hintText: 'Zipcode',
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white70)),
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
+                ),
+              ],
+            ),
+        ]  ,),
+            // Row(
+            //   children: [
+            //     SelectState(
+            //       onCountryChanged: (value) {
+            //         setState(() {
+            //           selectedCountry = value;
+            //           token = widget.token;
+            //         });
+            //       },
+            //       onStateChanged: (value) {
+            //         setState(() {
+            //           selectedState = value;
+            //           token = widget.token;
+            //         });
+            //       },
+            //       onCityChanged: (value) {
+            //         setState(() {
+            //           selectedCity = value;
+            //           token = widget.token;
+            //         });
+            //       },
+            //     ),
+            //   ],
+            // )
+          ],
+      
+      
+      ),
     );
   }
 
@@ -247,15 +339,16 @@ class _AddNewPatientState extends State<AddNewPatient> {
   }
 
   Future<PatientsData?> postPatient() async {
-   
-  var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
-  //var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
-  showDialog(
-      context: context,
-      builder: (context){
-        return const Center(child: CircularProgressIndicator(),);
-      }
-  );
+    var addPatientTextUri =
+        Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
+    //var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
     final res = await http.post(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
