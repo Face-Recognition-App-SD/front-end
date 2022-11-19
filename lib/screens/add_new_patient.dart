@@ -9,7 +9,6 @@ import 'package:rostro_app/screens/patient_list.dart';
 import '../utils/constant.dart';
 import 'package:camera/camera.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:country_state_city_picker/country_state_city_picker.dart';
 
 class AddNewPatient extends StatefulWidget {
   final String token;
@@ -27,8 +26,10 @@ class _AddNewPatientState extends State<AddNewPatient> {
   String? selectedState = "";
   String? selectedCountry = "";
   String? selectedCity = "";
+  static const double _kItemExtent = 32.0;
 
   var genderList = Constants.genderList;
+  var statesList = Constants.statesList;
 
   //late Map<String, dynamic> pictures;
   late int id;
@@ -53,6 +54,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
   TextEditingController genderController = TextEditingController();
   TextEditingController is_in_hospitalController = TextEditingController();
   String? selectedValueforGender;
+  var index;
   @override
   void StepState() {
     token = widget.token;
@@ -88,206 +90,252 @@ class _AddNewPatientState extends State<AddNewPatient> {
   Widget addTextInfo() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(children: <Widget>[
-        const SizedBox(height: 20.0),
-        TextFormField(
-          controller: firstNameController,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.person, color: Colors.white70),
-            hintText: 'First Name',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        TextFormField(
-          controller: lastNameController,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.person, color: Colors.white70),
-            hintText: 'Last Name',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        TextFormField(
-          controller: ageController,
-          keyboardType: TextInputType.number,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.numbers_rounded, color: Colors.white70),
-            hintText: 'Age',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        TextFormField(
-          controller: med_listController,
-          cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 13),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
-            hintText: 'Medical List',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        TextFormField(
-          keyboardType: TextInputType.number,
-          controller: phone_numberController,
-          cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 13),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.numbers, color: Colors.white70),
-            hintText: 'Phone Number',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        TextFormField(
-          controller: date_of_birthController,
-          keyboardType: TextInputType.datetime,
-          cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 13),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.date_range, color: Colors.white70),
-            hintText: 'Date of birth yyyy-mm-dd',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        Row(
-          children: [
-            const Icon(Icons.person, color: Colors.white70),
-            DropdownButtonHideUnderline(
-              child: DropdownButton2(
-                hint: const Text(
-                  '     Gender',
-                  style: TextStyle(fontSize: 14, color: Colors.white70),
-                ),
-                items: genderList
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                            ),
-                          ),
-                        ))
-                    .toList(),
-                value: selectedValueforGender,
-                onChanged: (value) {
-                  setState(() {
-                    selectedValueforGender = value as String;
-                    token = widget.token;
-                  });
-                },
-                buttonHeight: 30,
-                buttonWidth: 200,
-                itemHeight: 30,
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Color.fromARGB(236, 9, 96, 168),
-                ),
-              ),
+      child: Column(
+        children: <Widget>[
+          const SizedBox(height: 20.0),
+          TextFormField(
+            controller: firstNameController,
+            cursorColor: Colors.white,
+            style: const TextStyle(color: Colors.white70),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.person, color: Colors.white70),
+              hintText: 'First Name',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
             ),
-          ],
-        ),
-        const SizedBox(height: 20.0),
-        TextFormField(
-          controller: street_addressController,
-          keyboardType: TextInputType.datetime,
-          cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 13),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.house, color: Colors.white70),
-            hintText: 'Street Address',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
           ),
-        ),
-        const SizedBox(height: 20.0),
-        TextFormField(
-          controller: city_addressController,
-          keyboardType: TextInputType.datetime,
-          cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white70, fontSize: 13),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.house, color: Colors.white70),
-            hintText: 'City Address',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
+          const SizedBox(height: 20.0),
+          TextFormField(
+            controller: lastNameController,
+            cursorColor: Colors.white,
+            style: const TextStyle(color: Colors.white70),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.person, color: Colors.white70),
+              hintText: 'Last Name',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+            ),
           ),
-        ),
-        const SizedBox(height: 20.0),
-        Row(
-          children: [
-            Column(
-              children: [
-                TextFormField(
-                  controller: zipcode_addressController,
-                  keyboardType: TextInputType.datetime,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.house, color: Colors.white70),
-                    hintText: 'Zipcode',
-                    border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white70)),
-                    hintStyle: TextStyle(color: Colors.white70),
+          const SizedBox(height: 20.0),
+          TextFormField(
+            controller: ageController,
+            keyboardType: TextInputType.number,
+            cursorColor: Colors.white,
+            style: const TextStyle(color: Colors.white70),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.numbers_rounded, color: Colors.white70),
+              hintText: 'Age',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          TextFormField(
+            controller: med_listController,
+            cursorColor: Colors.white,
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
+              hintText: 'Medical List',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          TextFormField(
+            keyboardType: TextInputType.number,
+            controller: phone_numberController,
+            cursorColor: Colors.white,
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.numbers, color: Colors.white70),
+              hintText: 'Phone Number',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          TextFormField(
+            controller: date_of_birthController,
+            keyboardType: TextInputType.datetime,
+            cursorColor: Colors.white,
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.date_range, color: Colors.white70),
+              hintText: 'Date of birth yyyy-mm-dd',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          Row(
+            children: [
+              const Icon(Icons.person, color: Colors.white70),
+              DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  hint: const Text(
+                    '     Gender',
+                    style: TextStyle(fontSize: 14, color: Colors.white70),
+                  ),
+                  items: genderList
+                      .map((item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  value: selectedValueforGender,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedValueforGender = value as String;
+                      token = widget.token;
+                    });
+                  },
+                  buttonHeight: 30,
+                  buttonWidth: 200,
+                  itemHeight: 30,
+                  dropdownDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Color.fromARGB(236, 9, 96, 168),
                   ),
                 ),
-              ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 20.0),
+          TextFormField(
+            controller: street_addressController,
+            keyboardType: TextInputType.datetime,
+            cursorColor: Colors.white,
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.house, color: Colors.white70),
+              hintText: 'Street Address',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
             ),
-        ]  ,),
-            // Row(
-            //   children: [
-            //     SelectState(
-            //       onCountryChanged: (value) {
-            //         setState(() {
-            //           selectedCountry = value;
-            //           token = widget.token;
-            //         });
-            //       },
-            //       onStateChanged: (value) {
-            //         setState(() {
-            //           selectedState = value;
-            //           token = widget.token;
-            //         });
-            //       },
-            //       onCityChanged: (value) {
-            //         setState(() {
-            //           selectedCity = value;
-            //           token = widget.token;
-            //         });
-            //       },
-            //     ),
-            //   ],
-            // )
-          ],
-      
-      
+          ),
+          const SizedBox(height: 20.0),
+          TextFormField(
+            controller: city_addressController,
+            keyboardType: TextInputType.datetime,
+            cursorColor: Colors.white,
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.house, color: Colors.white70),
+              hintText: 'City Address',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+
+          TextFormField(
+            controller: zipcode_addressController,
+            keyboardType: TextInputType.datetime,
+            cursorColor: Colors.white,
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.house, color: Colors.white70),
+              hintText: 'Zipcode',
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color: Colors.white70),
+            ),
+          ),
+ const SizedBox(height: 20.0),
+          Row(
+            children: [
+              CupertinoPageScaffold(
+     
+      child: DefaultTextStyle(
+        style: TextStyle(
+          color: CupertinoColors.label.resolveFrom(context),
+          fontSize: 22.0,
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text('Selected fruit: '),
+              CupertinoButton(
+                padding: EdgeInsets.zero,
+                // Display a CupertinoPicker with list of fruits.
+                onPressed: () => showDialogState(
+                  CupertinoPicker(
+                    magnification: 1.22,
+                    squeeze: 1.2,
+                    useMagnifier: true,
+                    itemExtent: _kItemExtent,
+                    // This is called when selected item is changed.
+                    onSelectedItemChanged: (int selectedItem) {
+                      setState(() {
+                        index = selectedItem!;
+                          token = widget.token;
+                      });
+                    },
+                    children:
+                        List<Widget>.generate(statesList.length, (int index) {
+                      return Center(
+                        child: Text(
+                          statesList[index],
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+                // This displays the selected fruit name.
+                child: Text(
+                statesList[index],
+                  style: const TextStyle(
+                    fontSize: 22.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+            ],
+          ),
+
+        ],
       ),
     );
+  }
+
+ void showDialogState(Widget child) {
+    showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => Container(
+              height: 216,
+              padding: const EdgeInsets.only(top: 6.0),
+              // The Bottom margin is provided to align the popup above the system navigation bar.
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              // Provide a background color for the popup.
+              color: CupertinoColors.systemBackground.resolveFrom(context),
+              // Use a SafeArea widget to avoid system overlaps.
+              child: SafeArea(
+                top: false,
+                child: child,
+              ),
+            ));
   }
 
   Widget submitButton(BuildContext context) {
@@ -362,7 +410,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
       "street_address": street_addressController.text,
       "city_address": city_addressController.text,
       "zipcode_address": zipcode_addressController.text,
-      "state_address": state_addressController.text,
+      "state_address": statesList[index],
       "emergency_contact_name": emergency_contact_nameController.text,
       "emergency_phone_number": emergency_phone_numberController.text,
       "relationship": relationshipController.text,
