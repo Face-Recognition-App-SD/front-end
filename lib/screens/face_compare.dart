@@ -57,8 +57,8 @@ class ExtendedCompareFace extends State<CompareFace> {
         child: ElevatedButton(
           child: const Text('Take Picture of Patient'),
           onPressed: () async {
-            var faceCompareUri = Uri.https('${Constants.BASE_URL}', '/api/user/faceCompare/');
-            //var faceCompareUri = Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
+            //var faceCompareUri = Uri.https('${Constants.BASE_URL}', '/api/user/faceCompare/');
+            var faceCompareUri = Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
             picture = await availableCameras().then((value) =>
                 Navigator.push(
                     context,
@@ -106,10 +106,10 @@ class ExtendedCompareFace extends State<CompareFace> {
               print(respues['T']);
               id = int.parse(respues['T'].toString());
               print("ROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-              var getPatientUri = Uri.https('${Constants.BASE_URL}', '/api/patients/patientss/$id/');
-              //var getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
-              var getImagesUri = Uri.https('${Constants.BASE_URL}', '/api/patients/all/$id/get_images/');
-              //var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+              //var getPatientUri = Uri.https('${Constants.BASE_URL}', '/api/patients/patientss/$id/');
+              var getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+              //var getImagesUri = Uri.https('${Constants.BASE_URL}', '/api/patients/all/$id/get_images/');
+              var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
               final imageRes = await http.get(
                 getImagesUri,
                 headers: {

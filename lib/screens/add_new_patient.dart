@@ -209,8 +209,8 @@ class _AddNewPatientState extends State<AddNewPatient> {
   }
 
   Future<PatientsData?> postPatient() async {
-  var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
-  //var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
+  //var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+  var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
   showDialog(
       context: context,
       builder: (context){
@@ -231,8 +231,8 @@ class _AddNewPatientState extends State<AddNewPatient> {
     var data = json.decode(res.body);
     print(data);
     id = data['id'];
-    var addPatientPictures = Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/upload-image/');
-    //var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+    //var addPatientPictures = Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/upload-image/');
+    var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
     var request = http.MultipartRequest("POST", addPatientPictures);
     request.headers.addAll({"Authorization": "Token $token"});
     request.fields['id'] = id.toString();

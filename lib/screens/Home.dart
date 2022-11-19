@@ -201,8 +201,8 @@ class _home2State extends State<Home> {
 
   Future<UserLogin?> fetchUserProfile(token) async {
     UserLogin? newuser;
-    var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
-    //var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
+    //var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
+    var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
     final response = await http.get(
       myProfileUri,
       headers: {
