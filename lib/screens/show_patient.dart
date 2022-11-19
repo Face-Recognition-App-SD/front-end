@@ -93,8 +93,8 @@ class ShowPatientDetails extends State<ShowPatient> {
   }
 
   Widget pic(){
-    String picturePath = "${Constants.BASE_URL}${picture.path}";
-    //String picturePath = picture.path;
+    //String picturePath = "${Constants.BASE_URL}${picture.path}";
+    String picturePath = picture.path;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min, children: [
