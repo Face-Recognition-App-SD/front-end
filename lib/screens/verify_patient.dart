@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui';
 import 'package:camera/camera.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
 import './camera.dart';
@@ -82,8 +85,13 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
           onPressed: () async {
             if (patientId.text.isNotEmpty) {
               id = int.parse(patientId.text);
-             //var faceVerify = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/faceverify/');
-             var faceVerify = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/faceverify/');
+              Uri faceVerify = Uri();
+              if(Constants.BASE_URL == "api.rostro-authentication.com"){
+                faceVerify = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/faceverify/');
+              }
+             else{
+                faceVerify = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/faceverify/');
+              }
               
               picture = await availableCameras().then((value) => Navigator.push(
                   context,
@@ -91,22 +99,14 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                       builder: (_) => Camera(token: token, cameras: value))));
               if (picture==null) return;
               String path = picture!.path;
-
-              final fileBytes = File(path).readAsBytesSync();
-              final data = await readExifFromBytes(fileBytes);
-              var keys = data.keys;
-              for(var i = keys.length-1; i>=0; i--){
-                data.remove(keys.elementAt(i));
-              }
-              final codec = await instantiateImageCodec(fileBytes);
-              final frameInfo = await codec.getNextFrame();
-              var pic = frameInfo.image;
-              XFile novoPic = XFile.fromData(fileBytes);
+              File filePic = File(path);
+              Uint8List? compressed = await FlutterImageCompress.compressWithFile(filePic.absolute.path);
+              final tempDir = await getTemporaryDirectory();
+              File file = await File('${tempDir.path}/image.png').create();
+              file.writeAsBytesSync(compressed!);
               print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-              final gata = await readExifFromBytes(fileBytes);
-              var leys = gata.keys;
-              print(leys);
-              print(path);
+
+              print(file.path);
               print("GOOOOOOOOOOOOOOOOOOOOOOOO");
               var request = http.MultipartRequest("POST", faceVerify);
               request.headers.addAll({"Authorization": "Token $token"});
@@ -119,23 +119,13 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                       child: CircularProgressIndicator(),
                     );
                   });
-              var image = await http.MultipartFile.fromPath("image", novoPic.path);
+              var image = await http.MultipartFile.fromPath("image", file.path);
               request.files.add(image);
               request.fields['id'] = id.toString();
-              print(image.filename);
-              print(request.fields);
-              print(request.files);
               http.StreamedResponse response = await request.send();
-              print(response.statusCode);
-              print(response.reasonPhrase);
-              print(response.headers);
-              print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
               var responseData = await response.stream.toBytes();
               var responseString = String.fromCharCodes(responseData);
               var respues = jsonDecode(responseString);
-              print(respues);
-              print("ZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-              print(responseString);
               Navigator.of(context).pop();
               print(respues['status']);
               if (respues['status'] == false) {
@@ -150,10 +140,20 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
               else {
                 print("KKOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
                 print("ROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-                //var getPatientUri = Uri.https('${Constants.BASE_URL}', '/api/patients/patientss/$id/');
-                var getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
-                //var getImagesUri = Uri.https('${Constants.BASE_URL}', '/api/patients/all/$id/get_images/');
-                var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+                Uri  getPatientUri = Uri();
+                if(Constants.BASE_URL == "api.rostro-authentication.com"){
+                  getPatientUri = Uri.https('${Constants.BASE_URL}', '/api/patients/patientss/$id/');
+                }
+                else{
+                  getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+                }
+                Uri getImagesUri = Uri();
+                if(Constants.BASE_URL == "api.rostro-authentication.com"){
+                  getImagesUri = Uri.https('${Constants.BASE_URL}', '/api/patients/all/$id/get_images/');
+                }
+                else{
+                  getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+                }
                 final imageRes = await http.get(
                   getImagesUri,
                   headers: {

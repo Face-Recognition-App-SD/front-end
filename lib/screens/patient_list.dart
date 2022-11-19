@@ -150,8 +150,13 @@ class _PatientList extends State<PatientList> {
   }
 
   Future<http.Response?> fetchPatients(token) async {
-    //var myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
-    var myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
+    Uri myProfileUri = Uri();
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
+    }
+    else{
+      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
+    }
     final res = await http.get(
       myProfileUri,
       headers: {

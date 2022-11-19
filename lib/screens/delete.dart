@@ -13,8 +13,14 @@ import '../utils/constant.dart';
 
   // NetworkImage getImage(String pfimg) {
     Future <http.Response> deletePatient(String id, String token) async {
-    //var response = await http.delete(Uri.https('${Constants.BASE_URL}','/api/patients/all/$id/'),
-    var response = await http.delete(Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/'),
+      Uri deleteUri = Uri();
+      if(Constants.BASE_URL == "api.rostro-authentication.com"){
+        deleteUri = Uri.https('${Constants.BASE_URL}','/api/patients/all/$id/');
+      }
+      else{
+        deleteUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/');
+      }
+    var response = await http.delete(deleteUri,
          
     ///api/patients/all/{id}/
     headers: 
