@@ -35,8 +35,7 @@ class _homeState extends State<Homepage> {
     print ('token in HP: $token1');
        pages = [
     Home(token: token1),
-         VerifyPatient(token: token1),
-         //CompareFace(token: token1),
+         CompareFace(token: token1),
          //GetPatientPictures(token: token1,),
          PatientList(token: token1),
          Profile(token: token1),
@@ -55,7 +54,7 @@ class _homeState extends State<Homepage> {
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(
-              icon: Icon(Icons.add_a_photo_outlined), label: 'Verify'),
+              icon: Icon(Icons.add_a_photo_outlined), label: 'Recognize'),
           NavigationDestination(icon: Icon(Icons.list), label: 'My Patient List'),
           NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
         ],

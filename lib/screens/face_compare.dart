@@ -50,6 +50,7 @@ class ExtendedCompareFace extends State<CompareFace> {
   }
 
   Container cameraButtonSection() {
+    print("RECONOCEEEEEEEEEEEEEEEEEE");
     id = 1;
     return Container(
         margin: const EdgeInsets.only(top: 50.0),

@@ -14,8 +14,8 @@ import 'package:exif/exif.dart';
 
 class VerifyPatient extends StatefulWidget {
   final String token;
-
-  const VerifyPatient({super.key, required this.token});
+  final int id;
+  const VerifyPatient({super.key, required this.token, required this.id});
 
   @override
   State<VerifyPatient> createState() => ExtendVerifyPatient();
@@ -25,7 +25,7 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
   var bg = './assets/images/bg.jpeg';
   late String token;
   late Map<String, dynamic> pictures;
-  late int id;
+  late int id = widget.id;
   XFile? picture;
   @override
   void initState() {
@@ -46,33 +46,10 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
         ), //background image
         child: ListView(
           children: <Widget>[
-            getIdSection(),
             cameraButtonSection(),
           ],
         ),
       ),
-    );
-  }
-  TextEditingController patientId = TextEditingController();
-  Container getIdSection(){
-    return Container(
-      margin: const EdgeInsets.only(top: 200.0),
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(children: <Widget>[
-        TextFormField(
-          controller: patientId,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.person, color: Colors.white70),
-            hintText: 'Patient ID',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 30.0)
-      ]),
     );
   }
   Container cameraButtonSection() {
@@ -83,8 +60,6 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
         child: ElevatedButton(
           child: const Text('Take Picture of Patient'),
           onPressed: () async {
-            if (patientId.text.isNotEmpty) {
-              id = int.parse(patientId.text);
               Uri faceVerify = Uri();
               if(Constants.BASE_URL == "api.rostro-authentication.com"){
                 faceVerify = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/faceverify/');
@@ -185,7 +160,6 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                                 isFromAll: true,)));
               }
             }
-          },
         )
       //end of button
     );
