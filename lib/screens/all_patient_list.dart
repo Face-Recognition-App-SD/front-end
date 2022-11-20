@@ -80,6 +80,7 @@ class _AllPatientList extends State<AllPatientList> {
                       child: PatientListWidget(
                         token: token, 
                         patientList: patients,
+                        isFromAll: true,
                       ))
                   : const Center(
                       child: Padding(

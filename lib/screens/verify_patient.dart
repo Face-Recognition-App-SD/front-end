@@ -181,7 +181,8 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                             ShowPatient(
                                 token: token,
                                 details: decodedPatient,
-                                picture: retrievedPicture)));
+                                picture: retrievedPicture,
+                                isFromAll: true,)));
               }
             }
           },
