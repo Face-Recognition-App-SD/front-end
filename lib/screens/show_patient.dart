@@ -59,8 +59,8 @@ class ShowPatientDetails extends State<ShowPatient> {
                   }
                   },
                 child: Visibility(
-                child: const Icon(Icons.delete, color: Colors.red,),
-                visible: !isFromAll,),
+                visible: !isFromAll,
+                child: const Icon(Icons.delete, color: Colors.red,),),
               ),
             ),
            Padding(
@@ -74,8 +74,8 @@ class ShowPatientDetails extends State<ShowPatient> {
                  }
           },
                 child: Visibility(
-                child: Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),
-                visible: !isFromAll,),
+                visible: !isFromAll,
+                child: Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),),
               ),
             ),
           ],
