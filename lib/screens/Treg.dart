@@ -76,11 +76,7 @@ class _TRegister extends State<TRegister> {
 
   var genderList = Constants.genderList;
 
-  final List<String> roles = [
-    'Doctor',
-    'Nurse',
-    'Physical Therapist'
-  ];
+  final List<String> roles = ['Doctor', 'Nurse', 'Physical Therapist'];
   String? selectedValueforGender;
   String? selectedValueforRoles;
 
@@ -117,7 +113,8 @@ class _TRegister extends State<TRegister> {
               suffixIcon: IconButton(
                 icon: Icon(
                   _passwordVisible1 ? Icons.visibility : Icons.visibility_off,
-                  color: Theme.of(context).primaryColorDark,
+                  // color: Theme.of(context).primaryColorDark,
+                  color: Colors.white70,
                 ),
                 onPressed: () {
                   setState(() {
@@ -143,7 +140,8 @@ class _TRegister extends State<TRegister> {
               suffixIcon: IconButton(
                 icon: Icon(
                   _passwordVisible2 ? Icons.visibility : Icons.visibility_off,
-                  color: Theme.of(context).primaryColorDark,
+                  // color: Theme.of(context).primaryColorDark,
+                  color: Colors.white70,
                 ),
                 onPressed: () {
                   setState(() {
@@ -290,8 +288,9 @@ class _TRegister extends State<TRegister> {
             String email = emailController.text;
             String password = passwordController.text;
             String cpassword = cpController.text;
-            if (password.isNotEmpty && cpassword.isNotEmpty && password == cpassword) {
-
+            if (password.isNotEmpty &&
+                cpassword.isNotEmpty &&
+                password == cpassword) {
               UserLogin? data = await fetchDataSignUp(
                   email,
                   password,
@@ -333,7 +332,8 @@ class _TRegister extends State<TRegister> {
                   setState(() {});
                 }
               } else if (data == null) {
-                print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                print(
+                    "YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
                 print(data);
 
                 showDialog(
@@ -359,7 +359,8 @@ class _TRegister extends State<TRegister> {
                 setState(() {});
               } else {
                 print(data);
-                print("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                print(
+                    "HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
                 showDialog(
                   context: context,
@@ -383,8 +384,7 @@ class _TRegister extends State<TRegister> {
                 setState(() {});
               }
             }
-
-          }//JJJJJJJJJJJJJJJJJJJJJ
+          } //JJJJJJJJJJJJJJJJJJJJJ
 
           //end of button
           ),
@@ -400,25 +400,22 @@ class _TRegister extends State<TRegister> {
       String dep,
       String gender) async {
     Uri myRegUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
       myRegUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
-    }
-    else{
+    } else {
       myRegUri = Uri.parse('${Constants.BASE_URL}/api/user/create/');
     }
-    var response = await http.post(myRegUri,
-        headers: {
-          HttpHeaders.acceptHeader: 'application/json',
-        },
-        body: {
-          "email": email,
-          "password": password,
-          "first_name": first_name,
-          "last_name": last_name,
-          "role": role,
-          "department_id": dep,
-          "gender": gender,
-        });
+    var response = await http.post(myRegUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+    }, body: {
+      "email": email,
+      "password": password,
+      "first_name": first_name,
+      "last_name": last_name,
+      "role": role,
+      "department_id": dep,
+      "gender": gender,
+    });
     var jsonResponse = null;
     var data = response.body;
     token = data.substring(10, data.length - 2);
