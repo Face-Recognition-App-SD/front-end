@@ -9,8 +9,9 @@ import './camera.dart';
 
 class PatientDetail extends StatefulWidget {
   final String token;
-  final String id; 
-  const PatientDetail({super.key, required this.token, required this.id});
+  final String id;
+  final bool isFromALl;
+  const PatientDetail({super.key, required this.token, required this.id, required this.isFromALl});
 
   @override
   State<PatientDetail> createState() => _PatientDetail();
@@ -22,6 +23,7 @@ class _PatientDetail extends State<PatientDetail> {
   late Map<String, dynamic> pictures;
   late String id;
   XFile? picture;
+  late bool isFromAll = widget.isFromALl;
   @override
   void initState() {
     super.initState();
@@ -120,7 +122,11 @@ class _PatientDetail extends State<PatientDetail> {
             if(responseString !=null && retrievedPicture!=null){
                     print('can go insdide resp');
 
-              Navigator.push(context, MaterialPageRoute(builder: (_) => ShowPatient(token: token,  details: decodedPatient, picture: retrievedPicture)));
+              Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                  ShowPatient(token: token,
+                      details: decodedPatient,
+                      picture: retrievedPicture,
+                      isFromAll: isFromAll,)));
             }
             else{
               const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));

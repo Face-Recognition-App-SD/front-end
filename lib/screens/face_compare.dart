@@ -152,7 +152,8 @@ class ExtendedCompareFace extends State<CompareFace> {
                           ShowPatient(
                               token: token,
                               details: decodedPatient,
-                              picture: retrievedPicture)));
+                              picture: retrievedPicture,
+                              isFromAll: true,)));
             }
           }
         )//end of button
