@@ -8,8 +8,12 @@ import '../models/PatientsData.dart';
 class PatientListWidget extends StatefulWidget {
   final List<PatientsData> patientList;
   final String token;
+  final bool isFromAll;
 
-  const PatientListWidget({Key? key, required this.patientList, required this.token}) : super(key: key);
+  const PatientListWidget({Key? key,
+    required this.patientList,
+    required this.token,
+    required this.isFromAll}) : super(key: key);
 
   @override
   State<PatientListWidget> createState() => _PatientListWidgetState();
@@ -18,10 +22,9 @@ class PatientListWidget extends StatefulWidget {
 class _PatientListWidgetState extends State<PatientListWidget> {
   late String token;
   late String id;
+  late bool isFromAll = widget.isFromAll;
   void initState() {
     token = widget.token;
-  
-    // initCamera(widget.patients![0]);
   }
 
   
@@ -48,7 +51,9 @@ class _PatientListWidgetState extends State<PatientListWidget> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          PatientDetail(token: token,id:widget.patientList[index].id.toString())),
+                          PatientDetail(token: token,
+                            id:widget.patientList[index].id.toString(),
+                            isFromALl: isFromAll)),
                 );
               },
               child: ListTile(

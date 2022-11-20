@@ -152,12 +152,30 @@ class _LoginPageState extends State<LoginPage> {
             String password = passwordController.text;
             UserLogin? data = await fetchDataLogin(email, password);
             print('info after login');
-            print(token);
-            setState(() {});
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (BuildContext context) => Homepage(token: token)),
-                (Route<dynamic> route) => false);
+            var tokenReturn = token.substring(0, 8);
+            //  print(tokenReturn);
+            if (tokenReturn == "d_errors") {
+              print(tokenReturn);
+              showDialog(
+                
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                //    title: const Text("Message!!"),
+                    content: const Text(
+                        "The combination of email and password is not correct", ),
+                  );
+                },
+                
+              );
+            } else {
+              //  setState(() {});
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          Homepage(token: token)),
+                  (Route<dynamic> route) => false);
+            }
           },
         )
 

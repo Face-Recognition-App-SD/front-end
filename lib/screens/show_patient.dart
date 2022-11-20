@@ -11,12 +11,13 @@ class ShowPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
   final XFile picture;
-  // final String? id;
-  const ShowPatient(
-      {super.key,
+  final bool isFromAll;
+
+  const ShowPatient({super.key,
       required this.token,
       required this.details,
-      required this.picture});
+      required this.picture,
+      required this.isFromAll});
 
   @override
   State<ShowPatient> createState() => ShowPatientDetails();
@@ -28,13 +29,14 @@ class ShowPatientDetails extends State<ShowPatient> {
   late String token = widget.token;
   late String id = widget.details['id'].toString();
   late XFile picture = widget.picture;
+  late bool isFromAll = widget.isFromAll;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Patient Detail'),  
           leading: IconButton(
-            icon: new Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
                 context,
@@ -49,23 +51,31 @@ class ShowPatientDetails extends State<ShowPatient> {
             Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () { delete(id, token);
-                 Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => PatientList(token: token,)),
-          );},
-                child: const Icon(Icons.delete, color: Colors.red,),
+                onTap: () {
+                  if (!isFromAll) {
+                    delete(id, token);
+                    Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                       PatientList(token: token,)),);
+                  }
+                  },
+                child: Visibility(
+                visible: !isFromAll,
+                child: const Icon(Icons.delete, color: Colors.red,),),
               ),
             ),
            Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                 Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => EditPatient(token: token, details: details),),);
+
+                 if (!isFromAll) {
+                   Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                       EditPatient(token: token, details: details),),);
+                 }
           },
-                child: const Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),
+                child: Visibility(
+                visible: !isFromAll,
+                child: Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),),
               ),
             ),
           ],

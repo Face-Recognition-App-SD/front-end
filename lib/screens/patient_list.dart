@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/PatientsData.dart';
 import 'package:rostro_app/screens/homepage.dart';
+import 'package:rostro_app/screens/testCuper.dart';
 import './add_new_patient.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
@@ -108,6 +109,7 @@ class _PatientList extends State<PatientList> {
                       child: PatientListWidget(
                         token: token,
                         patientList: patients,
+                        isFromAll: false,
                       ))
                   : const Center(
                       child: Padding(
