@@ -3,18 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:rostro_app/models/userlogin.dart';
 
 import 'package:flutter/services.dart';
-import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:rostro_app/screens/login_page.dart';
 
 import '../utils/constant.dart';
-import './homepage.dart';
-import './login_page.dart';
 import 'dart:io';
 import './verifyEmail.dart';
-//import 'loggedinpage.dart';
 
 class TRegister extends StatefulWidget {
   const TRegister({super.key});
@@ -25,11 +20,9 @@ class TRegister extends StatefulWidget {
 
 class _TRegister extends State<TRegister> {
   var bg = './assets/images/bg.jpeg';
-  bool _isLoading = false;
   late String token;
   bool _passwordVisible1 = false;
   bool _passwordVisible2 = false;
-  // bool _isEqual = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,8 +40,7 @@ class _TRegister extends State<TRegister> {
           children: <Widget>[
             headerSection(),
             textSection(),
-            SubmitButtonSection(context),
-            //    signUpButtonSection(),
+            submitButtonSection(context),
           ],
         ),
       ),
@@ -57,7 +49,7 @@ class _TRegister extends State<TRegister> {
 
   Container headerSection() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
+        padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
         child: Image.asset(
           './assets/images/logo.jpeg',
           height: 100,
@@ -70,9 +62,9 @@ class _TRegister extends State<TRegister> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController cpController = TextEditingController();
-  TextEditingController first_nameController = TextEditingController();
-  TextEditingController last_nameController = TextEditingController();
-  TextEditingController department_idController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController departmentIdController = TextEditingController();
 
   var genderList = Constants.genderList;
 
@@ -93,7 +85,7 @@ class _TRegister extends State<TRegister> {
             keyboardType: TextInputType.emailAddress,
             controller: emailController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
               icon: Icon(Icons.email, color: Colors.white70),
               hintText: 'Email',
@@ -108,12 +100,12 @@ class _TRegister extends State<TRegister> {
             keyboardType: TextInputType.text,
             controller: passwordController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: InputDecoration(
               hintText: 'Password',
-              border: UnderlineInputBorder(
+              border: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+              hintStyle: const TextStyle(color: Colors.white70),
               suffixIcon: IconButton(
                 icon: Icon(
                   _passwordVisible1 ? Icons.visibility : Icons.visibility_off,
@@ -125,7 +117,7 @@ class _TRegister extends State<TRegister> {
                   });
                 },
               ),
-              icon: Icon(Icons.lock, color: Colors.white70),
+              icon: const Icon(Icons.lock, color: Colors.white70),
             ),
           ),
           const SizedBox(height: 20.0),
@@ -134,12 +126,12 @@ class _TRegister extends State<TRegister> {
             keyboardType: TextInputType.text,
             controller: cpController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: InputDecoration(
               hintText: 'Confirm Password',
-              border: UnderlineInputBorder(
+              border: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+              hintStyle: const TextStyle(color: Colors.white70),
               suffixIcon: IconButton(
                 icon: Icon(
                   _passwordVisible2 ? Icons.visibility : Icons.visibility_off,
@@ -151,15 +143,15 @@ class _TRegister extends State<TRegister> {
                   });
                 },
               ),
-              icon: Icon(Icons.lock, color: Colors.white70),
+              icon: const Icon(Icons.lock, color: Colors.white70),
             ),
           ),
           const SizedBox(height: 20.0),
           TextFormField(
             keyboardType: TextInputType.text,
-            controller: first_nameController,
+            controller: firstNameController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
               icon: Icon(Icons.person, color: Colors.white70),
               hintText: 'First name',
@@ -171,9 +163,9 @@ class _TRegister extends State<TRegister> {
           const SizedBox(height: 20.0),
           TextFormField(
             keyboardType: TextInputType.text,
-            controller: last_nameController,
+            controller: lastNameController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
               icon: Icon(Icons.person, color: Colors.white70),
               hintText: 'Last name',
@@ -215,7 +207,7 @@ class _TRegister extends State<TRegister> {
                   itemHeight: 30,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
-                    color: Color.fromARGB(236, 9, 96, 168),
+                    color: const Color.fromARGB(236, 9, 96, 168),
                   ),
                 ),
               ),
@@ -224,9 +216,9 @@ class _TRegister extends State<TRegister> {
           const SizedBox(height: 20.0),
           TextFormField(
             keyboardType: TextInputType.number,
-            controller: department_idController,
+            controller: departmentIdController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
               icon: Icon(Icons.person, color: Colors.white70),
               hintText: 'Department ID',
@@ -268,7 +260,7 @@ class _TRegister extends State<TRegister> {
                   itemHeight: 30,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Color.fromARGB(236, 9, 96, 168),
+                    color: const Color.fromARGB(236, 9, 96, 168),
                   ),
                 ),
               ),
@@ -280,10 +272,10 @@ class _TRegister extends State<TRegister> {
     );
   }
 
-  Container SubmitButtonSection(BuildContext context) {
+  Container submitButtonSection(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      margin: const EdgeInsets.only(top: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: ElevatedButton(
           child: Text('Submit'),
           onPressed: () async {
@@ -295,14 +287,11 @@ class _TRegister extends State<TRegister> {
               UserLogin? data = await fetchDataSignUp(
                   email,
                   password,
-                  first_nameController.text,
-                  last_nameController.text,
+                  firstNameController.text,
+                  lastNameController.text,
                   selectedValueforRoles ?? "Nurse",
-                  department_idController.text,
+                  departmentIdController.text,
                   selectedValueforGender ?? "Male");
-              print('info after login');
-              print(token);
-              print(data?.cpassword);
 
               if (data != null) {
                 if (data.password != data.cpassword) {
@@ -317,7 +306,7 @@ class _TRegister extends State<TRegister> {
                             Navigator.of(ctx).pop();
                           },
                           child: Container(
-                            color: Color.fromARGB(236, 9, 96, 168),
+                            color: const Color.fromARGB(236, 9, 96, 168),
                             padding: const EdgeInsets.all(14),
                             child: const Text("OK"),
                           ),
@@ -333,8 +322,6 @@ class _TRegister extends State<TRegister> {
                   setState(() {});
                 }
               } else if (data == null) {
-                print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-                print(data);
 
                 showDialog(
                   context: context,
@@ -347,7 +334,7 @@ class _TRegister extends State<TRegister> {
                           Navigator.of(ctx).pop();
                         },
                         child: Container(
-                          color: Color.fromARGB(236, 9, 96, 168),
+                          color: const Color.fromARGB(236, 9, 96, 168),
                           padding: const EdgeInsets.all(14),
                           child: const Text("OK"),
                         ),
@@ -358,8 +345,6 @@ class _TRegister extends State<TRegister> {
 
                 setState(() {});
               } else {
-                print(data);
-                print("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
                 showDialog(
                   context: context,
@@ -372,7 +357,7 @@ class _TRegister extends State<TRegister> {
                           Navigator.of(ctx).pop();
                         },
                         child: Container(
-                          color: Color.fromARGB(236, 9, 96, 168),
+                          color: const Color.fromARGB(236, 9, 96, 168),
                           padding: const EdgeInsets.all(14),
                           child: const Text("OK"),
                         ),
@@ -384,9 +369,7 @@ class _TRegister extends State<TRegister> {
               }
             }
 
-          }//JJJJJJJJJJJJJJJJJJJJJ
-
-          //end of button
+          }
           ),
     );
   }
@@ -394,8 +377,8 @@ class _TRegister extends State<TRegister> {
   Future<UserLogin?> fetchDataSignUp(
       String email,
       String password,
-      String first_name,
-      String last_name,
+      String firstName,
+      String lastName,
       String role,
       String dep,
       String gender) async {
@@ -413,20 +396,18 @@ class _TRegister extends State<TRegister> {
         body: {
           "email": email,
           "password": password,
-          "first_name": first_name,
-          "last_name": last_name,
+          "first_name": firstName,
+          "last_name": lastName,
           "role": role,
           "department_id": dep,
           "gender": gender,
         });
-    var jsonResponse = null;
     var data = response.body;
     token = data.substring(10, data.length - 2);
     if (response.statusCode == 201) {
       String responseString = response.body;
 
       setState(() {
-        _isLoading = false;
       });
 
       return albumFromJson(responseString);
@@ -434,7 +415,6 @@ class _TRegister extends State<TRegister> {
       if (response.statusCode == 400) {
         String responseString = response.body;
 
-        print(responseString);
       }
       return null;
     }
@@ -445,12 +425,12 @@ class _TRegister extends State<TRegister> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Message!"),
-          content: new Text(
+          title: const Text("Message!"),
+          content: const Text(
               "Your account have been created. Please check your email to verify your account."),
           actions: <Widget>[
-            new TextButton(
-              child: new Text("Verify Email"),
+            TextButton(
+              child: const Text("Verify Email"),
               onPressed: () {
                 Navigator.push(
                   context,

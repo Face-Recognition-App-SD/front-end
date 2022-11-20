@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:async/async.dart';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -50,7 +49,6 @@ class ExtendedCompareFace extends State<CompareFace> {
   }
 
   Container cameraButtonSection() {
-    print("RECONOCEEEEEEEEEEEEEEEEEE");
     id = 1;
     return Container(
         margin: const EdgeInsets.only(top: 50.0),
@@ -60,7 +58,7 @@ class ExtendedCompareFace extends State<CompareFace> {
           onPressed: () async {
             Uri faceCompareUri = Uri();
             if(Constants.BASE_URL == "api.rostro-authentication.com"){
-              faceCompareUri = Uri.https('${Constants.BASE_URL}', '/api/user/faceCompare/');
+              faceCompareUri = Uri.https(Constants.BASE_URL, '/api/user/faceCompare/');
             }
             else{
               faceCompareUri = Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
@@ -73,10 +71,8 @@ class ExtendedCompareFace extends State<CompareFace> {
 
             if (picture == null) return;
             String path = picture!.path;
-            print("GOOOOOOOOOOOOOOOOOOOOOOOO");
             var request = http.MultipartRequest("POST", faceCompareUri);
             request.headers.addAll({"Authorization": "Token $token"});
-            print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 
             showDialog(
                 context: context,
@@ -89,14 +85,10 @@ class ExtendedCompareFace extends State<CompareFace> {
             var image = await http.MultipartFile.fromPath("image1", path);
             request.files.add(image);
             http.StreamedResponse response = await request.send();
-            print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
             var respues = jsonDecode(responseString);
-            print(respues);
-            print(respues["T"]);
-            print("ZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-            print(responseString);
+
             Navigator.of(context).pop();
             if (respues['T'] == '-1' || respues['T'] == 'Not Found') {
               const snackbar = SnackBar(
@@ -108,20 +100,17 @@ class ExtendedCompareFace extends State<CompareFace> {
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
             }
             else {
-              print("KKOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-              print(respues['T']);
               id = int.parse(respues['T'].toString());
-              print("ROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
               Uri getPatientUri = Uri();
               if(Constants.BASE_URL == "api.rostro-authentication.com"){
-                getPatientUri = Uri.https('${Constants.BASE_URL}', '/api/patients/patientss/$id/');
+                getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
               }
               else{
                 getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
               }
               Uri getImagesUri = Uri();
               if(Constants.BASE_URL == "api.rostro-authentication.com"){
-                getImagesUri = Uri.https('${Constants.BASE_URL}', '/api/patients/all/$id/get_images/');
+                getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
               }
               else{
                 getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
@@ -140,11 +129,8 @@ class ExtendedCompareFace extends State<CompareFace> {
                   HttpHeaders.authorizationHeader: 'Token $token',
                 },
               );
-              print(imageRes.statusCode);
               var decodedPatient = jsonDecode(patientRes.body);
               pictures = json.decode(imageRes.body);
-              print(pictures);
-              print("Neonlllllllllllllllllllllllllllllllllllll");
               XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
               Navigator.push(
                   context,

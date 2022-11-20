@@ -10,7 +10,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
 import './camera.dart';
-import 'package:exif/exif.dart';
 
 class VerifyPatient extends StatefulWidget {
   final String token;
@@ -79,13 +78,9 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
               final tempDir = await getTemporaryDirectory();
               File file = await File('${tempDir.path}/image.png').create();
               file.writeAsBytesSync(compressed!);
-              print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
 
-              print(file.path);
-              print("GOOOOOOOOOOOOOOOOOOOOOOOO");
               var request = http.MultipartRequest("POST", faceVerify);
               request.headers.addAll({"Authorization": "Token $token"});
-              print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 
               showDialog(
                   context: context,
@@ -102,7 +97,6 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
               var responseString = String.fromCharCodes(responseData);
               var respues = jsonDecode(responseString);
               Navigator.of(context).pop();
-              print(respues['status']);
               if (respues['status'] == false) {
                 const snackbar = SnackBar(
                     content: Text(
@@ -113,18 +107,16 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
               else {
-                print("KKOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-                print("ROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
                 Uri  getPatientUri = Uri();
                 if(Constants.BASE_URL == "api.rostro-authentication.com"){
-                  getPatientUri = Uri.https('${Constants.BASE_URL}', '/api/patients/patientss/$id/');
+                  getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
                 }
                 else{
                   getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
                 }
                 Uri getImagesUri = Uri();
                 if(Constants.BASE_URL == "api.rostro-authentication.com"){
-                  getImagesUri = Uri.https('${Constants.BASE_URL}', '/api/patients/all/$id/get_images/');
+                  getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
                 }
                 else{
                   getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
@@ -143,11 +135,10 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                     HttpHeaders.authorizationHeader: 'Token $token',
                   },
                 );
-                print(imageRes.statusCode);
+
                 var decodedPatient = jsonDecode(patientRes.body);
                 pictures = json.decode(imageRes.body);
-                print(pictures);
-                print("Neonlllllllllllllllllllllllllllllllllllll");
+
                 XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
                 Navigator.push(
                     context,

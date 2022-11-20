@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/login_page.dart';
 import 'package:rostro_app/screens/pwdchange.dart';
-
 import '../utils/constant.dart';
 import '../models/userlogin.dart';
-import '../screens/login_page.dart';
 
 class Profile extends StatefulWidget {
   final String token;
@@ -21,7 +17,6 @@ class Profile extends StatefulWidget {
 class _Profile extends State<Profile> {
   var bg = './assets/images/bg.jpeg';
   late String token;
-  // late UserLogin? currUser;
   late Future<UserLogin?> futureUser;
 
   @override
@@ -33,8 +28,8 @@ class _Profile extends State<Profile> {
 
   int currentPage = 0;
   String? email = "";
-  String? firstname = "";
-  String? last_name = "";
+  String? firstName = "";
+  String? lastName = "";
   String? role = "";
   String? gender = "";
   @override
@@ -49,7 +44,7 @@ class _Profile extends State<Profile> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => LoginPage()),
+                  MaterialPageRoute(builder: (_) => const LoginPage()),
                 );
               },
               child: const Icon(Icons.logout_rounded),
@@ -63,13 +58,13 @@ class _Profile extends State<Profile> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               email = snapshot.data!.email;
-              firstname = snapshot.data!.first_name;
-              last_name = snapshot.data!.last_name;
+              firstName = snapshot.data!.first_name;
+              lastName = snapshot.data!.last_name;
 
               role = snapshot.data!.role;
               gender = snapshot.data!.gender;
 
-              return DisplayProfile();
+              return displayProfile();
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -82,7 +77,7 @@ class _Profile extends State<Profile> {
     );
   }
 
-  Widget DisplayProfile() {
+  Widget displayProfile() {
     return ListView(children: <Widget>[
       Container(
         height: 250,
@@ -135,7 +130,7 @@ class _Profile extends State<Profile> {
               height: 10,
             ),
             Text(
-              '$firstname $last_name ',
+              '$firstName $lastName ',
               style: const TextStyle(
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
@@ -166,10 +161,10 @@ class _Profile extends State<Profile> {
               ),
               subtitle: Text(
                 '$email',
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
-            Divider(),
+            const Divider(),
             ListTile(
               title: const Text(
                 'Role',
@@ -181,10 +176,10 @@ class _Profile extends State<Profile> {
               ),
               subtitle: Text(
                 '$role',
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
-            Divider(),
+            const Divider(),
             ListTile(
               title: const Text(
                 'Gender',
@@ -196,7 +191,7 @@ class _Profile extends State<Profile> {
               ),
               subtitle: Text(
                 '$gender',
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
             changePasswordButton(context)
@@ -207,7 +202,7 @@ class _Profile extends State<Profile> {
   }
 
   Future<UserLogin?> fetchUserProfile(token) async {
-    UserLogin? newuser;
+    UserLogin? newUser;
     Uri myProfileUri = Uri();
     if(Constants.BASE_URL == "api.rostro-authentication.com"){
       myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
@@ -219,7 +214,7 @@ class _Profile extends State<Profile> {
       myProfileUri,
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token ' + token,
+        HttpHeaders.authorizationHeader: 'Token $token',
       },
     );
 
@@ -227,9 +222,9 @@ class _Profile extends State<Profile> {
     token = data.substring(10, data.length - 2);
     if (response.statusCode == 200) {
       String responseString = response.body;
-      newuser = albumFromJson(responseString);
+      newUser = albumFromJson(responseString);
 
-      return newuser;
+      return newUser;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -247,7 +242,7 @@ class _Profile extends State<Profile> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => pwdchange(token: token)));
+                      builder: (context) => PasswordChange(token: token)));
             }));
   }
 }

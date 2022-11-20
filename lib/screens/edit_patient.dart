@@ -4,11 +4,8 @@ import 'package:rostro_app/screens/patient_list.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:rostro_app/models/patientsdata.dart';
-
 import '../utils/constant.dart';
 import '../screens/delete.dart';
-
-import 'package:camera/camera.dart';
 import 'package:rostro_app/screens/get_patient_pictures.dart';
 
 class EditPatient extends StatefulWidget {
@@ -97,8 +94,6 @@ class ExtendEditPatient extends State<EditPatient> {
                   style: const TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 const SizedBox(height: 10.0),
-                //  delete(id, token),
-          //      addPhotos(),
                 textData(),
                 getImages( context),
                 submitButton(context),

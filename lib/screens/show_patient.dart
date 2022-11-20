@@ -1,7 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:rostro_app/screens/get_patient_pictures.dart';
 import 'package:rostro_app/screens/patient_list.dart';
 
 import '../utils/constant.dart';
@@ -49,7 +47,7 @@ class ShowPatientDetails extends State<ShowPatient> {
           ),
             actions: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
                   if (!isFromAll) {
@@ -75,7 +73,7 @@ class ShowPatientDetails extends State<ShowPatient> {
           },
                 child: Visibility(
                 visible: !isFromAll,
-                child: Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),),
+                child: const Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),),
               ),
             ),
           ],
@@ -120,8 +118,6 @@ class ShowPatientDetails extends State<ShowPatient> {
   }
   delete(String id, String token) async {
     var rest = await deletePatient(id, token);
-    print('inside delete');
-    print(rest);
     setState(() {});
   }
 

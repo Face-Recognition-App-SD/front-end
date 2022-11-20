@@ -1,16 +1,12 @@
 import 'dart:convert';
-
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/PatientsData.dart';
 import 'package:rostro_app/screens/homepage.dart';
-import 'package:rostro_app/screens/testCuper.dart';
 import './add_new_patient.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
-import '../utils/scroll.dart';
 
 class PatientList extends StatefulWidget {
   final String token;
@@ -27,7 +23,6 @@ class _PatientList extends State<PatientList> {
   @override
   void initState() {
     token = widget.token;
-    // initCamera(widget.patients![0]);
   }
 
   @override
@@ -49,14 +44,13 @@ class _PatientList extends State<PatientList> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
-              //containers
               showPatients(),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   ElevatedButton(
-                    child: Text('Back to HomePage'),
+                    child: const Text('Back to HomePage'),
                     onPressed: () async {
                       // Navigator.pop(context);
                       Navigator.push(
@@ -70,10 +64,9 @@ class _PatientList extends State<PatientList> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ElevatedButton(
-                        child: Text('Add New Patient'),
+                        child: const Text('Add New Patient'),
 
                         onPressed: () async {
-                          // Navigator.pop(context);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -137,13 +130,6 @@ class _PatientList extends State<PatientList> {
               Future.delayed(Duration.zero, () {});
             }
           }
-          // } else if (snapshot.hasError) {
-
-          //     print('to snack bar');
-          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //     content: Text('${snapshot.error}'),
-          //   ));
-          // }
           return const Center(
             child: Text(''''''),
           );
@@ -164,7 +150,7 @@ class _PatientList extends State<PatientList> {
       myProfileUri,
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token ' + token,
+        HttpHeaders.authorizationHeader: 'Token $token',
       },
     );
     return res;
