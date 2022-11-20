@@ -283,7 +283,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                     // This is called when selected item is changed.
                     onSelectedItemChanged: (int selectedItem) {
                       setState(() {
-                        index = selectedItem!;
+                        index = selectedItem;
                           token = widget.token;
                       });
                     },
