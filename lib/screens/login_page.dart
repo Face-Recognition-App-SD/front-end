@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rostro_app/models/userlogin.dart';
 
 import 'package:flutter/services.dart';
@@ -13,7 +14,6 @@ import 'dart:io';
 
 import 'Treg.dart';
 //import 'loggedinpage.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -75,7 +75,24 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          Text('Welcome User!',
+              style: GoogleFonts.inter(fontSize: 17, color: Colors.white70)),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(
+            'Login to your account',
+            style: GoogleFonts.inter(
+                fontSize: 23,
+                color: Colors.white70,
+                fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             controller: emailController,
@@ -125,6 +142,10 @@ class _LoginPageState extends State<LoginPage> {
         margin: EdgeInsets.only(top: 30.0),
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+          ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
           child: Text('Login'),
           onPressed: () async {
             String email = emailController.text;
@@ -178,21 +199,17 @@ class _LoginPageState extends State<LoginPage> {
           );
         });
     Uri tokenUrl = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
       tokenUrl = Uri.https(Constants.BASE_URL, '/api/user/token/');
-    }
-    else{
+    } else {
       tokenUrl = Uri.parse('${Constants.BASE_URL}/api/user/token/');
     }
-    var response =
-        await http.post(tokenUrl,
-            headers: {
-          HttpHeaders.acceptHeader: 'application/json',
-        },
-            body: {
-          "email": email,
-          "password": password,
-        });
+    var response = await http.post(tokenUrl, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+    }, body: {
+      "email": email,
+      "password": password,
+    });
 
     var data = response.body;
     token = data.substring(10, data.length - 2);
