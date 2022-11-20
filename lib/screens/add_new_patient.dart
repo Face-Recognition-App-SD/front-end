@@ -54,7 +54,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
   TextEditingController genderController = TextEditingController();
   TextEditingController is_in_hospitalController = TextEditingController();
   String? selectedValueforGender;
-  var index;
+  var indexNew;
   @override
   void StepState() {
     token = widget.token;
@@ -283,7 +283,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                     // This is called when selected item is changed.
                     onSelectedItemChanged: (int selectedItem) {
                       setState(() {
-                        index = selectedItem;
+                        indexNew = selectedItem;
                           token = widget.token;
                       });
                     },
@@ -299,7 +299,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 ),
                 // This displays the selected fruit name.
                 child: Text(
-                statesList[index],
+                statesList[indexNew],
                   style: const TextStyle(
                     fontSize: 22.0,
                   ),
@@ -410,7 +410,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
       "street_address": street_addressController.text,
       "city_address": city_addressController.text,
       "zipcode_address": zipcode_addressController.text,
-      "state_address": statesList[index],
+      "state_address": statesList[indexNew],
       "emergency_contact_name": emergency_contact_nameController.text,
       "emergency_phone_number": emergency_phone_numberController.text,
       "relationship": relationshipController.text,
