@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('Welcome User!',
+          Text('Welcome!',
               style: GoogleFonts.inter(fontSize: 17, color: Colors.white70)),
           const SizedBox(
             height: 8,
@@ -157,16 +157,15 @@ class _LoginPageState extends State<LoginPage> {
             if (tokenReturn == "d_errors") {
               print(tokenReturn);
               showDialog(
-                
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                //    title: const Text("Message!!"),
+                    //    title: const Text("Message!!"),
                     content: const Text(
-                        "The combination of email and password is not correct", ),
+                      "The combination of email and password is not correct",
+                    ),
                   );
                 },
-                
               );
             } else {
               //  setState(() {});
@@ -187,10 +186,10 @@ class _LoginPageState extends State<LoginPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Text('Does not have account?'),
+        const Text('Do not have an account?'),
         TextButton(
           child: const Text(
-            'Sign up',
+            'Sign up!',
             style: TextStyle(
               fontSize: 15,
             ),
