@@ -80,9 +80,10 @@ class ExtendEditPatient extends State<EditPatient> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(bg),
-              fit: BoxFit.cover,
+              fit: BoxFit.fitHeight,
             ),
-          ), //background image
+          ),
+          constraints: const BoxConstraints.expand(),//background image
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: ListView(

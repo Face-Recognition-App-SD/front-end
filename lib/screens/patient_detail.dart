@@ -43,30 +43,15 @@ class _PatientDetail extends State<PatientDetail> {
             fit: BoxFit.cover,
           ),
         ), //background image
-        // child: ListView(
-        //   children: <Widget>[
-           
-        //     getPatientDetail(id),
-        //   ],
-        // ),
       ),
     );
   }
  
-  void getPatientDetail(String any) 
-    
-  //   return Container(
-  //       margin: const EdgeInsets.only(top: 50.0),
-  //       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-  //       child: ElevatedButton(
-  //         child: const Text('Take Picture of Patient'),
-  //         onPressed: () 
+  void getPatientDetail(String any)
   async {
             setState(() {
                   id = any;
             });
-      
-          
             print('id $id');
              print('token $token');
             Uri getPatientUri = Uri();
@@ -108,9 +93,6 @@ class _PatientDetail extends State<PatientDetail> {
       
             var request = http.MultipartRequest("GET", getPatientUri);
             request.headers.addAll({"Authorization": "Token $token"});
-            //request.fields['id'] = id.toString();
-            // var image = await http.MultipartFile.fromPath("image", path);
-            // request.files.add(image);
             http.StreamedResponse response = await request.send();
 
             var decodedPatient = jsonDecode(patientRes.body);

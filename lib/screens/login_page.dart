@@ -12,7 +12,7 @@ import './regisnew.dart';
 import 'dart:io';
 
 import 'Treg.dart';
-//import 'loggedinpage.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

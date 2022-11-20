@@ -41,6 +41,7 @@ class _PatientList extends State<PatientList> {
             fit: BoxFit.cover,
           ),
         ),
+        constraints: const BoxConstraints.expand(),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: ListView(
