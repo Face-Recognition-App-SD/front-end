@@ -194,14 +194,22 @@ class _LoginPageState extends State<LoginPage> {
             child: CircularProgressIndicator(),
           );
         });
-    //var tokenUrl = Uri.parse('${Constants.BASE_URL}/api/user/token/');
-    var tokenUrl = Uri.https(Constants.BASE_URL, '/api/user/token/');
-    var response = await http.post(tokenUrl, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-    }, body: {
-      "email": email,
-      "password": password,
-    });
+    Uri tokenUrl = Uri();
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      tokenUrl = Uri.https(Constants.BASE_URL, '/api/user/token/');
+    }
+    else{
+      tokenUrl = Uri.parse('${Constants.BASE_URL}/api/user/token/');
+    }
+    var response =
+        await http.post(tokenUrl,
+            headers: {
+          HttpHeaders.acceptHeader: 'application/json',
+        },
+            body: {
+          "email": email,
+          "password": password,
+        });
 
     var data = response.body;
     token = data.substring(10, data.length - 2);

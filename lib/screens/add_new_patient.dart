@@ -387,16 +387,19 @@ class _AddNewPatientState extends State<AddNewPatient> {
   }
 
   Future<PatientsData?> postPatient() async {
-    var addPatientTextUri =
-        Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
-    //var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+    Uri addPatientTextUri = Uri();
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/');
+    }
+    else{
+      addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
+    }
+  showDialog(
+      context: context,
+      builder: (context){
+        return const Center(child: CircularProgressIndicator(),);
+      }
+  );
     final res = await http.post(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
@@ -420,9 +423,13 @@ class _AddNewPatientState extends State<AddNewPatient> {
     var data = json.decode(res.body);
     print(data);
     id = data['id'];
-    var addPatientPictures = Uri.https(
-        Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
-    //var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+    Uri addPatientPictures = Uri();
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      addPatientPictures = Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/upload-image/');
+    }
+    else{
+      addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+    }
     var request = http.MultipartRequest("POST", addPatientPictures);
     request.headers.addAll({"Authorization": "Token $token"});
     request.fields['id'] = id.toString();
