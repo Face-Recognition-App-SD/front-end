@@ -126,9 +126,14 @@ class ExtendEditPatient extends State<EditPatient> {
   }
 
   Future<bool> editPatientInfo() async {
-    var addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/');
+    Uri addPatientTextUri = Uri();
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/');
+    }
+    else{
+      addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
+    }
     bool flag = false;
-   //var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
    if(firstnameController.text.isNotEmpty){
      editFirstName(addPatientTextUri);
      flag = true;
@@ -303,12 +308,14 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
   Future<bool> updateImages() async{
-    print("ZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    print(id);
-    print("ZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     if (pictures.isNotEmpty) {
-      //var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
-      var addPatientPictures = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
+      Uri addPatientPictures = Uri();
+      if(Constants.BASE_URL == "api.rostro-authentication.com"){
+        addPatientPictures = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
+      }
+      else{
+        addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+      }
       var request = http.MultipartRequest("POST", addPatientPictures);
       request.headers.addAll({"Authorization": "Token $token"});
       request.fields['id'] = id.toString();

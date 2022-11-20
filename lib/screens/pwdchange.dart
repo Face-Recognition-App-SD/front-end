@@ -126,8 +126,13 @@ class _pwdchangeState extends State<pwdchange> {
   }
 
   Future<UserLogin?> pwdchg() async {
-   var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/changepwd/');
-   //var myProfileUri = Uri.parse("${Constants.BASE_URL}/api/user/changepwd/");
+    Uri myProfileUri = Uri();
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/changepwd/');
+    }
+    else{
+      myProfileUri = Uri.parse("${Constants.BASE_URL}/api/user/changepwd/");
+    }
      
     final response = await http.patch(
         myProfileUri,
