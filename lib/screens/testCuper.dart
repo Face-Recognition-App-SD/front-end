@@ -10,134 +10,25 @@ import '../utils/constant.dart';
 import 'package:camera/camera.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-class TestCuper extends StatefulWidget {
+class CupertinoPickerExample1 extends StatefulWidget {
   final String token;
+   final String? state;
 
-  const TestCuper({super.key, required this.token});
+  const CupertinoPickerExample1({super.key, required this.token, this.state});
 
   @override
-  State<TestCuper> createState() => _TestCuper();
+  State<CupertinoPickerExample1> createState() => _CupertinoPickerExampleState1();
 }
 
-class _TestCuper extends State<TestCuper> {
-  var bg = './assets/images/bg.jpeg';
+class _CupertinoPickerExampleState1 extends State<CupertinoPickerExample1> {
+  int selectedState = 0;
   late String token;
-  
+  late String? state;
   static const double _kItemExtent = 32.0;
+  static const List<String> _stateNames = Constants.statesList;
 
-  var genderList = Constants.genderList;
-  var statesList = Constants.statesList;
-
-  //late Map<String, dynamic> pictures;
-  late int id;
-  XFile? picture;
-  late List<XFile?> pictures;
- int _selectedFruit = 0;
-  
-  var indexNew;
-  @override
-  void StepState() {
-    token = widget.token;
-    super.initState();
-    // selectedGenderVal =  Constants.genderList[0];
-    // initCamera(widget.patients![0]);
-  }
-
-  // // ({Key? key, required this.token}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Add New Patient'),
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(bg),
-              fit: BoxFit.cover,
-            ),
-          ), //background image
-          child: ListView(
-            children: <Widget>[
-              addTextInfo(),
-            
-            ],
-          ),
-        ));
-  }
-
-  Widget addTextInfo() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: 20.0),
-         
- const SizedBox(height: 20.0),
-          Row(
-            children: [
-              CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('CupertinoPicker Sample'),
-      ),
-      child: DefaultTextStyle(
-        style: TextStyle(
-          color: CupertinoColors.label.resolveFrom(context),
-          fontSize: 22.0,
-        ),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text('Selected fruit: '),
-              CupertinoButton(
-                padding: EdgeInsets.zero,
-                // Display a CupertinoPicker with list of fruits.
-                onPressed: () => showDialogState(
-                  CupertinoPicker(
-                    magnification: 1.22,
-                    squeeze: 1.2,
-                    useMagnifier: true,
-                    itemExtent: _kItemExtent,
-                    // This is called when selected item is changed.
-                    onSelectedItemChanged: (int selectedItem) {
-                      setState(() {
-                        _selectedFruit = selectedItem;
-                      });
-                    },
-                    children:
-                        List<Widget>.generate(Constants.statesList.length, (int index) {
-                      return Center(
-                        child: Text(
-                          Constants.statesList[index],
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-                // This displays the selected fruit name.
-                child: Text(
-                  Constants.statesList[_selectedFruit],
-                  style: const TextStyle(
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-              
-            ],
-          ),
-
-        ],
-      ),
-    );
-  }
-
- void showDialogState(Widget child) {
+  // This shows a CupertinoModalPopup with a reasonable fixed height which hosts CupertinoPicker.
+  void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
         context: context,
         builder: (BuildContext context) => Container(
@@ -157,4 +48,67 @@ class _TestCuper extends State<TestCuper> {
             ));
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return  CupertinoPageScaffold(
+          
+            backgroundColor: Colors.transparent,
+           
+                
+              child: Row(
+                
+                children: <Widget>[
+                  const Text('State: ',  style: TextStyle(color: Colors.white70,  fontSize: 16),),
+                  
+                  CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    
+
+                    // Display a CupertinoPicker with list of fruits.
+                    onPressed: () => _showDialog(
+                      CupertinoPicker(
+                        magnification: 1.22,
+                        squeeze: 1.2,
+                        useMagnifier: true,
+                        itemExtent: _kItemExtent,
+                        // This is called when selected item is changed.
+                        onSelectedItemChanged: (int selectedItem) {
+                          setState(() {
+                            selectedState = selectedItem;
+                            token= widget.token;
+                            state =  _stateNames[selectedState];
+                             Navigator.pop(context, selectedState);
+                          });
+                        },
+                        children: List<Widget>.generate(_stateNames.length,
+                            (int index) {
+                          return Text(
+                              _stateNames[index],
+                            
+                          );
+                        }),
+                      ),
+                    ),
+                    // This displays the selected fruit name.
+                    child: Text(
+                      _stateNames[selectedState],
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                         color: Colors.white70,
+                      ),
+                    ),
+                    
+                  ),
+                   
+                ],
+              
+            
+        
+        ),
+      
+    );
+  }
 }
+
+
+

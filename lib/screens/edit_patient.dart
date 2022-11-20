@@ -1,4 +1,4 @@
-import 'dart:js_util';
+
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';

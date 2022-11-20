@@ -76,7 +76,7 @@ class _PatientList extends State<PatientList> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => TestCuper(token: token)));
+                                  builder: (_) => AddNewPatient(token: token)));
                         },
                       )
                     ],
