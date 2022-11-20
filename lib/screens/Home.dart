@@ -136,7 +136,7 @@ class _home2State extends State<Home> {
                               },
                             ),
                           ),
-                          const SizedBox(height: 15.0),
+                          /*const SizedBox(height: 15.0),
                           Container(
                             width: 200,
                             child: ElevatedButton(
@@ -151,7 +151,7 @@ class _home2State extends State<Home> {
                                     ));
                               },
                             ),
-                          ),
+                          ),*/
                           const SizedBox(height: 15.0),
                            Container(
                             width: 200,
