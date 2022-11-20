@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/patient_list.dart';
