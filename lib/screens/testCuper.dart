@@ -32,26 +32,9 @@ class _TestCuper extends State<TestCuper> {
   late int id;
   XFile? picture;
   late List<XFile?> pictures;
-
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
-  TextEditingController med_listController = TextEditingController();
-  TextEditingController phone_numberController = TextEditingController();
-  TextEditingController date_of_birthController = TextEditingController();
-  TextEditingController street_addressController = TextEditingController();
-  TextEditingController city_addressController = TextEditingController();
-  TextEditingController zipcode_addressController = TextEditingController();
-  TextEditingController state_addressController = TextEditingController();
-  TextEditingController emergency_contact_nameController =
-      TextEditingController();
-  TextEditingController emergency_phone_numberController =
-      TextEditingController();
-  TextEditingController relationshipController = TextEditingController(); //
-  TextEditingController genderController = TextEditingController();
-  TextEditingController is_in_hospitalController = TextEditingController();
-  String? selectedValueforGender;
-  var index;
+ int _selectedFruit = 0;
+  
+  var indexNew;
   @override
   void StepState() {
     token = widget.token;
@@ -94,7 +77,9 @@ class _TestCuper extends State<TestCuper> {
           Row(
             children: [
               CupertinoPageScaffold(
-     
+      navigationBar: const CupertinoNavigationBar(
+        middle: Text('CupertinoPicker Sample'),
+      ),
       child: DefaultTextStyle(
         style: TextStyle(
           color: CupertinoColors.label.resolveFrom(context),
@@ -117,15 +102,14 @@ class _TestCuper extends State<TestCuper> {
                     // This is called when selected item is changed.
                     onSelectedItemChanged: (int selectedItem) {
                       setState(() {
-                        index = selectedItem;
-                          token = widget.token;
+                        _selectedFruit = selectedItem;
                       });
                     },
                     children:
-                        List<Widget>.generate(statesList.length, (int index) {
+                        List<Widget>.generate(Constants.statesList.length, (int index) {
                       return Center(
                         child: Text(
-                          statesList[index],
+                          Constants.statesList[index],
                         ),
                       );
                     }),
@@ -133,7 +117,7 @@ class _TestCuper extends State<TestCuper> {
                 ),
                 // This displays the selected fruit name.
                 child: Text(
-                statesList[index],
+                  Constants.statesList[_selectedFruit],
                   style: const TextStyle(
                     fontSize: 22.0,
                   ),
@@ -144,6 +128,7 @@ class _TestCuper extends State<TestCuper> {
         ),
       ),
     ),
+              
             ],
           ),
 
@@ -172,141 +157,4 @@ class _TestCuper extends State<TestCuper> {
             ));
   }
 
-  Widget submitButton(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 30.0),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
-            child: const Text('Submit'),
-            onPressed: () async {
-              PatientsData? data = await postPatient();
-              if (data != null) {
-                _showDialog(context, token);
-
-                setState(() {});
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(
-                //         builder: (BuildContext context) => Homepage(token: token)),
-                //     (Route<dynamic> route) => false);
-              }
-            }));
-  }
-
-  Widget addPhotos() {
-    return Container(
-      color: Colors.transparent,
-      child: Container(
-          decoration: const BoxDecoration(
-            //color: Color.fromARGB(255, 199, 201, 224),
-            shape: BoxShape.rectangle,
-            //borderRadius: BorderRadius.all(Radius.circular(5.0))
-          ),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                color: Color.fromARGB(30, 0, 0, 0),
-                decoration: TextDecoration.underline,
-              ),
-            ),
-            child: const Text('Add Photo'),
-            onPressed: () async {
-              pictures = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => GetPatientPictures(token: token)));
-            },
-          )),
-    );
-  }
-
-  Future<PatientsData?> postPatient() async {
-    var addPatientTextUri =
-        Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
-    //var addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/");
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
-    final res = await http.post(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "first_name": firstNameController.text,
-      "last_name": lastNameController.text,
-      "age": ageController.text,
-      "med_list": med_listController.text,
-      "phone_number": phone_numberController.text,
-      "date_of_birth": date_of_birthController.text,
-      "street_address": street_addressController.text,
-      "city_address": city_addressController.text,
-      "zipcode_address": zipcode_addressController.text,
-      "state_address": statesList[index],
-      "emergency_contact_name": emergency_contact_nameController.text,
-      "emergency_phone_number": emergency_phone_numberController.text,
-      "relationship": relationshipController.text,
-      "gender": genderController.text,
-    });
-
-    var data = json.decode(res.body);
-    print(data);
-    id = data['id'];
-    var addPatientPictures = Uri.https(
-        Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
-    //var addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
-    var request = http.MultipartRequest("POST", addPatientPictures);
-    request.headers.addAll({"Authorization": "Token $token"});
-    request.fields['id'] = id.toString();
-    var image1 =
-        await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
-    request.files.add(image1);
-    var image2 =
-        await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
-    request.files.add(image2);
-    var image3 =
-        await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
-    request.files.add(image3);
-
-    http.StreamedResponse response = await request.send();
-
-    var responseData = await response.stream.toBytes();
-    var responseString = String.fromCharCodes(responseData);
-    Navigator.of(context).pop();
-    if (res.statusCode < 300 && res.statusCode > 199) {
-      String responseString = res.body;
-      setState(() {});
-      return patientFromJson(responseString);
-    } else {
-      return null;
-    }
-  }
-}
-
-Widget? _showDialog(BuildContext context, String token) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text("Message!!"),
-        content: const Text("New patient has been created successfully!"),
-        actions: <Widget>[
-          TextButton(
-            child: const Text("OK"),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => PatientList(
-                          token: token,
-                        )),
-              );
-            },
-          ),
-        ],
-      );
-    },
-  );
 }
