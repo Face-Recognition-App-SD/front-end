@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/patient_list.dart';
@@ -135,178 +137,72 @@ class ExtendEditPatient extends State<EditPatient> {
     }
     bool flag = false;
    if(firstnameController.text.isNotEmpty){
-     editFirstName(addPatientTextUri);
+     editPatient(addPatientTextUri, 'first_name', firstnameController.text);
      flag = true;
    }
    if(lastnameController.text.isNotEmpty){
-     editLastName(addPatientTextUri);
+     editPatient(addPatientTextUri, 'last_name', lastnameController.text);
      flag = true;
    }
    if(ageController.text.isNotEmpty){
-     editAge(addPatientTextUri);
+     editPatient(addPatientTextUri, 'age', ageController.text);
      flag = true;
    }
    if(medListController.text.isNotEmpty){
-     editMed(addPatientTextUri);
+     editPatient(addPatientTextUri, 'med_list', medListController.text);
      flag = true;
    }
    if(phoneNumberController.text.isNotEmpty){
-     editPhone(addPatientTextUri);
+     editPatient(addPatientTextUri, 'phone_number', phoneNumberController.text);
      flag = true;
    }
    if(dobController.text.isNotEmpty){
-     editDOB(addPatientTextUri);
+     editPatient(addPatientTextUri, 'date_of_birth', dobController.text);
      flag = true;
    }
    if(streetAddressController.text.isNotEmpty){
-     editStreet(addPatientTextUri);
+     editPatient(addPatientTextUri, 'street_address', streetAddressController.text);
      flag = true;
    }
    if(cityAddressController.text.isNotEmpty){
-     editCity(addPatientTextUri);
+     editPatient(addPatientTextUri, 'city_address', cityAddressController.text);
      flag = true;
    }
    if(zipcodeAddressController.text.isNotEmpty){
-     editZip(addPatientTextUri);
+     editPatient(addPatientTextUri, 'zipcode_address', zipcodeAddressController.text);
      flag = true;
    }
    if(stateAddressController.text.isNotEmpty){
-     editState(addPatientTextUri);
+     editPatient(addPatientTextUri, 'state_address', stateAddressController.text);
      flag = true;
    }
    if(linkController.text.isNotEmpty){
-     editLink(addPatientTextUri);
+     editPatient(addPatientTextUri, 'link', linkController.text);
      flag = true;
    }
    if(emergencyContactNameController.text.isNotEmpty){
-     editEmerCon(addPatientTextUri);
+     editPatient(addPatientTextUri, 'emergency_contact_name', emergencyContactNameController.text);
      flag = true;
    }
    if(emergencyPhoneNumber.text.isNotEmpty){
-     editEmerPho(addPatientTextUri);
+     editPatient(addPatientTextUri, 'emergency_phone_number', emergencyPhoneNumber.text);
      flag = true;
    }
    if(genderController.text.isNotEmpty){
-     editGender(addPatientTextUri);
+     editPatient(addPatientTextUri, 'gender', genderController.text);
      flag = true;
    }
    return flag;
   }
+  Future<PatientsData?> editPatient(addPatientTextUri, key, val) async {
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      key: val,
+    });
+  }
 
-  Future<PatientsData?> editFirstName(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "first_name": firstnameController.text,
-    });
-  }
-  Future<PatientsData?> editLastName(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "last_name": lastnameController.text,
-    });
-  }
-  Future<PatientsData?> editAge(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "age": ageController.text,
-    });
-  }
-  Future<PatientsData?> editMed(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "med_list": medListController.text,
-    });
-  }
-  Future<PatientsData?> editPhone(addPatientTextUri) async {
-    print("JOJOJOJOJOJOJOJJOJOJOJ");
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "phone_number": phoneNumberController.text,
-    });
-    print(res.statusCode);
-  }
-  Future<PatientsData?> editDOB(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "date_of_birth": dobController.text,
-    });
-  }
-  Future<PatientsData?> editStreet(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "street_address": streetAddressController.text,
-    });
-  }
-  Future<PatientsData?> editCity(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "city_address": streetAddressController.text,
-    });
-  }
-  Future<PatientsData?> editZip(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "zipcode_address": zipcodeAddressController.text,
-    });
-  }
-  Future<PatientsData?> editState(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "link": stateAddressController.text,
-    });
-  }
-  Future<PatientsData?> editLink(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "state_address": linkController.text,
-    });
-  }
-  Future<PatientsData?> editEmerCon(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "emergency_contact_name": emergencyContactNameController.text,
-    });
-  }
-  Future<PatientsData?> editEmerPho(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "emergency_phone_number": emergencyPhoneNumber.text,
-    });
-  }
-  Future<PatientsData?> editGender(addPatientTextUri) async {
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      "gender": genderController.text,
-    });
-  }
   Future<bool> updateImages() async{
     if (pictures.isNotEmpty) {
       Uri addPatientPictures = Uri();
