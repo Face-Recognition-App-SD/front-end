@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/userlogin.dart';
-
+import '../utils/Glassmorphism.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:rostro_app/screens/login_page.dart';
-
+import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/constant.dart';
 import './homepage.dart';
 import './login_page.dart';
@@ -87,99 +87,148 @@ class _TRegister extends State<TRegister> {
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: SingleChildScrollView(
         child: Column(children: <Widget>[
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            controller: emailController,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
-            decoration: const InputDecoration(
-              icon: Icon(Icons.email, color: Colors.white70),
-              hintText: 'Email',
-              border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
-            ),
-          ),
-          const SizedBox(height: 20.0),
-          TextFormField(
-            obscureText: !_passwordVisible1,
-            keyboardType: TextInputType.text,
-            controller: passwordController,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
-            decoration: InputDecoration(
-              hintText: 'Password',
-              border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _passwordVisible1 ? Icons.visibility : Icons.visibility_off,
-                  // color: Theme.of(context).primaryColorDark,
-                  color: Colors.white70,
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: GlassContainer(
+              borderRadius: new BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: emailController,
+                  cursorColor: Colors.white,
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.email, color: Colors.white70),
+                    hintText: 'Email',
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white70)),
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
                 ),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisible1 = !_passwordVisible1;
-                  });
-                },
               ),
-              icon: Icon(Icons.lock, color: Colors.white70),
             ),
           ),
           const SizedBox(height: 20.0),
-          TextFormField(
-            obscureText: !_passwordVisible2,
-            keyboardType: TextInputType.text,
-            controller: cpController,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
-            decoration: InputDecoration(
-              hintText: 'Confirm Password',
-              border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _passwordVisible2 ? Icons.visibility : Icons.visibility_off,
-                  // color: Theme.of(context).primaryColorDark,
-                  color: Colors.white70,
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: GlassContainer(
+              borderRadius: new BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: TextFormField(
+                  obscureText: !_passwordVisible1,
+                  keyboardType: TextInputType.text,
+                  controller: passwordController,
+                  cursorColor: Colors.white,
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white70)),
+                    hintStyle: TextStyle(color: Colors.white70),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordVisible1
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        // color: Theme.of(context).primaryColorDark,
+                        color: Colors.white70,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible1 = !_passwordVisible1;
+                        });
+                      },
+                    ),
+                    icon: Icon(Icons.lock, color: Colors.white70),
+                  ),
                 ),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisible2 = !_passwordVisible2;
-                  });
-                },
               ),
-              icon: Icon(Icons.lock, color: Colors.white70),
             ),
           ),
           const SizedBox(height: 20.0),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            controller: first_nameController,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
-            decoration: const InputDecoration(
-              icon: Icon(Icons.person, color: Colors.white70),
-              hintText: 'First name',
-              border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: GlassContainer(
+              borderRadius: new BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: TextFormField(
+                  obscureText: !_passwordVisible2,
+                  keyboardType: TextInputType.text,
+                  controller: cpController,
+                  cursorColor: Colors.white,
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  decoration: InputDecoration(
+                    hintText: 'Confirm Password',
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white70)),
+                    hintStyle: TextStyle(color: Colors.white70),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordVisible2
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        // color: Theme.of(context).primaryColorDark,
+                        color: Colors.white70,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible2 = !_passwordVisible2;
+                        });
+                      },
+                    ),
+                    icon: Icon(Icons.lock, color: Colors.white70),
+                  ),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 20.0),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            controller: last_nameController,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
-            decoration: const InputDecoration(
-              icon: Icon(Icons.person, color: Colors.white70),
-              hintText: 'Last name',
-              border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: GlassContainer(
+              borderRadius: new BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: first_nameController,
+                  cursorColor: Colors.white,
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.person, color: Colors.white70),
+                    hintText: 'First name',
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white70)),
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: GlassContainer(
+              borderRadius: new BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: last_nameController,
+                  cursorColor: Colors.white,
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.person, color: Colors.white70),
+                    hintText: 'Last name',
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white70)),
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 20.0),
@@ -222,17 +271,26 @@ class _TRegister extends State<TRegister> {
             ],
           ),
           const SizedBox(height: 20.0),
-          TextFormField(
-            keyboardType: TextInputType.number,
-            controller: department_idController,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
-            decoration: const InputDecoration(
-              icon: Icon(Icons.person, color: Colors.white70),
-              hintText: 'Department ID',
-              border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: GlassContainer(
+              borderRadius: new BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  controller: department_idController,
+                  cursorColor: Colors.white,
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.person, color: Colors.white70),
+                    hintText: 'Department ID',
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white70)),
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 20.0),
@@ -282,17 +340,12 @@ class _TRegister extends State<TRegister> {
 
   Container submitButton(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        // color: Colors.white70,
-      ),
-      width: 40.0,
-      height: 40,
-      margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-      child: SignInButtonBuilder(
-          text: 'Register with Email',
-          icon: (Icons.email),
-          backgroundColor: Colors.blue[700]!,
+      margin: EdgeInsets.only(left: 55, right: 55),
+      child: Glassmorphism(
+        blur: 20,
+        opacity: 0.1,
+        radius: 50.0,
+        child: TextButton(
           onPressed: () async {
             String email = emailController.text;
             String password = passwordController.text;
@@ -393,8 +446,22 @@ class _TRegister extends State<TRegister> {
                 setState(() {});
               }
             }
-          } //JJJJJJJJJJJJJJJJJJJJJ),
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 5,
+            ),
+            child: const Text(
+              "Register with Email",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.0,
+              ),
+            ),
           ),
+        ),
+      ),
     );
   }
 
