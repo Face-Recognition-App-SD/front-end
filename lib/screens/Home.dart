@@ -6,6 +6,7 @@ import '../utils/constant.dart';
 import './patient_list.dart';
 import 'package:http/http.dart' as http;
 import '../screens/all_patient_list.dart';
+import '../utils/Glassmorphism.dart';
 
 class Home extends StatefulWidget {
   final String? token;
@@ -17,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   late String? token;
   late Future<UserLogin?> futureUser;
   late String? fn;
@@ -56,17 +57,22 @@ class _Home extends State<Home> {
           child: Column(
             children: <Widget>[
               const SizedBox(height: 30.0),
-              Row(
+              Column(
                 children: const [
-                  Text(
-                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Welcome to Rostro',
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  const SizedBox(height: 30),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Welcome to Rostro',
+                      // textAlign: TextAlign.center,
+                      // overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 50.0),
+              // const SizedBox(height: 50.0),
               Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 100.0, vertical: 50.0),
@@ -106,35 +112,69 @@ class _Home extends State<Home> {
                       height: 200,
                       child: Column(
                         children: [
-                          const SizedBox(height: 15.0),
+                          const SizedBox(height: 50.0),
                           Container(
-                            width: 200,
-                            child: ElevatedButton(
-                              child: const Text('My Patient List'),
-                              // Within the `FirstRoute` widget
-                              onPressed: () async {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) =>
-                                            PatientList(token: token!)));
-                              },
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            width: double.infinity,
+                            height: 50,
+                            child: Glassmorphism(
+                              blur: 20,
+                              opacity: 0.1,
+                              radius: 50.0,
+                              child: TextButton(
+                                  // child: const Text('My Patient List'),
+                                  // Within the `FirstRoute` widget
+                                  onPressed: () async {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                PatientList(token: token!)));
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 5,
+                                      horizontal: 5,
+                                    ),
+                                    child: const Text(
+                                      "My Patient List",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 13.0),
+                                    ),
+                                  )),
                             ),
                           ),
-                          const SizedBox(height: 15.0),
+                          const SizedBox(height: 30.0),
                           Container(
-                            width: 200,
-                            child: ElevatedButton(
-                              child: const Text('All Patient List'),
-                              // Within the `FirstRoute` widget
-                              onPressed: () async {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          AllPatientList(token: token!),
-                                    ));
-                              },
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            width: double.infinity,
+                            height: 50,
+                            child: Glassmorphism(
+                              blur: 20,
+                              opacity: 0.1,
+                              radius: 50.0,
+                              child: TextButton(
+                                  // child: const Text('All Patient List'),
+                                  // Within the `FirstRoute` widget
+                                  onPressed: () async {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              AllPatientList(token: token!),
+                                        ));
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 5,
+                                      horizontal: 5,
+                                    ),
+                                    child: const Text(
+                                      "All Patient List",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 13.0),
+                                    ),
+                                  )),
                             ),
                           ),
                         ],

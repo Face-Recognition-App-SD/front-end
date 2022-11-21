@@ -5,12 +5,14 @@ import 'package:rostro_app/screens/face_compare.dart';
 import './patient_list.dart';
 import './get_patient_pictures.dart';
 import './profile.dart';
+import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 
 class Homepage extends StatefulWidget {
   final String token;
   final String? firstname;
   final String? lastname;
-  const Homepage({super.key, required this.token, this.firstname, this.lastname});
+  const Homepage(
+      {super.key, required this.token, this.firstname, this.lastname});
 
   @override
   State<Homepage> createState() => _HomeState();
@@ -24,13 +26,12 @@ class _HomeState extends State<Homepage> {
   void initState() {
     token1 = widget.token;
 
-       pages = [
-    Home(token: token1),
-         CompareFace(token: token1),
-         PatientList(token: token1),
-         Profile(token: token1),
-  ];
-
+    pages = [
+      Home(token: token1),
+      CompareFace(token: token1),
+      PatientList(token: token1),
+      Profile(token: token1),
+    ];
   }
 
   int currentPage = 0;
@@ -38,16 +39,17 @@ class _HomeState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     body: pages[currentPage],
-
+      body: pages[currentPage],
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(
               icon: Icon(Icons.add_a_photo_outlined), label: 'Recognize'),
-          NavigationDestination(icon: Icon(Icons.list), label: 'My Patient List'),
+          NavigationDestination(
+              icon: Icon(Icons.list), label: 'My Patient List'),
           NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
         ],
+        backgroundColor: const Color(0x00ffffff),
         onDestinationSelected: (int index) {
           setState(() {
             currentPage = index;
@@ -55,7 +57,6 @@ class _HomeState extends State<Homepage> {
         },
         selectedIndex: currentPage,
       ),
-
     );
   }
 
@@ -81,8 +82,7 @@ class _HomeState extends State<Homepage> {
                 MaterialPageRoute(
                     builder: (_) => GetPatientPictures(token: token1)));
           },
-        )
-        );
+        ));
   }
 
   Container patientListContainer() {
@@ -112,16 +112,17 @@ class _HomeState extends State<Homepage> {
           },
         ));
   }
-   Container recognizePatient() {
-     return Container(
-         margin: const EdgeInsets.only(top: 10.0),
-         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-         child: ElevatedButton(
-           child: const Text('Find Patient'),
-           onPressed: () async {
-             Navigator.push(context,
-                 MaterialPageRoute(builder: (_) => CompareFace(token: token1)));
-           },
-         ));
-   }
+
+  Container recognizePatient() {
+    return Container(
+        margin: const EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: ElevatedButton(
+          child: const Text('Find Patient'),
+          onPressed: () async {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) => CompareFace(token: token1)));
+          },
+        ));
+  }
 }
