@@ -37,7 +37,10 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Verify Patient Identity"), centerTitle: true),
+        title: const Text("Verify Patient Identity"),
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
