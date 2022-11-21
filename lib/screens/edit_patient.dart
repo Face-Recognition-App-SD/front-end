@@ -10,6 +10,8 @@ import '../screens/delete.dart';
 
 import 'package:camera/camera.dart';
 import 'package:rostro_app/screens/get_patient_pictures.dart';
+import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
+import '../utils/Glassmorphism.dart';
 
 List<String> genders = <String>[
   'Male',
@@ -96,6 +98,7 @@ class ExtendEditPatient extends State<EditPatient> {
   var bg = './assets/images/bg6.gif';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
+  late String nm = widget.details['first_name'];
   late int id = widget.details['id'];
   List<XFile?> pictures = [];
   // TextEditingController idController = TextEditingController();
@@ -119,7 +122,8 @@ class ExtendEditPatient extends State<EditPatient> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Edit Patient'),
+          backgroundColor: Colors.blueAccent,
+          title: Text("Edit Patient $nm [ ID: $id ]"),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 20.0),
@@ -146,7 +150,7 @@ class ExtendEditPatient extends State<EditPatient> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(bg),
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.cover,
             ),
           ),
           constraints: const BoxConstraints.expand(), //background image
@@ -157,11 +161,11 @@ class ExtendEditPatient extends State<EditPatient> {
               physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                 const SizedBox(height: 10.0),
-                Text(
-                  "\t\t ID: $id",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 20, color: Colors.white),
-                ),
+                // Text(
+                //   "\t\t ID: $id",
+                //   textAlign: TextAlign.center,
+                //   style: const TextStyle(fontSize: 20, color: Colors.white),
+                // ),
                 const SizedBox(height: 10.0),
                 textData(),
                 getImages(context),
@@ -179,18 +183,32 @@ class ExtendEditPatient extends State<EditPatient> {
 
   Widget getImages(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 30.0),
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: ElevatedButton(
-        child: const Text('Update Images'),
-        onPressed: () async {
-          pictures = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => GetPatientPictures(token: token)));
-        },
-      ),
-    );
+        margin: const EdgeInsets.only(top: 30.0, left: 20, right: 20),
+        child: Glassmorphism(
+            blur: 20,
+            opacity: 0.1,
+            radius: 50.0,
+            child:
+                // padding: const EdgeInsets.symmetric(horizontal: 20.0),
+
+                TextButton(
+              // child: const Text('Update Images'),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 5,
+                ),
+                child: const Text("Update Image",
+                    style: TextStyle(color: Colors.white, fontSize: 13.0)),
+              ),
+              onPressed: () async {
+                pictures = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            GetPatientPictures(token: token)));
+              },
+            )));
   }
 
   Future<bool> editPatientInfo() async {
@@ -325,115 +343,203 @@ class ExtendEditPatient extends State<EditPatient> {
     emergencyContactNameController.text = details['emergency_contact_name'];
     emergencyPhoneNumber.text = details['emergency_phone_number'];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const SizedBox(height: 20.0),
-        const Text(
-          "\t Firstname:",
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 14, color: Colors.white),
-        ),
-        TextFormField(
-          controller: firstnameController,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70, fontSize: 14),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.person, color: Colors.white70),
-            // hintText: 'DepartID',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        const Text(
-          "\t Lastname:",
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 14, color: Colors.white),
-        ),
-        TextFormField(
-          controller: lastnameController,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70, fontSize: 14),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.person, color: Colors.white70),
-            // hintText: 'DepartID',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        const Text(
-          "\t Age:",
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 14, color: Colors.white),
-        ),
-        TextFormField(
-          controller: ageController,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70, fontSize: 13),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.person, color: Colors.white70),
-            // hintText: 'DepartID',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        const Text(
-          "\t Medical List:",
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 14, color: Colors.white),
-        ),
-        TextFormField(
-          controller: medListController,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70, fontSize: 13),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
-            // hintText: 'DepartID',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        const Text(
-          "\t Phone Number:",
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 14, color: Colors.white),
-        ),
-        TextFormField(
-          controller: phoneNumberController,
-          cursorColor: Colors.white,
-          style: const TextStyle(color: Colors.white70, fontSize: 13),
-          decoration: const InputDecoration(
-            icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
-            // hintText: 'DepartID',
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color: Colors.white70),
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        const Text(
-          "\t State:",
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 14, color: Colors.white),
-        ),
-        DropDownState(),
-        const SizedBox(height: 20.0),
-        const Text(
-          "\t Gender:",
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 14, color: Colors.white),
-        ),
-        DropDownGender(),
-      ],
-    );
+    return Container(
+        padding: EdgeInsets.only(left: 15, right: 15),
+        child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // const SizedBox(height: 20.0),
+
+              GlassContainer(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: const Text(
+                          "Firstname:",
+                          // textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: firstnameController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                            color: Colors.white70, fontSize: 14),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.person, color: Colors.white70),
+                          // hintText: 'DepartID',
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              GlassContainer(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: const Text(
+                          "\t Lastname:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: lastnameController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                            color: Colors.white70, fontSize: 14),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.person, color: Colors.white70),
+                          // hintText: 'DepartID',
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              GlassContainer(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: const Text(
+                          "\t Age:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: ageController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                            color: Colors.white70, fontSize: 13),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.person, color: Colors.white70),
+                          // hintText: 'DepartID',
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              GlassContainer(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: const Text(
+                          "\t Medical List:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: medListController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                            color: Colors.white70, fontSize: 13),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.local_hospital_outlined,
+                              color: Colors.white70),
+                          // hintText: 'DepartID',
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              GlassContainer(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: const Text(
+                          "\t Phone Number:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: phoneNumberController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                            color: Colors.white70, fontSize: 13),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.local_hospital_outlined,
+                              color: Colors.white70),
+                          // hintText: 'DepartID',
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              GlassContainer(
+                  width: double.infinity,
+                  borderRadius: new BorderRadius.circular(10.0),
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 20),
+                            child: const Text(
+                              "\t State:",
+                              textAlign: TextAlign.left,
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.white),
+                            ),
+                          ),
+                          DropDownState(),
+                          const SizedBox(height: 20.0),
+                          const Text(
+                            "\t Gender:",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 14, color: Colors.white),
+                          ),
+                          DropDownGender(),
+                        ],
+                      )))
+            ]));
   }
 
   Widget? _showDialog(BuildContext context, String token) {
@@ -506,10 +612,10 @@ class _DropDownGender extends State<DropDownGender> {
       value: gender,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(color: Colors.white),
       underline: Container(
         height: 2,
-        color: Colors.black,
+        color: Colors.white,
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
@@ -543,10 +649,10 @@ class _DropDownState extends State<DropDownState> {
       value: state,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(color: Colors.white),
       underline: Container(
         height: 2,
-        color: Colors.black,
+        color: Colors.white,
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
