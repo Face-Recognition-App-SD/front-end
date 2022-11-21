@@ -232,43 +232,52 @@ class _TRegister extends State<TRegister> {
             ),
           ),
           const SizedBox(height: 20.0),
-          Row(
-            children: [
-              const Icon(Icons.local_hospital, color: Colors.white70),
-              DropdownButtonHideUnderline(
-                child: DropdownButton2(
-                  hint: const Text(
-                    '     Roles',
-                    style: TextStyle(fontSize: 14, color: Colors.white70),
-                  ),
-                  items: roles
-                      .map((roles) => DropdownMenuItem<String>(
-                            value: roles,
-                            child: Text(
-                              roles,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.white70,
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  value: selectedValueforRoles,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedValueforRoles = value as String;
-                    });
-                  },
-                  buttonHeight: 30,
-                  buttonWidth: 200,
-                  itemHeight: 30,
-                  dropdownDecoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    color: Color.fromARGB(236, 9, 96, 168),
-                  ),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: GlassContainer(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: Row(
+                  children: [
+                    const Icon(Icons.local_hospital, color: Colors.white70),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                        hint: const Text(
+                          '     Roles',
+                          style: TextStyle(fontSize: 14, color: Colors.white70),
+                        ),
+                        items: roles
+                            .map((roles) => DropdownMenuItem<String>(
+                                  value: roles,
+                                  child: Text(
+                                    roles,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        value: selectedValueforRoles,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedValueforRoles = value as String;
+                          });
+                        },
+                        buttonHeight: 30,
+                        buttonWidth: 200,
+                        itemHeight: 30,
+                        dropdownDecoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14),
+                          color: Color.fromARGB(236, 9, 96, 168),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
           const SizedBox(height: 20.0),
           Padding(
@@ -294,43 +303,52 @@ class _TRegister extends State<TRegister> {
             ),
           ),
           const SizedBox(height: 20.0),
-          Row(
-            children: [
-              const Icon(Icons.person, color: Colors.white70),
-              DropdownButtonHideUnderline(
-                child: DropdownButton2(
-                  hint: const Text(
-                    '     Gender',
-                    style: TextStyle(fontSize: 14, color: Colors.white70),
-                  ),
-                  items: genderList
-                      .map((item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.white70,
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  value: selectedValueforGender,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedValueforGender = value as String;
-                    });
-                  },
-                  buttonHeight: 30,
-                  buttonWidth: 200,
-                  itemHeight: 30,
-                  dropdownDecoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Color.fromARGB(236, 9, 96, 168),
-                  ),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: GlassContainer(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: Row(
+                  children: [
+                    const Icon(Icons.person, color: Colors.white70),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                        hint: const Text(
+                          '     Gender',
+                          style: TextStyle(fontSize: 14, color: Colors.white70),
+                        ),
+                        items: genderList
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        value: selectedValueforGender,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedValueforGender = value as String;
+                          });
+                        },
+                        buttonHeight: 30,
+                        buttonWidth: 200,
+                        itemHeight: 30,
+                        dropdownDecoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Color.fromARGB(236, 9, 96, 168),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
           const SizedBox(height: 20.0),
         ]),
