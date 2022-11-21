@@ -188,7 +188,7 @@ class ExtendEditPatient extends State<EditPatient> {
      editPatient(addPatientTextUri, 'zipcode_address', zipcodeAddressController.text);
      flag = true;
    }
-   if(stateAddressController.text.isNotEmpty){
+   if(estado != 'none'){
      editPatient(addPatientTextUri, 'state_address', estado);
      flag = true;
    }
