@@ -6,13 +6,16 @@ import 'package:rostro_app/screens/verify_patient.dart';
 import '../utils/constant.dart';
 import '../screens/delete.dart';
 import '../screens/edit_patient.dart';
+import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
+
 class ShowPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
   final XFile picture;
   final bool isFromAll;
 
-  const ShowPatient({super.key,
+  const ShowPatient(
+      {super.key,
       required this.token,
       required this.details,
       required this.picture,
@@ -23,7 +26,7 @@ class ShowPatient extends StatefulWidget {
 }
 
 class ShowPatientDetails extends State<ShowPatient> {
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
   late int id = widget.details['id'];
@@ -32,10 +35,11 @@ class ShowPatientDetails extends State<ShowPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Patient Detail'),  
+        appBar: GlassAppBar(
+          title: GlassText('Patient Detail',
+              fontWeight: FontWeight.bold, color: Colors.white70),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
               Navigator.push(
                 context,
@@ -46,93 +50,116 @@ class ShowPatientDetails extends State<ShowPatient> {
               );
             },
           ),
-            actions: <Widget>[
+          actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
                   if (!isFromAll) {
                     delete(id, token);
-                    Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                       PatientList(token: token,)),);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => PatientList(
+                                token: token,
+                              )),
+                    );
                   }
-                  },
+                },
                 child: Visibility(
-                visible: !isFromAll,
-                child: const Icon(Icons.delete, color: Colors.red,),),
+                  visible: !isFromAll,
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                ),
               ),
             ),
-          
             Padding(
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
                   if (!isFromAll) {
-                    
-                    Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                       VerifyPatient(token: token,id:id ),),);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => VerifyPatient(token: token, id: id),
+                      ),
+                    );
                   }
-                  },
+                },
                 child: Visibility(
-                visible: !isFromAll,
-                child: const Icon(Icons.camera_alt_outlined, color: Color.fromARGB(255, 18, 1, 58),),),
+                  visible: !isFromAll,
+                  child: const Icon(
+                    Icons.camera_alt_outlined,
+                    color: Color.fromARGB(255, 18, 1, 58),
+                  ),
+                ),
               ),
             ),
-           Padding(
+            Padding(
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-
-                 if (!isFromAll) {
-                   Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                       EditPatient(token: token, details: details),),);
-                 }
-          },
+                  if (!isFromAll) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            EditPatient(token: token, details: details),
+                      ),
+                    );
+                  }
+                },
                 child: Visibility(
-                visible: !isFromAll,
-                child: const Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),),
+                  visible: !isFromAll,
+                  child: const Icon(
+                    Icons.edit,
+                    color: Color.fromARGB(255, 243, 236, 235),
+                  ),
+                ),
               ),
             ),
           ],
         ),
         body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(bg),
-              fit: BoxFit.cover,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(bg),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: ListView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                 pic(),
-                //  delete(id, token),
-                textData(),
-              ],
-            ),
-          )
-        ));
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: <Widget>[
+                  pic(),
+                  //  delete(id, token),
+                  textData(),
+                ],
+              ),
+            )));
   }
 
-  Widget pic(){
+  Widget pic() {
     String picturePath = "";
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
       picturePath = picture.path;
-    }
-    else{
+    } else {
       picturePath = "${Constants.BASE_URL}${picture.path}";
     }
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min, children: [
-      Image.network(picturePath, fit: BoxFit.fill, width: 250),
-      //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
-      const SizedBox(height: 24),
-    ]);
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.network(picturePath, fit: BoxFit.fill, width: 250),
+          //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
+          const SizedBox(height: 24),
+        ]);
   }
+
   delete(int id, String token) async {
     var rest = await deletePatient(id, token);
     setState(() {});
@@ -162,59 +189,75 @@ class ShowPatientDetails extends State<ShowPatient> {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Text>[
+      children: <Widget>[
         Text(
           "\t\tID: $id",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tFirst Name: $firstname",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tlast name: $lastname",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tAge: $age",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tDescription: $description",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tMedications List: $medlist",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tPhone Number: $phonenumber",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tDate of Birth: $birthdate",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tStreet: $street",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tCity: $city",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tZip Code: $zipcode",
+          textAlign: TextAlign.left,
+          style: const TextStyle(fontSize: 22, color: Colors.white),
+        ),
+        Divider(),
+        Text(
+          "\t\tState: $state",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
@@ -223,42 +266,49 @@ class ShowPatientDetails extends State<ShowPatient> {
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tCreation: $creation",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tModified: $modified",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tGender: $gender",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tEmergency Contact Name: $emergencyName",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tEmergency Contact Phone Number: $emergencyPhone",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tRelationship: $relationship",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
+        Divider(),
         Text(
           "\t\tIs in hospital: $isInHospital",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
-
+        Divider(),
       ],
     );
   }

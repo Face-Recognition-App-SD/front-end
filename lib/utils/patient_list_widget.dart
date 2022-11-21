@@ -7,15 +7,18 @@ import 'package:rostro_app/screens/verify_patient.dart';
 import '../screens/patient_detail.dart';
 //import 'package:flutter_auth_roleperm/screens/userdetailsscreen.dart';
 import '../models/PatientsData.dart';
+
 class PatientListWidget extends StatefulWidget {
   final List<PatientsData> patientList;
   final String token;
   final bool isFromAll;
 
-  const PatientListWidget({Key? key,
-    required this.patientList,
-    required this.token,
-    required this.isFromAll}) : super(key: key);
+  const PatientListWidget(
+      {Key? key,
+      required this.patientList,
+      required this.token,
+      required this.isFromAll})
+      : super(key: key);
 
   @override
   State<PatientListWidget> createState() => _PatientListWidgetState();
@@ -24,14 +27,12 @@ class PatientListWidget extends StatefulWidget {
 class _PatientListWidgetState extends State<PatientListWidget> {
   late String token;
   late int id;
-  
+
   late bool isFromAll = widget.isFromAll;
   void initState() {
     token = widget.token;
-    
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -54,10 +55,10 @@ class _PatientListWidgetState extends State<PatientListWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          PatientDetail(token: token,
-                            id:widget.patientList[index].id.toString(),
-                            isFromALl: isFromAll)),
+                      builder: (context) => PatientDetail(
+                          token: token,
+                          id: widget.patientList[index].id.toString(),
+                          isFromALl: isFromAll)),
                 );
               },
               child: ListTile(
@@ -66,8 +67,7 @@ class _PatientListWidgetState extends State<PatientListWidget> {
                   size: 48,
                   color: Color.fromARGB(255, 58, 54, 118),
                 ),
-                trailing:   verify(context, index),
-              
+                trailing: verify(context, index),
                 title: Text(
                   widget.patientList[index].id.toString(),
                   style: const TextStyle(
@@ -90,23 +90,20 @@ class _PatientListWidgetState extends State<PatientListWidget> {
     );
   }
 
-  Widget verify(context, index){
+  Widget verify(context, index) {
     return TextButton(
-      onPressed: (){ 
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          VerifyPatient(token: token,
-                            id: widget.patientList[index].id!,
-                            
-                       ),),
-                );
-              },
-              child: const Text('Verify Patient'),
-
-           
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VerifyPatient(
+              token: token,
+              id: widget.patientList[index].id!,
+            ),
+          ),
+        );
+      },
+      child: const Text('Verify Patient'),
     );
-}
-
+  }
 }
