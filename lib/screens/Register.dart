@@ -11,19 +11,18 @@ import '../utils/constant.dart';
 import 'dart:io';
 import './verifyEmail.dart';
 
-class Register extends StatefulWidget {
-  const Register({super.key});
+class TRegister extends StatefulWidget {
+  const TRegister({super.key});
 
   @override
-  State<Register> createState() => _Register();
+  State<TRegister> createState() => _TRegister();
 }
 
-class _Register extends State<Register> {
+class _TRegister extends State<TRegister> {
   var bg = './assets/images/bg.jpeg';
-  bool _isLoading = false;
   late String token;
-  bool _passwordVisible = false;
-
+  bool _passwordVisible1 = false;
+  bool _passwordVisible2 = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +40,7 @@ class _Register extends State<Register> {
           children: <Widget>[
             headerSection(),
             textSection(),
-            SubmitButtonSection(context),
-            //    signUpButtonSection(),
+            submitButtonSection(context),
           ],
         ),
       ),
@@ -63,13 +61,18 @@ class _Register extends State<Register> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController cpController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController departmentIdController = TextEditingController();
 
-  final List<String> gender = ['Male', 'Female', 'Transgender', 'Non-binary'];
+  var genderList = Constants.genderList;
 
-  final List<String> roles = ['Doctor', 'Nurse', 'Physical Therapist'];
+  final List<String> roles = [
+    'Doctor',
+    'Nurse',
+    'Physical Therapist'
+  ];
   String? selectedValueforGender;
   String? selectedValueforRoles;
 
@@ -93,7 +96,7 @@ class _Register extends State<Register> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
-            obscureText: !_passwordVisible,
+            obscureText: !_passwordVisible1,
             keyboardType: TextInputType.text,
             controller: passwordController,
             cursorColor: Colors.white,
@@ -105,12 +108,38 @@ class _Register extends State<Register> {
               hintStyle: const TextStyle(color: Colors.white70),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                  _passwordVisible1 ? Icons.visibility : Icons.visibility_off,
                   color: Theme.of(context).primaryColorDark,
                 ),
                 onPressed: () {
                   setState(() {
-                    _passwordVisible = !_passwordVisible;
+                    _passwordVisible1 = !_passwordVisible1;
+                  });
+                },
+              ),
+              icon: const Icon(Icons.lock, color: Colors.white70),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          TextFormField(
+            obscureText: !_passwordVisible2,
+            keyboardType: TextInputType.text,
+            controller: cpController,
+            cursorColor: Colors.white,
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
+            decoration: InputDecoration(
+              hintText: 'Confirm Password',
+              border: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: const TextStyle(color: Colors.white70),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _passwordVisible2 ? Icons.visibility : Icons.visibility_off,
+                  color: Theme.of(context).primaryColorDark,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible2 = !_passwordVisible2;
                   });
                 },
               ),
@@ -178,7 +207,7 @@ class _Register extends State<Register> {
                   itemHeight: 30,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
-                    color: Color.fromARGB(236, 9, 96, 168),
+                    color: const Color.fromARGB(236, 9, 96, 168),
                   ),
                 ),
               ),
@@ -189,7 +218,7 @@ class _Register extends State<Register> {
             keyboardType: TextInputType.number,
             controller: departmentIdController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
               icon: Icon(Icons.person, color: Colors.white70),
               hintText: 'Department ID',
@@ -208,7 +237,7 @@ class _Register extends State<Register> {
                     '     Gender',
                     style: TextStyle(fontSize: 14, color: Colors.white70),
                   ),
-                  items: gender
+                  items: genderList
                       .map((item) => DropdownMenuItem<String>(
                             value: item,
                             child: Text(
@@ -231,7 +260,7 @@ class _Register extends State<Register> {
                   itemHeight: 30,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Color.fromARGB(236, 9, 96, 168),
+                    color: const Color.fromARGB(236, 9, 96, 168),
                   ),
                 ),
               ),
@@ -243,58 +272,104 @@ class _Register extends State<Register> {
     );
   }
 
-  Container SubmitButtonSection(BuildContext context) {
+  Container submitButtonSection(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      margin: const EdgeInsets.only(top: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: ElevatedButton(
           child: Text('Submit'),
           onPressed: () async {
             String email = emailController.text;
             String password = passwordController.text;
-            UserLogin? data = await fetchDataSignUp(
-                email,
-                password,
-                firstNameController.text,
-                lastNameController.text,
-                selectedValueforRoles ?? "Nurse",
-                departmentIdController.text,
-                selectedValueforGender ?? "Male");
-            print('info after login');
-            print(token);
+            String cpassword = cpController.text;
+            if (password.isNotEmpty && cpassword.isNotEmpty && password == cpassword) {
 
-            if (data != null) {
-              ShowDialogSucc(context);
+              UserLogin? data = await fetchDataSignUp(
+                  email,
+                  password,
+                  firstNameController.text,
+                  lastNameController.text,
+                  selectedValueforRoles ?? "Nurse",
+                  departmentIdController.text,
+                  selectedValueforGender ?? "Male");
 
-              setState(() {});
-              // Navigator.of(context).pushAndRemoveUntil(
-              //     MaterialPageRoute(
-              //         builder: (BuildContext context) => Homepage(token: token)),
-              //     (Route<dynamic> route) => false);
-            } else {
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: const Text("Alert Dialog Box"),
-                  content: const Text("User with this email already exists"),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Container(
-                        color: Color.fromARGB(236, 9, 96, 168),
-                        padding: const EdgeInsets.all(14),
-                        child: const Text("OK"),
-                      ),
+              if (data != null) {
+                if (data.password != data.cpassword) {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text("Alert Dialog Box"),
+                      content: const Text("Both Password must be the same!"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Container(
+                            color: const Color.fromARGB(236, 9, 96, 168),
+                            padding: const EdgeInsets.all(14),
+                            child: const Text("OK"),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            }
-          }
+                  );
 
-          //end of button
+                  setState(() {});
+                } else {
+                  ShowDialogSucc(context);
+
+                  setState(() {});
+                }
+              } else if (data == null) {
+
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text("Alert Dialog Box"),
+                    content: const Text("Please Input Account Information!"),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Container(
+                          color: const Color.fromARGB(236, 9, 96, 168),
+                          padding: const EdgeInsets.all(14),
+                          child: const Text("OK"),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+
+                setState(() {});
+              } else {
+
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text("Alert Dialog Box"),
+                    content: const Text("User with this email already exists"),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Container(
+                          color: const Color.fromARGB(236, 9, 96, 168),
+                          padding: const EdgeInsets.all(14),
+                          child: const Text("OK"),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+                setState(() {});
+              }
+            }
+
+          }
           ),
     );
   }
@@ -302,8 +377,8 @@ class _Register extends State<Register> {
   Future<UserLogin?> fetchDataSignUp(
       String email,
       String password,
-      String first_name,
-      String last_name,
+      String firstName,
+      String lastName,
       String role,
       String dep,
       String gender) async {
@@ -321,20 +396,18 @@ class _Register extends State<Register> {
         body: {
           "email": email,
           "password": password,
-          "first_name": first_name,
-          "last_name": last_name,
+          "first_name": firstName,
+          "last_name": lastName,
           "role": role,
           "department_id": dep,
           "gender": gender,
         });
-    var jsonResponse = null;
     var data = response.body;
     token = data.substring(10, data.length - 2);
     if (response.statusCode == 201) {
       String responseString = response.body;
 
       setState(() {
-        _isLoading = false;
       });
 
       return albumFromJson(responseString);
@@ -342,7 +415,6 @@ class _Register extends State<Register> {
       if (response.statusCode == 400) {
         String responseString = response.body;
 
-        print(responseString);
       }
       return null;
     }
@@ -353,12 +425,12 @@ class _Register extends State<Register> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Message!"),
-          content: new Text(
+          title: const Text("Message!"),
+          content: const Text(
               "Your account have been created. Please check your email to verify your account."),
           actions: <Widget>[
-            new TextButton(
-              child: new Text("Verify Email"),
+            TextButton(
+              child: const Text("Verify Email"),
               onPressed: () {
                 Navigator.push(
                   context,

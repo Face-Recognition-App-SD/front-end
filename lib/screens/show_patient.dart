@@ -1,8 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:rostro_app/screens/get_patient_pictures.dart';
 import 'package:rostro_app/screens/patient_list.dart';
+import 'package:rostro_app/screens/verify_patient.dart';
 
 import '../utils/constant.dart';
 import '../screens/delete.dart';
@@ -11,12 +10,13 @@ class ShowPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
   final XFile picture;
-  // final String? id;
-  const ShowPatient(
-      {super.key,
+  final bool isFromAll;
+
+  const ShowPatient({super.key,
       required this.token,
       required this.details,
-      required this.picture});
+      required this.picture,
+      required this.isFromAll});
 
   @override
   State<ShowPatient> createState() => ShowPatientDetails();
@@ -26,15 +26,16 @@ class ShowPatientDetails extends State<ShowPatient> {
   var bg = './assets/images/bg.jpeg';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
-  late String id = widget.details['id'].toString();
+  late int id = widget.details['id'];
   late XFile picture = widget.picture;
+  late bool isFromAll = widget.isFromAll;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Patient Detail'),
+          title: const Text('Patient Detail'),  
           leading: IconButton(
-            icon: new Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
                 context,
@@ -45,79 +46,95 @@ class ShowPatientDetails extends State<ShowPatient> {
               );
             },
           ),
-          actions: <Widget>[
+            actions: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  delete(id, token);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => PatientList(
-                              token: token,
-                            )),
-                  );
-                },
-                child: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ),
+                  if (!isFromAll) {
+                    delete(id, token);
+                    Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                       PatientList(token: token,)),);
+                  }
+                  },
+                child: Visibility(
+                visible: !isFromAll,
+                child: const Icon(Icons.delete, color: Colors.red,),),
               ),
             ),
-
+          
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  if (!isFromAll) {
+                    
+                    Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                       VerifyPatient(token: token,id:id ),),);
+                  }
+                  },
+                child: Visibility(
+                visible: !isFromAll,
+                child: const Icon(Icons.camera_alt_outlined, color: Color.fromARGB(255, 18, 1, 58),),),
+              ),
+            ),
            Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                 Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => EditPatient(token: token, details: details),),);
+
+                 if (!isFromAll) {
+                   Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                       EditPatient(token: token, details: details),),);
+                 }
           },
-                child: const Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),
+                child: Visibility(
+                visible: !isFromAll,
+                child: const Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),),
               ),
             ),
-
           ],
         ),
         body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(bg),
-                fit: BoxFit.cover,
-              ),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(bg),
+              fit: BoxFit.cover,
             ),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: ListView(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: <Widget>[
-                  pic(),
-                  //  delete(id, token),
-                  textData(),
-                ],
-              ),
-            )));
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                 pic(),
+                //  delete(id, token),
+                textData(),
+              ],
+            ),
+          )
+        ));
   }
 
-  Widget pic() {
-    // String picturePath = "${Constants.BASE_URL}${picture.path}";
-    String picturePath = picture.path;
+  Widget pic(){
+    String picturePath = "";
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      picturePath = picture.path;
+    }
+    else{
+      picturePath = "${Constants.BASE_URL}${picture.path}";
+    }
     return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.network(picturePath, fit: BoxFit.fill, width: 250),
-          //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
-          const SizedBox(height: 24),
-        ]);
+      mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min, children: [
+      Image.network(picturePath, fit: BoxFit.fill, width: 250),
+      //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
+      const SizedBox(height: 24),
+    ]);
   }
-
-  delete(String id, String token) async {
+  delete(int id, String token) async {
     var rest = await deletePatient(id, token);
-    print('inside delete');
-    print(rest);
     setState(() {});
   }
 
@@ -207,11 +224,6 @@ class ShowPatientDetails extends State<ShowPatient> {
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
         Text(
-          "\t\tState: $state",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Text(
           "\t\tCreation: $creation",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
@@ -246,26 +258,7 @@ class ShowPatientDetails extends State<ShowPatient> {
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
-        Text(
-          "\t\tUser: $user",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Text(
-          "\t\NewPatient: $user",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Text(
-          "\t\Inhre: $user",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Text(
-          "\t\New infp: $user",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
+
       ],
     );
   }

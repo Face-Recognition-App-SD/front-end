@@ -49,21 +49,31 @@ class ExtendedCompareFace extends State<CompareFace> {
   }
 
   Container cameraButtonSection() {
+    id = 1;
     return Container(
         margin: const EdgeInsets.only(top: 50.0),
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
           child: const Text('Take Picture of Patient'),
           onPressed: () async {
-            print("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-            var faceCompareUri = Uri.https('${Constants.BASE_URL}','/api/user/faceCompare/');
-            // var faceCompareUri =
-                // Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
-            picture = await availableCameras().then((value) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => Camera(token: token, cameras: value))));
-            print("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+            Uri faceCompareUri = Uri();
+            if(Constants.BASE_URL == "api.rostro-authentication.com"){
+              faceCompareUri = Uri.https(Constants.BASE_URL, '/api/user/faceCompare/');
+            }
+            else{
+              faceCompareUri = Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
+            }
+            picture = await availableCameras().then((value) =>
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => Camera(token: token, cameras: value))));
+
+            if (picture == null) return;
+            String path = picture!.path;
+            var request = http.MultipartRequest("POST", faceCompareUri);
+            request.headers.addAll({"Authorization": "Token $token"});
+
             showDialog(
                 context: context,
                 builder: (context) {
@@ -71,40 +81,40 @@ class ExtendedCompareFace extends State<CompareFace> {
                     child: CircularProgressIndicator(),
                   );
                 });
-            print(picture);
-            if (picture == null) return;
-            String path = picture!.path;
-            var request = http.MultipartRequest("POST", faceCompareUri);
-            request.headers.addAll({"Authorization": "Token $token"});
-            print(path);
+
             var image = await http.MultipartFile.fromPath("image1", path);
             request.files.add(image);
             http.StreamedResponse response = await request.send();
-            print("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
-            id = int.parse(
-                responseString.substring(5, responseString.length - 1));
+            var respues = jsonDecode(responseString);
 
             Navigator.of(context).pop();
-            print("KOOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOKOK");
-            print(responseString);
-            if (responseString.substring(5, responseString.length - 1) == '-1' ||
-                responseString.substring(5, responseString.length - 1) == 'None') {
+            if (respues['T'] == '-1' || respues['T'] == 'Not Found') {
               const snackbar = SnackBar(
                   content: Text(
-                "No Match",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
-              ));
+                    "No Match",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
+                  ));
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
-            } else {
-              print(id.toString());
-              var getPatientUri =  Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/');
-              //var getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
-              var getImagesUri = Uri.https(Constants.BASE_URL,'/api/patients/all/$id/get_images/');
-              //var getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+            }
+            else {
+              id = int.parse(respues['T'].toString());
+              Uri getPatientUri = Uri();
+              if(Constants.BASE_URL == "api.rostro-authentication.com"){
+                getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
+              }
+              else{
+                getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+              }
+              Uri getImagesUri = Uri();
+              if(Constants.BASE_URL == "api.rostro-authentication.com"){
+                getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
+              }
+              else{
+                getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+              }
               final imageRes = await http.get(
                 getImagesUri,
                 headers: {
@@ -119,24 +129,22 @@ class ExtendedCompareFace extends State<CompareFace> {
                   HttpHeaders.authorizationHeader: 'Token $token',
                 },
               );
-              print(imageRes.statusCode);
               var decodedPatient = jsonDecode(patientRes.body);
               pictures = json.decode(imageRes.body);
-              print(pictures);
-              print("Neonlllllllllllllllllllllllllllllllllllll");
-              XFile retrievedPicture =
-                  XFile(pictures['image_lists'][0]['image']);
+              XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => ShowPatient(
-                          token: token,
-                          details: decodedPatient,
-                          picture: retrievedPicture)));
+                      builder: (_) =>
+                          ShowPatient(
+                              token: token,
+                              details: decodedPatient,
+                              picture: retrievedPicture,
+                              isFromAll: true,)));
             }
-          },
-        )
-        //end of button
+          }
+        )//end of button
         );
   }
 }
+

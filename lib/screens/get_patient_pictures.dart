@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import 'camera.dart';
 
@@ -66,8 +65,6 @@ class Pictures extends State<GetPatientPictures> {
                     builder: (_) => Camera(token: token, cameras: value))));
             reduceStep();
             if(step == 0){
-              print(pictures[0]?.path);
-              
               Navigator.pop(context, pictures);
             }
           },

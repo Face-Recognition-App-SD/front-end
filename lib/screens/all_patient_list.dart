@@ -1,22 +1,22 @@
 import 'dart:convert';
+
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/PatientsData.dart';
-import 'package:rostro_app/screens/homepage.dart';
-import './add_new_patient.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
 
-class PatientList extends StatefulWidget {
+class AllPatientList extends StatefulWidget {
   final String token;
 
-  const PatientList({super.key, required this.token});
+  const AllPatientList({super.key, required this.token});
   @override
-  State<PatientList> createState() => _PatientList();
+  State<AllPatientList> createState() => _AllPatientList();
 }
 
-class _PatientList extends State<PatientList> {
+class _AllPatientList extends State<AllPatientList> {
   var bg = './assets/images/bg.jpeg';
   late String token;
   late List<PatientsData> patients = [];
@@ -28,7 +28,10 @@ class _PatientList extends State<PatientList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
+       appBar: AppBar(
+          title: const Text('All Patient List'), 
+
+       ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -44,39 +47,10 @@ class _PatientList extends State<PatientList> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
-              showPatients(),
+              //containers
+              showPatientList(),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  ElevatedButton(
-                    child: const Text('Back to HomePage'),
-                    onPressed: () async {
-                      // Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => Homepage(token: token)));
-                    },
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ElevatedButton(
-                        child: const Text('Add New Patient'),
-
-                        onPressed: () async {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => AddNewPatient(token: token)));
-                        },
-                      )
-                    ],
-                  ),
-                ],
-              ),
+           
             ],
           ),
         )
@@ -84,7 +58,7 @@ class _PatientList extends State<PatientList> {
     );
   }
 
-  Container showPatients() {
+  Container showPatientList() {
     return Container(
       child: FutureBuilder(
         future: fetchPatients(token),
@@ -101,9 +75,9 @@ class _PatientList extends State<PatientList> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 10.0),
                       child: PatientListWidget(
-                        token: token,
+                        token: token, 
                         patientList: patients,
-                        isFromAll: false,
+                        isFromAll: true,
                       ))
                   : const Center(
                       child: Padding(
@@ -130,6 +104,13 @@ class _PatientList extends State<PatientList> {
               Future.delayed(Duration.zero, () {});
             }
           }
+          // } else if (snapshot.hasError) {
+
+          //     print('to snack bar');
+          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //     content: Text('${snapshot.error}'),
+          //   ));
+          // }
           return const Center(
             child: Text(''''''),
           );
@@ -141,7 +122,7 @@ class _PatientList extends State<PatientList> {
   Future<http.Response?> fetchPatients(token) async {
     Uri myProfileUri = Uri();
     if(Constants.BASE_URL == "api.rostro-authentication.com"){
-      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
+      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/all/');
     }
     else{
       myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');

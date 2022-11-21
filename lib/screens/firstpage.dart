@@ -1,8 +1,5 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/login_page.dart';
-import './regisnew.dart';
 import '../admins/admin_login.dart';
 
 class FirstPage extends StatelessWidget {
@@ -17,7 +14,7 @@ class FirstPage extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage(bg),
             fit: BoxFit.cover,
-          ), // neccessary widgets for setting up background image
+          ),
         ),
         child: Container(
           //set another container
@@ -65,11 +62,10 @@ class FirstPage extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => LoginPage()));
                           }, // on press effect directs to the login page from login.dart
-                          child: Text(
-                              'User Login'), //print user login on the button
+                          child: const Text('User Login'),
                         ),
                       ),
-                       Spacer(), //set a space in between the two buttons
+                      const Spacer(), //set a space in between the two buttons
                       Expanded(
                         //allow the button to stretch? i think thats what i did
                         flex: 3, //set the height
@@ -80,8 +76,7 @@ class FirstPage extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AdminLoginPage()));}, //no on press effect yet
-                          child: Text(
-                              'Admin Login'), //print admin login on the button
+                          child: const Text('Admin Login'), //print admin login on the button
                         ),
                       ),
                     ],

@@ -1,19 +1,11 @@
 import 'dart:io';
-
-import 'package:camera/camera.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:rostro_app/screens/add_new_patient.dart';
 import '../models/userlogin.dart';
 import '../utils/constant.dart';
-import './camera.dart';
 import './patient_list.dart';
-import './get_patient_pictures.dart';
-import '../utils/new_patient_widget.dart';
-import './add_new_patient.dart';
-import '../screens/face_compare.dart';
-import '../screens/verify_patient.dart';
 import 'package:http/http.dart' as http;
+import '../screens/all_patient_list.dart';
 
 class Home extends StatefulWidget {
   final String? token;
@@ -21,14 +13,15 @@ class Home extends StatefulWidget {
   final String? lastname;
   const Home({super.key, this.token, this.firstname, this.lastname});
   @override
-  State<Home> createState() => _home2State();
+  State<Home> createState() => _Home();
 }
 
-class _home2State extends State<Home> {
+class _Home extends State<Home> {
   var bg = './assets/images/bg.jpeg';
   late String? token;
   late Future<UserLogin?> futureUser;
   late String? fn;
+  late String? ln;
   var patientPictures;
   @override
   void initState() {
@@ -55,7 +48,7 @@ class _home2State extends State<Home> {
     );
   }
 
-  Widget homeview() {
+  Widget homeView() {
     return ListView(
       children: <Widget>[
         Container(
@@ -66,7 +59,7 @@ class _home2State extends State<Home> {
               Row(
                 children: const [
                   Text(
-                    'Welcome to Rostro App',
+                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Welcome to Rostro',
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -75,8 +68,7 @@ class _home2State extends State<Home> {
               ),
               const SizedBox(height: 50.0),
               Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
                   child: Image.asset(
                     './assets/images/logo.jpeg',
                     height: 150,
@@ -88,7 +80,7 @@ class _home2State extends State<Home> {
                 width: 300,
                 padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [
                       Color.fromARGB(55, 73, 108, 248),
                       Color.fromARGB(52, 163, 163, 172)
@@ -97,23 +89,16 @@ class _home2State extends State<Home> {
                     end: Alignment.bottomCenter,
                     stops: [0.5, 0.9],
                   ),
-                  color: Color.fromARGB(255, 188, 191, 196),
-                  // image: const DecorationImage(
-                  //   image: NetworkImage(
-                  //       'https://imageio.forbes.com/specials-images/imageserve/5dbb4182d85e3000078fddae/0x0.jpg?format=jpg&width=1200'),
-
-                  // border: Border.all(
-                  //   width: 50,
-                  // ),
+                  color: const Color.fromARGB(255, 188, 191, 196),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
                   children: [
                     const SizedBox(height: 20.0),
                     Text(
-                      'Hi $fn',
+                      'Hello $fn $ln!',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: const TextStyle(fontSize: 20, color: Colors.white),
                     ),
                     Container(
                       width: 200,
@@ -124,7 +109,7 @@ class _home2State extends State<Home> {
                           Container(
                             width: 200,
                             child: ElevatedButton(
-                              child: Text('Patient List'),
+                              child: const Text('My Patient List'),
                               // Within the `FirstRoute` widget
                               onPressed: () async {
                                 Navigator.push(
@@ -136,22 +121,21 @@ class _home2State extends State<Home> {
                             ),
                           ),
                           const SizedBox(height: 15.0),
-                          Container(
+                           Container(
                             width: 200,
                             child: ElevatedButton(
-                              child: Text('Recognize Patient'),
+                              child: const Text('All Patient List'),
                               // Within the `FirstRoute` widget
                               onPressed: () async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) =>
-                                          CompareFace(token: token!),
+                                          AllPatientList(token: token!),
                                     ));
                               },
                             ),
                           ),
-                          const SizedBox(height: 15.0),
                         ],
                       ),
                     )
@@ -173,7 +157,8 @@ class _home2State extends State<Home> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             fn = snapshot.data!.first_name;
-            return homeview();
+            ln = snapshot.data!.last_name;
+            return homeView();
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
@@ -184,32 +169,33 @@ class _home2State extends State<Home> {
   }
 
   Future<UserLogin?> fetchUserProfile(token) async {
-    UserLogin? newuser;
-
-    // var response = await http.get(
-    var myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
-    //  Uri.https('api.rostro-authentication.com', 'api/user/create/'),
-
-    // Uri.parse('${Constants.BASE_URL}/api/user/me/'),
+    UserLogin? newUser;
+    Uri myProfileUri = Uri();
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
+    }
+    else{
+      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
+    }
     final response = await http.get(
       myProfileUri,
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token ' + token,
+        HttpHeaders.authorizationHeader: 'Token $token',
       },
     );
-
     var data = response.body;
     token = data.substring(10, data.length - 2);
     if (response.statusCode == 200) {
       String responseString = response.body;
-      newuser = albumFromJson(responseString);
-
-      return newuser;
+      newUser = albumFromJson(responseString);
+      return newUser;
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load album');
+      const snackbar = SnackBar(
+          content: Text("No user found",
+              textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(snackbar); //throw Exception('Failed to load album');
     }
   }
 }
