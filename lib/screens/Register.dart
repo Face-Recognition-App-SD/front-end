@@ -190,7 +190,7 @@ class _TRegister extends State<TRegister> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
-                  controller: first_nameController,
+                  controller: firstNameController,
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white70, fontSize: 13),
                   decoration: const InputDecoration(
@@ -213,7 +213,7 @@ class _TRegister extends State<TRegister> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
-                  controller: last_nameController,
+                  controller: lastNameController,
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white70, fontSize: 13),
                   decoration: const InputDecoration(
@@ -284,7 +284,7 @@ class _TRegister extends State<TRegister> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   keyboardType: TextInputType.number,
-                  controller: department_idController,
+                  controller: departmentIdController,
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white70, fontSize: 13),
                   decoration: const InputDecoration(
@@ -608,8 +608,8 @@ class _TRegister extends State<TRegister> {
     }, body: {
       "email": email,
       "password": password,
-      "first_name": first_name,
-      "last_name": last_name,
+      "first_name": firstName,
+      "last_name": lastName,
       "role": role,
       "department_id": dep,
       "gender": gender,

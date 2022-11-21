@@ -8,7 +8,9 @@ import './homepage.dart';
 import 'dart:io';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'Treg.dart';
+
+import 'Register.dart';
+
 //import 'loggedinpage.dart';
 
 class LoginPage extends StatefulWidget {
