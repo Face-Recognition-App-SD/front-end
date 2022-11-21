@@ -620,8 +620,8 @@ class _DropDownGender extends State<DropDownGender> {
       dropdownColor: Color.fromARGB(212, 132, 153, 246),
       style: const TextStyle(color: Colors.white70),
       underline: Container(
-        height: 2,
-        color: Colors.white70,
+        height: 1,
+        color: Colors.black,
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
@@ -658,8 +658,8 @@ class _DropDownState extends State<DropDownState> {
       dropdownColor: Color.fromARGB(212, 132, 153, 246),
       style: const TextStyle(color: Colors.white70),
       underline: Container(
-        height: 2,
-        color: Colors.white70,
+        height: 1,
+        color: Colors.black,
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
