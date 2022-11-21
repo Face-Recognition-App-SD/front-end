@@ -490,7 +490,7 @@ class ExtendEditPatient extends State<EditPatient> {
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
-          //  Cuper(context),
+          Cuper(context),
           ],
         ),
         const SizedBox(height: 20.0),
