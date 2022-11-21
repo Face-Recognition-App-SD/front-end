@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/userlogin.dart';
-
-import 'package:flutter/services.dart';
-import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-
 import '../utils/constant.dart';
 import './homepage.dart';
-import './regisnew.dart';
 import 'dart:io';
-
-import 'Treg.dart';
-//import 'loggedinpage.dart';
+import 'Register.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -27,11 +20,6 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   late String token;
   bool _passwordVisible = false;
-
-  // @override
-  // void initState() {
-
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +44,6 @@ class _LoginPageState extends State<LoginPage> {
   } //build
 
   Container headerSection() {
-    print("HHHHHHHHH");
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
         child: Image.asset(
@@ -65,7 +52,6 @@ class _LoginPageState extends State<LoginPage> {
           width: 150,
           fit: BoxFit.fitWidth,
         ));
-    //background im
   }
 
   TextEditingController emailController = TextEditingController();
@@ -80,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
             keyboardType: TextInputType.emailAddress,
             controller: emailController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70),
+            style: const TextStyle(color: Colors.white70),
             decoration: const InputDecoration(
               icon: Icon(Icons.email, color: Colors.white70),
               hintText: 'Email',
@@ -98,9 +84,9 @@ class _LoginPageState extends State<LoginPage> {
             style: const TextStyle(color: Colors.white70),
             decoration: InputDecoration(
               hintText: 'Password',
-              border: UnderlineInputBorder(
+              border: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+              hintStyle: const TextStyle(color: Colors.white70),
               suffixIcon: IconButton(
                 icon: Icon(
                   _passwordVisible ? Icons.visibility : Icons.visibility_off,
@@ -122,25 +108,37 @@ class _LoginPageState extends State<LoginPage> {
 
   Container loginButtonSection() {
     return Container(
-        margin: EdgeInsets.only(top: 30.0),
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        margin: const EdgeInsets.only(top: 30.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ElevatedButton(
-          child: Text('Login'),
+          child: const Text('Login'),
           onPressed: () async {
             String email = emailController.text;
             String password = passwordController.text;
             UserLogin? data = await fetchDataLogin(email, password);
-            print('info after login');
-            print(token);
-            setState(() {});
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (BuildContext context) => Homepage(token: token)),
-                (Route<dynamic> route) => false);
+            var tokenReturn = token.substring(0, 8);
+            if (tokenReturn == "d_errors") {
+              showDialog(
+                
+                context: context,
+                builder: (BuildContext context) {
+                  return const AlertDialog(
+                    content: Text(
+                        "The combination of email and password is not correct", ),
+                  );
+                },
+                
+              );
+            } else {
+              //  setState(() {});
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          Homepage(token: token)),
+                  (Route<dynamic> route) => false);
+            }
           },
         )
-
-        //end of button
         );
   }
 

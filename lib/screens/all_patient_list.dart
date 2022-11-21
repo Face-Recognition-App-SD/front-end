@@ -5,11 +5,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/PatientsData.dart';
-import 'package:rostro_app/screens/homepage.dart';
-import './add_new_patient.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
-import '../utils/scroll.dart';
 
 class AllPatientList extends StatefulWidget {
   final String token;
@@ -26,7 +23,6 @@ class _AllPatientList extends State<AllPatientList> {
   @override
   void initState() {
     token = widget.token;
-    // initCamera(widget.patients![0]);
   }
 
   @override
@@ -43,6 +39,7 @@ class _AllPatientList extends State<AllPatientList> {
             fit: BoxFit.cover,
           ),
         ),
+        constraints: const BoxConstraints.expand(),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: ListView(
@@ -134,7 +131,7 @@ class _AllPatientList extends State<AllPatientList> {
       myProfileUri,
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token ' + token,
+        HttpHeaders.authorizationHeader: 'Token $token',
       },
     );
     return res;

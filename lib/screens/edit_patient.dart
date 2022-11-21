@@ -45,7 +45,7 @@ class ExtendEditPatient extends State<EditPatient> {
   var bg = './assets/images/bg.jpeg';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
-  late String id = widget.details['id'].toString();
+  late int id = widget.details['id'];
   List<XFile?> pictures = [];
  // TextEditingController idController = TextEditingController();
   TextEditingController firstnameController = TextEditingController();
@@ -95,9 +95,10 @@ class ExtendEditPatient extends State<EditPatient> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(bg),
-              fit: BoxFit.cover,
+              fit: BoxFit.fitHeight,
             ),
-          ), //background image
+          ),
+          constraints: const BoxConstraints.expand(), //background image
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: ListView(
@@ -111,10 +112,8 @@ class ExtendEditPatient extends State<EditPatient> {
                   style: const TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 const SizedBox(height: 10.0),
-                //  delete(id, token),
-          //      addPhotos(),
                 textData(),
-                getImages( context),
+                getImages(context),
                 submitButton(context),
               ],
             ),
@@ -122,31 +121,35 @@ class ExtendEditPatient extends State<EditPatient> {
         ));
   }
 
-  delete(String id, String token) async {
+  delete(int id, String token) async {
     var rest = await deletePatient(id, token);
     setState(() {});
   }
 
-
- Widget getImages(BuildContext context) {
+  Widget getImages(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(top: 30.0),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
-            child: const Text('Update Images'),
-            onPressed: () async {
-              
-             pictures = await Navigator.push(context, MaterialPageRoute(builder: (context) => GetPatientPictures(token: token)));
-            },),);
+      margin: const EdgeInsets.only(top: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: ElevatedButton(
+        child: const Text('Update Images'),
+        onPressed: () async {
+          pictures = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => GetPatientPictures(token: token)));
+        },
+      ),
+    );
   }
 
   Future<bool> editPatientInfo() async {
     Uri addPatientTextUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
-      addPatientTextUri = Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/');
-    }
-    else{
-      addPatientTextUri = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      addPatientTextUri =
+          Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
+    } else {
+      addPatientTextUri =
+          Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
     }
     bool flag = false;
    if(firstnameController.text.isNotEmpty){
@@ -207,6 +210,7 @@ class ExtendEditPatient extends State<EditPatient> {
    }
    return flag;
   }
+
   Future<PatientsData?> editPatient(addPatientTextUri, key, val) async {
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
@@ -216,14 +220,15 @@ class ExtendEditPatient extends State<EditPatient> {
     });
   }
 
-  Future<bool> updateImages() async{
+  Future<bool> updateImages() async {
     if (pictures.isNotEmpty) {
       Uri addPatientPictures = Uri();
-      if(Constants.BASE_URL == "api.rostro-authentication.com"){
-        addPatientPictures = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
-      }
-      else{
-        addPatientPictures = Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+      if (Constants.BASE_URL == "api.rostro-authentication.com") {
+        addPatientPictures = Uri.https(
+            Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
+      } else {
+        addPatientPictures = Uri.parse(
+            "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
       }
       var request = http.MultipartRequest("POST", addPatientPictures);
       request.headers.addAll({"Authorization": "Token $token"});
@@ -234,34 +239,41 @@ class ExtendEditPatient extends State<EditPatient> {
       request.files.add(image2);
       var image3 = await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
       request.files.add(image3);
-      
+
       http.StreamedResponse response = await request.send();
 
-      if(response.statusCode > 199 && response.statusCode < 300){
+      if (response.statusCode > 199 && response.statusCode < 300) {
         return true;
       }
     }
     return false;
   }
+
   Widget textData() {
     firstnameController.text = details['first_name'];
     lastnameController.text = details['last_name'];
     ageController.text = details['age'].toString();
     medListController.text = details['med_list'] ?? 'Not provided';
     phoneNumberController.text = details['phone_number'] ?? 'Not provided';
-    // date_of_birthController.text = details['date_of_birth'] ?? "0000-00-000";
+    dobController.text = details['date_of_birth'] ?? "0000-00-000";
+    genderController.text = details['gender'] ?? "null";
+    streetAddressController.text = details['street_address'];
+    cityAddressController.text = details['city_address'];
+    zipcodeAddressController.text = details['zipcode_address'];
+    stateAddressController.text = details['state_address'];
+    linkController.text = details['link'];
+    emergencyContactNameController.text = details['emergency_contact_name'];
+    emergencyPhoneNumber.text = details['emergency_phone_number'];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const SizedBox(height: 20.0),
-
         const Text(
           "\t Firstname:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
-
         TextFormField(
           controller: firstnameController,
           cursorColor: Colors.white,
@@ -274,14 +286,12 @@ class ExtendEditPatient extends State<EditPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-
         const SizedBox(height: 20.0),
         const Text(
           "\t Lastname:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
-
         TextFormField(
           controller: lastnameController,
           cursorColor: Colors.white,
@@ -294,14 +304,12 @@ class ExtendEditPatient extends State<EditPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-
         const SizedBox(height: 20.0),
         const Text(
           "\t Age:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
-
         TextFormField(
           controller: ageController,
           cursorColor: Colors.white,
@@ -314,14 +322,12 @@ class ExtendEditPatient extends State<EditPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-       
-         const SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         const Text(
           "\t Medical List:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
-
         TextFormField(
           controller: medListController,
           cursorColor: Colors.white,
@@ -334,14 +340,12 @@ class ExtendEditPatient extends State<EditPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-      
-  const SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         const Text(
           "\t Phone Number:",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
-
         TextFormField(
           controller: phoneNumberController,
           cursorColor: Colors.white,
@@ -375,7 +379,6 @@ class ExtendEditPatient extends State<EditPatient> {
     );
   }
 
-
   Widget? _showDialog(BuildContext context, String token) {
     showDialog(
       context: context,
@@ -402,6 +405,7 @@ class ExtendEditPatient extends State<EditPatient> {
       },
     );
   }
+
   Widget submitButton(BuildContext context) {
     var resPics = false;
     return Container(
@@ -462,7 +466,7 @@ class _DropDownGender extends State<DropDownGender>{
       }).toList(),
     );
   }
-  
+
 }
 
 class DropDownState extends StatefulWidget{

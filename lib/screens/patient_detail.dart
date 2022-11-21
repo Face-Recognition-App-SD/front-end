@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
-import './camera.dart';
 
 class PatientDetail extends StatefulWidget {
   final String token;
@@ -43,32 +42,15 @@ class _PatientDetail extends State<PatientDetail> {
             fit: BoxFit.cover,
           ),
         ), //background image
-        // child: ListView(
-        //   children: <Widget>[
-           
-        //     getPatientDetail(id),
-        //   ],
-        // ),
       ),
     );
   }
  
-  void getPatientDetail(String any) 
-    
-  //   return Container(
-  //       margin: const EdgeInsets.only(top: 50.0),
-  //       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-  //       child: ElevatedButton(
-  //         child: const Text('Take Picture of Patient'),
-  //         onPressed: () 
+  void getPatientDetail(String any)
   async {
             setState(() {
                   id = any;
             });
-      
-          
-            print('id $id');
-             print('token $token');
             Uri getPatientUri = Uri();
             if(Constants.BASE_URL == "api.rostro-authentication.com"){
               getPatientUri =  Uri.https(Constants.BASE_URL,'/api/patients/patientss/$id/');
@@ -108,9 +90,6 @@ class _PatientDetail extends State<PatientDetail> {
       
             var request = http.MultipartRequest("GET", getPatientUri);
             request.headers.addAll({"Authorization": "Token $token"});
-            //request.fields['id'] = id.toString();
-            // var image = await http.MultipartFile.fromPath("image", path);
-            // request.files.add(image);
             http.StreamedResponse response = await request.send();
 
             var decodedPatient = jsonDecode(patientRes.body);
@@ -118,10 +97,7 @@ class _PatientDetail extends State<PatientDetail> {
             XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
-            print(responseString);
             if(responseString !=null && retrievedPicture!=null){
-                    print('can go insdide resp');
-
               Navigator.push(context, MaterialPageRoute(builder: (_) =>
                   ShowPatient(token: token,
                       details: decodedPatient,

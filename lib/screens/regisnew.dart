@@ -3,18 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:rostro_app/models/userlogin.dart';
 
 import 'package:flutter/services.dart';
-import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:rostro_app/screens/login_page.dart';
 
 import '../utils/constant.dart';
-import './homepage.dart';
-import './login_page.dart';
 import 'dart:io';
 import './verifyEmail.dart';
-//import 'loggedinpage.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -56,7 +51,7 @@ class _Register extends State<Register> {
 
   Container headerSection() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
+        padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
         child: Image.asset(
           './assets/images/logo.jpeg',
           height: 100,
@@ -68,9 +63,9 @@ class _Register extends State<Register> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController first_nameController = TextEditingController();
-  TextEditingController last_nameController = TextEditingController();
-  TextEditingController department_idController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController departmentIdController = TextEditingController();
 
   final List<String> gender = ['Male', 'Female', 'Transgender', 'Non-binary'];
 
@@ -87,7 +82,7 @@ class _Register extends State<Register> {
             keyboardType: TextInputType.emailAddress,
             controller: emailController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
               icon: Icon(Icons.email, color: Colors.white70),
               hintText: 'Email',
@@ -102,12 +97,12 @@ class _Register extends State<Register> {
             keyboardType: TextInputType.text,
             controller: passwordController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: InputDecoration(
               hintText: 'Password',
-              border: UnderlineInputBorder(
+              border: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+              hintStyle: const TextStyle(color: Colors.white70),
               suffixIcon: IconButton(
                 icon: Icon(
                   _passwordVisible ? Icons.visibility : Icons.visibility_off,
@@ -119,15 +114,15 @@ class _Register extends State<Register> {
                   });
                 },
               ),
-              icon: Icon(Icons.lock, color: Colors.white70),
+              icon: const Icon(Icons.lock, color: Colors.white70),
             ),
           ),
           const SizedBox(height: 20.0),
           TextFormField(
             keyboardType: TextInputType.text,
-            controller: first_nameController,
+            controller: firstNameController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
               icon: Icon(Icons.person, color: Colors.white70),
               hintText: 'First name',
@@ -139,9 +134,9 @@ class _Register extends State<Register> {
           const SizedBox(height: 20.0),
           TextFormField(
             keyboardType: TextInputType.text,
-            controller: last_nameController,
+            controller: lastNameController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
               icon: Icon(Icons.person, color: Colors.white70),
               hintText: 'Last name',
@@ -192,7 +187,7 @@ class _Register extends State<Register> {
           const SizedBox(height: 20.0),
           TextFormField(
             keyboardType: TextInputType.number,
-            controller: department_idController,
+            controller: departmentIdController,
             cursorColor: Colors.white,
             style: TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
@@ -260,10 +255,10 @@ class _Register extends State<Register> {
             UserLogin? data = await fetchDataSignUp(
                 email,
                 password,
-                first_nameController.text,
-                last_nameController.text,
+                firstNameController.text,
+                lastNameController.text,
                 selectedValueforRoles ?? "Nurse",
-                department_idController.text,
+                departmentIdController.text,
                 selectedValueforGender ?? "Male");
             print('info after login');
             print(token);

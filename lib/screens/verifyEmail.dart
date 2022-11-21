@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
-import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
@@ -10,8 +9,6 @@ import 'package:rostro_app/screens/login_page.dart';
 import '../utils/constant.dart';
 
 import 'dart:io';
-import './verifyEmail.dart';
-//import 'loggedinpage.dart';
 
 class VerifyEmail extends StatefulWidget {
   final String email;
@@ -23,7 +20,6 @@ class VerifyEmail extends StatefulWidget {
 
 class _VerifyEmail extends State<VerifyEmail> {
   var bg = './assets/images/bg.jpeg';
-  bool _isLoading = false;
   late String email;
   @override
   void initState() {
@@ -49,8 +45,7 @@ class _VerifyEmail extends State<VerifyEmail> {
           children: <Widget>[
             headerSection(),
             textSection(),
-            SubmitButtonSection(context),
-            //    signUpButtonSection(),
+            submitButtonSection(context),
           ],
         ),
       ),
@@ -59,17 +54,15 @@ class _VerifyEmail extends State<VerifyEmail> {
 
   Container headerSection() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
+        padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
         child: Image.asset(
           './assets/images/logo.jpeg',
           height: 100,
           width: 90,
           fit: BoxFit.scaleDown,
         ));
-    //background im
   }
 
-  //TextEditingController emailVerify = TextEditingController();
   TextEditingController keyController = TextEditingController();
 
   Container textSection() {
@@ -86,7 +79,7 @@ class _VerifyEmail extends State<VerifyEmail> {
           TextFormField(
             controller: keyController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70, fontSize: 13),
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
             decoration: const InputDecoration(
               icon: Icon(Icons.email, color: Colors.white70),
               hintText: 'Key',
@@ -100,12 +93,12 @@ class _VerifyEmail extends State<VerifyEmail> {
     );
   }
 
-  Container SubmitButtonSection(BuildContext context) {
+  Container submitButtonSection(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      margin: const EdgeInsets.only(top: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: ElevatedButton(
-          child: Text('Submit'),
+          child: const Text('Submit'),
           onPressed: () async {
             String email = widget.email;
             String key = keyController.text;
@@ -113,17 +106,10 @@ class _VerifyEmail extends State<VerifyEmail> {
               email,
               keyController.text,
             );
-
-            print('info after login');
-            
-
             if (data != null) {
               var result = data.body.toString();
               result = result.substring(10, data.body.length - 1);
-              print (result);
               if (result == 'true') ShowDialogSucc(context);
-
-              //     (Route<dynamic> route) => false);
             } else {
               showDialog(
                 context: context,
@@ -137,7 +123,7 @@ class _VerifyEmail extends State<VerifyEmail> {
                         Navigator.of(ctx).pop();
                       },
                       child: Container(
-                        color: Color.fromARGB(236, 9, 96, 168),
+                        color: const Color.fromARGB(236, 9, 96, 168),
                         padding: const EdgeInsets.all(14),
                         child: const Text("OK"),
                       ),
@@ -184,15 +170,15 @@ Widget? ShowDialogSucc(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: new Text("Message!"),
-        content: new Text("Your account has been verified."),
+        title: const Text("Message!"),
+        content: const Text("Your account has been verified."),
         actions: <Widget>[
-          new TextButton(
-            child: new Text("Go to Login"),
+          TextButton(
+            child: const Text("Go to Login"),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => LoginPage()),
+                MaterialPageRoute(builder: (_) => const LoginPage()),
               );
             },
           ),

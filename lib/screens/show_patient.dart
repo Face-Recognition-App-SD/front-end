@@ -1,8 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:rostro_app/screens/get_patient_pictures.dart';
 import 'package:rostro_app/screens/patient_list.dart';
+import 'package:rostro_app/screens/verify_patient.dart';
 
 import '../utils/constant.dart';
 import '../screens/delete.dart';
@@ -27,7 +26,7 @@ class ShowPatientDetails extends State<ShowPatient> {
   var bg = './assets/images/bg.jpeg';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
-  late String id = widget.details['id'].toString();
+  late int id = widget.details['id'];
   late XFile picture = widget.picture;
   late bool isFromAll = widget.isFromAll;
   @override
@@ -49,7 +48,7 @@ class ShowPatientDetails extends State<ShowPatient> {
           ),
             actions: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
                   if (!isFromAll) {
@@ -61,6 +60,22 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Visibility(
                 visible: !isFromAll,
                 child: const Icon(Icons.delete, color: Colors.red,),),
+              ),
+            ),
+          
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  if (!isFromAll) {
+                    
+                    Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                       VerifyPatient(token: token,id:id ),),);
+                  }
+                  },
+                child: Visibility(
+                visible: !isFromAll,
+                child: const Icon(Icons.camera_alt_outlined, color: Color.fromARGB(255, 18, 1, 58),),),
               ),
             ),
            Padding(
@@ -75,7 +90,7 @@ class ShowPatientDetails extends State<ShowPatient> {
           },
                 child: Visibility(
                 visible: !isFromAll,
-                child: Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),),
+                child: const Icon(Icons.edit, color: Color.fromARGB(255, 243, 236, 235),),),
               ),
             ),
           ],
@@ -118,10 +133,8 @@ class ShowPatientDetails extends State<ShowPatient> {
       const SizedBox(height: 24),
     ]);
   }
-  delete(String id, String token) async {
+  delete(int id, String token) async {
     var rest = await deletePatient(id, token);
-    print('inside delete');
-    print(rest);
     setState(() {});
   }
 
