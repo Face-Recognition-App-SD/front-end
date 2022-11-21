@@ -11,22 +11,73 @@ import '../screens/delete.dart';
 import 'package:camera/camera.dart';
 import 'package:rostro_app/screens/get_patient_pictures.dart';
 
-List<String> genders = <String>[ 'Male', 'Female', 'Transgender',
-  'Non-binary/non-conforming', 'Prefer not to respond'];
+List<String> genders = <String>[
+  'Male',
+  'Female',
+  'Transgender',
+  'Non-binary/non-conforming',
+  'Prefer not to respond'
+];
 String genero = 'none';
-List<String> states = <String>["Alaska", "Alabama", "Arkansas",
-  "American Samoa", "Arizona", "California", "Colorado",
-  "Connecticut", "District of Columbia", "Delaware",
-  "Florida", "Georgia", "Guam", "Hawaii", "Iowa", "Idaho",
-  "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana",
-  "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota",
-  "Missouri", "Mississippi", "Montana", "North Carolina",
-  "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico",
-  "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-  "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota",
-  "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont",
-  "Washington", "Wisconsin", "West Virginia", "Wyoming"];
+List<String> states = <String>[
+  "Alaska",
+  "Alabama",
+  "Arkansas",
+  "American Samoa",
+  "Arizona",
+  "California",
+  "Colorado",
+  "Connecticut",
+  "District of Columbia",
+  "Delaware",
+  "Florida",
+  "Georgia",
+  "Guam",
+  "Hawaii",
+  "Iowa",
+  "Idaho",
+  "Illinois",
+  "Indiana",
+  "Kansas",
+  "Kentucky",
+  "Louisiana",
+  "Massachusetts",
+  "Maryland",
+  "Maine",
+  "Michigan",
+  "Minnesota",
+  "Missouri",
+  "Mississippi",
+  "Montana",
+  "North Carolina",
+  "North Dakota",
+  "Nebraska",
+  "New Hampshire",
+  "New Jersey",
+  "New Mexico",
+  "Nevada",
+  "New York",
+  "Ohio",
+  "Oklahoma",
+  "Oregon",
+  "Pennsylvania",
+  "Puerto Rico",
+  "Rhode Island",
+  "South Carolina",
+  "South Dakota",
+  "Tennessee",
+  "Texas",
+  "Utah",
+  "Virginia",
+  "Virgin Islands",
+  "Vermont",
+  "Washington",
+  "Wisconsin",
+  "West Virginia",
+  "Wyoming"
+];
 String estado = 'none';
+
 class EditPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
@@ -42,12 +93,12 @@ class EditPatient extends StatefulWidget {
 }
 
 class ExtendEditPatient extends State<EditPatient> {
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
   late int id = widget.details['id'];
   List<XFile?> pictures = [];
- // TextEditingController idController = TextEditingController();
+  // TextEditingController idController = TextEditingController();
   TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
@@ -152,63 +203,69 @@ class ExtendEditPatient extends State<EditPatient> {
           Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
     }
     bool flag = false;
-   if(firstnameController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'first_name', firstnameController.text);
-     flag = true;
-   }
-   if(lastnameController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'last_name', lastnameController.text);
-     flag = true;
-   }
-   if(ageController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'age', ageController.text);
-     flag = true;
-   }
-   if(medListController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'med_list', medListController.text);
-     flag = true;
-   }
-   if(phoneNumberController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'phone_number', phoneNumberController.text);
-     flag = true;
-   }
-   if(dobController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'date_of_birth', dobController.text);
-     flag = true;
-   }
-   if(streetAddressController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'street_address', streetAddressController.text);
-     flag = true;
-   }
-   if(cityAddressController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'city_address', cityAddressController.text);
-     flag = true;
-   }
-   if(zipcodeAddressController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'zipcode_address', zipcodeAddressController.text);
-     flag = true;
-   }
-   if(estado != 'none'){
-     editPatient(addPatientTextUri, 'state_address', estado);
-     flag = true;
-   }
-   if(linkController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'link', linkController.text);
-     flag = true;
-   }
-   if(emergencyContactNameController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'emergency_contact_name', emergencyContactNameController.text);
-     flag = true;
-   }
-   if(emergencyPhoneNumber.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'emergency_phone_number', emergencyPhoneNumber.text);
-     flag = true;
-   }
-   if(genero != 'none'){
-     editPatient(addPatientTextUri, 'gender', genero);
-     flag = true;
-   }
-   return flag;
+    if (firstnameController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'first_name', firstnameController.text);
+      flag = true;
+    }
+    if (lastnameController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'last_name', lastnameController.text);
+      flag = true;
+    }
+    if (ageController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'age', ageController.text);
+      flag = true;
+    }
+    if (medListController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'med_list', medListController.text);
+      flag = true;
+    }
+    if (phoneNumberController.text.isNotEmpty) {
+      editPatient(
+          addPatientTextUri, 'phone_number', phoneNumberController.text);
+      flag = true;
+    }
+    if (dobController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'date_of_birth', dobController.text);
+      flag = true;
+    }
+    if (streetAddressController.text.isNotEmpty) {
+      editPatient(
+          addPatientTextUri, 'street_address', streetAddressController.text);
+      flag = true;
+    }
+    if (cityAddressController.text.isNotEmpty) {
+      editPatient(
+          addPatientTextUri, 'city_address', cityAddressController.text);
+      flag = true;
+    }
+    if (zipcodeAddressController.text.isNotEmpty) {
+      editPatient(
+          addPatientTextUri, 'zipcode_address', zipcodeAddressController.text);
+      flag = true;
+    }
+    if (estado != 'none') {
+      editPatient(addPatientTextUri, 'state_address', estado);
+      flag = true;
+    }
+    if (linkController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'link', linkController.text);
+      flag = true;
+    }
+    if (emergencyContactNameController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'emergency_contact_name',
+          emergencyContactNameController.text);
+      flag = true;
+    }
+    if (emergencyPhoneNumber.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'emergency_phone_number',
+          emergencyPhoneNumber.text);
+      flag = true;
+    }
+    if (genero != 'none') {
+      editPatient(addPatientTextUri, 'gender', genero);
+      flag = true;
+    }
+    return flag;
   }
 
   Future<PatientsData?> editPatient(addPatientTextUri, key, val) async {
@@ -233,11 +290,14 @@ class ExtendEditPatient extends State<EditPatient> {
       var request = http.MultipartRequest("POST", addPatientPictures);
       request.headers.addAll({"Authorization": "Token $token"});
       request.fields['id'] = id.toString();
-      var image1 = await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
+      var image1 =
+          await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
       request.files.add(image1);
-      var image2 = await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
+      var image2 =
+          await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
       request.files.add(image2);
-      var image3 = await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
+      var image3 =
+          await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
       request.files.add(image3);
 
       http.StreamedResponse response = await request.send();
@@ -358,7 +418,6 @@ class ExtendEditPatient extends State<EditPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
-
         const SizedBox(height: 20.0),
         const Text(
           "\t State:",
@@ -366,7 +425,6 @@ class ExtendEditPatient extends State<EditPatient> {
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
         DropDownState(),
-
         const SizedBox(height: 20.0),
         const Text(
           "\t Gender:",
@@ -374,7 +432,6 @@ class ExtendEditPatient extends State<EditPatient> {
           style: TextStyle(fontSize: 14, color: Colors.white),
         ),
         DropDownGender(),
-
       ],
     );
   }
@@ -416,28 +473,32 @@ class ExtendEditPatient extends State<EditPatient> {
         onPressed: () async {
           showDialog(
               context: context,
-              builder: (context){
-                return const Center(child: CircularProgressIndicator(),);
-              }
-          );
+              builder: (context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              });
           var resText = await editPatientInfo();
           if (pictures.isNotEmpty) {
-           resPics = await updateImages();
+            resPics = await updateImages();
           }
           Navigator.of(context).pop();
-          if(resText || resPics){
+          if (resText || resPics) {
             _showDialog(context, token);
           }
-        },),);
+        },
+      ),
+    );
   }
 }
-class DropDownGender extends StatefulWidget{
+
+class DropDownGender extends StatefulWidget {
   const DropDownGender({super.key});
 
   State<DropDownGender> createState() => _DropDownGender();
-
 }
-class _DropDownGender extends State<DropDownGender>{
+
+class _DropDownGender extends State<DropDownGender> {
   String gender = genders.first;
   @override
   Widget build(BuildContext context) {
@@ -466,16 +527,15 @@ class _DropDownGender extends State<DropDownGender>{
       }).toList(),
     );
   }
-
 }
 
-class DropDownState extends StatefulWidget{
+class DropDownState extends StatefulWidget {
   const DropDownState({super.key});
 
   State<DropDownState> createState() => _DropDownState();
-
 }
-class _DropDownState extends State<DropDownState>{
+
+class _DropDownState extends State<DropDownState> {
   String state = states.first;
   @override
   Widget build(BuildContext context) {
@@ -504,5 +564,4 @@ class _DropDownState extends State<DropDownState>{
       }).toList(),
     );
   }
-
 }
