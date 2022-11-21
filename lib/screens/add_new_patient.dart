@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -10,6 +11,7 @@ import '../utils/constant.dart';
 import 'package:camera/camera.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
+// import '../screens/testCuper.dart';
 String? selectedValueforState;
 
 class AddNewPatient extends StatefulWidget {
@@ -34,6 +36,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
 
   static const List<String> _stateNames = Constants.statesList;
 
+  //late Map<String, dynamic> pictures;
   late int id;
   XFile? picture;
   late List<XFile?> pictures;
@@ -41,18 +44,20 @@ class _AddNewPatientState extends State<AddNewPatient> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
-  TextEditingController medListController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController dateOfBirthController = TextEditingController();
-  TextEditingController streetAddressController = TextEditingController();
-  TextEditingController cityAddressController = TextEditingController();
-  TextEditingController zipcodeAddressController = TextEditingController();
-  TextEditingController stateAddressController = TextEditingController();
-  TextEditingController emergencyContactNameController = TextEditingController();
-  TextEditingController emergencyPhoneNumberController = TextEditingController();
+  TextEditingController med_listController = TextEditingController();
+  TextEditingController phone_numberController = TextEditingController();
+  TextEditingController date_of_birthController = TextEditingController();
+  TextEditingController street_addressController = TextEditingController();
+  TextEditingController city_addressController = TextEditingController();
+  TextEditingController zipcode_addressController = TextEditingController();
+  TextEditingController state_addressController = TextEditingController();
+  TextEditingController emergency_contact_nameController =
+      TextEditingController();
+  TextEditingController emergency_phone_numberController =
+      TextEditingController();
   TextEditingController relationshipController = TextEditingController(); //
   TextEditingController genderController = TextEditingController();
-  TextEditingController isInHospitalController = TextEditingController();
+  TextEditingController is_in_hospitalController = TextEditingController();
   String? selectedValueforGender;
   String? selectedValueforState;
   var indexNew;
@@ -64,6 +69,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
     selectedValueforState = "";
   }
 
+  // // ({Key? key, required this.token}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,9 +142,9 @@ class _AddNewPatientState extends State<AddNewPatient> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
-            controller: medListController,
+            controller: med_listController,
             cursorColor: Colors.white,
-            style: const TextStyle(color: Colors.white70, fontSize: 16),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
             decoration: const InputDecoration(
               icon: Icon(Icons.local_hospital_outlined, color: Colors.white70),
               hintText: 'Medical List',
@@ -150,9 +156,9 @@ class _AddNewPatientState extends State<AddNewPatient> {
           const SizedBox(height: 20.0),
           TextFormField(
             keyboardType: TextInputType.number,
-            controller: phoneNumberController,
+            controller: phone_numberController,
             cursorColor: Colors.white,
-            style: const TextStyle(color: Colors.white70, fontSize: 16),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
             decoration: const InputDecoration(
               icon: Icon(Icons.numbers, color: Colors.white70),
               hintText: 'Phone Number',
@@ -163,10 +169,10 @@ class _AddNewPatientState extends State<AddNewPatient> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
-            controller: dateOfBirthController,
+            controller: date_of_birthController,
             keyboardType: TextInputType.datetime,
             cursorColor: Colors.white,
-            style: const TextStyle(color: Colors.white70, fontSize: 16),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
             decoration: const InputDecoration(
               icon: Icon(Icons.date_range, color: Colors.white70),
               hintText: 'Date of birth yyyy-mm-dd',
@@ -209,7 +215,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                   itemHeight: 30,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: const Color.fromARGB(236, 9, 96, 168),
+                    color: Color.fromARGB(236, 9, 96, 168),
                   ),
                 ),
               ),
@@ -217,9 +223,9 @@ class _AddNewPatientState extends State<AddNewPatient> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
-            controller: streetAddressController,
+            controller: street_addressController,
             cursorColor: Colors.white,
-            style: const TextStyle(color: Colors.white70, fontSize: 16),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
             decoration: const InputDecoration(
               icon: Icon(Icons.house, color: Colors.white70),
               hintText: 'Street Address',
@@ -230,9 +236,9 @@ class _AddNewPatientState extends State<AddNewPatient> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
-            controller: cityAddressController,
+            controller: city_addressController,
             cursorColor: Colors.white,
-            style: const TextStyle(color: Colors.white70, fontSize: 16),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
             decoration: const InputDecoration(
               icon: Icon(Icons.house, color: Colors.white70),
               hintText: 'City Address',
@@ -243,10 +249,10 @@ class _AddNewPatientState extends State<AddNewPatient> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
-            controller: zipcodeAddressController,
+            controller: zipcode_addressController,
             keyboardType: TextInputType.datetime,
             cursorColor: Colors.white,
-            style: const TextStyle(color: Colors.white70, fontSize: 16),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
             decoration: const InputDecoration(
               icon: Icon(Icons.house, color: Colors.white70),
               hintText: 'Zipcode',
@@ -258,13 +264,13 @@ class _AddNewPatientState extends State<AddNewPatient> {
           const SizedBox(height: 20.0),
           Row(
             children: [
-              const Icon(Icons.location_on_outlined, color: Colors.white70),
+              Icon(Icons.location_on_outlined, color: Colors.white70),
               Cuper(context),
             ],
           ),
           const SizedBox(height: 20.0),
           TextFormField(
-            controller: emergencyContactNameController,
+            controller: emergency_contact_nameController,
             cursorColor: Colors.white,
             style: const TextStyle(color: Colors.white70, fontSize: 16),
             decoration: const InputDecoration(
@@ -277,7 +283,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
           ),
           const SizedBox(height: 20.0),
           TextFormField(
-            controller: emergencyPhoneNumberController,
+            controller: emergency_phone_numberController,
             keyboardType: TextInputType.number,
             cursorColor: Colors.white,
             style: const TextStyle(color: Colors.white70, fontSize: 16),
@@ -304,6 +310,12 @@ class _AddNewPatientState extends State<AddNewPatient> {
               PatientsData? data = await postPatient();
               if (data != null) {
                 _showDialog(context, token);
+
+                // setState(() {});
+                // Navigator.of(context).pushAndRemoveUntil(
+                //     MaterialPageRoute(
+                //         builder: (BuildContext context) => Homepage(token: token)),
+                //     (Route<dynamic> route) => false);
               }
             }));
   }
@@ -313,7 +325,9 @@ class _AddNewPatientState extends State<AddNewPatient> {
       color: Colors.transparent,
       child: Container(
           decoration: const BoxDecoration(
+            //color: Color.fromARGB(255, 199, 201, 224),
             shape: BoxShape.rectangle,
+            //borderRadius: BorderRadius.all(Radius.circular(5.0))
           ),
           child: TextButton(
             style: TextButton.styleFrom(
@@ -357,20 +371,21 @@ class _AddNewPatientState extends State<AddNewPatient> {
       "first_name": firstNameController.text,
       "last_name": lastNameController.text,
       "age": ageController.text,
-      "med_list": medListController.text,
-      "phone_number": phoneNumberController.text,
-      "date_of_birth": dateOfBirthController.text,
-      "street_address": streetAddressController.text,
-      "city_address": cityAddressController.text,
-      "zipcode_address": zipcodeAddressController.text,
+      "med_list": med_listController.text,
+      "phone_number": phone_numberController.text,
+      "date_of_birth": date_of_birthController.text,
+      "street_address": street_addressController.text,
+      "city_address": city_addressController.text,
+      "zipcode_address": zipcode_addressController.text,
       "state_address": selectedValueforState,
-      "emergency_contact_name": emergencyContactNameController.text,
-      "emergency_phone_number": emergencyPhoneNumberController.text,
+      "emergency_contact_name": emergency_contact_nameController.text,
+      "emergency_phone_number": emergency_phone_numberController.text,
       "relationship": relationshipController.text,
       "gender": selectedValueforGender,
     });
 
     var data = json.decode(res.body);
+    print(data);
     id = data['id'];
     Uri addPatientPictures = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {

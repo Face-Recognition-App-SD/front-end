@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../utils/constant.dart';
 
-    Future <http.Response> deletePatient(String id, String token) async {
+    Future <http.Response> deletePatient(int id, String token) async {
       Uri deleteUri = Uri();
       if(Constants.BASE_URL == "api.rostro-authentication.com"){
         deleteUri = Uri.https(Constants.BASE_URL,'/api/patients/all/$id/');
