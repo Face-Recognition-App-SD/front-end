@@ -224,11 +224,6 @@ class ShowPatientDetails extends State<ShowPatient> {
           style: const TextStyle(fontSize: 22, color: Colors.white),
         ),
         Text(
-          "\t\tState: $state",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Text(
           "\t\tCreation: $creation",
           textAlign: TextAlign.left,
           style: const TextStyle(fontSize: 22, color: Colors.white),
