@@ -107,7 +107,7 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
               else {
-                const snackbar = SnackBar(content: Text("No Match", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
+                const snackbar = SnackBar(content: Text("Match Found!", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
                 Uri  getPatientUri = Uri();
                 if(Constants.BASE_URL == "api.rostro-authentication.com"){
