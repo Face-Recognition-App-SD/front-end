@@ -174,115 +174,113 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
       margin: const EdgeInsets.only(top: 50.0),
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Glassmorphism(
-          blur: 20,
-          opacity: 0.1,
-          radius: 50.0,
-          child: TextButton(
-              // child: const Text('Take Picture of Patient'),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: 5,
-                ),
-                child: const Text(
-                  "Take Picture of the Patient",
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
+        blur: 20,
+        opacity: 0.1,
+        radius: 50.0,
+        child: TextButton(
+          // child: const Text('Take Picture of Patient'),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 5,
+            ),
+            child: const Text(
+              "Take Picture of the Patient",
+              style: TextStyle(color: Colors.white, fontSize: 20.0),
+            ),
+          ),
+          onPressed: () async {
+            Uri faceVerify = Uri();
+            if (Constants.BASE_URL == "api.rostro-authentication.com") {
+              faceVerify = Uri.https(
+                  Constants.BASE_URL, '/api/patients/all/$id/faceverify/');
+            } else {
+              faceVerify = Uri.parse(
+                  '${Constants.BASE_URL}/api/patients/all/$id/faceverify/');
+            }
+            picture = await availableCameras().then(
+              (value) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => Camera(token: token, cameras: value),
                 ),
               ),
-              onPressed: () async {
-                Uri faceVerify = Uri();
-                if (Constants.BASE_URL == "api.rostro-authentication.com") {
-                  faceVerify = Uri.https(
-                      Constants.BASE_URL, '/api/patients/all/$id/faceverify/');
-                } else {
-                  faceVerify = Uri.parse(
-                      '${Constants.BASE_URL}/api/patients/all/$id/faceverify/');
-                }
-                picture = await availableCameras().then(
-                  (value) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => Camera(token: token, cameras: value),
-                    ),
-                  ),
-                );
+            );
 
-                if (picture == null) return;
-                String path = picture!.path;
-                File filePic = File(path);
-                Uint8List? compressed =
-                    await FlutterImageCompress.compressWithFile(
-                        filePic.absolute.path);
-                final tempDir = await getTemporaryDirectory();
-                File file = await File('${tempDir.path}/image.png').create();
-                file.writeAsBytesSync(compressed!);
+            if (picture == null) return;
+            String path = picture!.path;
+            File filePic = File(path);
+            Uint8List? compressed = await FlutterImageCompress.compressWithFile(
+                filePic.absolute.path);
+            final tempDir = await getTemporaryDirectory();
+            File file = await File('${tempDir.path}/image.png').create();
+            file.writeAsBytesSync(compressed!);
 
-                var request = http.MultipartRequest("POST", faceVerify);
-                request.headers.addAll({"Authorization": "Token $token"});
+            var request = http.MultipartRequest("POST", faceVerify);
+            request.headers.addAll({"Authorization": "Token $token"});
 
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    });
-                var image =
-                    await http.MultipartFile.fromPath("image", file.path);
-                request.files.add(image);
-                request.fields['id'] = id.toString();
-                http.StreamedResponse response = await request.send();
-                var responseData = await response.stream.toBytes();
-                var responseString = String.fromCharCodes(responseData);
-                var respues = jsonDecode(responseString);
-                Navigator.of(context).pop();
-                if (respues['status'] == false) {
-                  const snackbar = SnackBar(
-                      content: Text(
-                    "No Match",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20),
-                  ));
-                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                } else {
-                  const snackbar = SnackBar(
-                      content: Text(
-                    "No Match",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20),
-                  ));
-                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
-
-                  Uri getPatientUri = Uri();
-                  if (Constants.BASE_URL == "api.rostro-authentication.com") {
-                    getPatientUri = Uri.https(
-                        Constants.BASE_URL, '/api/patients/patientss/$id/');
-                  } else {
-                    getPatientUri = Uri.parse(
-                        '${Constants.BASE_URL}/api/patients/patientss/$id/');
-                  }
-                  Uri getImagesUri = Uri();
-                  if (Constants.BASE_URL == "api.rostro-authentication.com") {
-                    getImagesUri = Uri.https(Constants.BASE_URL,
-                        '/api/patients/all/$id/get_images/');
-                  } else {
-                    getImagesUri = Uri.parse(
-                        '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
-                  }
-                  final imageRes = await http.get(
-                    getImagesUri,
-                    headers: {
-                      HttpHeaders.acceptHeader: 'application/json',
-                      HttpHeaders.authorizationHeader: 'Token $token',
-                    },
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                  final patientRes = await http.get(
-                    getPatientUri,
-                    headers: {
-                      HttpHeaders.acceptHeader: 'application/json',
-                      HttpHeaders.authorizationHeader: 'Token $token',
-                    },
-                  );
+                });
+            var image = await http.MultipartFile.fromPath("image", file.path);
+            request.files.add(image);
+            request.fields['id'] = id.toString();
+            http.StreamedResponse response = await request.send();
+            var responseData = await response.stream.toBytes();
+            var responseString = String.fromCharCodes(responseData);
+            var respues = jsonDecode(responseString);
+            Navigator.of(context).pop();
+            if (respues['status'] == false) {
+              const snackbar = SnackBar(
+                  content: Text(
+                "No Match",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+              ));
+              ScaffoldMessenger.of(context).showSnackBar(snackbar);
+            } else {
+              const snackbar = SnackBar(
+                  content: Text(
+                "No Match",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+              ));
+              ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
+              Uri getPatientUri = Uri();
+              if (Constants.BASE_URL == "api.rostro-authentication.com") {
+                getPatientUri = Uri.https(
+                    Constants.BASE_URL, '/api/patients/patientss/$id/');
+              } else {
+                getPatientUri = Uri.parse(
+                    '${Constants.BASE_URL}/api/patients/patientss/$id/');
+              }
+              Uri getImagesUri = Uri();
+              if (Constants.BASE_URL == "api.rostro-authentication.com") {
+                getImagesUri = Uri.https(
+                    Constants.BASE_URL, '/api/patients/all/$id/get_images/');
+              } else {
+                getImagesUri = Uri.parse(
+                    '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+              }
+              final imageRes = await http.get(
+                getImagesUri,
+                headers: {
+                  HttpHeaders.acceptHeader: 'application/json',
+                  HttpHeaders.authorizationHeader: 'Token $token',
+                },
+              );
+              final patientRes = await http.get(
+                getPatientUri,
+                headers: {
+                  HttpHeaders.acceptHeader: 'application/json',
+                  HttpHeaders.authorizationHeader: 'Token $token',
+                },
+              );
               showDialog(
                   context: context,
                   builder: (context) {
@@ -301,28 +299,34 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
               if (respues['status'] == false) {
                 const snackbar = SnackBar(
                     content: Text(
-                      "No Match",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20),
-                    ));
+                  "No Match",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                ));
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
-              }
-              else {
-                const snackbar = SnackBar(content: Text("Match Found!", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
+              } else {
+                const snackbar = SnackBar(
+                    content: Text(
+                  "Match Found!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                ));
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                Uri  getPatientUri = Uri();
-                if(Constants.BASE_URL == "api.rostro-authentication.com"){
-                  getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
-                }
-                else{
-                  getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+                Uri getPatientUri = Uri();
+                if (Constants.BASE_URL == "api.rostro-authentication.com") {
+                  getPatientUri = Uri.https(
+                      Constants.BASE_URL, '/api/patients/patientss/$id/');
+                } else {
+                  getPatientUri = Uri.parse(
+                      '${Constants.BASE_URL}/api/patients/patientss/$id/');
                 }
                 Uri getImagesUri = Uri();
-                if(Constants.BASE_URL == "api.rostro-authentication.com"){
-                  getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
-                }
-                else{
-                  getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+                if (Constants.BASE_URL == "api.rostro-authentication.com") {
+                  getImagesUri = Uri.https(
+                      Constants.BASE_URL, '/api/patients/all/$id/get_images/');
+                } else {
+                  getImagesUri = Uri.parse(
+                      '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
                 }
                 final imageRes = await http.get(
                   getImagesUri,
@@ -339,23 +343,27 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                   },
                 );
 
-                  var decodedPatient = jsonDecode(patientRes.body);
-                  pictures = json.decode(imageRes.body);
-                  XFile retrievedPicture =
-                      XFile(pictures['image_lists'][0]['image']);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ShowPatient(
-                                token: token,
-                                details: decodedPatient,
-                                picture: retrievedPicture,
-                                isFromAll: true,
-                              )));
-                }
-              })
-          //end of button
-          ),
+                var decodedPatient = jsonDecode(patientRes.body);
+                pictures = json.decode(imageRes.body);
+                XFile retrievedPicture =
+                    XFile(pictures['image_lists'][0]['image']);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ShowPatient(
+                      token: token,
+                      details: decodedPatient,
+                      picture: retrievedPicture,
+                      isFromAll: true,
+                    ),
+                  ),
+                );
+              }
+            }
+          },
+        ),
+        //end of button
+      ),
     );
   }
 }
