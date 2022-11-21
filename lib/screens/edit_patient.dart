@@ -28,7 +28,7 @@ class ExtendEditPatient extends State<EditPatient> {
   var bg = './assets/images/bg.jpeg';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
-  late String id = widget.details['id'].toString();
+  late int id = widget.details['id'];
   List<XFile?> pictures = [];
 
   String? selectedGenderVal = "";
@@ -116,7 +116,7 @@ class ExtendEditPatient extends State<EditPatient> {
         ));
   }
 
-  delete(String id, String token) async {
+  delete(int id, String token) async {
     var rest = await deletePatient(id, token);
     setState(() {});
   }
