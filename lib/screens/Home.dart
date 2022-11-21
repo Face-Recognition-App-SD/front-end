@@ -112,7 +112,7 @@ class _home2State extends State<Home> {
                   children: [
                     const SizedBox(height: 20.0),
                     Text(
-                      'Hi,${fn}',
+                      'Hi ${fn}',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
@@ -153,7 +153,7 @@ class _home2State extends State<Home> {
                             ),
                           ),*/
                           const SizedBox(height: 15.0),
-                           Container(
+                          Container(
                             width: 200,
                             child: ElevatedButton(
                               child: Text('All Patient List'),
@@ -202,10 +202,9 @@ class _home2State extends State<Home> {
   Future<UserLogin?> fetchUserProfile(token) async {
     UserLogin? newuser;
     Uri myProfileUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
       myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
-    }
-    else{
+    } else {
       myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
     }
     final response = await http.get(

@@ -5,15 +5,18 @@ import 'package:rostro_app/screens/homepage.dart';
 import '../screens/patient_detail.dart';
 //import 'package:flutter_auth_roleperm/screens/userdetailsscreen.dart';
 import '../models/PatientsData.dart';
+
 class PatientListWidget extends StatefulWidget {
   final List<PatientsData> patientList;
   final String token;
   final bool isFromAll;
 
-  const PatientListWidget({Key? key,
-    required this.patientList,
-    required this.token,
-    required this.isFromAll}) : super(key: key);
+  const PatientListWidget(
+      {Key? key,
+      required this.patientList,
+      required this.token,
+      required this.isFromAll})
+      : super(key: key);
 
   @override
   State<PatientListWidget> createState() => _PatientListWidgetState();
@@ -27,7 +30,6 @@ class _PatientListWidgetState extends State<PatientListWidget> {
     token = widget.token;
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -50,10 +52,10 @@ class _PatientListWidgetState extends State<PatientListWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          PatientDetail(token: token,
-                            id:widget.patientList[index].id.toString(),
-                            isFromALl: isFromAll)),
+                      builder: (context) => PatientDetail(
+                          token: token,
+                          id: widget.patientList[index].id.toString(),
+                          isFromALl: isFromAll)),
                 );
               },
               child: ListTile(

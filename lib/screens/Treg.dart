@@ -15,6 +15,7 @@ import './login_page.dart';
 import 'dart:io';
 import './verifyEmail.dart';
 //import 'loggedinpage.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class TRegister extends StatefulWidget {
   const TRegister({super.key});
@@ -24,7 +25,7 @@ class TRegister extends StatefulWidget {
 }
 
 class _TRegister extends State<TRegister> {
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   bool _isLoading = false;
   late String token;
   bool _passwordVisible1 = false;
@@ -33,9 +34,9 @@ class _TRegister extends State<TRegister> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Sign Up'),
+      // ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -47,7 +48,8 @@ class _TRegister extends State<TRegister> {
           children: <Widget>[
             headerSection(),
             textSection(),
-            SubmitButtonSection(context),
+            // SubmitButtonSection(context),
+            submitButton(context),
             //    signUpButtonSection(),
           ],
         ),
@@ -60,8 +62,8 @@ class _TRegister extends State<TRegister> {
         padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
         child: Image.asset(
           './assets/images/logo.jpeg',
-          height: 100,
-          width: 90,
+          height: 200,
+          width: 190,
           fit: BoxFit.scaleDown,
         ));
     //background im
@@ -278,12 +280,19 @@ class _TRegister extends State<TRegister> {
     );
   }
 
-  Container SubmitButtonSection(BuildContext context) {
+  Container submitButton(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: ElevatedButton(
-          child: Text('Submit'),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        // color: Colors.white70,
+      ),
+      width: 40.0,
+      height: 40,
+      margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+      child: SignInButtonBuilder(
+          text: 'Register with Email',
+          icon: (Icons.email),
+          backgroundColor: Colors.blue[700]!,
           onPressed: () async {
             String email = emailController.text;
             String password = passwordController.text;
@@ -384,12 +393,123 @@ class _TRegister extends State<TRegister> {
                 setState(() {});
               }
             }
-          } //JJJJJJJJJJJJJJJJJJJJJ
-
-          //end of button
+          } //JJJJJJJJJJJJJJJJJJJJJ),
           ),
     );
   }
+
+  // Container SubmitButtonSection(BuildContext context) {
+  //   return Container(
+  //     margin: EdgeInsets.only(top: 30.0),
+  //     padding: EdgeInsets.symmetric(horizontal: 20.0),
+  //     child: ElevatedButton(
+  //         child: Text('Submit'),
+  //         onPressed: () async {
+  //           String email = emailController.text;
+  //           String password = passwordController.text;
+  //           String cpassword = cpController.text;
+  //           if (password.isNotEmpty &&
+  //               cpassword.isNotEmpty &&
+  //               password == cpassword) {
+  //             UserLogin? data = await fetchDataSignUp(
+  //                 email,
+  //                 password,
+  //                 first_nameController.text,
+  //                 last_nameController.text,
+  //                 selectedValueforRoles ?? "Nurse",
+  //                 department_idController.text,
+  //                 selectedValueforGender ?? "Male");
+  //             print('info after login');
+  //             print(token);
+  //             print(data?.cpassword);
+
+  //             if (data != null) {
+  //               if (data.password != data.cpassword) {
+  //                 showDialog(
+  //                   context: context,
+  //                   builder: (ctx) => AlertDialog(
+  //                     title: const Text("Alert Dialog Box"),
+  //                     content: const Text("Both Password must be the same!"),
+  //                     actions: <Widget>[
+  //                       TextButton(
+  //                         onPressed: () {
+  //                           Navigator.of(ctx).pop();
+  //                         },
+  //                         child: Container(
+  //                           color: Color.fromARGB(236, 9, 96, 168),
+  //                           padding: const EdgeInsets.all(14),
+  //                           child: const Text("OK"),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 );
+
+  //                 setState(() {});
+  //               } else {
+  //                 ShowDialogSucc(context);
+
+  //                 setState(() {});
+  //               }
+  //             } else if (data == null) {
+  //               print(
+  //                   "YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+  //               print(data);
+
+  //               showDialog(
+  //                 context: context,
+  //                 builder: (ctx) => AlertDialog(
+  //                   title: const Text("Alert Dialog Box"),
+  //                   content: const Text("Please Input Account Information!"),
+  //                   actions: <Widget>[
+  //                     TextButton(
+  //                       onPressed: () {
+  //                         Navigator.of(ctx).pop();
+  //                       },
+  //                       child: Container(
+  //                         color: Color.fromARGB(236, 9, 96, 168),
+  //                         padding: const EdgeInsets.all(14),
+  //                         child: const Text("OK"),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               );
+
+  //               setState(() {});
+  //             } else {
+  //               print(data);
+  //               print(
+  //                   "HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+
+  //               showDialog(
+  //                 context: context,
+  //                 builder: (ctx) => AlertDialog(
+  //                   title: const Text("Alert Dialog Box"),
+  //                   content: const Text("User with this email already exists"),
+  //                   actions: <Widget>[
+  //                     TextButton(
+  //                       onPressed: () {
+  //                         Navigator.of(ctx).pop();
+  //                       },
+  //                       child: Container(
+  //                         color: Color.fromARGB(236, 9, 96, 168),
+  //                         padding: const EdgeInsets.all(14),
+  //                         child: const Text("OK"),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               );
+  //               setState(() {});
+  //             }
+  //           }
+  //         } //JJJJJJJJJJJJJJJJJJJJJ
+
+  //         //end of button
+  //         ),
+  //   );
+  // }
 
   Future<UserLogin?> fetchDataSignUp(
       String email,
