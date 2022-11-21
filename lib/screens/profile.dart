@@ -5,6 +5,8 @@ import 'package:rostro_app/screens/login_page.dart';
 import 'package:rostro_app/screens/pwdchange.dart';
 import '../utils/constant.dart';
 import '../models/userlogin.dart';
+import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
+import '../utils/Glassmorphism.dart';
 
 class Profile extends StatefulWidget {
   final String token;
@@ -15,7 +17,7 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   late String token;
   late Future<UserLogin?> futureUser;
 
@@ -37,6 +39,7 @@ class _Profile extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile Page'),
+        backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -53,6 +56,9 @@ class _Profile extends State<Profile> {
         ],
       ),
       body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(bg), fit: BoxFit.cover),
+        ),
         child: FutureBuilder<UserLogin?>(
           future: futureUser,
           builder: (context, snapshot) {
@@ -82,15 +88,16 @@ class _Profile extends State<Profile> {
       Container(
         height: 250,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 49, 74, 173),
-              Color.fromARGB(255, 160, 162, 235)
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            stops: [0.5, 0.9],
-          ),
+          // gradient: LinearGradient(
+          //   colors: [
+          //     Color.fromARGB(255, 49, 74, 173),
+          //     Color.fromARGB(255, 160, 162, 235)
+          //   ],
+          //   begin: Alignment.centerLeft,
+          //   end: Alignment.centerRight,
+          //   stops: [0.5, 0.9],
+          // ),
+          color: Colors.transparent,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,52 +155,82 @@ class _Profile extends State<Profile> {
         ),
       ),
       Container(
+        padding: EdgeInsets.only(left: 20, right: 20),
         child: Column(
           children: <Widget>[
-            ListTile(
-              title: const Text(
-                'Email',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 40, 8, 164),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: GlassContainer(
+                borderRadius: new BorderRadius.circular(15.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                  child: ListTile(
+                    title: const Text(
+                      'Email',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '$email',
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
                 ),
-              ),
-              subtitle: Text(
-                '$email',
-                style: const TextStyle(fontSize: 18),
               ),
             ),
             const Divider(),
-            ListTile(
-              title: const Text(
-                'Role',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 40, 8, 164),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: GlassContainer(
+                borderRadius: new BorderRadius.circular(15.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                  child: ListTile(
+                    title: const Text(
+                      'Role',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '$role',
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
                 ),
-              ),
-              subtitle: Text(
-                '$role',
-                style: const TextStyle(fontSize: 18),
               ),
             ),
             const Divider(),
-            ListTile(
-              title: const Text(
-                'Gender',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 40, 8, 164),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: GlassContainer(
+                borderRadius: new BorderRadius.circular(15.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                  child: ListTile(
+                    title: const Text(
+                      'Gender',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '$gender',
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
-              subtitle: Text(
-                '$gender',
-                style: const TextStyle(fontSize: 18),
-              ),
             ),
+            Divider(),
+            SizedBox(height: 15.0),
             changePasswordButton(context)
           ],
         ),
@@ -204,11 +241,10 @@ class _Profile extends State<Profile> {
   Future<UserLogin?> fetchUserProfile(token) async {
     UserLogin? newUser;
     Uri myProfileUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
       myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
-    }
-    else{
-      myProfileUri =  Uri.parse('${Constants.BASE_URL}/api/user/me/');
+    } else {
+      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
     }
     final response = await http.get(
       myProfileUri,
@@ -233,16 +269,31 @@ class _Profile extends State<Profile> {
   }
 
   Widget changePasswordButton(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 30.0),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
-            child: const Text('Change Password'),
-            onPressed: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PasswordChange(token: token)));
-            }));
+    // return Container(
+    //     margin: const EdgeInsets.only(top: 30.0),
+    //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    //     child: ElevatedButton(
+    //         child: const Text('Change Password'),
+    //         onPressed: () async {
+    //           Navigator.push(
+    //               context,
+    //               MaterialPageRoute(
+    //                   builder: (context) => PasswordChange(token: token)));
+    //         }));
+    return Glassmorphism(
+      blur: 20,
+      opacity: 0.1,
+      radius: 50.0,
+      child: TextButton(
+        onPressed: () {},
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+          child: const Text(
+            "Change Password",
+            style: TextStyle(color: Colors.white, fontSize: 20.0),
+          ),
+        ),
+      ),
+    );
   }
 }

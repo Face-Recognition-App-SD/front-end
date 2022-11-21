@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
 import './camera.dart';
+import '../utils/Glassmorphism.dart';
 
 class CompareFace extends StatefulWidget {
   final String token;
@@ -17,7 +18,7 @@ class CompareFace extends StatefulWidget {
 }
 
 class ExtendedCompareFace extends State<CompareFace> {
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   late String token;
   late Map<String, dynamic> pictures;
   late int id;
@@ -31,7 +32,11 @@ class ExtendedCompareFace extends State<CompareFace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Identify Patient"), centerTitle: true),
+      appBar: AppBar(
+        title: const Text("Identify Patient"),
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -51,36 +56,57 @@ class ExtendedCompareFace extends State<CompareFace> {
   Container cameraButtonSection() {
     id = 1;
     return Container(
-        margin: const EdgeInsets.only(top: 50.0),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
-          child: const Text('Take Picture of Patient'),
+      margin: const EdgeInsets.only(top: 50.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Glassmorphism(
+        blur: 20,
+        opacity: 0.1,
+        radius: 50.0,
+        child: TextButton(
+          // child: const Text('Take Picture of Patient'),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 5,
+            ),
+            child: const Text(
+              "Take Picture of the Patient",
+              style: TextStyle(color: Colors.white, fontSize: 20.0),
+            ),
+          ),
           onPressed: () async {
             Uri faceCompareUri = Uri();
-            if(Constants.BASE_URL == "api.rostro-authentication.com"){
-              faceCompareUri = Uri.https(Constants.BASE_URL, '/api/user/faceCompare/');
+            if (Constants.BASE_URL == "api.rostro-authentication.com") {
+              faceCompareUri =
+                  Uri.https(Constants.BASE_URL, '/api/user/faceCompare/');
+            } else {
+              faceCompareUri =
+                  Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
             }
-            else{
-              faceCompareUri = Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
-            }
-            picture = await availableCameras().then((value) =>
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => Camera(token: token, cameras: value))));
+            picture = await availableCameras().then(
+              (value) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => Camera(token: token, cameras: value),
+                ),
+              ),
+            );
 
             if (picture == null) return;
             String path = picture!.path;
             var request = http.MultipartRequest("POST", faceCompareUri);
-            request.headers.addAll({"Authorization": "Token $token"});
+            request.headers.addAll(
+              {"Authorization": "Token $token"},
+            );
 
             showDialog(
-                context: context,
-                builder: (context) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                });
+              context: context,
+              builder: (context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            );
 
             var image = await http.MultipartFile.fromPath("image1", path);
             request.files.add(image);
@@ -92,28 +118,32 @@ class ExtendedCompareFace extends State<CompareFace> {
             Navigator.of(context).pop();
             if (respues['T'] == '-1' || respues['T'] == 'Not Found') {
               const snackbar = SnackBar(
-                  content: Text(
-                    "No Match",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20),
-                  ));
+                content: Text(
+                  "No Match",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                ),
+              );
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
-            }
-            else {
-              id = int.parse(respues['T'].toString());
+            } else {
+              id = int.parse(
+                respues['T'].toString(),
+              );
               Uri getPatientUri = Uri();
-              if(Constants.BASE_URL == "api.rostro-authentication.com"){
-                getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
-              }
-              else{
-                getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+              if (Constants.BASE_URL == "api.rostro-authentication.com") {
+                getPatientUri = Uri.https(
+                    Constants.BASE_URL, '/api/patients/patientss/$id/');
+              } else {
+                getPatientUri = Uri.parse(
+                    '${Constants.BASE_URL}/api/patients/patientss/$id/');
               }
               Uri getImagesUri = Uri();
-              if(Constants.BASE_URL == "api.rostro-authentication.com"){
-                getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
-              }
-              else{
-                getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+              if (Constants.BASE_URL == "api.rostro-authentication.com") {
+                getImagesUri = Uri.https(
+                    Constants.BASE_URL, '/api/patients/all/$id/get_images/');
+              } else {
+                getImagesUri = Uri.parse(
+                    '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
               }
               final imageRes = await http.get(
                 getImagesUri,
@@ -131,20 +161,24 @@ class ExtendedCompareFace extends State<CompareFace> {
               );
               var decodedPatient = jsonDecode(patientRes.body);
               pictures = json.decode(imageRes.body);
-              XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
+              XFile retrievedPicture =
+                  XFile(pictures['image_lists'][0]['image']);
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) =>
-                          ShowPatient(
-                              token: token,
-                              details: decodedPatient,
-                              picture: retrievedPicture,
-                              isFromAll: true,)));
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ShowPatient(
+                    token: token,
+                    details: decodedPatient,
+                    picture: retrievedPicture,
+                    isFromAll: true,
+                  ),
+                ),
+              );
             }
-          }
-        )//end of button
-        );
+            // child:Container()
+          },
+        ), //end of button
+      ),
+    );
   }
 }
-

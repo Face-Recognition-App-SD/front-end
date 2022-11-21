@@ -17,7 +17,7 @@ class PatientList extends StatefulWidget {
 }
 
 class _PatientList extends State<PatientList> {
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   late String token;
   late List<PatientsData> patients = [];
   @override
@@ -28,59 +28,56 @@ class _PatientList extends State<PatientList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(bg),
-            fit: BoxFit.cover,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(bg),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        constraints: const BoxConstraints.expand(),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: ListView(
-            reverse: true,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              showPatients(),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  ElevatedButton(
-                    child: const Text('Back to HomePage'),
-                    onPressed: () async {
-                      // Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => Homepage(token: token)));
-                    },
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ElevatedButton(
-                        child: const Text('Add New Patient'),
-
-                        onPressed: () async {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => AddNewPatient(token: token)));
-                        },
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        )
-      ),
+          constraints: const BoxConstraints.expand(),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: ListView(
+              reverse: true,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                showPatients(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    ElevatedButton(
+                      child: const Text('Back to HomePage'),
+                      onPressed: () async {
+                        // Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => Homepage(token: token)));
+                      },
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ElevatedButton(
+                          child: const Text('Add New Patient'),
+                          onPressed: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        AddNewPatient(token: token)));
+                          },
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )),
     );
   }
 
@@ -124,7 +121,6 @@ class _PatientList extends State<PatientList> {
                       ),
                     );
             } else if (resp.statusCode == 401) {
-
               Future.delayed(Duration.zero, () {});
             } else if (resp.statusCode == 403) {
               Future.delayed(Duration.zero, () {});
@@ -140,10 +136,9 @@ class _PatientList extends State<PatientList> {
 
   Future<http.Response?> fetchPatients(token) async {
     Uri myProfileUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
       myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
-    }
-    else{
+    } else {
       myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
     }
     final res = await http.get(
