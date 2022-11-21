@@ -35,9 +35,15 @@ class ShowPatientDetails extends State<ShowPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: GlassAppBar(
-          title: GlassText('Patient Detail',
-              fontWeight: FontWeight.bold, color: Colors.white70),
+        appBar: AppBar(
+          backgroundColor: Colors.blueAccent,
+          title: Text(
+            'Patient Detail',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
@@ -187,129 +193,236 @@ class ShowPatientDetails extends State<ShowPatient> {
     bool? isInHospital = details['is_in_hospital'];
     String? user = details['user'];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          "\t\tID: $id",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tFirst Name: $firstname",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tlast name: $lastname",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tAge: $age",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tDescription: $description",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tMedications List: $medlist",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tPhone Number: $phonenumber",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tDate of Birth: $birthdate",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tStreet: $street",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tCity: $city",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tZip Code: $zipcode",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tState: $state",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Text(
-          "\t\tState: $state",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tCreation: $creation",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tModified: $modified",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tGender: $gender",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tEmergency Contact Name: $emergencyName",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tEmergency Contact Phone Number: $emergencyPhone",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tRelationship: $relationship",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-        Text(
-          "\t\tIs in hospital: $isInHospital",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 22, color: Colors.white),
-        ),
-        Divider(),
-      ],
-    );
+    return GlassContainer(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                // borderRadius: new BorderRadius.circular(10.0),
+                // child: Padding(
+                // padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: Text(
+                  "\t\tID: $id",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            // Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tFirst Name: $firstname",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tlast name: $lastname",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tAge: $age",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tDescription: $description",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tMedications List: $medlist",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tPhone Number: $phonenumber",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tDate of Birth: $birthdate",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tStreet: $street",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tCity: $city",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tZip Code: $zipcode",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tState: $state",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tState: $state",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tCreation: $creation",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tModified: $modified",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tGender: $gender",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tEmergency Contact Name: $emergencyName",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tEmergency Contact Phone Number: $emergencyPhone",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tRelationship: $relationship",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Container(
+                child: Text(
+                  "\t\tIs in hospital: $isInHospital",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(),
+          ],
+        ));
   }
 }

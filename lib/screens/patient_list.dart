@@ -7,6 +7,7 @@ import 'package:rostro_app/screens/homepage.dart';
 import './add_new_patient.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
+import '../utils/Glassmorphism.dart';
 
 class PatientList extends StatefulWidget {
   final String token;
@@ -47,30 +48,59 @@ class _PatientList extends State<PatientList> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    ElevatedButton(
-                      child: const Text('Back to HomePage'),
-                      onPressed: () async {
-                        // Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => Homepage(token: token)));
-                      },
+                    Glassmorphism(
+                      blur: 20,
+                      opacity: 0.1,
+                      radius: 50,
+                      child: TextButton(
+                        // child: const Text('Back to HomePage'),
+                        onPressed: () async {
+                          // Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => Homepage(token: token)));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 5),
+                          child: const Text(
+                            "Back to HomePage",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20.0),
+                          ),
+                        ),
+                      ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        ElevatedButton(
-                          child: const Text('Add New Patient'),
-                          onPressed: () async {
-                            Navigator.push(
+                        Glassmorphism(
+                          blur: 20,
+                          opacity: 0.1,
+                          radius: 50,
+                          child: TextButton(
+                            // child: const Text('Add New Patient'),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 5),
+                              child: const Text(
+                                "Add New Patient",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20.0),
+                              ),
+                            ),
+                            onPressed: () async {
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) =>
-                                        AddNewPatient(token: token)));
-                          },
-                        )
+                                  builder: (_) => AddNewPatient(token: token),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ],

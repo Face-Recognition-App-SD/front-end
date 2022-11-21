@@ -7,6 +7,7 @@ import 'package:rostro_app/screens/verify_patient.dart';
 import '../screens/patient_detail.dart';
 //import 'package:flutter_auth_roleperm/screens/userdetailsscreen.dart';
 import '../models/PatientsData.dart';
+import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 
 class PatientListWidget extends StatefulWidget {
   final List<PatientsData> patientList;
@@ -35,6 +36,7 @@ class _PatientListWidgetState extends State<PatientListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // var forecolor = backgroundColor.computeLuminance
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -42,14 +44,16 @@ class _PatientListWidgetState extends State<PatientListWidget> {
       itemCount: widget.patientList.isEmpty ? 0 : widget.patientList.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
-          child: Card(
-            color: Color.fromARGB(255, 184, 197, 244),
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(
-                  color: Color.fromARGB(255, 190, 192, 251), width: 1),
-              borderRadius: BorderRadius.circular(10),
-            ),
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+          child: GlassContainer(
+            borderRadius: new BorderRadius.circular(10.0),
+
+            // color: Color.fromARGB(255, 184, 197, 244),
+            // shape: RoundedRectangleBorder(
+            // side: const BorderSide(
+            //     color: Color.fromARGB(255, 190, 192, 251), width: 1),
+            // borderRadius: BorderRadius.circular(10),
+
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -65,21 +69,21 @@ class _PatientListWidgetState extends State<PatientListWidget> {
                 leading: const Icon(
                   Icons.person,
                   size: 48,
-                  color: Color.fromARGB(255, 58, 54, 118),
+                  color: Colors.blueAccent,
                 ),
                 trailing: verify(context, index),
                 title: Text(
                   widget.patientList[index].id.toString(),
                   style: const TextStyle(
                     fontFamily: 'Roboto',
-                    color: Color.fromARGB(255, 74, 10, 184),
+                    color: Colors.blueAccent,
                   ),
                 ),
                 subtitle: Text(
                   widget.patientList[index].first_name.toString(),
                   style: const TextStyle(
                     fontFamily: 'Roboto',
-                    color: Color.fromARGB(255, 37, 37, 146),
+                    color: Colors.blueAccent,
                   ),
                 ),
               ),
