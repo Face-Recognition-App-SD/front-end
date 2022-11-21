@@ -283,6 +283,61 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                       HttpHeaders.authorizationHeader: 'Token $token',
                     },
                   );
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  });
+              var image = await http.MultipartFile.fromPath("image", file.path);
+              request.files.add(image);
+              request.fields['id'] = id.toString();
+              http.StreamedResponse response = await request.send();
+              var responseData = await response.stream.toBytes();
+              var responseString = String.fromCharCodes(responseData);
+              var respues = jsonDecode(responseString);
+              Navigator.of(context).pop();
+              if (respues['status'] == false) {
+                const snackbar = SnackBar(
+                    content: Text(
+                      "No Match",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20),
+                    ));
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+              }
+              else {
+                const snackbar = SnackBar(content: Text("Match Found!", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                Uri  getPatientUri = Uri();
+                if(Constants.BASE_URL == "api.rostro-authentication.com"){
+                  getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
+                }
+                else{
+                  getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+                }
+                Uri getImagesUri = Uri();
+                if(Constants.BASE_URL == "api.rostro-authentication.com"){
+                  getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
+                }
+                else{
+                  getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+                }
+                final imageRes = await http.get(
+                  getImagesUri,
+                  headers: {
+                    HttpHeaders.acceptHeader: 'application/json',
+                    HttpHeaders.authorizationHeader: 'Token $token',
+                  },
+                );
+                final patientRes = await http.get(
+                  getPatientUri,
+                  headers: {
+                    HttpHeaders.acceptHeader: 'application/json',
+                    HttpHeaders.authorizationHeader: 'Token $token',
+                  },
+                );
 
                   var decodedPatient = jsonDecode(patientRes.body);
                   pictures = json.decode(imageRes.body);

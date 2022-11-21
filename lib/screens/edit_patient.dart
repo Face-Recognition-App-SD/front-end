@@ -612,10 +612,10 @@ class _DropDownGender extends State<DropDownGender> {
       value: gender,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.black),
       underline: Container(
         height: 2,
-        color: Colors.white,
+        color: Colors.black,
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
@@ -649,10 +649,10 @@ class _DropDownState extends State<DropDownState> {
       value: state,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.black),
       underline: Container(
         height: 2,
-        color: Colors.white,
+        color: Colors.black,
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
