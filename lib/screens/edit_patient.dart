@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/patient_list.dart';
@@ -13,6 +11,22 @@ import '../screens/delete.dart';
 import 'package:camera/camera.dart';
 import 'package:rostro_app/screens/get_patient_pictures.dart';
 
+List<String> genders = <String>[ 'Male', 'Female', 'Transgender',
+  'Non-binary/non-conforming', 'Prefer not to respond'];
+String genero = 'none';
+List<String> states = <String>["Alaska", "Alabama", "Arkansas",
+  "American Samoa", "Arizona", "California", "Colorado",
+  "Connecticut", "District of Columbia", "Delaware",
+  "Florida", "Georgia", "Guam", "Hawaii", "Iowa", "Idaho",
+  "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana",
+  "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota",
+  "Missouri", "Mississippi", "Montana", "North Carolina",
+  "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico",
+  "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
+  "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota",
+  "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont",
+  "Washington", "Wisconsin", "West Virginia", "Wyoming"];
+String estado = 'none';
 class EditPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
@@ -33,7 +47,6 @@ class ExtendEditPatient extends State<EditPatient> {
   late String token = widget.token;
   late String id = widget.details['id'].toString();
   List<XFile?> pictures = [];
-
  // TextEditingController idController = TextEditingController();
   TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
@@ -173,7 +186,7 @@ class ExtendEditPatient extends State<EditPatient> {
      flag = true;
    }
    if(stateAddressController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'state_address', stateAddressController.text);
+     editPatient(addPatientTextUri, 'state_address', estado);
      flag = true;
    }
    if(linkController.text.isNotEmpty){
@@ -188,8 +201,8 @@ class ExtendEditPatient extends State<EditPatient> {
      editPatient(addPatientTextUri, 'emergency_phone_number', emergencyPhoneNumber.text);
      flag = true;
    }
-   if(genderController.text.isNotEmpty){
-     editPatient(addPatientTextUri, 'gender', genderController.text);
+   if(genero != 'none'){
+     editPatient(addPatientTextUri, 'gender', genero);
      flag = true;
    }
    return flag;
@@ -227,9 +240,6 @@ class ExtendEditPatient extends State<EditPatient> {
       if(response.statusCode > 199 && response.statusCode < 300){
         return true;
       }
-      //var responseData = await response.stream.toBytes();
-      //var responseString = String.fromCharCodes(responseData);
-      // print (responseString);
     }
     return false;
   }
@@ -344,6 +354,23 @@ class ExtendEditPatient extends State<EditPatient> {
             hintStyle: TextStyle(color: Colors.white70),
           ),
         ),
+
+        const SizedBox(height: 20.0),
+        const Text(
+          "\t State:",
+          textAlign: TextAlign.left,
+          style: TextStyle(fontSize: 14, color: Colors.white),
+        ),
+        DropDownState(),
+
+        const SizedBox(height: 20.0),
+        const Text(
+          "\t Gender:",
+          textAlign: TextAlign.left,
+          style: TextStyle(fontSize: 14, color: Colors.white),
+        ),
+        DropDownGender(),
+
       ],
     );
   }
@@ -399,4 +426,79 @@ class ExtendEditPatient extends State<EditPatient> {
           }
         },),);
   }
+}
+class DropDownGender extends StatefulWidget{
+  const DropDownGender({super.key});
+
+  State<DropDownGender> createState() => _DropDownGender();
+
+}
+class _DropDownGender extends State<DropDownGender>{
+  String gender = genders.first;
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: gender,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.black),
+      underline: Container(
+        height: 2,
+        color: Colors.black,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          gender = value!;
+          genero = value;
+        });
+      },
+      items: genders.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+          alignment: Alignment.centerRight,
+        );
+      }).toList(),
+    );
+  }
+  
+}
+
+class DropDownState extends StatefulWidget{
+  const DropDownState({super.key});
+
+  State<DropDownState> createState() => _DropDownState();
+
+}
+class _DropDownState extends State<DropDownState>{
+  String state = states.first;
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: state,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.black),
+      underline: Container(
+        height: 2,
+        color: Colors.black,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          state = value!;
+          estado = value;
+        });
+      },
+      items: states.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+          alignment: Alignment.centerRight,
+        );
+      }).toList(),
+    );
+  }
+
 }
