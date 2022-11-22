@@ -64,7 +64,7 @@ packages:
       sha256: "11c3461bc40d11bdfe1cbcda6f5d5f8aef7a0c9d98ead84f1453babe4b302bd6"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   camera_web:
     dependency: transitive
     description:
