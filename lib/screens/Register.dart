@@ -354,7 +354,10 @@ class _TRegister extends State<TRegister> {
 
   Container submitButton(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 55, right: 55),
+      margin: EdgeInsets.only(
+        left: 55,
+        right: 55,
+      ),
       child: Glassmorphism(
         blur: 20,
         opacity: 0.1,
@@ -404,7 +407,8 @@ class _TRegister extends State<TRegister> {
 
                   setState(() {});
                 }
-              } else if (data == null) {
+              } else if (data == null ||
+                  (password == null && cpassword == null)) {
                 print(
                     "YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
                 print(data);

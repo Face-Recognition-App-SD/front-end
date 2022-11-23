@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rostro_app/models/userlogin.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import '../utils/Glassmorphism.dart';
 import '../utils/constant.dart';
 import './homepage.dart';
 import 'dart:io';
@@ -155,49 +156,73 @@ class _LoginPageState extends State<LoginPage> {
 
   Container loginButtonSection() {
     return Container(
-      width: double.infinity,
-      margin: EdgeInsets.fromLTRB(160, 30, 150, 0),
-      height: 40,
-      child: GlassButton(
-        // margin: EdgeInsets.only(top: 30.0),
-        // padding: EdgeInsets.symmetric(horizontal: 20.0),
-        // child: ElevatedButton(
-        //   style: ElevatedButton.styleFrom(
-        //     foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
-        //     backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-        //   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-        // child: Text('Login'),
-        onPressed: () async {
-          // showGlassBottomSheet(
-          //     context: context, child: GlassText("hello World", fontSize: 20));
-          String email = emailController.text;
-          String password = passwordController.text;
-          UserLogin? data = await fetchDataLogin(email, password);
-          print('info after login');
-          var tokenReturn = token.substring(0, 8);
-          //  print(tokenReturn);
-          if (tokenReturn == "d_errors") {
-            print(tokenReturn);
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  //    title: const Text("Message!!"),
-                  content: const Text(
-                    "The combination of email and password is not correct",
-                  ),
-                );
-              },
-            );
-          } else {
-            //  setState(() {});
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (BuildContext context) => Homepage(token: token)),
-                (Route<dynamic> route) => false);
-          }
-        },
-        child: GlassText("Login!"),
+      // width: double.infinity,
+      // margin: EdgeInsets.fromLTRB(160, 30, 150, 0),
+      // height: 40,
+      margin: EdgeInsets.only(
+        left: 90,
+        right: 90,
+        top: 35,
+      ),
+      child: Glassmorphism(
+        blur: 20,
+        opacity: 0.1,
+        radius: 50.0,
+        child: TextButton(
+          // margin: EdgeInsets.only(top: 30.0),
+          // padding: EdgeInsets.symmetric(horizontal: 20.0),
+          // child: ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+          //     backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+          //   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+          // child: Text('Login'),
+          onPressed: () async {
+            // showGlassBottomSheet(
+            //     context: context, child: GlassText("hello World", fontSize: 20));
+            String email = emailController.text;
+            String password = passwordController.text;
+            UserLogin? data = await fetchDataLogin(email, password);
+            print('info after login');
+            var tokenReturn = token.substring(0, 8);
+            //  print(tokenReturn);
+            if (tokenReturn == "d_errors") {
+              print(tokenReturn);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    //    title: const Text("Message!!"),
+                    content: const Text(
+                      "The combination of email and password is not correct",
+                    ),
+                  );
+                },
+              );
+            } else {
+              //  setState(() {});
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          Homepage(token: token)),
+                  (Route<dynamic> route) => false);
+            }
+          },
+          // child: GlassText("Login!"),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 5,
+            ),
+            child: const Text(
+              "Login",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.0,
+              ),
+            ),
+          ),
+        ),
       ),
     );
 
