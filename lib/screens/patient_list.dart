@@ -76,7 +76,7 @@ class _PatientList extends State<PatientList> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 5),
                             child: const Text(
-                              "Home",
+                              "Back to Home",
                               style: TextStyle(
                                   color: Colors.white, fontSize: 15.0),
                             ),
@@ -102,7 +102,7 @@ class _PatientList extends State<PatientList> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 5),
                             child: const Text(
-                              "Add",
+                              "Add New Patient",
                               style: TextStyle(
                                   color: Colors.white, fontSize: 15.0),
                             ),
