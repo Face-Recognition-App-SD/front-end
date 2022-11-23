@@ -29,6 +29,8 @@ class _PatientList extends State<PatientList> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -47,7 +49,8 @@ class _PatientList extends State<PatientList> {
             children: <Widget>[
               showPatients(),
               Container(
-                padding: EdgeInsets.only(left: 20, right: 20),
+                // padding: EdgeInsets.only(left: 20, right: 20),
+                margin: EdgeInsets.symmetric(horizontal: 0.05 * deviceWidth),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   // mainAxisSize: MainAxisSize.min,
@@ -73,7 +76,7 @@ class _PatientList extends State<PatientList> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 5),
                             child: const Text(
-                              "Back to HomePage",
+                              "Home",
                               style: TextStyle(
                                   color: Colors.white, fontSize: 15.0),
                             ),
@@ -99,7 +102,7 @@ class _PatientList extends State<PatientList> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 5),
                             child: const Text(
-                              "Add New Patient",
+                              "Add",
                               style: TextStyle(
                                   color: Colors.white, fontSize: 15.0),
                             ),
