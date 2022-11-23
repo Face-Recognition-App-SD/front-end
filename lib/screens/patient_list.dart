@@ -30,53 +30,60 @@ class _PatientList extends State<PatientList> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(bg),
-              fit: BoxFit.cover,
-            ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(bg),
+            fit: BoxFit.cover,
           ),
-          constraints: const BoxConstraints.expand(),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: ListView(
-              reverse: true,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                showPatients(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+        ),
+        constraints: const BoxConstraints.expand(),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: ListView(
+            reverse: true,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              showPatients(),
+              Container(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Glassmorphism(
-                      blur: 20,
-                      opacity: 0.1,
-                      radius: 50,
-                      child: TextButton(
-                        // child: const Text('Back to HomePage'),
-                        onPressed: () async {
-                          // Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => Homepage(token: token)));
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 5),
-                          child: const Text(
-                            "Back to HomePage",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 20.0),
+                    Container(
+                      padding: EdgeInsets.only(right: 13),
+                      child: Expanded(
+                        child: Glassmorphism(
+                          blur: 20,
+                          opacity: 0.1,
+                          radius: 50,
+                          child: TextButton(
+                            // child: const Text('Back to HomePage'),
+                            onPressed: () async {
+                              // Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => Homepage(token: token)));
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 5),
+                              child: const Text(
+                                "Back to HomePage",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15.0),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Glassmorphism(
+                    Container(
+                      padding: EdgeInsets.only(left: 13),
+                      child: Expanded(
+                        child: Glassmorphism(
                           blur: 20,
                           opacity: 0.1,
                           radius: 50,
@@ -88,7 +95,7 @@ class _PatientList extends State<PatientList> {
                               child: const Text(
                                 "Add New Patient",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 20.0),
+                                    color: Colors.white, fontSize: 15.0),
                               ),
                             ),
                             onPressed: () async {
@@ -101,13 +108,15 @@ class _PatientList extends State<PatientList> {
                             },
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
-              ],
-            ),
-          )),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
