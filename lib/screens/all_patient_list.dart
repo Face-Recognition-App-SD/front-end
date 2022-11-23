@@ -17,7 +17,7 @@ class AllPatientList extends StatefulWidget {
 }
 
 class _AllPatientList extends State<AllPatientList> {
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   late String token;
   late List<PatientsData> patients = [];
   @override
@@ -28,33 +28,29 @@ class _AllPatientList extends State<AllPatientList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
-          title: const Text('All Patient List'), 
-
-       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(bg),
-            fit: BoxFit.cover,
-          ),
-        ),
-        constraints: const BoxConstraints.expand(),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: ListView(
-            reverse: true,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              //containers
-              showPatientList(),
-
-           
-            ],
-          ),
-        )
+      appBar: AppBar(
+        title: const Text('All Patient List'),
       ),
+      body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(bg),
+              fit: BoxFit.cover,
+            ),
+          ),
+          constraints: const BoxConstraints.expand(),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: ListView(
+              reverse: true,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                //containers
+                showPatientList(),
+              ],
+            ),
+          )),
     );
   }
 
@@ -75,7 +71,7 @@ class _AllPatientList extends State<AllPatientList> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 10.0),
                       child: PatientListWidget(
-                        token: token, 
+                        token: token,
                         patientList: patients,
                         isFromAll: true,
                       ))
@@ -98,7 +94,6 @@ class _AllPatientList extends State<AllPatientList> {
                       ),
                     );
             } else if (resp.statusCode == 401) {
-
               Future.delayed(Duration.zero, () {});
             } else if (resp.statusCode == 403) {
               Future.delayed(Duration.zero, () {});
@@ -121,10 +116,9 @@ class _AllPatientList extends State<AllPatientList> {
 
   Future<http.Response?> fetchPatients(token) async {
     Uri myProfileUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
       myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/all/');
-    }
-    else{
+    } else {
       myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
     }
     final res = await http.get(
