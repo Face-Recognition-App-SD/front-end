@@ -8,6 +8,7 @@ import './add_new_patient.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
 import '../utils/Glassmorphism.dart';
+import 'package:gap/gap.dart';
 
 class PatientList extends StatefulWidget {
   final String token;
@@ -48,68 +49,73 @@ class _PatientList extends State<PatientList> {
               Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(right: 13),
-                      child: Expanded(
-                        child: Glassmorphism(
-                          blur: 20,
-                          opacity: 0.1,
-                          radius: 50,
-                          child: TextButton(
-                            // child: const Text('Back to HomePage'),
-                            onPressed: () async {
-                              // Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => Homepage(token: token)));
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 5),
-                              child: const Text(
-                                "Back to HomePage",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 15.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 13),
-                      child: Expanded(
-                        child: Glassmorphism(
-                          blur: 20,
-                          opacity: 0.1,
-                          radius: 50,
-                          child: TextButton(
-                            // child: const Text('Add New Patient'),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 5),
-                              child: const Text(
-                                "Add New Patient",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 15.0),
-                              ),
-                            ),
-                            onPressed: () async {
-                              Navigator.push(
+                    // Container(
+                    //   // width: double.infinity,
+                    //   padding: EdgeInsets.only(right: 13),
+                    Expanded(
+                      child: Glassmorphism(
+                        blur: 20,
+                        opacity: 0.1,
+                        radius: 50,
+                        child: TextButton(
+                          // child: const Text('Back to HomePage'),
+                          onPressed: () async {
+                            // Navigator.pop(context);
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => AddNewPatient(token: token),
-                                ),
-                              );
-                            },
+                                    builder: (_) => Homepage(token: token)));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 5),
+                            child: const Text(
+                              "Back to HomePage",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 15.0),
+                            ),
                           ),
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    // ),
+                    // Container(
+                    // padding: EdgeInsets.only(left: 13),
+                    Gap(15),
+                    Expanded(
+                      child: Glassmorphism(
+                        blur: 20,
+                        opacity: 0.1,
+                        radius: 50,
+                        child: TextButton(
+                          // child: const Text('Add New Patient'),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 5),
+                            child: const Text(
+                              "Add New Patient",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 15.0),
+                            ),
+                          ),
+                          onPressed: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AddNewPatient(token: token),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    // ),
                   ],
                 ),
               ),
