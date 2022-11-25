@@ -69,27 +69,30 @@ class _VerifyEmail extends State<VerifyEmail> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Text(
-            "Email to verify: $email",
-            textAlign: TextAlign.left,
-            style: const TextStyle(fontSize: 14, color: Colors.white),
-          ),
-          const SizedBox(height: 20.0),
-          TextFormField(
-            controller: keyController,
-            keyboardType: TextInputType.number,
-            cursorColor: Colors.white,
-            style: const TextStyle(color: Colors.white70, fontSize: 13),
-            decoration: const InputDecoration(
-              icon: Icon(Icons.email, color: Colors.white70),
-              hintText: 'Key',
-              border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+        child: Column(
+          children: <Widget>[
+            Text(
+              "Email to verify: $email",
+              textAlign: TextAlign.left,
+              style: const TextStyle(fontSize: 14, color: Colors.white),
             ),
-          ),
-        ]),
+            const SizedBox(height: 20.0),
+            TextFormField(
+              controller: keyController,
+              keyboardType: TextInputType.number,
+              cursorColor: Colors.white,
+              style: const TextStyle(color: Colors.white70, fontSize: 13),
+              decoration: const InputDecoration(
+                icon: Icon(Icons.email, color: Colors.white70),
+                hintText: 'Key',
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70),
+                ),
+                hintStyle: TextStyle(color: Colors.white70),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
