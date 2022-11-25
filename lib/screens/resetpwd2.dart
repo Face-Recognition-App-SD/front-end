@@ -22,6 +22,7 @@ class _EnterResetKeyState extends State<EnterResetKey> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController keyController = TextEditingController();
     var bg = './assets/images/bg6.gif';
     return Container(
       decoration: BoxDecoration(
@@ -53,6 +54,7 @@ class _EnterResetKeyState extends State<EnterResetKey> {
             style: const TextStyle(fontSize: 14, color: Colors.white),
           ),
           const SizedBox(height: 20.0),
+          TextFormField()
         ],
       ),
     );
