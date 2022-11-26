@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import 'package:rostro_app/screens/firstpage.dart';
-import 'package:rostro_app/screens/resetpwd2.dart';
 import 'package:rostro_app/screens/verifyEmail.dart';
 import '../models/userlogin.dart';
 import '../utils/Glassmorphism.dart';

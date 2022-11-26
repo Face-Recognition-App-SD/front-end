@@ -1,9 +1,12 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 
+import '../utils/Glassmorphism.dart';
 import 'camera.dart';
 
-class GetPatientPictures extends StatefulWidget{
+class GetPatientPictures extends StatefulWidget {
   final String token;
   const GetPatientPictures({super.key, required this.token});
 
@@ -12,10 +15,8 @@ class GetPatientPictures extends StatefulWidget{
 }
 
 class Pictures extends State<GetPatientPictures> {
-  
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   late String token;
-
 
   @override
   void initState() {
@@ -26,7 +27,7 @@ class Pictures extends State<GetPatientPictures> {
   int step = 3;
   var pictures = List<XFile?>.filled(3, null);
 
-  void reduceStep(){
+  void reduceStep() {
     setState(() {
       step--;
     });
@@ -36,7 +37,6 @@ class Pictures extends State<GetPatientPictures> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(bg),
@@ -46,57 +46,95 @@ class Pictures extends State<GetPatientPictures> {
         child: ListView(
           children: <Widget>[
             box(),
+            Gap(30),
             cameraButtonSection(),
           ],
         ),
       ),
     );
   }
+
   Container cameraButtonSection() {
     return Container(
-        margin: const EdgeInsets.only(top: 50.0),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
-          child: const Text('Take Picture'),
-          onPressed: () async {
-            pictures[3-step] = await availableCameras().then((value) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => Camera(token: token, cameras: value))));
-            reduceStep();
-            if(step == 0){
-              Navigator.pop(context, pictures);
-            }
-          },
-        )
+      margin: EdgeInsets.only(left: 55, right: 55),
+      // margin: const EdgeInsets.only(top: 50.0),
+      // padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Glassmorphism(
+          blur: 20,
+          opacity: 0.1,
+          radius: 50.0,
+          child: TextButton(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+              child: const Text(
+                'Take Pictures',
+                style: TextStyle(color: Colors.white, fontSize: 13.0),
+              ),
+            ),
+            onPressed: () async {
+              pictures[3 - step] = await availableCameras().then((value) =>
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              Camera(token: token, cameras: value))));
+              reduceStep();
+              if (step == 0) {
+                Navigator.pop(context, pictures);
+              }
+            },
+          )),
 
       //end of button
     );
   }
-  Container box(){
-    return Container(
-      margin: const EdgeInsets.only(top: 100.0),
-      width: 150.0,
-      height: 240.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24.0),
-        color: const Color(0xFF1565C0),
-      ),
-      alignment: Alignment.topCenter,
-      child: SizedBox(
-        child: Center(
-        child: Text(
-          'Patient pictures left to take: $step',
-          style: const TextStyle(
-            fontFamily: 'Arial',
-            fontSize: 30,
-            color: Colors.white,
-            height: 1,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
 
-        ),
+  // Container box() {
+  //   return Container(
+  //     margin: const EdgeInsets.only(top: 100.0),
+  //     width: 150.0,
+  //     height: 140.0,
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(24.0),
+  //       color: const Color(0xFF1565C0),
+  //     ),
+  //     alignment: Alignment.topCenter,
+  //     child: SizedBox(
+  //       child: Center(
+  //         child: Text(
+  //           'Patient pictures left to take: $step',
+  //           style: const TextStyle(
+  //             fontFamily: 'Arial',
+  //             fontSize: 30,
+  //             color: Colors.white,
+  //             height: 1,
+  //             fontWeight: FontWeight.bold,
+  //           ),
+  //           textAlign: TextAlign.center,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  Padding box() {
+    return Padding(
+      padding: EdgeInsets.only(top: 50, left: 15, right: 15),
+      child: GlassContainer(
+        borderRadius: new BorderRadius.circular(10.0),
+        child: Padding(
+          padding: EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 30),
+          child: Center(
+            child: Text(
+              'Patient pictures left to take : $step',
+              style: const TextStyle(
+                  fontFamily: 'Arial',
+                  fontSize: 15,
+                  color: Colors.white,
+                  height: 1,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
         ),
       ),
     );
