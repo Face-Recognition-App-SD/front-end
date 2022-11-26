@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:rostro_app/admins/am_add_new_user.dart';
+import 'package:rostro_app/admins/am_userlist.dart';
 import '../models/userlogin.dart';
 import '../utils/constant.dart';
 import 'package:http/http.dart' as http;
@@ -24,11 +26,15 @@ class _AdminHome extends State<AdminHome> {
   late Future<UserLogin?> futureUser;
   late String? fn;
   late String? ln;
+   bool is_superuser = true;
   var patientPictures;
   @override
   void initState() {
-    token = widget.token;
     super.initState();
+    token = widget.token;
+    is_superuser= true;
+    
+    
 
     futureUser = fetchUserProfile(token);
   }
@@ -57,7 +63,7 @@ class _AdminHome extends State<AdminHome> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: <Widget>[
-              const SizedBox(height: 0.0),
+              const SizedBox(height: 10.0),
               Column(
                 children: const [
                   const SizedBox(height: 30),
@@ -76,7 +82,7 @@ class _AdminHome extends State<AdminHome> {
               // const SizedBox(height: 50.0),
             Column(
                   children: [
-                    const SizedBox(height: 0.0),
+                    const SizedBox(height: 10.0),
                     Text(
                       'Hello $fn $ln!',
                       textAlign: TextAlign.center,
@@ -84,7 +90,7 @@ class _AdminHome extends State<AdminHome> {
                     ),
                     Container(
                       width: 200,
-                      height: 200,
+                      height: 300,
                       child: Column(
                         children: [
                           const SizedBox(height: 50.0),
@@ -156,7 +162,7 @@ class _AdminHome extends State<AdminHome> {
                           Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             width: double.infinity,
-                            height: 50,
+                            height:50,
                             child: Glassmorphism(
                               blur: 20,
                               opacity: 0.1,
@@ -169,7 +175,7 @@ class _AdminHome extends State<AdminHome> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (_) =>
-                                              AllPatientList(token: token!),
+                                              UserList(token: token!,is_superuser: is_superuser),
                                         ));
                                   },
                                   child: Container(

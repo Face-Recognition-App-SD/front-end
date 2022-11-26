@@ -3,6 +3,7 @@ import 'package:anim_search_bar/anim_search_bar.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:rostro_app/admins/am_home.dart';
 import 'package:rostro_app/models/PatientsData.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 
@@ -53,7 +54,8 @@ class _PatientList extends State<UserList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Homepage(
+                  builder: (context) => AdminHome
+                  (
                         token: token,
                       )),
             );
@@ -134,16 +136,20 @@ class _PatientList extends State<UserList> {
   Container showUsers() {
     return Container(
       child: FutureBuilder(
+        
         future: fetchUser(token, is_superuser),
         builder: (context, snapshot) {
+             
           if (snapshot.hasData) {
             http.Response resp = snapshot.data as http.Response;
 
             if (resp.statusCode == 200) {
               final jsonMap = jsonDecode(resp.body);
+           
               users = (jsonMap as List)
                   .map((patientItem) => UserLogin.fromJson(patientItem))
                   .toList();
+                
               return users.isNotEmpty
                   ? userListView(context)
                   : const Center(
@@ -244,7 +250,7 @@ class _PatientList extends State<UserList> {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
     });
-    response.body("is_superuser", is_superuser);
+  //  response.body("is_superuser", is_superuser);
 
     return response;
   }
