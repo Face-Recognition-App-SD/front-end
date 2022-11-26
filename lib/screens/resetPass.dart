@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
+import 'package:rostro_app/screens/firstpage.dart';
 import 'package:rostro_app/screens/resetpwd2.dart';
 import 'package:rostro_app/screens/verifyEmail.dart';
 import '../models/userlogin.dart';
@@ -12,6 +13,8 @@ import 'package:gap/gap.dart';
 
 import '../utils/constant.dart';
 import 'package:http/http.dart' as http;
+
+import 'login_page.dart';
 
 class resetPassword extends StatefulWidget {
   const resetPassword({
@@ -56,6 +59,15 @@ class _resetPasswordState extends State<resetPassword> {
               ),
             ),
             textSection2(),
+            SubmitButton(),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => FirstPage()),
+                  );
+                },
+                child: Text("back"))
           ],
         ),
       ),
@@ -197,7 +209,7 @@ class _resetPasswordState extends State<resetPassword> {
             var data = await VerifyEmail(email);
             print(data);
             if (email.isNotEmpty) {
-              JumpToNextPage(context);
+              VerifyAction(context);
             } else {
               showDialog(
                 context: context,
@@ -225,6 +237,34 @@ class _resetPasswordState extends State<resetPassword> {
     );
   }
 
+  Container SubmitButton() {
+    return Container(
+      margin: const EdgeInsets.only(left: 55, right: 55, top: 20),
+      child: Glassmorphism(
+        blur: 20,
+        opacity: 0.1,
+        radius: 50.0,
+        child: TextButton(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            child: const Text(
+              'Reset',
+              style: TextStyle(color: Colors.white, fontSize: 13.0),
+            ),
+          ),
+          onPressed: () async {
+            String email = emailController.text;
+            String key = keyController.text;
+            String password = passwordController.text;
+            var data = await passwordReset();
+            setState(() {});
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => LoginPage()));
+          },
+        ),
+      ),
+    );
+  }
   // Future<http.Response> pwdresetemail(email) async {
   //   Uri myResetUri = Uri();
   //   if (Constants.BASE_URL == "api.rostro-authentication.com") {
@@ -249,27 +289,15 @@ class _resetPasswordState extends State<resetPassword> {
   //   }
   // }
 
-  Widget? JumpToNextPage(BuildContext context) {
+  Widget? VerifyAction(BuildContext context) {
     String email = emailController.text;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Message!"),
-          content: const Text("Please continue to reset your password!"),
-          actions: <Widget>[
-            TextButton(
-              child: const Text("Next"),
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => EnterResetKey(email: email),
-                  ),
-                );
-              },
-            ),
-          ],
+          title: const Text("Action Required!"),
+          content: const Text(
+              "Please check your Email Address to retrieve your key\n"),
         );
       },
     );
@@ -296,12 +324,20 @@ class _resetPasswordState extends State<resetPassword> {
     if (response.statusCode == 201) {
       return response;
     } else {
+      //   throw "nope";
+      const snackbar = SnackBar(
+        content: Text(
+          'Invalid Email Address',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
       throw "nope";
     }
   }
 
-  Future<http.Response> passwordReset(
-      String email, String key, String password) async {
+  Future<UserLogin?> passwordReset() async {
     Uri resetUrl = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       resetUrl = Uri.https(Constants.BASE_URL, '/api/user/resetpwd/');
@@ -313,12 +349,28 @@ class _resetPasswordState extends State<resetPassword> {
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
       },
-      body: {"email": email, "key": key, "password": password},
+      body: {
+        "email": emailController.text,
+        "key": keyController.text,
+        "password": passwordController.text
+      },
     );
     if (response.statusCode == 200) {
-      return response;
+      const snackbar = SnackBar(
+        content: Text(
+          "Password reset successed!",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20.0),
+        ),
+      );
     } else {
-      throw "nope";
+      const snackbar = SnackBar(
+          content: Text(
+        "password reset failed",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 20.0),
+      ));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
 }
