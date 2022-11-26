@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/PatientsData.dart';
+
+import 'package:rostro_app/screens/Home.dart';
 import 'package:rostro_app/screens/homepage.dart';
 import './add_new_patient.dart';
 import '../utils/patient_list_widget.dart';
@@ -22,16 +25,63 @@ class _PatientList extends State<PatientList> {
   var bg = './assets/images/bg6.gif';
   late String token;
   late List<PatientsData> patients = [];
+   bool _searchBoolean = false;
   @override
   void initState() {
     token = widget.token;
   }
 
+  TextEditingController txtQuery = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+         title: !_searchBoolean ? Text("Patient List") : searchBox(),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Homepage(
+                        token: token,
+                      )),
+            );
+          },
+        ),
+        
+        actions:[
+          IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            setState(() {
+              _searchBoolean = true;
+        
+            });
+          }),
+      
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => AddNewPatient(
+                            token: token,
+                          )),
+                );
+              },
+              child: const Icon(
+                Icons.person_add,
+                color: Color.fromARGB(255, 251, 235, 232),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -48,84 +98,34 @@ class _PatientList extends State<PatientList> {
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
               showPatients(),
-              Container(
-                // padding: EdgeInsets.only(left: 20, right: 20),
-                margin: EdgeInsets.symmetric(horizontal: 0.05 * deviceWidth),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  // mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    // Container(
-                    //   // width: double.infinity,
-                    //   padding: EdgeInsets.only(right: 13),
-                    Expanded(
-                      child: Glassmorphism(
-                        blur: 20,
-                        opacity: 0.1,
-                        radius: 50,
-                        child: TextButton(
-                          // child: const Text('Back to HomePage'),
-                          onPressed: () async {
-                            // Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => Homepage(token: token)));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 5),
-                            child: const Text(
-                              "Back to Home",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 15.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    // ),
-                    // Container(
-                    // padding: EdgeInsets.only(left: 13),
-                    Gap(15),
-                    Expanded(
-                      child: Glassmorphism(
-                        blur: 20,
-                        opacity: 0.1,
-                        radius: 50,
-                        child: TextButton(
-                          // child: const Text('Add New Patient'),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 5),
-                            child: const Text(
-                              "Add New Patient",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 15.0),
-                            ),
-                          ),
-                          onPressed: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => AddNewPatient(token: token),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    // ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  TextFormField searchBox() {
+    return TextFormField(
+              style: TextStyle(color: Color.fromARGB(255, 243, 240, 241)),
+              controller: txtQuery,
+              // onChanged: search,
+              decoration: InputDecoration(
+                hintText: "Search",
+                hintStyle: TextStyle(fontSize: 16.0, color: Colors.white70),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    txtQuery.text = '';
+                    //   search(txtQuery.text);
+                  },
+                ),
+
+              ),
+              onEditingComplete: showPatients,
+          
+          
+         
     );
   }
 
@@ -136,6 +136,7 @@ class _PatientList extends State<PatientList> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             http.Response resp = snapshot.data as http.Response;
+          
             if (resp.statusCode == 200) {
               final jsonMap = jsonDecode(resp.body);
               patients = (jsonMap as List)
@@ -183,19 +184,23 @@ class _PatientList extends State<PatientList> {
   }
 
   Future<http.Response?> fetchPatients(token) async {
+    var text = txtQuery.text;
     Uri myProfileUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/');
+      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/?search=$text');
     } else {
-      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
+      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/?search=$text');
     }
-    final res = await http.get(
-      myProfileUri,
-      headers: {
+    var response;
+  
+      response = await http.get(myProfileUri, headers: {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.authorizationHeader: 'Token $token',
-      },
-    );
-    return res;
+      });
+   
+    
+
+   
+    return response;
   }
 }
