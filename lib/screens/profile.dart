@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:rostro_app/screens/firstpage.dart';
 import 'package:rostro_app/screens/login_page.dart';
 import 'package:rostro_app/screens/pwdchange.dart';
 import '../utils/constant.dart';
@@ -47,7 +48,7 @@ class _Profile extends State<Profile> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const LoginPage()),
+                  MaterialPageRoute(builder: (_) =>  FirstPage()),
                 );
               },
               child: const Icon(Icons.logout_rounded),
