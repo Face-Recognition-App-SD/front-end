@@ -91,22 +91,23 @@ class _EnterResetKeyState extends State<EnterResetKey> {
 
   Container headerSection() {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
-        child: Image.asset(
-          './assets/images/logo.jpeg',
-          height: 170,
-          width: 150,
-          fit: BoxFit.fitWidth,
-        ));
+      padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
+      child: Image.asset(
+        './assets/images/logo.jpeg',
+        height: 170,
+        width: 150,
+        fit: BoxFit.fitWidth,
+      ),
+    );
   }
 
-  Future<http.Response> keyVerify() async {
-    Uri myKeyVerify = Uri();
-    if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      myKeyVerify = Uri.https(Constants.BASE_URL, '/api/user/email/verify/');
-    } else {
-      myKeyVerify = Uri.parse('${Constants.BASE_URL}/api/user/email/verify/');
-    }
-    var response = await http.post()
-  }
+  // Future<http.Response> keyVerify() async {
+  //   Uri myKeyVerify = Uri();
+  //   if (Constants.BASE_URL == "api.rostro-authentication.com") {
+  //     myKeyVerify = Uri.https(Constants.BASE_URL, '/api/user/email/verify/');
+  //   } else {
+  //     myKeyVerify = Uri.parse('${Constants.BASE_URL}/api/user/email/verify/');
+  //   }
+  //   var response = await http.post()
+  // }
 }

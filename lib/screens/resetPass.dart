@@ -25,6 +25,8 @@ class resetPassword extends StatefulWidget {
 class _resetPasswordState extends State<resetPassword> {
   var bg = './assets/images/bg6.gif';
   TextEditingController emailController = TextEditingController();
+  TextEditingController keyController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // String email = emailController.text;
@@ -40,9 +42,20 @@ class _resetPasswordState extends State<resetPassword> {
         body: ListView(
           children: <Widget>[
             headerSection(),
-            reset(),
-            Gap(30),
-            confirmButton(),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              width: MediaQuery.of(context).size.width / 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: textSection1(),
+                  ),
+                  confirmButton(),
+                ],
+              ),
+            ),
+            textSection2(),
           ],
         ),
       ),
@@ -61,9 +74,10 @@ class _resetPasswordState extends State<resetPassword> {
     );
   }
 
-  Container reset() {
+  Container textSection1() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+      margin: const EdgeInsets.only(right: 5),
       child: Column(
         children: <Widget>[
           Padding(
@@ -78,7 +92,7 @@ class _resetPasswordState extends State<resetPassword> {
                   style: const TextStyle(color: Colors.white70),
                   decoration: InputDecoration(
                     icon: Icon(Icons.email, color: Colors.white70),
-                    hintText: 'Enter your account Email Address',
+                    hintText: 'Enter your Email',
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white70),
                     ),
@@ -93,25 +107,91 @@ class _resetPasswordState extends State<resetPassword> {
     );
   }
 
+  Container textSection2() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      margin: const EdgeInsets.only(right: 5),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 10.0),
+            child: GlassContainer(
+              borderRadius: new BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: TextFormField(
+                  controller: keyController,
+                  cursorColor: Colors.white70,
+                  style: const TextStyle(color: Colors.white70),
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.numbers, color: Colors.white70),
+                    hintText: 'Enter your Key',
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white70),
+                    ),
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 10.0),
+            child: GlassContainer(
+              borderRadius: new BorderRadius.circular(10.0),
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                child: TextFormField(
+                  controller: passwordController,
+                  cursorColor: Colors.white70,
+                  style: const TextStyle(color: Colors.white70),
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.text_fields, color: Colors.white70),
+                    hintText: 'Enter your new password',
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white70,
+                      ),
+                    ),
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Container confirmButton() {
     return Container(
-      margin: const EdgeInsets.only(left: 55, right: 55),
-      // padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      margin: const EdgeInsets.only(right: 5, top: 8),
+      // padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: Glassmorphism(
         blur: 20,
         opacity: 0.1,
         radius: 50.0,
         child: TextButton(
           child: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 5,
-                horizontal: 5,
+            padding: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 5,
+            ),
+            child: const Text(
+              'Verify',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.0,
               ),
-              child: const Text('Reset',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13.0,
-                  ))),
+            ),
+          ),
           onPressed: () async {
             String email = emailController.text;
             var data = await VerifyEmail(email);
@@ -214,6 +294,28 @@ class _resetPasswordState extends State<resetPassword> {
     );
 
     if (response.statusCode == 201) {
+      return response;
+    } else {
+      throw "nope";
+    }
+  }
+
+  Future<http.Response> passwordReset(
+      String email, String key, String password) async {
+    Uri resetUrl = Uri();
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      resetUrl = Uri.https(Constants.BASE_URL, '/api/user/resetpwd/');
+    } else {
+      resetUrl = Uri.parse('${Constants.BASE_URL}/api/user/resetpwd/');
+    }
+    var response = await http.patch(
+      resetUrl,
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+      },
+      body: {"email": email, "key": key, "password": password},
+    );
+    if (response.statusCode == 200) {
       return response;
     } else {
       throw "nope";
