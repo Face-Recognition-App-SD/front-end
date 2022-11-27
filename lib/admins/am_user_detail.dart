@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/admins/am_edit_user.dart';
@@ -12,6 +14,8 @@ import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
 import '../admins/am_edit_user.dart';
 import '../admins/am_deactivate.dart';
+import 'package:camera/camera.dart';
+
 
 
 class UserDetail extends StatefulWidget {
@@ -28,13 +32,15 @@ class _UserDetail extends State<UserDetail> {
   late String token;
   late int? id;
   late Future<UserLogin?> futureUser;
-
+    late Map<String, dynamic> pictures;
+  XFile userPicture = XFile('/assets/images/icon_sample.jpeg');
   @override
   void initState() {
     super.initState();
     token = widget.token;
     id = widget.id;
     futureUser = fetchUserProfile(token, id);
+     getPic();
   }
 
   int currentPage = 0;
@@ -135,6 +141,12 @@ Padding(
   }
 
   Widget displayProfile() {
+       String picturePath = "";
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      picturePath = userPicture.path;
+    } else {
+      picturePath = "${Constants.BASE_URL}${userPicture.path}";
+    }
     return ListView(children: <Widget>[
       Container(
         height: 250,
@@ -368,5 +380,19 @@ Future <http.Response> deleteUser(int id, String token) async {
     }else{throw "Sorry! Unable to delete this post";}
   }
 
- 
+   Future<XFile> getPic() async{
+    Uri getUserPicUri = Uri();
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      getUserPicUri = Uri.https("${Constants.BASE_URL}", "/api/admin/users/$id/get_images/");
+    }
+    else{
+      getUserPicUri = Uri.parse("${Constants.BASE_URL}/api/admin/users/$id/get_images/");
+    }
+    var response = await http.get(getUserPicUri,
+    headers: {HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token'});
+    pictures = json.decode(response.body);
+    userPicture = XFile(pictures['image_lists'][pictures['image_lists'].length-1]['image']);
+    return userPicture;
+  }
 }
