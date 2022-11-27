@@ -609,6 +609,7 @@ class _TRegister extends State<TRegister> {
     }
     var response = await http.post(myRegUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
       "email": email,
       "password": password,

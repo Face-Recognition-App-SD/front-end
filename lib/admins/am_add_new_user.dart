@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rostro_app/admins/am_verifyEmail.dart';
 import 'package:rostro_app/models/userlogin.dart';
 import '../utils/Glassmorphism.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +33,10 @@ class _AddNewUserState extends State<AddNewUser> {
     bool _passwordVisible1 = false;
   bool _passwordVisible2 = false;
   void initState(){
+    super.initState();
     token  = widget.token;
+    print("token");
+    print(token);
     is_superuser = widget.is_superuser;
 
   }
@@ -376,6 +380,7 @@ class _AddNewUserState extends State<AddNewUser> {
             String email = emailController.text;
             String password = passwordController.text;
             String cpassword = cpController.text;
+  
             if (password.isNotEmpty &&
                 cpassword.isNotEmpty &&
                 password == cpassword) {
@@ -387,7 +392,8 @@ class _AddNewUserState extends State<AddNewUser> {
                   selectedValueforRoles ?? "Nurse",
                   departmentIdController.text,
                   selectedValueforGender ?? "Male");
-
+              print("data return");
+              print(data.toString());
               if (data != null) {
                 if (data.password != data.cpassword) {
                   showDialog(
@@ -410,7 +416,7 @@ class _AddNewUserState extends State<AddNewUser> {
                     ),
                   );
 
-                  setState(() {});
+               //   setState(() {});
                 } else {
                   ShowDialogSucc(context);
 
@@ -418,9 +424,7 @@ class _AddNewUserState extends State<AddNewUser> {
                 }
               } else if (data == null ||
                   (password == null && cpassword == null)) {
-                print(
-                    "YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-                print(data);
+            
 
                 showDialog(
                   context: context,
@@ -444,10 +448,6 @@ class _AddNewUserState extends State<AddNewUser> {
 
                 setState(() {});
               } else {
-                print(data);
-                print(
-                    "HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
@@ -506,6 +506,8 @@ class _AddNewUserState extends State<AddNewUser> {
     }
     var response = await http.post(myRegUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
+       HttpHeaders.authorizationHeader: 'Token $token',
+
     }, body: {
       "email": email,
       "password": password,
@@ -518,11 +520,12 @@ class _AddNewUserState extends State<AddNewUser> {
     var jsonResponse = null;
     var data = response.body;
     token = data.substring(10, data.length - 2);
+    print ("data insode");
+    print(data);
     if (response.statusCode == 201) {
       String responseString = response.body;
 
-      setState(() {});
-
+    
       return albumFromJson(responseString);
     } else {
       if (response.statusCode == 400) {
@@ -547,8 +550,9 @@ class _AddNewUserState extends State<AddNewUser> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => VerifyEmail(
+                      builder: (_) => AdminVerifyEmail(
                             email: emailController.text,
+                            token: token,
                           )),
                 );
               },

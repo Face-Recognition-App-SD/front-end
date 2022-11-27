@@ -12,17 +12,17 @@ import '../screens/all_patient_list.dart';
 import '../screens/patient_list.dart';
 
 class AdminHome extends StatefulWidget {
-  final String? token;
+  final String token;
   final String? firstname;
   final String? lastname;
-  const AdminHome({super.key, this.token, this.firstname, this.lastname});
+  const AdminHome({super.key,  required this.token, this.firstname, this.lastname});
   @override
   State<AdminHome> createState() => _AdminHome();
 }
 
 class _AdminHome extends State<AdminHome> {
   var bg = './assets/images/bg6.gif';
-  late String? token;
+  late String token;
   late Future<UserLogin?> futureUser;
   late String? fn;
   late String? ln;

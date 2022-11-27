@@ -18,6 +18,7 @@ import '../models/userlogin.dart';
 import '../utils/Glassmorphism.dart';
 
 import "../admins/am_add_new_user.dart";
+import "../admins/am_user_detail.dart";
 
 class UserList extends StatefulWidget {
   final String token;
@@ -36,6 +37,7 @@ class _PatientList extends State<UserList> {
   late bool? is_superuser;
   @override
   void initState() {
+    super.initState();
     token = widget.token;
     is_superuser = widget.is_superuser;
   }
@@ -197,14 +199,15 @@ class _PatientList extends State<UserList> {
             borderRadius: new BorderRadius.circular(10.0),
             child: InkWell(
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => (),
-                //           // token: token,
-                //           // id: widget.patientList[index].id.toString(),
-                //           // isFromALl: isFromAll)),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UserDetail(
+                          token: token,
+                          id: users[index].id,
+                          ),),
+                        
+                );
               },
               child: ListTile(
                 leading: const Icon(
