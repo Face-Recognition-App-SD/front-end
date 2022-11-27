@@ -13,12 +13,14 @@ class UserLogin {
   String? gender;
   String? role;
   String? cpassword;
+  int? id;
   //final String? cpass;
   // final int? ssn;
   // final String? address;
   // final String? org;
 
   UserLogin({
+    this.id,
     this.email,
     this.first_name,
     this.last_name,
@@ -35,6 +37,7 @@ class UserLogin {
 
   factory UserLogin.fromJson(Map<String, dynamic> json) {
     return UserLogin(
+      id: json['id'],
       email: json['email'],
       first_name: json['first_name'],
       last_name: json['last_name'],
@@ -50,6 +53,7 @@ class UserLogin {
   }
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "email": email,
         "password": password,
         "first_name": first_name,
