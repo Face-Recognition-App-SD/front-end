@@ -43,16 +43,13 @@ class _UploadUserPics extends State<UploadUserPics> {
           ),
         ), //background image
         child: ListView(
-          children: <Widget>[
-              getUserPics(context)
-          ],
+          children: <Widget>[getUserPics(context)],
         ),
       ),
     );
   }
 
   Container getUserPics(BuildContext context) {
-
     Uri uploadUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       uploadUri = Uri.https(Constants.BASE_URL, '/api/user/upload-image/');
@@ -61,13 +58,11 @@ class _UploadUserPics extends State<UploadUserPics> {
     }
 
     return Container(
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle
-      ),
+      decoration: const BoxDecoration(shape: BoxShape.circle),
       margin: const EdgeInsets.only(
-          left: 55,
-          right: 55,
-          bottom: 14
+        left: 55,
+        right: 55,
+        top: 30,
       ),
       child: Glassmorphism(
         blur: 20,
@@ -75,7 +70,6 @@ class _UploadUserPics extends State<UploadUserPics> {
         radius: 50.0,
         child: TextButton(
           onPressed: () async {
-
             showDialog(
                 context: context,
                 builder: (context) {
@@ -84,23 +78,25 @@ class _UploadUserPics extends State<UploadUserPics> {
                   );
                 });
 
-            pictures = await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => GetPatientPictures(token: token)));
+            pictures = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => GetPatientPictures(token: token)));
             var request = http.MultipartRequest("POST", uploadUri);
             request.headers.addAll({"Authorization": "Token $token"});
-            var image1 =
-            await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
+            var image1 = await http.MultipartFile.fromPath(
+                "image_lists", pictures[0]!.path);
             request.files.add(image1);
-            var image2 =
-            await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
+            var image2 = await http.MultipartFile.fromPath(
+                "image_lists", pictures[1]!.path);
             request.files.add(image2);
-            var image3 =
-            await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
+            var image3 = await http.MultipartFile.fromPath(
+                "image_lists", pictures[2]!.path);
             request.files.add(image3);
             http.StreamedResponse response = await request.send();
 
             Navigator.of(context).pop();
-            if(response.statusCode > 199 && response.statusCode < 300){
+            if (response.statusCode > 199 && response.statusCode < 300) {
               ShowDialogSucc(context);
 
               setState(() {});
@@ -130,16 +126,15 @@ class _UploadUserPics extends State<UploadUserPics> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Message!"),
-          content: const Text(
-              "Your pictures have been successfully been Added!"),
+          content:
+              const Text("Your pictures have been successfully been Added!"),
           actions: <Widget>[
             TextButton(
               child: const Text("Go to Home Page"),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (_) => Homepage(token: token)),
+                  MaterialPageRoute(builder: (_) => Homepage(token: token)),
                 );
               },
             ),
@@ -148,5 +143,4 @@ class _UploadUserPics extends State<UploadUserPics> {
       },
     );
   }
-  
 }

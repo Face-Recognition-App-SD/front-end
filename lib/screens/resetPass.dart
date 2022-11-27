@@ -59,14 +59,6 @@ class _resetPasswordState extends State<resetPassword> {
             ),
             textSection2(),
             SubmitButton(),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => FirstPage()),
-                  );
-                },
-                child: Text("back"))
           ],
         ),
       ),
