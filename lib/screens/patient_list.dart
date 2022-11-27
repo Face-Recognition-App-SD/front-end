@@ -47,7 +47,7 @@ class _PatientList extends State<PatientList> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
-            if (is_superuser= true){
+            if (is_superuser == true){
                   Navigator.push(
               context,
               MaterialPageRoute(
