@@ -6,12 +6,14 @@ import 'package:rostro_app/models/userlogin.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:rostro_app/screens/userPictureUpload.dart';
+import 'package:rostro_app/screens/resetPass.dart';
 import '../utils/Glassmorphism.dart';
 import '../utils/constant.dart';
 import './homepage.dart';
 import 'dart:io';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import '../screens/resetPass.dart';
 
 import 'Register.dart';
 
@@ -48,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
             textSection(),
             loginButtonSection(),
             signUpButtonSection(),
+            pwdrst(),
           ],
         ),
       ),
@@ -278,6 +281,26 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ],
     );
+  }
+
+  Row pwdrst() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      const GlassText('Forgot password?'),
+      TextButton(
+        child: const GlassText(
+          'Password reset',
+          style: TextStyle(fontSize: 15),
+        ),
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const resetPassword(),
+            ),
+          ),
+        },
+      )
+    ]);
   }
 
   Future<UserLogin?> fetchDataLogin(String email, String password) async {
