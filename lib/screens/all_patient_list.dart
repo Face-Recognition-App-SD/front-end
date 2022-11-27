@@ -63,17 +63,17 @@ class _AllPatientList extends State<AllPatientList> {
             );}
           },
         ),
-        
+
         actions:[
           IconButton(
           icon: Icon(Icons.search),
           onPressed: () {
             setState(() {
               _searchBoolean = true;
-        
+
             });
           }),
-      
+
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
@@ -162,7 +162,7 @@ class _AllPatientList extends State<AllPatientList> {
               Future.delayed(Duration.zero, () {});
             }
           }
-      
+
           return const Center(
             child: Text(''''''),
           );
@@ -189,9 +189,9 @@ class _AllPatientList extends State<AllPatientList> {
 
               ),
               onEditingComplete: showPatientList,
-          
-          
-         
+
+
+
     );
   }
 
