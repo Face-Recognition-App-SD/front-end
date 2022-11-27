@@ -14,7 +14,7 @@ class UserLogin {
   String? gender;
   String? role;
   String? cpassword;
-  bool? is_superuser;
+bool? is_superuser;
 
   //final String? cpass;
   // final int? ssn;

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rostro_app/models/userlogin.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:rostro_app/screens/userPictureUpload.dart';
 import '../utils/Glassmorphism.dart';
 import '../utils/constant.dart';
 import './homepage.dart';
@@ -27,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   late String token;
   bool _passwordVisible = false;
+  late Map<String, dynamic> pictures;
 
   @override
   Widget build(BuildContext context) {
@@ -185,6 +189,14 @@ class _LoginPageState extends State<LoginPage> {
             UserLogin? data = await fetchDataLogin(email, password);
             print('info after login');
             var tokenReturn = token.substring(0, 8);
+
+            Uri getUserPicUri = Uri();
+            if(Constants.BASE_URL == "api.rostro-authentication.com"){
+              getUserPicUri = Uri.https("${Constants.BASE_URL}", "/api/user/get_selfimages/");
+            }
+            else{
+              getUserPicUri = Uri.parse("${Constants.BASE_URL}/api/user/get_selfimages/");
+            }
             //  print(tokenReturn);
             if (tokenReturn == "d_errors") {
               print(tokenReturn);
@@ -200,12 +212,25 @@ class _LoginPageState extends State<LoginPage> {
                 },
               );
             } else {
-              //  setState(() {});
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          Homepage(token: token)),
-                  (Route<dynamic> route) => false);
+              var response = await http.get(getUserPicUri,
+                  headers: {HttpHeaders.acceptHeader: 'application/json',
+                    HttpHeaders.authorizationHeader: 'Token $token'});
+              pictures = json.decode(response.body);
+
+              if (pictures['image_lists'].length > 0) {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            Homepage(token: token)),
+                    (Route<dynamic> route) => false);
+              }
+              else{
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            UploadUserPics(token: token)),
+                        (Route<dynamic> route) => false);
+              }
             }
           },
           // child: GlassText("Login!"),

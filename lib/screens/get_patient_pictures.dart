@@ -86,7 +86,7 @@ class Pictures extends State<GetPatientPictures> {
       child: SizedBox(
         child: Center(
         child: Text(
-          'Patient pictures left to take: $step',
+          'Pictures left to take: $step',
           style: const TextStyle(
             fontFamily: 'Arial',
             fontSize: 30,

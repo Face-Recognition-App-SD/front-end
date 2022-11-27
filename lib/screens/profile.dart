@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/firstpage.dart';
 import 'package:rostro_app/screens/login_page.dart';
-import 'package:rostro_app/screens/pwdchange.dart';
 import '../utils/constant.dart';
 import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
@@ -21,10 +22,15 @@ class _Profile extends State<Profile> {
   var bg = './assets/images/bg6.gif';
   late String token;
   late Future<UserLogin?> futureUser;
+  late Map<String, dynamic> pictures;
+  XFile userPicture = XFile('/assets/images/icon_sample.jpeg');
+
+
 
   @override
   void initState() {
     token = widget.token;
+    getPic();
     super.initState();
     futureUser = fetchUserProfile(token);
   }
@@ -35,6 +41,7 @@ class _Profile extends State<Profile> {
   String? lastName = "";
   String? role = "";
   String? gender = "";
+  int? id = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,9 +74,9 @@ class _Profile extends State<Profile> {
               email = snapshot.data!.email;
               firstName = snapshot.data!.first_name;
               lastName = snapshot.data!.last_name;
-
               role = snapshot.data!.role;
               gender = snapshot.data!.gender;
+              id = snapshot.data!.id;
 
               return displayProfile();
             } else if (snapshot.hasError) {
@@ -85,6 +92,12 @@ class _Profile extends State<Profile> {
   }
 
   Widget displayProfile() {
+    String picturePath = "";
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      picturePath = userPicture.path;
+    } else {
+      picturePath = "${Constants.BASE_URL}${userPicture.path}";
+    }
     return ListView(children: <Widget>[
       Container(
         height: 250,
@@ -106,7 +119,7 @@ class _Profile extends State<Profile> {
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const <Widget>[
+              children: <Widget>[
                 // CircleAvatar(
                 //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
                 //   minRadius: 35.0,
@@ -120,8 +133,7 @@ class _Profile extends State<Profile> {
                   minRadius: 60.0,
                   child: CircleAvatar(
                     radius: 50.0,
-                    backgroundImage:
-                        AssetImage('assets/images/icon_sample.jpeg'),
+                    backgroundImage: NetworkImage(picturePath),
                   ),
                 ),
                 // CircleAvatar(
@@ -268,7 +280,21 @@ class _Profile extends State<Profile> {
       throw Exception('Failed to load album');
     }
   }
-
+  Future<XFile> getPic() async{
+    Uri getUserPicUri = Uri();
+    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+      getUserPicUri = Uri.https("${Constants.BASE_URL}", "/api/user/get_selfimages/");
+    }
+    else{
+      getUserPicUri = Uri.parse("${Constants.BASE_URL}/api/user/get_selfimages/");
+    }
+    var response = await http.get(getUserPicUri,
+    headers: {HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token'});
+    pictures = json.decode(response.body);
+    userPicture = XFile(pictures['image_lists'][pictures['image_lists'].length-1]['image']);
+    return userPicture;
+  }
   Widget changePasswordButton(BuildContext context) {
     // return Container(
     //     margin: const EdgeInsets.only(top: 30.0),

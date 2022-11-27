@@ -111,7 +111,6 @@ class ExtendEditPatient extends State<EditPatient> {
   TextEditingController streetAddressController = TextEditingController();
   TextEditingController cityAddressController = TextEditingController();
   TextEditingController zipcodeAddressController = TextEditingController();
-  TextEditingController stateAddressController = TextEditingController();
   TextEditingController linkController = TextEditingController();
   TextEditingController emergencyContactNameController =
       TextEditingController();
@@ -212,6 +211,10 @@ class ExtendEditPatient extends State<EditPatient> {
   }
 
   Future<bool> editPatientInfo() async {
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+    print(estado);
+    print(genero);
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
     Uri addPatientTextUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       addPatientTextUri =
@@ -262,6 +265,7 @@ class ExtendEditPatient extends State<EditPatient> {
       flag = true;
     }
     if (estado != 'none') {
+      print("Mint Jule");
       editPatient(addPatientTextUri, 'state_address', estado);
       flag = true;
     }
@@ -287,12 +291,25 @@ class ExtendEditPatient extends State<EditPatient> {
   }
 
   Future<PatientsData?> editPatient(addPatientTextUri, key, val) async {
+    if (key == "state_address" || key == "gender") {
+      print("JOIJOJIOJOIJOIJS");
+      print(genero);
+      print(estado);
+      print(key + "======" + val);
+    }
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
       key: val,
     });
+    if (key == "state_address" || key == "gender") {
+      print(res.statusCode);
+      print(res.request);
+      print(res.reasonPhrase);
+      print(res.headers);
+      print("KOOKOKOKOOKOKOKOK");
+    }
   }
 
   Future<bool> updateImages() async {
@@ -338,7 +355,6 @@ class ExtendEditPatient extends State<EditPatient> {
     streetAddressController.text = details['street_address'];
     cityAddressController.text = details['city_address'];
     zipcodeAddressController.text = details['zipcode_address'];
-    stateAddressController.text = details['state_address'];
     linkController.text = details['link'];
     emergencyContactNameController.text = details['emergency_contact_name'];
     emergencyPhoneNumber.text = details['emergency_phone_number'];
@@ -357,9 +373,9 @@ class ExtendEditPatient extends State<EditPatient> {
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                   child: Column(
                     children: <Widget>[
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: const Text(
+                        child: Text(
                           "Firstname:",
                           // textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 14, color: Colors.white),
@@ -389,9 +405,9 @@ class ExtendEditPatient extends State<EditPatient> {
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                   child: Column(
                     children: <Widget>[
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: const Text(
+                        child: Text(
                           "\t Lastname:",
                           textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 14, color: Colors.white),
@@ -486,9 +502,9 @@ class ExtendEditPatient extends State<EditPatient> {
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                   child: Column(
                     children: <Widget>[
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: const Text(
+                        child: Text(
                           "\t Phone Number:",
                           textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 14, color: Colors.white),
@@ -519,10 +535,10 @@ class ExtendEditPatient extends State<EditPatient> {
                   child: Padding(
                       padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                       child: Column(
-                        children: <Widget>[
+                        children: const <Widget>[
                           Padding(
                             padding: EdgeInsets.only(left: 20),
-                            child: const Text(
+                            child: Text(
                               "\t State:",
                               textAlign: TextAlign.left,
                               style:
@@ -530,8 +546,8 @@ class ExtendEditPatient extends State<EditPatient> {
                             ),
                           ),
                           DropDownState(),
-                          const SizedBox(height: 20.0),
-                          const Text(
+                          SizedBox(height: 20.0),
+                          Text(
                             "\t Gender:",
                             textAlign: TextAlign.left,
                             style: TextStyle(fontSize: 14, color: Colors.white),
@@ -655,11 +671,14 @@ class _DropDownState extends State<DropDownState> {
         color: Colors.black,
       ),
       onChanged: (String? value) {
+        print(genero);
         // This is called when the user selects an item.
         setState(() {
           state = value!;
           estado = value;
         });
+        print(estado);
+        print(genero);
       },
       items: states.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
