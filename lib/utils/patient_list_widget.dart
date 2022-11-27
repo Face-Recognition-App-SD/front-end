@@ -48,11 +48,7 @@ class _PatientListWidgetState extends State<PatientListWidget> {
           child: GlassContainer(
             borderRadius: new BorderRadius.circular(10.0),
 
-            // color: Color.fromARGB(255, 184, 197, 244),
-            // shape: RoundedRectangleBorder(
-            // side: const BorderSide(
-            //     color: Color.fromARGB(255, 190, 192, 251), width: 1),
-            // borderRadius: BorderRadius.circular(10),
+ 
 
             child: InkWell(
               onTap: () {

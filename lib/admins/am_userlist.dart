@@ -241,6 +241,8 @@ class _PatientList extends State<UserList> {
                     ),
                   ],
                 ),
+                 trailing: verify(context, index),
+               
               ),
             ),
           ),
@@ -249,6 +251,24 @@ class _PatientList extends State<UserList> {
     );
   }
 
+
+  Widget verify(context, index) {
+    return TextButton(
+      onPressed: () {},
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //        builder: ,
+      //        // VerifyPatient(
+      //       //   token: token,
+      //       //   id: widget.patientList[index].id!,
+      //       // ),
+      //    // ),
+      //   );
+      // },
+      child: const Text('Verify Patient'),
+    );
+  }
   Future<http.Response?> fetchUser(token, is_superuser) async {
     var text = txtQuery.text;
     Uri myProfileUri = Uri();

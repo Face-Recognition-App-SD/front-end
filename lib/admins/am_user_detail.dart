@@ -11,6 +11,7 @@ import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
 import '../admins/am_edit_user.dart';
+import '../admins/am_deactivate.dart';
 
 
 class UserDetail extends StatefulWidget {
@@ -158,6 +159,8 @@ Padding(
                 ),
               ],
             ),
+  
+          
             const SizedBox(
               height: 10,
             ),
@@ -180,6 +183,7 @@ Padding(
         ),
       ),
         const Divider(),
+          AdminDeactivate(id: widget.id, token:token),
             Padding(
                padding: EdgeInsets.only(left: 20, right: 20),
               child: GlassContainer(
