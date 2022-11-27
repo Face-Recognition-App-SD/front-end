@@ -9,28 +9,45 @@ import '../utils/constant.dart';
 import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
+import 'package:camera/camera.dart';
+import '../screens/get_patient_pictures.dart';
+List<String> genders = <String>[
+  'Please select role',
+  'Male',
+  'Female',
+  'Transgender',
+  'Non-binary/non-conforming',
+  'Prefer not to respond'
+];
+ List<String> roles = ['Please select role', 'Doctor', 'Nurse', 'Physical Therapist'];
+String genero = 'none';
+String roleo = 'none';
 
-class UserDetail extends StatefulWidget {
+class EditUser extends StatefulWidget {
+   final Future<UserLogin?> futureUser;
   final String token;
   final id;
-  const UserDetail({super.key, required this.token, required this.id});
+  const EditUser({super.key, required this.token, required this.id, required this.futureUser});
 
   @override
-  State<UserDetail> createState() => _UserDetail();
+  State<EditUser> createState() => _EditUser();
 }
 
-class _UserDetail extends State<UserDetail> {
+class _EditUser extends State<EditUser> {
+  
   var bg = './assets/images/bg6.gif';
   late String token;
   late int? id;
   late Future<UserLogin?> futureUser;
+
 
   @override
   void initState() {
     super.initState();
     token = widget.token;
     id = widget.id;
-    futureUser = fetchUserProfile(token, id);
+    futureUser = widget.futureUser;
+   
   }
 
   int currentPage = 0;
@@ -40,6 +57,20 @@ class _UserDetail extends State<UserDetail> {
   String? role = "";
   String? gender = "";
   bool? is_superuser = false;
+
+
+
+
+  List<XFile?> pictures = [];
+  // TextEditingController idController = TextEditingController();
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController roleController = TextEditingController();
+  TextEditingController department_idController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,247 +104,409 @@ class _UserDetail extends State<UserDetail> {
             ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(bg), fit: BoxFit.cover),
-        ),
-        child: FutureBuilder<UserLogin?>(
+      body:  Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(bg),
+              fit: BoxFit.cover,
+            ),
+          ),
+          constraints: const BoxConstraints.expand(), //background image
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                const SizedBox(height: 10.0),
+               FutureBuilder<UserLogin?>(
           future: futureUser,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               id = snapshot.data!.id;
-              email = snapshot.data!.email;
-              firstName = snapshot.data!.first_name;
-              lastName = snapshot.data!.last_name;
-              role = snapshot.data!.role;
+              emailController.text = snapshot.data!.email ?? "Not provided";
+              firstnameController.text = snapshot.data!.first_name ?? "Not provided";
+            lastnameController.text= snapshot.data!.last_name ?? "Not provided";
+           
+              roleController.text = snapshot.data!.role ?? "Not provided";
+              department_idController.text = snapshot.data!.department_id.toString();
               gender = snapshot.data!.gender;
-              is_superuser = snapshot.data!.is_superuser;
+              
+          }
+          return textData(context);},),
             
 
-              return displayProfile();
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
 
-            // By default, show a loading spinner.
-            return const CircularProgressIndicator();
-          },
-        ),
-      ),
-    );
+            //    getImages(context),
+                submitButton(context),
+              ],
+            ),
+          ),
+        ));
   }
+
  delete(int id, String token) async {
     var rest = await deleteUser(id, token);
     setState(() {});
   }
 
-  Widget displayProfile() {
-    return ListView(children: <Widget>[
-      Container(
-        height: 250,
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const <Widget>[
-                CircleAvatar(
-                  backgroundColor: Colors.white70,
-                  minRadius: 60.0,
-                  child: CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage:
-                        AssetImage('assets/images/icon_sample.jpeg'),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              '$firstName $lastName ',
-              style: const TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              '$role',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-              ),
-            ),
-          ],
-        ),
-      ),
-        const Divider(),
-            Padding(
-               padding: EdgeInsets.only(left: 20, right: 20),
-              child: GlassContainer(
-                borderRadius: new BorderRadius.circular(15.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
-                  child: ListTile(
-                    title: const Text(
-                      'ID',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$id',
-                      style: const TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-      Divider(),
-      Container(
-        padding: EdgeInsets.only(left: 20, right: 20),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: GlassContainer(
-                borderRadius: new BorderRadius.circular(15.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
-                  child: ListTile(
-                    title: const Text(
-                      'Email',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$email',
-                      style: const TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: GlassContainer(
-                borderRadius: new BorderRadius.circular(15.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
-                  child: ListTile(
-                    title: const Text(
-                      'Role',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$role',
-                      style: const TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: GlassContainer(
-                borderRadius: new BorderRadius.circular(15.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
-                  child: ListTile(
-                    title: const Text(
-                      'Gender',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$gender',
-                      style: const TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Divider(),
-      Padding(
-               padding: EdgeInsets.only(top: 10),
-              child: GlassContainer(
-                borderRadius: new BorderRadius.circular(15.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
-                  child: ListTile(
-                    title: const Text(
-                      'Is Admin',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$is_superuser',
-                      style: const TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-  
-          ],
-        ),
-      ),
-    ]);
+
+  // Widget getImages(BuildContext context) {
+  //   return Container(
+  //       margin: const EdgeInsets.only(top: 30.0, left: 20, right: 20),
+  //       child: Glassmorphism(
+  //           blur: 20,
+  //           opacity: 0.1,
+  //           radius: 50.0,
+  //           child:
+  //               // padding: const EdgeInsets.symmetric(horizontal: 20.0),
+
+  //               TextButton(
+  //             // child: const Text('Update Images'),
+  //             child: Container(
+  //               padding: EdgeInsets.symmetric(
+  //                 vertical: 5,
+  //                 horizontal: 5,
+  //               ),
+  //               child: const Text("Update Image",
+  //                   style: TextStyle(color: Colors.white, fontSize: 13.0)),
+  //             ),
+  //             onPressed: () async {
+  //               pictures = await Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                       builder: (context) =>
+  //                           GetPatientPictures(token: token)));
+  //             },
+  //           )));
+  // }
+
+  Future<bool> editPatientInfo() async {
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+   
+    print(genero);
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+    Uri addPatientTextUri = Uri();
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      addPatientTextUri =
+          Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
+    } else {
+      addPatientTextUri =
+          Uri.parse("${Constants.BASE_URL}/api/admin/users/$id/");
+    }
+    bool flag = false;
+    if (firstnameController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'first_name', firstnameController.text);
+      flag = true;
+    }
+    if (lastnameController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'last_name', lastnameController.text);
+      flag = true;
+    }
+    if (emailController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'email', emailController.text);
+      flag = true;
+    }
+    if (roleController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'role', roleController.text);
+      flag = true;
+    }
+     if (department_idController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'department_id', department_idController.text);
+      flag = true;
+    }
+   
+    if (genero != 'none') {
+      editPatient(addPatientTextUri, 'gender', genero);
+      flag = true;
+    }
+    return flag;
   }
 
-  Future<UserLogin?> fetchUserProfile(token, id) async {
-    UserLogin? newUser;
-    Uri myProfileUri = Uri();
-    if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      myProfileUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
-    } else {
-      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
+  Future<UserList?> editPatient(addPatientTextUri, key, val) async {
+    if (key == "gender") {
+      print("JOIJOJIOJOIJOIJS");
+      print(genero);
+    
+      print(key + "======" + val);
     }
-    final response = await http.get(
-      myProfileUri,
-      headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token $token',
+    final res = await http.patch(addPatientTextUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    }, body: {
+      key: val,
+    });
+
+  }
+
+  // Future<bool> updateImages() async {
+  //   if (pictures.isNotEmpty) {
+  //     Uri addPatientPictures = Uri();
+  //     if (Constants.BASE_URL == "api.rostro-authentication.com") {
+  //       addPatientPictures = Uri.https(
+  //           Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
+            
+  //     } else {
+  //       addPatientPictures = Uri.parse(
+  //           "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+  //     }
+  //     var request = http.MultipartRequest("POST", addPatientPictures);
+  //     request.headers.addAll({"Authorization": "Token $token"});
+  //     request.fields['id'] = id.toString();
+  //     var image1 =
+
+  //         await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
+  //     request.files.add(image1);
+  //     var image2 =
+  //         await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
+  //     request.files.add(image2);
+  //     var image3 =
+  //         await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
+  //     request.files.add(image3);
+
+  //     http.StreamedResponse response = await request.send();
+
+  //     if (response.statusCode > 199 && response.statusCode < 300) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
+
+
+  Widget textData(context) {
+    
+
+    return Container(
+        padding: EdgeInsets.only(left: 15, right: 15),
+        child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+          //     Container(
+          //    
+            
+              GlassContainer(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      const Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(
+                          "Firstname:",
+                          // textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: firstnameController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                            color: Colors.white70, fontSize: 14),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.person, color: Colors.white70),
+                          // hintText: 'DepartID',
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              GlassContainer(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      const Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(
+                          "\t Lastname:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: lastnameController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                            color: Colors.white70, fontSize: 14),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.person, color: Colors.white70),
+                          // hintText: 'DepartID',
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              GlassContainer(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      const Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(
+                          "\t Email:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: emailController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                            color: Colors.white70, fontSize: 13),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.person, color: Colors.white70),
+                          // hintText: 'DepartID',
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+             GlassContainer(
+                  width: double.infinity,
+                  borderRadius: new BorderRadius.circular(10.0),
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                      child: Column(
+                        children: const <Widget>[
+                          SizedBox(height: 20.0),
+                          Text(
+                            "\t Role:",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 14, color: Colors.white),
+                          ),
+                          DropDownRole(),
+                        ],
+                      ))),
+              const SizedBox(height: 20.0),
+              GlassContainer(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                  child: Column(
+                    children: <Widget>[
+                      const Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(
+                          "\t Department_id:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: department_idController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(
+                            color: Colors.white70, fontSize: 13),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.local_hospital_outlined,
+                              color: Colors.white70),
+                          // hintText: 'DepartID',
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white70)),
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              GlassContainer(
+                  width: double.infinity,
+                  borderRadius: new BorderRadius.circular(10.0),
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                      child: Column(
+                        children: const <Widget>[
+                          SizedBox(height: 20.0),
+                          Text(
+                            "\t Gender:",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 14, color: Colors.white),
+                          ),
+                          DropDownGender(),
+                        ],
+                      )))
+            ]));
+  }
+
+  Widget? _showDialog(BuildContext context, String token) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Message!!"),
+          content:
+              const Text("Patient information has been edited successfully!"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => UserList(
+                            token: token,
+                          )),
+                );
+              },
+            ),
+          ],
+        );
       },
     );
-
-    var data = response.body;
-
-    if (response.statusCode == 200) {
-      String responseString = response.body;
-      newUser = albumFromJson(responseString);
-
-      return newUser;
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load user info');
-    }
   }
-Future <http.Response> deleteUser(int id, String token) async {
+
+  Widget submitButton(BuildContext context) {
+    var resPics = false;
+    return Container(
+      margin: const EdgeInsets.only(top: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: ElevatedButton(
+        child: const Text('Submit'),
+        onPressed: () async {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              });
+          var resText = await editPatientInfo();
+          // if (pictures.isNotEmpty) {
+          //   resPics = await updateImages();
+          // }
+          Navigator.of(context).pop();
+          if (resText || resPics) {
+            _showDialog(context, token);
+          }
+        },
+      ),
+    );
+  }
+
+  Future <http.Response> deleteUser(int id, String token) async {
       Uri deleteUri = Uri();
       if(Constants.BASE_URL == "api.rostro-authentication.com"){
         deleteUri = Uri.https(Constants.BASE_URL,'/api/admin/users/$id/');
@@ -330,10 +523,91 @@ Future <http.Response> deleteUser(int id, String token) async {
       },
      );
     if(response.statusCode > 200 && response.statusCode < 300){
+      setState(() {
+        
+      });
       return response;
     
     }else{throw "Sorry! Unable to delete this post";}
   }
 
  
+
 }
+
+class DropDownGender extends StatefulWidget {
+  const DropDownGender({super.key});
+
+  State<DropDownGender> createState() => _DropDownGender();
+}
+
+class _DropDownGender extends State<DropDownGender> {
+  String gender = genders.first;
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: gender,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.black),
+      underline: Container(
+        height: 2,
+        color: Colors.black,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          gender = value!;
+          genero = value;
+        });
+      },
+      items: genders.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+          alignment: Alignment.centerRight,
+        );
+      }).toList(),
+    );
+  }
+
+}
+  
+class DropDownRole extends StatefulWidget {
+  const DropDownRole({super.key});
+
+  State<DropDownRole> createState() => _DropDownRole();
+}
+
+class _DropDownRole extends State<DropDownRole> {
+  String role =  roles.first;
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: role,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.black),
+      underline: Container(
+        height: 2,
+        color: Colors.black,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          role = value!;
+          roleo = value;
+        });
+      },
+      items: roles.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+          alignment: Alignment.centerRight,
+        );
+      }).toList(),
+    );
+  }
+
+}
+  

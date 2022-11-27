@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:rostro_app/admins/am_edit_user.dart';
 import 'package:rostro_app/admins/am_userlist.dart';
 import 'package:rostro_app/screens/firstpage.dart';
 import 'package:rostro_app/screens/login_page.dart';
@@ -9,6 +10,8 @@ import '../utils/constant.dart';
 import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
+import '../admins/am_edit_user.dart';
+
 
 class UserDetail extends StatefulWidget {
   final String token;
@@ -71,6 +74,29 @@ class _UserDetail extends State<UserDetail> {
                 
               ),
             ),
+
+Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () { 
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            EditUser(id: id, token: token, futureUser: futureUser),
+                      ),
+                    );
+                  },
+                
+                
+                  child: const Icon(
+                    Icons.edit,
+                    color: Color.fromARGB(255, 243, 236, 235),
+                  ),
+                
+              ),
+            ),
+
         ],
       ),
       body: Container(

@@ -12,11 +12,13 @@ import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
 import '../utils/Glassmorphism.dart';
 import 'package:gap/gap.dart';
+import '../admins/am_home_page.dart';
 
 class PatientList extends StatefulWidget {
   final String token;
+  final bool? is_superuser;
 
-  const PatientList({super.key, required this.token});
+  const PatientList({super.key, required this.token, this.is_superuser});
   @override
   State<PatientList> createState() => _PatientList();
 }
@@ -26,10 +28,13 @@ class _PatientList extends State<PatientList> {
   late String token;
   late List<PatientsData> patients = [];
    bool _searchBoolean = false;
+   late bool? is_superuser;
   @override
   void initState() {
     token = widget.token;
+    is_superuser = widget.is_superuser;
   }
+
 
   TextEditingController txtQuery = TextEditingController();
 
@@ -42,13 +47,24 @@ class _PatientList extends State<PatientList> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
+            if (is_superuser= true){
+                  Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AdminHomePage(
+                        token: token,
+                      )),
+            );
+            }
+            else {
             Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => Homepage(
                         token: token,
                       )),
-            );
+            );}
+          
           },
         ),
         

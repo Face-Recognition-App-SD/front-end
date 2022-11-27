@@ -12,11 +12,12 @@ import 'package:rostro_app/models/PatientsData.dart';
 import 'package:rostro_app/screens/Home.dart';
 import 'package:rostro_app/screens/homepage.dart';
 import '../screens/add_new_patient.dart';
+import '../admins/am_home_page.dart';
 
 class AllPatientList extends StatefulWidget {
   final String token;
-
-  const AllPatientList({super.key, required this.token});
+  final bool? is_superuser;
+  const AllPatientList({super.key, required this.token, this.is_superuser});
   @override
   State<AllPatientList> createState() => _AllPatientList();
 }
@@ -26,9 +27,11 @@ class _AllPatientList extends State<AllPatientList> {
   late String token;
   late List<PatientsData> patients = [];
   bool _searchBoolean = false;
+  late bool? is_superuser;
   @override
   void initState() {
     token = widget.token;
+    is_superuser = widget.is_superuser;
   }
 
   TextEditingController txtQuery = TextEditingController();
@@ -41,13 +44,23 @@ class _AllPatientList extends State<AllPatientList> {
            leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
+            if (is_superuser= true){
+                  Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AdminHomePage(
+                        token: token,
+                      )),
+            );
+            }
+            else {
             Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => Homepage(
                         token: token,
                       )),
-            );
+            );}
           },
         ),
         
