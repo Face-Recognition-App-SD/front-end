@@ -161,8 +161,7 @@ class ExtendedCompareFace extends State<CompareFace> {
               );
               var decodedPatient = jsonDecode(patientRes.body);
               pictures = json.decode(imageRes.body);
-              XFile retrievedPicture =
-                  XFile(pictures['image_lists'][0]['image']);
+              XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
               Navigator.push(
                 context,
                 MaterialPageRoute(

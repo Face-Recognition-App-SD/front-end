@@ -338,17 +338,6 @@ class ShowPatientDetails extends State<ShowPatient> {
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Container(
                 child: Text(
-                  "\t\tState: $state",
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
-                ),
-              ),
-            ),
-            Divider(),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: Container(
-                child: Text(
                   "\t\tCreation: $creation",
                   textAlign: TextAlign.left,
                   style: const TextStyle(fontSize: 22, color: Colors.white),
