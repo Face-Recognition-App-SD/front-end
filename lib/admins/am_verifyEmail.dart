@@ -184,7 +184,7 @@ Widget? ShowDialogSucc(BuildContext context) {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) =>  AdminHome(token: token,)),
+                MaterialPageRoute(builder: (_) =>  AdminHomePage(token: token,)),
               );
             },
           ),
