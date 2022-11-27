@@ -32,6 +32,7 @@ class _AllPatientList extends State<AllPatientList> {
   void initState() {
     token = widget.token;
     is_superuser = widget.is_superuser;
+    print('is suprt $is_superuser');
   }
 
   TextEditingController txtQuery = TextEditingController();
