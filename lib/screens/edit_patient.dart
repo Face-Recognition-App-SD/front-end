@@ -211,10 +211,6 @@ class ExtendEditPatient extends State<EditPatient> {
   }
 
   Future<bool> editPatientInfo() async {
-    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-    print(estado);
-    print(genero);
-    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
     Uri addPatientTextUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       addPatientTextUri =
@@ -223,93 +219,20 @@ class ExtendEditPatient extends State<EditPatient> {
       addPatientTextUri =
           Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
     }
-    bool flag = false;
-    if (firstnameController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'first_name', firstnameController.text);
-      flag = true;
-    }
-    if (lastnameController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'last_name', lastnameController.text);
-      flag = true;
-    }
-    if (ageController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'age', ageController.text);
-      flag = true;
-    }
-    if (medListController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'med_list', medListController.text);
-      flag = true;
-    }
-    if (phoneNumberController.text.isNotEmpty) {
-      editPatient(
-          addPatientTextUri, 'phone_number', phoneNumberController.text);
-      flag = true;
-    }
-    if (dobController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'date_of_birth', dobController.text);
-      flag = true;
-    }
-    if (streetAddressController.text.isNotEmpty) {
-      editPatient(
-          addPatientTextUri, 'street_address', streetAddressController.text);
-      flag = true;
-    }
-    if (cityAddressController.text.isNotEmpty) {
-      editPatient(
-          addPatientTextUri, 'city_address', cityAddressController.text);
-      flag = true;
-    }
-    if (zipcodeAddressController.text.isNotEmpty) {
-      editPatient(
-          addPatientTextUri, 'zipcode_address', zipcodeAddressController.text);
-      flag = true;
-    }
-    if (estado != 'none') {
-      print("Mint Jule");
-      editPatient(addPatientTextUri, 'state_address', estado);
-      flag = true;
-    }
-    if (linkController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'link', linkController.text);
-      flag = true;
-    }
-    if (emergencyContactNameController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'emergency_contact_name',
-          emergencyContactNameController.text);
-      flag = true;
-    }
-    if (emergencyPhoneNumber.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'emergency_phone_number',
-          emergencyPhoneNumber.text);
-      flag = true;
-    }
-    if (genero != 'none') {
-      editPatient(addPatientTextUri, 'gender', genero);
-      flag = true;
-    }
-    return flag;
-  }
-
-  Future<PatientsData?> editPatient(addPatientTextUri, key, val) async {
-    if (key == "state_address" || key == "gender") {
-      print("JOIJOJIOJOIJOIJS");
-      print(genero);
-      print(estado);
-      print(key + "======" + val);
-    }
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
-      key: val,
+      'first_name': firstnameController.text,
+      'last_name': lastnameController.text,
+      'phone_number': phoneNumberController.text,
+      'age': ageController.text,
+      'med_list': medListController.text,
+      'zipcode_address': zipcodeAddressController.text,
+      'gender': genero,
+      'state_address': estado
     });
-    if (key == "state_address" || key == "gender") {
-      print(res.statusCode);
-      print(res.request);
-      print(res.reasonPhrase);
-      print(res.headers);
-      print("KOOKOKOKOOKOKOKOK");
-    }
+    return true;
   }
 
   Future<bool> updateImages() async {
@@ -469,9 +392,9 @@ class ExtendEditPatient extends State<EditPatient> {
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                   child: Column(
                     children: <Widget>[
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: const Text(
+                        child: Text(
                           "\t Medical List:",
                           textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 14, color: Colors.white),
