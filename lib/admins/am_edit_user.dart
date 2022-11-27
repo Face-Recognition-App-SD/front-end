@@ -330,9 +330,6 @@ Future <http.Response> deleteUser(int id, String token) async {
       },
      );
     if(response.statusCode > 200 && response.statusCode < 300){
-      setState(() {
-        
-      });
       return response;
     
     }else{throw "Sorry! Unable to delete this post";}

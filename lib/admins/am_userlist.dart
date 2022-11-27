@@ -222,12 +222,24 @@ class _PatientList extends State<UserList> {
                     color: Colors.blueAccent,
                   ),
                 ),
-                subtitle: Text(
-                  users[index].first_name.toString(),
-                  style: const TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Colors.blueAccent,
-                  ),
+                subtitle:  Row(
+                  children: [
+                    Text(
+                      users[index].first_name.toString().toUpperCase(),
+                      style: const TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                      Text(" "),
+                      Text(
+                      users[index].last_name.toString().toUpperCase(),
+                      style: const TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

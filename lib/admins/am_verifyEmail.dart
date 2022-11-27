@@ -36,6 +36,7 @@ class _AdminVerifyEmail extends State<AdminVerifyEmail> {
 
   @override
   Widget build(BuildContext context) {
+    print("token in buid in verify $token");
     return Scaffold(
       appBar: AppBar(
         title: const Text('Verify Email'),
@@ -175,6 +176,9 @@ Widget? ShowDialogSucc(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
+      print ("token in dialog");
+      print(token);
+      print("what");
       return AlertDialog(
         title: const Text("Message!"),
         content: const Text("Your account has been verified."),

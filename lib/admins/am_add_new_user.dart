@@ -519,7 +519,7 @@ class _AddNewUserState extends State<AddNewUser> {
     });
     var jsonResponse = null;
     var data = response.body;
-    token = data.substring(10, data.length - 2);
+  //  token = data.substring(10, data.length - 2);
     print ("data insode");
     print(data);
     if (response.statusCode == 201) {
@@ -539,6 +539,7 @@ class _AddNewUserState extends State<AddNewUser> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        print("token in verify $token");
         return AlertDialog(
           title: const Text("Message!"),
           content: const Text(
@@ -552,7 +553,7 @@ class _AddNewUserState extends State<AddNewUser> {
                   MaterialPageRoute(
                       builder: (_) => AdminVerifyEmail(
                             email: emailController.text,
-                            token: token,
+                            token: widget.token,
                           )),
                 );
               },

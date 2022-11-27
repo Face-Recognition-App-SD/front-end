@@ -20,18 +20,18 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePage extends State<AdminHomePage> {
-  static String token1 = "";
+  static String token = "";
 
   var patientPictures;
   var pages;
   void initState() {
-    token1 = widget.token;
+    token = widget.token;
 
     pages = [
-      AdminHome(token: token1),
-      CompareFace(token: token1),
-      PatientList(token: token1),
-      Profile(token: token1),
+      AdminHome(token: token),
+      CompareFace(token: token),
+      PatientList(token: token),
+      Profile(token: token),
     ];
   }
 
@@ -80,7 +80,7 @@ class _AdminHomePage extends State<AdminHomePage> {
           child: const Text('PatientList'),
           onPressed: () async {
             Navigator.push(context,
-                MaterialPageRoute(builder: (_) => PatientList(token: token1)));
+                MaterialPageRoute(builder: (_) => PatientList(token: token)));
           },
         ));
   }
@@ -95,7 +95,7 @@ class _AdminHomePage extends State<AdminHomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => AddNewPatient(token: token1)));
+                    builder: (_) => AddNewPatient(token: token)));
           },
         ));
   }
@@ -108,7 +108,7 @@ class _AdminHomePage extends State<AdminHomePage> {
           child: const Text('Find Patient'),
           onPressed: () async {
             Navigator.push(context,
-                MaterialPageRoute(builder: (_) => CompareFace(token: token1)));
+                MaterialPageRoute(builder: (_) => CompareFace(token: token)));
           },
         ));
   }
