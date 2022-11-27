@@ -22,6 +22,14 @@ class TRegister extends StatefulWidget {
 }
 
 class _TRegister extends State<TRegister> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController cpController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController departmentIdController = TextEditingController();
+  String? selectedValueforGender;
+  String? selectedValueforRoles;
   var bg = './assets/images/bg6.gif';
   bool _isLoading = false;
   late String token;
@@ -65,23 +73,15 @@ class _TRegister extends State<TRegister> {
     //background im
   }
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController cpController = TextEditingController();
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController departmentIdController = TextEditingController();
-
   var genderList = Constants.genderList;
 
   final List<String> roles = ['Doctor', 'Nurse', 'Physical Therapist'];
-  String? selectedValueforGender;
-  String? selectedValueforRoles;
 
   Container textSection() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 10),
@@ -642,7 +642,7 @@ class _TRegister extends State<TRegister> {
         return AlertDialog(
           title: const Text("Message!"),
           content: const Text(
-              "Your account have been created. Please check your email to verify your account."),
+              "Your account has been created. Please check your email to verify your account."),
           actions: <Widget>[
             TextButton(
               child: const Text("Verify Email"),
