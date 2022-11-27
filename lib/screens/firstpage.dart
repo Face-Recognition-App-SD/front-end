@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/login_page.dart';
-import '../admins/admin_login.dart';
+import '../admins/am_login.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
 

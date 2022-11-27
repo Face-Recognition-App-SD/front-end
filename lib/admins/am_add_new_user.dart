@@ -1,5 +1,8 @@
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rostro_app/admins/am_verifyEmail.dart';
 import 'package:rostro_app/models/userlogin.dart';
 import '../utils/Glassmorphism.dart';
 import 'package:flutter/services.dart';
@@ -10,34 +13,36 @@ import 'package:rostro_app/screens/login_page.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/constant.dart';
 import 'dart:io';
-import './verifyEmail.dart';
-//import 'loggedinpage.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
+import '../screens/verifyEmail.dart';
 
-class TRegister extends StatefulWidget {
-  const TRegister({super.key});
+
+class AddNewUser extends StatefulWidget {
+  final String token;
+ final  bool? is_superuser;
+  const AddNewUser({super.key, required this.token, required this.is_superuser});
 
   @override
-  State<TRegister> createState() => _TRegister();
+  State<AddNewUser> createState() => _AddNewUserState();
 }
 
-class _TRegister extends State<TRegister> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController cpController = TextEditingController();
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController departmentIdController = TextEditingController();
-  String? selectedValueforGender;
-  String? selectedValueforRoles;
-  var bg = './assets/images/bg6.gif';
-  bool _isLoading = false;
+class _AddNewUserState extends State<AddNewUser> {
   late String token;
-  bool _passwordVisible1 = false;
+   var bg = './assets/images/bg6.gif';
+ 
+  late bool? is_superuser;
+    bool _passwordVisible1 = false;
   bool _passwordVisible2 = false;
+  void initState(){
+    super.initState();
+    token  = widget.token;
+    print("token");
+    print(token);
+    is_superuser = widget.is_superuser;
+
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       // appBar: AppBar(
       //   title: const Text('Sign Up'),
       // ),
@@ -73,15 +78,23 @@ class _TRegister extends State<TRegister> {
     //background im
   }
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController cpController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController departmentIdController = TextEditingController();
+
   var genderList = Constants.genderList;
 
   final List<String> roles = ['Doctor', 'Nurse', 'Physical Therapist'];
+  String? selectedValueforGender;
+  String? selectedValueforRoles;
 
   Container textSection() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
         child: Column(children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 10),
@@ -121,8 +134,7 @@ class _TRegister extends State<TRegister> {
                   decoration: InputDecoration(
                     hintText: 'Password',
                     border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white70),
-                    ),
+                        borderSide: BorderSide(color: Colors.white70)),
                     hintStyle: TextStyle(color: Colors.white70),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -368,6 +380,7 @@ class _TRegister extends State<TRegister> {
             String email = emailController.text;
             String password = passwordController.text;
             String cpassword = cpController.text;
+  
             if (password.isNotEmpty &&
                 cpassword.isNotEmpty &&
                 password == cpassword) {
@@ -379,7 +392,8 @@ class _TRegister extends State<TRegister> {
                   selectedValueforRoles ?? "Nurse",
                   departmentIdController.text,
                   selectedValueforGender ?? "Male");
-
+              print("data return");
+              print(data.toString());
               if (data != null) {
                 if (data.password != data.cpassword) {
                   showDialog(
@@ -402,7 +416,7 @@ class _TRegister extends State<TRegister> {
                     ),
                   );
 
-                  setState(() {});
+               //   setState(() {});
                 } else {
                   ShowDialogSucc(context);
 
@@ -410,9 +424,7 @@ class _TRegister extends State<TRegister> {
                 }
               } else if (data == null ||
                   (password == null && cpassword == null)) {
-                print(
-                    "YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-                print(data);
+            
 
                 showDialog(
                   context: context,
@@ -436,10 +448,6 @@ class _TRegister extends State<TRegister> {
 
                 setState(() {});
               } else {
-                print(data);
-                print(
-                    "HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
@@ -481,6 +489,7 @@ class _TRegister extends State<TRegister> {
     );
   }
 
+
   Future<UserLogin?> fetchDataSignUp(
       String email,
       String password,
@@ -491,13 +500,14 @@ class _TRegister extends State<TRegister> {
       String gender) async {
     Uri myRegUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      myRegUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
+      myRegUri = Uri.https(Constants.BASE_URL, '/api/admin/users/');
     } else {
-      myRegUri = Uri.parse('${Constants.BASE_URL}/api/user/create/');
+      myRegUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/');
     }
     var response = await http.post(myRegUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token $token',
+       HttpHeaders.authorizationHeader: 'Token $token',
+
     }, body: {
       "email": email,
       "password": password,
@@ -509,12 +519,13 @@ class _TRegister extends State<TRegister> {
     });
     var jsonResponse = null;
     var data = response.body;
-    token = data.substring(10, data.length - 2);
+  //  token = data.substring(10, data.length - 2);
+    print ("data insode");
+    print(data);
     if (response.statusCode == 201) {
       String responseString = response.body;
 
-      setState(() {});
-
+    
       return albumFromJson(responseString);
     } else {
       if (response.statusCode == 400) {
@@ -528,10 +539,11 @@ class _TRegister extends State<TRegister> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        print("token in verify $token");
         return AlertDialog(
           title: const Text("Message!"),
           content: const Text(
-              "Your account has been created. Please check your email to verify your account."),
+              "Your account have been created. Please check your email to verify your account."),
           actions: <Widget>[
             TextButton(
               child: const Text("Verify Email"),
@@ -539,10 +551,10 @@ class _TRegister extends State<TRegister> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => VerifyEmail(
-                      email: emailController.text,
-                    ),
-                  ),
+                      builder: (_) => AdminVerifyEmail(
+                            email: emailController.text,
+                            token: widget.token,
+                          )),
                 );
               },
             ),
@@ -551,4 +563,6 @@ class _TRegister extends State<TRegister> {
       },
     );
   }
+
 }
+

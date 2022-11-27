@@ -1,38 +1,40 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:rostro_app/admins/am_edit_user.dart';
+import 'package:rostro_app/admins/am_userlist.dart';
 import 'package:rostro_app/screens/firstpage.dart';
 import 'package:rostro_app/screens/login_page.dart';
+import 'package:rostro_app/screens/pwdchange.dart';
 import '../utils/constant.dart';
 import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
+import '../admins/am_edit_user.dart';
+import '../admins/am_deactivate.dart';
 
-class Profile extends StatefulWidget {
+
+class UserDetail extends StatefulWidget {
   final String token;
-  const Profile({super.key, required this.token});
+  final id;
+  const UserDetail({super.key, required this.token, required this.id});
 
   @override
-  State<Profile> createState() => _Profile();
+  State<UserDetail> createState() => _UserDetail();
 }
 
-class _Profile extends State<Profile> {
+class _UserDetail extends State<UserDetail> {
   var bg = './assets/images/bg6.gif';
   late String token;
+  late int? id;
   late Future<UserLogin?> futureUser;
-  late Map<String, dynamic> pictures;
-  XFile userPicture = XFile('/assets/images/icon_sample.jpeg');
-
-
 
   @override
   void initState() {
-    token = widget.token;
-    getPic();
     super.initState();
-    futureUser = fetchUserProfile(token);
+    token = widget.token;
+    id = widget.id;
+    futureUser = fetchUserProfile(token, id);
   }
 
   int currentPage = 0;
@@ -41,7 +43,7 @@ class _Profile extends State<Profile> {
   String? lastName = "";
   String? role = "";
   String? gender = "";
-  int? id = -1;
+  bool? is_superuser = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,18 +51,53 @@ class _Profile extends State<Profile> {
         title: const Text('Profile Page'),
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) =>  FirstPage()),
-                );
-              },
-              child: const Icon(Icons.logout_rounded),
+         Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  {
+                    delete(id!, token);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => UserList(
+                                token: token,
+                              )),
+                    );
+                  }
+                },
+              
+              
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                
+              ),
             ),
-          ),
+
+Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () { 
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            EditUser(id: id, token: token, futureUser: futureUser),
+                      ),
+                    );
+                  },
+                
+                
+                  child: const Icon(
+                    Icons.edit,
+                    color: Color.fromARGB(255, 243, 236, 235),
+                  ),
+                
+              ),
+            ),
+
         ],
       ),
       body: Container(
@@ -71,12 +108,14 @@ class _Profile extends State<Profile> {
           future: futureUser,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              id = snapshot.data!.id;
               email = snapshot.data!.email;
               firstName = snapshot.data!.first_name;
               lastName = snapshot.data!.last_name;
               role = snapshot.data!.role;
               gender = snapshot.data!.gender;
-              id = snapshot.data!.id;
+              is_superuser = snapshot.data!.is_superuser;
+            
 
               return displayProfile();
             } else if (snapshot.hasError) {
@@ -90,27 +129,16 @@ class _Profile extends State<Profile> {
       ),
     );
   }
+ delete(int id, String token) async {
+    var rest = await deleteUser(id, token);
+    setState(() {});
+  }
 
   Widget displayProfile() {
-    String picturePath = "";
-    if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      picturePath = userPicture.path;
-    } else {
-      picturePath = "${Constants.BASE_URL}${userPicture.path}";
-    }
     return ListView(children: <Widget>[
       Container(
         height: 250,
         decoration: const BoxDecoration(
-          // gradient: LinearGradient(
-          //   colors: [
-          //     Color.fromARGB(255, 49, 74, 173),
-          //     Color.fromARGB(255, 160, 162, 235)
-          //   ],
-          //   begin: Alignment.centerLeft,
-          //   end: Alignment.centerRight,
-          //   stops: [0.5, 0.9],
-          // ),
           color: Colors.transparent,
         ),
         child: Column(
@@ -119,33 +147,20 @@ class _Profile extends State<Profile> {
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                // CircleAvatar(
-                //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
-                //   minRadius: 35.0,
-                //   child: Icon(
-                //     Icons.call,
-                //     size: 30.0
-                //   ),
-                // ),
+              children: const <Widget>[
                 CircleAvatar(
                   backgroundColor: Colors.white70,
                   minRadius: 60.0,
                   child: CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: NetworkImage(picturePath),
+                    backgroundImage:
+                        AssetImage('assets/images/icon_sample.jpeg'),
                   ),
                 ),
-                // CircleAvatar(
-                //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
-                //   minRadius: 35.0,
-                //   child: Icon(
-                //     Icons.message,
-                //     size: 30.0
-                //   ),
-                // ),
               ],
             ),
+  
+          
             const SizedBox(
               height: 10,
             ),
@@ -167,6 +182,32 @@ class _Profile extends State<Profile> {
           ],
         ),
       ),
+        const Divider(),
+          AdminDeactivate(id: widget.id, token:token),
+            Padding(
+               padding: EdgeInsets.only(left: 20, right: 20),
+              child: GlassContainer(
+                borderRadius: new BorderRadius.circular(15.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                  child: ListTile(
+                    title: const Text(
+                      'ID',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '$id',
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+      Divider(),
       Container(
         padding: EdgeInsets.only(left: 20, right: 20),
         child: Column(
@@ -243,21 +284,43 @@ class _Profile extends State<Profile> {
               ),
             ),
             Divider(),
-            SizedBox(height: 15.0),
-            changePasswordButton(context)
+      Padding(
+               padding: EdgeInsets.only(top: 10),
+              child: GlassContainer(
+                borderRadius: new BorderRadius.circular(15.0),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+                  child: ListTile(
+                    title: const Text(
+                      'Is Admin',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '$is_superuser',
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+  
           ],
         ),
       ),
     ]);
   }
 
-  Future<UserLogin?> fetchUserProfile(token) async {
+  Future<UserLogin?> fetchUserProfile(token, id) async {
     UserLogin? newUser;
     Uri myProfileUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/me/');
+      myProfileUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
     } else {
-      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/user/me/');
+      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
     }
     final response = await http.get(
       myProfileUri,
@@ -268,7 +331,7 @@ class _Profile extends State<Profile> {
     );
 
     var data = response.body;
-    token = data.substring(10, data.length - 2);
+
     if (response.statusCode == 200) {
       String responseString = response.body;
       newUser = albumFromJson(responseString);
@@ -277,50 +340,33 @@ class _Profile extends State<Profile> {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load user info');
     }
   }
-  Future<XFile> getPic() async{
-    Uri getUserPicUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
-      getUserPicUri = Uri.https("${Constants.BASE_URL}", "/api/user/get_selfimages/");
-    }
-    else{
-      getUserPicUri = Uri.parse("${Constants.BASE_URL}/api/user/get_selfimages/");
-    }
-    var response = await http.get(getUserPicUri,
-    headers: {HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token'});
-    pictures = json.decode(response.body);
-    userPicture = XFile(pictures['image_lists'][pictures['image_lists'].length-1]['image']);
-    return userPicture;
+Future <http.Response> deleteUser(int id, String token) async {
+      Uri deleteUri = Uri();
+      if(Constants.BASE_URL == "api.rostro-authentication.com"){
+        deleteUri = Uri.https(Constants.BASE_URL,'/api/admin/users/$id/');
+      }
+      else{
+        deleteUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
+      }
+    var response = await http.delete(deleteUri,
+
+    headers: 
+    {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Token $token',
+      },
+     );
+    if(response.statusCode > 200 && response.statusCode < 300){
+      setState(() {
+        
+      });
+      return response;
+    
+    }else{throw "Sorry! Unable to delete this post";}
   }
-  Widget changePasswordButton(BuildContext context) {
-    // return Container(
-    //     margin: const EdgeInsets.only(top: 30.0),
-    //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-    //     child: ElevatedButton(
-    //         child: const Text('Change Password'),
-    //         onPressed: () async {
-    //           Navigator.push(
-    //               context,
-    //               MaterialPageRoute(
-    //                   builder: (context) => PasswordChange(token: token)));
-    //         }));
-    return Glassmorphism(
-      blur: 20,
-      opacity: 0.1,
-      radius: 50.0,
-      child: TextButton(
-        onPressed: () {},
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          child: const Text(
-            "Change Password",
-            style: TextStyle(color: Colors.white, fontSize: 20.0),
-          ),
-        ),
-      ),
-    );
-  }
+
+ 
 }

@@ -1,151 +1,110 @@
-import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
-import 'package:rostro_app/screens/patient_list.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:rostro_app/models/patientsdata.dart';
-
+import 'package:flutter/material.dart';
+import 'package:rostro_app/admins/am_userlist.dart';
+import 'package:rostro_app/screens/firstpage.dart';
+import 'package:rostro_app/screens/login_page.dart';
+import 'package:rostro_app/screens/pwdchange.dart';
 import '../utils/constant.dart';
-import '../screens/delete.dart';
-
-import 'package:camera/camera.dart';
-import 'package:rostro_app/screens/get_patient_pictures.dart';
+import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
-
+import 'package:camera/camera.dart';
+import '../screens/get_patient_pictures.dart';
 List<String> genders = <String>[
+  'Please select role',
   'Male',
   'Female',
   'Transgender',
   'Non-binary/non-conforming',
   'Prefer not to respond'
 ];
+ List<String> roles = ['Please select role', 'Doctor', 'Nurse', 'Physical Therapist'];
 String genero = 'none';
-List<String> states = <String>[
-  "Alaska",
-  "Alabama",
-  "Arkansas",
-  "American Samoa",
-  "Arizona",
-  "California",
-  "Colorado",
-  "Connecticut",
-  "District of Columbia",
-  "Delaware",
-  "Florida",
-  "Georgia",
-  "Guam",
-  "Hawaii",
-  "Iowa",
-  "Idaho",
-  "Illinois",
-  "Indiana",
-  "Kansas",
-  "Kentucky",
-  "Louisiana",
-  "Massachusetts",
-  "Maryland",
-  "Maine",
-  "Michigan",
-  "Minnesota",
-  "Missouri",
-  "Mississippi",
-  "Montana",
-  "North Carolina",
-  "North Dakota",
-  "Nebraska",
-  "New Hampshire",
-  "New Jersey",
-  "New Mexico",
-  "Nevada",
-  "New York",
-  "Ohio",
-  "Oklahoma",
-  "Oregon",
-  "Pennsylvania",
-  "Puerto Rico",
-  "Rhode Island",
-  "South Carolina",
-  "South Dakota",
-  "Tennessee",
-  "Texas",
-  "Utah",
-  "Virginia",
-  "Virgin Islands",
-  "Vermont",
-  "Washington",
-  "Wisconsin",
-  "West Virginia",
-  "Wyoming"
-];
-String estado = 'none';
+String roleo = 'none';
 
-class EditPatient extends StatefulWidget {
+class EditUser extends StatefulWidget {
+   final Future<UserLogin?> futureUser;
   final String token;
-  final Map<String, dynamic> details;
-
-  const EditPatient({
-    super.key,
-    required this.token,
-    required this.details,
-  });
+  final id;
+  const EditUser({super.key, required this.token, required this.id, required this.futureUser});
 
   @override
-  State<EditPatient> createState() => ExtendEditPatient();
+  State<EditUser> createState() => _EditUser();
 }
 
-class ExtendEditPatient extends State<EditPatient> {
+class _EditUser extends State<EditUser> {
+  
   var bg = './assets/images/bg6.gif';
-  late Map<String, dynamic> details = widget.details;
-  late String token = widget.token;
-  late String nm = widget.details['first_name'];
-  late int id = widget.details['id'];
+  late String token;
+  late int? id;
+  late Future<UserLogin?> futureUser;
+
+
+  @override
+  void initState() {
+    super.initState();
+    token = widget.token;
+    id = widget.id;
+    futureUser = widget.futureUser;
+   
+  }
+
+  int currentPage = 0;
+  String? email = "";
+  String? firstName = "";
+  String? lastName = "";
+  String? role = "";
+  String? gender = "";
+  bool? is_superuser = false;
+
+
+
+
   List<XFile?> pictures = [];
   // TextEditingController idController = TextEditingController();
   TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
-  TextEditingController medListController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController dobController = TextEditingController();
-  TextEditingController streetAddressController = TextEditingController();
-  TextEditingController cityAddressController = TextEditingController();
-  TextEditingController zipcodeAddressController = TextEditingController();
-  TextEditingController linkController = TextEditingController();
-  TextEditingController emergencyContactNameController =
-      TextEditingController();
-  TextEditingController emergencyPhoneNumber = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController roleController = TextEditingController();
+  TextEditingController department_idController = TextEditingController();
   TextEditingController genderController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blueAccent,
-          title: Text("Edit Patient $nm [ ID: $id ]"),
-          actions: <Widget>[
-            Padding(
+      appBar: AppBar(
+        title: const Text('Profile Page'),
+        backgroundColor: Colors.blueAccent,
+        actions: <Widget>[
+         Padding(
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  delete(id, token);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => PatientList(
-                              token: token,
-                            )),
-                  );
+                  {
+                    delete(id!, token);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => UserList(
+                                token: token,
+                              )),
+                    );
+                  }
                 },
-                child: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ),
+              
+              
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                
               ),
             ),
-          ],
-        ),
-        body: Container(
+        ],
+      ),
+      body:  Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(bg),
@@ -160,14 +119,25 @@ class ExtendEditPatient extends State<EditPatient> {
               physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                 const SizedBox(height: 10.0),
-                // Text(
-                //   "\t\t ID: $id",
-                //   textAlign: TextAlign.center,
-                //   style: const TextStyle(fontSize: 20, color: Colors.white),
-                // ),
-                const SizedBox(height: 10.0),
-                textData(),
-                getImages(context),
+               FutureBuilder<UserLogin?>(
+          future: futureUser,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              id = snapshot.data!.id;
+              emailController.text = snapshot.data!.email ?? "Not provided";
+              firstnameController.text = snapshot.data!.first_name ?? "Not provided";
+            lastnameController.text= snapshot.data!.last_name ?? "Not provided";
+           
+              roleController.text = snapshot.data!.role ?? "Not provided";
+              department_idController.text = snapshot.data!.department_id.toString();
+              gender = snapshot.data!.gender;
+              
+          }
+          return textData(context);},),
+            
+
+
+            //    getImages(context),
                 submitButton(context),
               ],
             ),
@@ -175,112 +145,137 @@ class ExtendEditPatient extends State<EditPatient> {
         ));
   }
 
-  delete(int id, String token) async {
-    var rest = await deletePatient(id, token);
+ delete(int id, String token) async {
+    var rest = await deleteUser(id, token);
     setState(() {});
   }
 
-  Widget getImages(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 30.0, left: 20, right: 20),
-        child: Glassmorphism(
-            blur: 20,
-            opacity: 0.1,
-            radius: 50.0,
-            child:
-                // padding: const EdgeInsets.symmetric(horizontal: 20.0),
 
-                TextButton(
-              // child: const Text('Update Images'),
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: 5,
-                ),
-                child: const Text("Update Image",
-                    style: TextStyle(color: Colors.white, fontSize: 13.0)),
-              ),
-              onPressed: () async {
-                pictures = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            GetPatientPictures(token: token)));
-              },
-            )));
-  }
+  // Widget getImages(BuildContext context) {
+  //   return Container(
+  //       margin: const EdgeInsets.only(top: 30.0, left: 20, right: 20),
+  //       child: Glassmorphism(
+  //           blur: 20,
+  //           opacity: 0.1,
+  //           radius: 50.0,
+  //           child:
+  //               // padding: const EdgeInsets.symmetric(horizontal: 20.0),
+
+  //               TextButton(
+  //             // child: const Text('Update Images'),
+  //             child: Container(
+  //               padding: EdgeInsets.symmetric(
+  //                 vertical: 5,
+  //                 horizontal: 5,
+  //               ),
+  //               child: const Text("Update Image",
+  //                   style: TextStyle(color: Colors.white, fontSize: 13.0)),
+  //             ),
+  //             onPressed: () async {
+  //               pictures = await Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                       builder: (context) =>
+  //                           GetPatientPictures(token: token)));
+  //             },
+  //           )));
+  // }
 
   Future<bool> editPatientInfo() async {
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+   
+    print(genero);
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
     Uri addPatientTextUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       addPatientTextUri =
-          Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
+          Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
     } else {
       addPatientTextUri =
-          Uri.parse("${Constants.BASE_URL}/api/patients/patientss/$id/");
+          Uri.parse("${Constants.BASE_URL}/api/admin/users/$id/");
+    }
+    bool flag = false;
+    if (firstnameController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'first_name', firstnameController.text);
+      flag = true;
+    }
+    if (lastnameController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'last_name', lastnameController.text);
+      flag = true;
+    }
+    if (emailController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'email', emailController.text);
+      flag = true;
+    }
+    if (roleController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'role', roleController.text);
+      flag = true;
+    }
+     if (department_idController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'department_id', department_idController.text);
+      flag = true;
+    }
+   
+    if (genero != 'none') {
+      editPatient(addPatientTextUri, 'gender', genero);
+      flag = true;
+    }
+    return flag;
+  }
+
+  Future<UserList?> editPatient(addPatientTextUri, key, val) async {
+    if (key == "gender") {
+      print("JOIJOJIOJOIJOIJS");
+      print(genero);
+    
+      print(key + "======" + val);
     }
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
-      'first_name': firstnameController.text,
-      'last_name': lastnameController.text,
-      'phone_number': phoneNumberController.text,
-      'age': ageController.text,
-      'med_list': medListController.text,
-      'zipcode_address': zipcodeAddressController.text,
-      'gender': genero,
-      'state_address': estado
+      key: val,
     });
-    return true;
+
   }
 
-  Future<bool> updateImages() async {
-    if (pictures.isNotEmpty) {
-      Uri addPatientPictures = Uri();
-      if (Constants.BASE_URL == "api.rostro-authentication.com") {
-        addPatientPictures = Uri.https(
-            Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
-      } else {
-        addPatientPictures = Uri.parse(
-            "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
-      }
-      var request = http.MultipartRequest("POST", addPatientPictures);
-      request.headers.addAll({"Authorization": "Token $token"});
-      request.fields['id'] = id.toString();
-      var image1 =
-          await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
-      request.files.add(image1);
-      var image2 =
-          await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
-      request.files.add(image2);
-      var image3 =
-          await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
-      request.files.add(image3);
+  // Future<bool> updateImages() async {
+  //   if (pictures.isNotEmpty) {
+  //     Uri addPatientPictures = Uri();
+  //     if (Constants.BASE_URL == "api.rostro-authentication.com") {
+  //       addPatientPictures = Uri.https(
+  //           Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
+            
+  //     } else {
+  //       addPatientPictures = Uri.parse(
+  //           "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+  //     }
+  //     var request = http.MultipartRequest("POST", addPatientPictures);
+  //     request.headers.addAll({"Authorization": "Token $token"});
+  //     request.fields['id'] = id.toString();
+  //     var image1 =
 
-      http.StreamedResponse response = await request.send();
+  //         await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
+  //     request.files.add(image1);
+  //     var image2 =
+  //         await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
+  //     request.files.add(image2);
+  //     var image3 =
+  //         await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
+  //     request.files.add(image3);
 
-      if (response.statusCode > 199 && response.statusCode < 300) {
-        return true;
-      }
-    }
-    return false;
-  }
+  //     http.StreamedResponse response = await request.send();
 
-  Widget textData() {
-    firstnameController.text = details['first_name'];
-    lastnameController.text = details['last_name'];
-    ageController.text = details['age'].toString();
-    medListController.text = details['med_list'] ?? 'Not provided';
-    phoneNumberController.text = details['phone_number'] ?? 'Not provided';
-    dobController.text = details['date_of_birth'] ?? "0000-00-000";
-    genderController.text = details['gender'] ?? "null";
-    streetAddressController.text = details['street_address'];
-    cityAddressController.text = details['city_address'];
-    zipcodeAddressController.text = details['zipcode_address'];
-    linkController.text = details['link'];
-    emergencyContactNameController.text = details['emergency_contact_name'];
-    emergencyPhoneNumber.text = details['emergency_phone_number'];
+  //     if (response.statusCode > 199 && response.statusCode < 300) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
+
+
+  Widget textData(context) {
+    
 
     return Container(
         padding: EdgeInsets.only(left: 15, right: 15),
@@ -288,8 +283,9 @@ class ExtendEditPatient extends State<EditPatient> {
             // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // const SizedBox(height: 20.0),
-
+          //     Container(
+          //    
+            
               GlassContainer(
                 borderRadius: new BorderRadius.circular(10.0),
                 child: Padding(
@@ -360,16 +356,16 @@ class ExtendEditPatient extends State<EditPatient> {
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                   child: Column(
                     children: <Widget>[
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: const Text(
-                          "\t Age:",
+                        child: Text(
+                          "\t Email:",
                           textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
                       ),
                       TextFormField(
-                        controller: ageController,
+                        controller: emailController,
                         cursorColor: Colors.white,
                         style: const TextStyle(
                             color: Colors.white70, fontSize: 13),
@@ -386,38 +382,22 @@ class ExtendEditPatient extends State<EditPatient> {
                 ),
               ),
               const SizedBox(height: 20.0),
-              GlassContainer(
-                borderRadius: new BorderRadius.circular(10.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Text(
-                          "\t Medical List:",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        ),
-                      ),
-                      TextFormField(
-                        controller: medListController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 13),
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.local_hospital_outlined,
-                              color: Colors.white70),
-                          // hintText: 'DepartID',
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+             GlassContainer(
+                  width: double.infinity,
+                  borderRadius: new BorderRadius.circular(10.0),
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                      child: Column(
+                        children: const <Widget>[
+                          SizedBox(height: 20.0),
+                          Text(
+                            "\t Role:",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 14, color: Colors.white),
+                          ),
+                          DropDownRole(),
+                        ],
+                      ))),
               const SizedBox(height: 20.0),
               GlassContainer(
                 borderRadius: new BorderRadius.circular(10.0),
@@ -428,13 +408,13 @@ class ExtendEditPatient extends State<EditPatient> {
                       const Padding(
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
-                          "\t Phone Number:",
+                          "\t Department_id:",
                           textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
                       ),
                       TextFormField(
-                        controller: phoneNumberController,
+                        controller: department_idController,
                         cursorColor: Colors.white,
                         style: const TextStyle(
                             color: Colors.white70, fontSize: 13),
@@ -459,16 +439,6 @@ class ExtendEditPatient extends State<EditPatient> {
                       padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                       child: Column(
                         children: const <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Text(
-                              "\t State:",
-                              textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.white),
-                            ),
-                          ),
-                          DropDownState(),
                           SizedBox(height: 20.0),
                           Text(
                             "\t Gender:",
@@ -496,7 +466,7 @@ class ExtendEditPatient extends State<EditPatient> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => PatientList(
+                      builder: (_) => UserList(
                             token: token,
                           )),
                 );
@@ -524,9 +494,9 @@ class ExtendEditPatient extends State<EditPatient> {
                 );
               });
           var resText = await editPatientInfo();
-          if (pictures.isNotEmpty) {
-            resPics = await updateImages();
-          }
+          // if (pictures.isNotEmpty) {
+          //   resPics = await updateImages();
+          // }
           Navigator.of(context).pop();
           if (resText || resPics) {
             _showDialog(context, token);
@@ -535,6 +505,34 @@ class ExtendEditPatient extends State<EditPatient> {
       ),
     );
   }
+
+  Future <http.Response> deleteUser(int id, String token) async {
+      Uri deleteUri = Uri();
+      if(Constants.BASE_URL == "api.rostro-authentication.com"){
+        deleteUri = Uri.https(Constants.BASE_URL,'/api/admin/users/$id/');
+      }
+      else{
+        deleteUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
+      }
+    var response = await http.delete(deleteUri,
+
+    headers: 
+    {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Token $token',
+      },
+     );
+    if(response.statusCode > 200 && response.statusCode < 300){
+      setState(() {
+        
+      });
+      return response;
+    
+    }else{throw "Sorry! Unable to delete this post";}
+  }
+
+ 
+
 }
 
 class DropDownGender extends StatefulWidget {
@@ -572,20 +570,21 @@ class _DropDownGender extends State<DropDownGender> {
       }).toList(),
     );
   }
+
+}
+  
+class DropDownRole extends StatefulWidget {
+  const DropDownRole({super.key});
+
+  State<DropDownRole> createState() => _DropDownRole();
 }
 
-class DropDownState extends StatefulWidget {
-  const DropDownState({super.key});
-
-  State<DropDownState> createState() => _DropDownState();
-}
-
-class _DropDownState extends State<DropDownState> {
-  String state = states.first;
+class _DropDownRole extends State<DropDownRole> {
+  String role =  roles.first;
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      value: state,
+      value: role,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
       style: const TextStyle(color: Colors.black),
@@ -594,16 +593,13 @@ class _DropDownState extends State<DropDownState> {
         color: Colors.black,
       ),
       onChanged: (String? value) {
-        print(genero);
         // This is called when the user selects an item.
         setState(() {
-          state = value!;
-          estado = value;
+          role = value!;
+          roleo = value;
         });
-        print(estado);
-        print(genero);
       },
-      items: states.map<DropdownMenuItem<String>>((String value) {
+      items: roles.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
@@ -612,4 +608,6 @@ class _DropDownState extends State<DropDownState> {
       }).toList(),
     );
   }
+
 }
+  

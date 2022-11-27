@@ -307,6 +307,7 @@ class _Register extends State<Register> {
       String role,
       String dep,
       String gender) async {
+           print("inside fetch 1");
     Uri myRegUri = Uri();
     if(Constants.BASE_URL == "api.rostro-authentication.com"){
       myRegUri = Uri.https(Constants.BASE_URL, '/api/user/create/');
@@ -317,6 +318,7 @@ class _Register extends State<Register> {
     var response = await http.post(myRegUri,
         headers: {
           HttpHeaders.acceptHeader: 'application/json',
+            HttpHeaders.authorizationHeader: 'Token $token',
         },
         body: {
           "email": email,
@@ -333,9 +335,9 @@ class _Register extends State<Register> {
     if (response.statusCode == 201) {
       String responseString = response.body;
 
-      setState(() {
-        _isLoading = false;
-      });
+     
+      print("inside fetch");
+      print (responseString);
 
       return albumFromJson(responseString);
     } else {

@@ -4,6 +4,7 @@ UserLogin albumFromJson(String str) => UserLogin.fromJson(json.decode(str));
 String albumToJson(UserLogin data) => json.encode(data.toJson());
 
 class UserLogin {
+  int? id;
   String? email;
   String? first_name;
   String? last_name;
@@ -13,7 +14,8 @@ class UserLogin {
   String? gender;
   String? role;
   String? cpassword;
-  int? id;
+bool? is_superuser;
+
   //final String? cpass;
   // final int? ssn;
   // final String? address;
@@ -29,6 +31,8 @@ class UserLogin {
     this.role,
     this.password,
     this.cpassword,
+    this.is_superuser,
+
     // required this.cpass,
     // required this.ssn,
     // required this.address,
@@ -45,6 +49,7 @@ class UserLogin {
       gender: json['gender'],
       role: json['role'],
       cpassword: json['cpassword'],
+      is_superuser: json['is_superuser'],
       // cpass: json['cpass'],
       // ssn: json['ssn'],
       // address: json['address'],
@@ -62,5 +67,6 @@ class UserLogin {
         "gender": gender,
         "role": role,
         "cpassword": cpassword,
+        "is_superuser": is_superuser,
       };
 }

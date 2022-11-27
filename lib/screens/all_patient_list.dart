@@ -7,11 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:rostro_app/models/PatientsData.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
+import 'package:rostro_app/models/PatientsData.dart';
+
+import 'package:rostro_app/screens/Home.dart';
+import 'package:rostro_app/screens/homepage.dart';
+import '../screens/add_new_patient.dart';
+import '../admins/am_home_page.dart';
 
 class AllPatientList extends StatefulWidget {
   final String token;
-
-  const AllPatientList({super.key, required this.token});
+  final bool? is_superuser;
+  const AllPatientList({super.key, required this.token, this.is_superuser});
   @override
   State<AllPatientList> createState() => _AllPatientList();
 }
@@ -20,17 +26,73 @@ class _AllPatientList extends State<AllPatientList> {
   var bg = './assets/images/bg6.gif';
   late String token;
   late List<PatientsData> patients = [];
+  bool _searchBoolean = false;
+  late bool? is_superuser;
   @override
   void initState() {
     token = widget.token;
+    is_superuser = widget.is_superuser;
   }
+
+  TextEditingController txtQuery = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All Patient List'),
-        backgroundColor: Colors.blueAccent,
+          title: !_searchBoolean ? Text("All Patient List") : searchBox(),
+           leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            if (is_superuser= true){
+                  Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AdminHomePage(
+                        token: token,
+                      )),
+            );
+            }
+            else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Homepage(
+                        token: token,
+                      )),
+            );}
+          },
+        ),
+
+        actions:[
+          IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            setState(() {
+              _searchBoolean = true;
+
+            });
+          }),
+
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => AddNewPatient(
+                            token: token,
+                          )),
+                );
+              },
+              child: const Icon(
+                Icons.person_add,
+                color: Color.fromARGB(255, 251, 235, 232),
+              ),
+            ),
+          ),
+        ]
       ),
       body: Container(
           decoration: BoxDecoration(
@@ -100,13 +162,7 @@ class _AllPatientList extends State<AllPatientList> {
               Future.delayed(Duration.zero, () {});
             }
           }
-          // } else if (snapshot.hasError) {
 
-          //     print('to snack bar');
-          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //     content: Text('${snapshot.error}'),
-          //   ));
-          // }
           return const Center(
             child: Text(''''''),
           );
@@ -115,12 +171,38 @@ class _AllPatientList extends State<AllPatientList> {
     );
   }
 
+    TextFormField searchBox() {
+    return TextFormField(
+              style: TextStyle(color: Color.fromARGB(255, 243, 240, 241)),
+              controller: txtQuery,
+              // onChanged: search,
+              decoration: InputDecoration(
+                hintText: "Search",
+                hintStyle: TextStyle(fontSize: 16.0, color: Colors.white70),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    txtQuery.text = '';
+                    //   search(txtQuery.text);
+                  },
+                ),
+
+              ),
+              onEditingComplete: showPatientList,
+
+
+
+    );
+  }
+
+
   Future<http.Response?> fetchPatients(token) async {
+      var text = txtQuery.text;
     Uri myProfileUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/all/');
+      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/all/?search=$text');
     } else {
-      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/');
+      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/?search=$text');
     }
     final res = await http.get(
       myProfileUri,

@@ -54,6 +54,7 @@ dependencies:
   glassmorphism_widgets: ^0.1.3
   glassmorphism: ^3.0.0
   gap: ^2.0.1
+  anim_search_bar: ^2.0.2
 
 
 
