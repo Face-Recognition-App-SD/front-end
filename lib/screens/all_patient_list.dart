@@ -30,6 +30,7 @@ class _AllPatientList extends State<AllPatientList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('All Patient List'),
+        backgroundColor: Colors.blueAccent,
       ),
       body: Container(
           decoration: BoxDecoration(

@@ -121,7 +121,8 @@ class _TRegister extends State<TRegister> {
                   decoration: InputDecoration(
                     hintText: 'Password',
                     border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white70)),
+                      borderSide: BorderSide(color: Colors.white70),
+                    ),
                     hintStyle: TextStyle(color: Colors.white70),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -650,9 +651,10 @@ class _TRegister extends State<TRegister> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => VerifyEmail(
-                            email: emailController.text,
-                          )),
+                    builder: (_) => VerifyEmail(
+                      email: emailController.text,
+                    ),
+                  ),
                 );
               },
             ),

@@ -23,7 +23,7 @@ class _PasswordChangeState extends State<PasswordChange> {
 
   late String token = widget.token;
 
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg6.gif';
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -96,14 +96,14 @@ class _PasswordChangeState extends State<PasswordChange> {
 
   Container headerSection() {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
-        child: Image.asset(
-          './assets/images/logo.jpeg',
-          height: 170,
-          width: 150,
-          fit: BoxFit.fitWidth,
-        ));
-    //background im
+      padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
+      child: Image.asset(
+        './assets/images/logo.jpeg',
+        height: 170,
+        width: 150,
+        fit: BoxFit.fitWidth,
+      ),
+    );
   }
 
   Container confirmButton() {
@@ -125,32 +125,32 @@ class _PasswordChangeState extends State<PasswordChange> {
 
   Future<UserLogin?> pwdchg() async {
     Uri myProfileUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
       myProfileUri = Uri.https(Constants.BASE_URL, '/api/user/changepwd/');
-    }
-    else{
+    } else {
       myProfileUri = Uri.parse("${Constants.BASE_URL}/api/user/changepwd/");
     }
-     
-    final response = await http.patch(
-        myProfileUri,
 
-        headers: {
-          HttpHeaders.acceptHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Token $token',
-        },
-        body: {
-          'old_password': oldPasswordController.text,
-          'new_password': newPasswordController.text,
-          'new_password_confirm': confirmNewPasswordController.text,
-        });
+    final response = await http.patch(
+      myProfileUri,
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Token $token',
+      },
+      body: {
+        'old_password': oldPasswordController.text,
+        'new_password': newPasswordController.text,
+        'new_password_confirm': confirmNewPasswordController.text,
+      },
+    );
     if (response.statusCode == 200) {
       const snackbar = SnackBar(
-          content: Text(
-        "successfully changed password",
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20.0),
-      ));
+        content: Text(
+          "successfully changed password",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20.0),
+        ),
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     } else {
       const snackbar = SnackBar(
