@@ -33,12 +33,8 @@ class _AdminHome extends State<AdminHome> {
     super.initState();
     token = widget.token;
     is_superuser= true;
-    
-    
-
     futureUser = fetchUserProfile(token);
   }
-
   int currentPage = 0;
 
   @override
@@ -110,7 +106,7 @@ class _AdminHome extends State<AdminHome> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (_) =>
-                                                PatientList(token: token!)));
+                                                PatientList(token: token!, is_superuser: is_superuser,)));
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -142,7 +138,7 @@ class _AdminHome extends State<AdminHome> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (_) =>
-                                              AllPatientList(token: token!),
+                                              AllPatientList(token: token!, is_superuser: is_superuser,),
                                         ));
                                   },
                                   child: Container(
