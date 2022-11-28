@@ -119,6 +119,11 @@ class ExtendedCompareFace extends State<CompareFace> {
 
             var image = await http.MultipartFile.fromPath("image1", path);
             request.files.add(image);
+            print(request.fields);
+            print(request.files);
+            print(request.url);
+            print(path);
+            print(request.headers);
             http.StreamedResponse response = await request.send();
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
@@ -126,7 +131,7 @@ class ExtendedCompareFace extends State<CompareFace> {
             print(respues);
             print("ZOZOZOZOZOZOZOZOZOZOOZOZOZOZOZZOZOOZ");
             Navigator.of(context).pop();
-            if (respues['T'] == '-1' || respues['T'] == 'None') {
+            if (respues['T'] == -1 || respues['T'] == 'None') {
               const snackbar = SnackBar(
                 content: Text(
                   "No Match",
