@@ -208,7 +208,7 @@ class _AdminLoginPage extends State<AdminLoginPage> {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          AdminHomePage(token: token)),
+                          AdminHomePage(token: token, is_superuser: _is_superuser)),
                   (Route<dynamic> route) => false);
             }
           },

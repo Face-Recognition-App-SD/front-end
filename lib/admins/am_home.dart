@@ -15,7 +15,8 @@ class AdminHome extends StatefulWidget {
   final String token;
   final String? firstname;
   final String? lastname;
-  const AdminHome({super.key,  required this.token, this.firstname, this.lastname});
+  final bool? is_superuser;
+  const AdminHome({super.key,  required this.token, this.firstname, this.lastname, this.is_superuser});
   @override
   State<AdminHome> createState() => _AdminHome();
 }
@@ -26,6 +27,7 @@ class _AdminHome extends State<AdminHome> {
   late Future<UserLogin?> futureUser;
   late String? fn;
   late String? ln;
+  
    bool is_superuser = true;
   var patientPictures;
   @override

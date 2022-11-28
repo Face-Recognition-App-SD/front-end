@@ -12,8 +12,9 @@ class AdminHomePage extends StatefulWidget {
   final String token;
   final String? firstname;
   final String? lastname;
+  final bool? is_superuser;
   const AdminHomePage(
-      {super.key, required this.token, this.firstname, this.lastname});
+      {super.key, required this.token, this.firstname, this.lastname, this.is_superuser});
 
   @override
   State<AdminHomePage> createState() => _AdminHomePage();
@@ -21,11 +22,13 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePage extends State<AdminHomePage> {
   static String token = "";
+  late bool? is_superuser;
 
   var patientPictures;
   var pages;
   void initState() {
     token = widget.token;
+    is_superuser= widget.is_superuser;
 
     pages = [
       AdminHome(token: token),
