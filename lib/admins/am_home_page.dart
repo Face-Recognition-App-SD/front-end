@@ -29,7 +29,7 @@ class _AdminHomePage extends State<AdminHomePage> {
 
     pages = [
       AdminHome(token: token),
-      CompareFace(token: token),
+      CompareFace(token: token, isSuperUser: true,),
       PatientList(token: token),
       Profile(token: token),
     ];
@@ -108,7 +108,7 @@ class _AdminHomePage extends State<AdminHomePage> {
           child: const Text('Find Patient'),
           onPressed: () async {
             Navigator.push(context,
-                MaterialPageRoute(builder: (_) => CompareFace(token: token)));
+                MaterialPageRoute(builder: (_) => CompareFace(token: token, isSuperUser: true,)));
           },
         ));
   }
