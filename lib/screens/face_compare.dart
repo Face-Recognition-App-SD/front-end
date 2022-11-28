@@ -10,8 +10,8 @@ import '../utils/Glassmorphism.dart';
 
 class CompareFace extends StatefulWidget {
   final String token;
-
-  const CompareFace({super.key, required this.token});
+  final bool isSuperUser;
+  const CompareFace({super.key, required this.token, required this.isSuperUser});
 
   @override
   State<CompareFace> createState() => ExtendedCompareFace();
@@ -22,6 +22,7 @@ class ExtendedCompareFace extends State<CompareFace> {
   late String token;
   late Map<String, dynamic> pictures;
   late int id;
+  late bool isSuperUser = widget.isSuperUser;
   XFile? picture;
   @override
   void initState() {
@@ -31,6 +32,8 @@ class ExtendedCompareFace extends State<CompareFace> {
 
   @override
   Widget build(BuildContext context) {
+    print("JOJ");
+    print(isSuperUser);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Identify Patient"),
@@ -75,13 +78,18 @@ class ExtendedCompareFace extends State<CompareFace> {
             ),
           ),
           onPressed: () async {
+            print(isSuperUser);
+            print("HOHOHOHOHOHOHOOHOHOHOOHH");
             Uri faceCompareUri = Uri();
             if (Constants.BASE_URL == "api.rostro-authentication.com") {
               faceCompareUri =
                   Uri.https(Constants.BASE_URL, '/api/user/faceCompare/');
-            } else {
-              faceCompareUri =
-                  Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
+            } else if(!isSuperUser) {
+              faceCompareUri = Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
+            }
+            else{
+              print("HAHAHAHAHAHAHAAHAHAHHAHAHAHAHAHA");
+              faceCompareUri = Uri.parse("${Constants.BASE_URL}/api/admin/user/face_recognize/");
             }
             picture = await availableCameras().then(
               (value) => Navigator.push(
@@ -91,7 +99,8 @@ class ExtendedCompareFace extends State<CompareFace> {
                 ),
               ),
             );
-
+            print(faceCompareUri);
+            print("JOJOJOJOJOJOOJOJOJOJOJOJOJOJOJJOJOJOJOJO");
             if (picture == null) return;
             String path = picture!.path;
             var request = http.MultipartRequest("POST", faceCompareUri);
@@ -114,9 +123,10 @@ class ExtendedCompareFace extends State<CompareFace> {
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
             var respues = jsonDecode(responseString);
-
+            print(respues);
+            print("ZOZOZOZOZOZOZOZOZOZOOZOZOZOZOZZOZOOZ");
             Navigator.of(context).pop();
-            if (respues['T'] == '-1' || respues['T'] == 'Not Found') {
+            if (respues['T'] == '-1' || respues['T'] == 'None') {
               const snackbar = SnackBar(
                 content: Text(
                   "No Match",
@@ -126,24 +136,25 @@ class ExtendedCompareFace extends State<CompareFace> {
               );
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
             } else {
-              id = int.parse(
-                respues['T'].toString(),
-              );
+              id = int.parse(respues['T'].toString(),);
               Uri getPatientUri = Uri();
               if (Constants.BASE_URL == "api.rostro-authentication.com") {
                 getPatientUri = Uri.https(
                     Constants.BASE_URL, '/api/patients/patientss/$id/');
-              } else {
-                getPatientUri = Uri.parse(
-                    '${Constants.BASE_URL}/api/patients/patientss/$id/');
+              } else if(!isSuperUser){
+                getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
+              }else{
+                print("JJOJOJOJOJOJOJOJOJOJO");
+                getPatientUri = Uri.parse('${Constants.BASE_URL}/api/admin/patients/$id/');
               }
               Uri getImagesUri = Uri();
               if (Constants.BASE_URL == "api.rostro-authentication.com") {
-                getImagesUri = Uri.https(
-                    Constants.BASE_URL, '/api/patients/all/$id/get_images/');
-              } else {
-                getImagesUri = Uri.parse(
-                    '${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+                getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
+              } else if(!isSuperUser){
+                getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
+              }
+              else{
+                getImagesUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/get_images/');
               }
               final imageRes = await http.get(
                 getImagesUri,

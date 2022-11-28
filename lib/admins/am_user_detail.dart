@@ -309,7 +309,7 @@ Padding(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                      ),
+                      )
                     ),
                     subtitle: Text(
                       '$is_superuser',
@@ -319,7 +319,7 @@ Padding(
                 ),
               ),
             ),
-  
+            Divider()
           ],
         ),
       ),

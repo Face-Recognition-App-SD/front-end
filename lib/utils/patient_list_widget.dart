@@ -99,6 +99,7 @@ class _PatientListWidgetState extends State<PatientListWidget> {
             builder: (context) => VerifyPatient(
               token: token,
               id: widget.patientList[index].id!,
+              isSuperUser: false,
             ),
           ),
         );

@@ -89,7 +89,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => VerifyPatient(token: token, id: id),
+                        builder: (_) => VerifyPatient(token: token, id: id, isSuperUser: false,),
                       ),
                     );
                   }

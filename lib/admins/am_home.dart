@@ -175,7 +175,7 @@ class _AdminHome extends State<AdminHome> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (_) =>
-                                              UserList(token: token!,is_superuser: is_superuser),
+                                              UserList(token: token,is_superuser: is_superuser),
                                         ));
                                   },
                                   child: Container(

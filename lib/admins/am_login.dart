@@ -131,7 +131,7 @@ class _AdminLoginPage extends State<AdminLoginPage> {
                   style: const TextStyle(color: Colors.white70),
                   decoration: InputDecoration(
                     hintText: 'Password',
-                    border: UnderlineInputBorder(
+                    border: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.white70)),
                     hintStyle: TextStyle(color: Colors.white70),
                     suffixIcon: IconButton(
@@ -163,7 +163,7 @@ class _AdminLoginPage extends State<AdminLoginPage> {
       // width: double.infinity,
       // margin: EdgeInsets.fromLTRB(160, 30, 150, 0),
       // height: 40,
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: 90,
         right: 90,
         top: 35,

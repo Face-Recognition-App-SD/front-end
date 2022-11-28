@@ -28,7 +28,7 @@ class _HomeState extends State<Homepage> {
 
     pages = [
       Home(token: token1),
-      CompareFace(token: token1),
+      CompareFace(token: token1, isSuperUser: false,),
       PatientList(token: token1),
       Profile(token: token1),
     ];
@@ -121,7 +121,7 @@ class _HomeState extends State<Homepage> {
           child: const Text('Find Patient'),
           onPressed: () async {
             Navigator.push(context,
-                MaterialPageRoute(builder: (_) => CompareFace(token: token1)));
+                MaterialPageRoute(builder: (_) => CompareFace(token: token1, isSuperUser: false,)));
           },
         ));
   }

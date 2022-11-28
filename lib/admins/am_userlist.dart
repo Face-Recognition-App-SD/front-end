@@ -10,6 +10,7 @@ import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import 'package:rostro_app/screens/Home.dart';
 import 'package:rostro_app/screens/homepage.dart';
 
+import '../screens/verify_patient.dart';
 import '../utils/patient_list_widget.dart';
 import '../utils/constant.dart';
 import '../utils/Glassmorphism.dart';
@@ -254,19 +255,15 @@ class _PatientList extends State<UserList> {
 
   Widget verify(context, index) {
     return TextButton(
-      onPressed: () {},
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //        builder: ,
-      //        // VerifyPatient(
-      //       //   token: token,
-      //       //   id: widget.patientList[index].id!,
-      //       // ),
-      //    // ),
-      //   );
-      // },
-      child: const Text('Verify Patient'),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (Context) => VerifyPatient(token: token, id: users[index].id!, isSuperUser: true),
+          ),
+        );
+      },
+      child: const Text('Verify User'),
     );
   }
   Future<http.Response?> fetchUser(token, is_superuser) async {
