@@ -554,6 +554,12 @@ class _AddNewPatientState extends State<AddNewPatient> {
     var image3 =
         await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
     request.files.add(image3);
+    var image4 =
+        await http.MultipartFile.fromPath("image_lists", pictures[3]!.path);
+    request.files.add(image4);
+    var image5 =
+        await http.MultipartFile.fromPath("image_lists", pictures[4]!.path);
+    request.files.add(image5);
 
     http.StreamedResponse response = await request.send();
 

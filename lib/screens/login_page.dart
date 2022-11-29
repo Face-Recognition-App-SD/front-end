@@ -206,9 +206,9 @@ class _LoginPageState extends State<LoginPage> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
+                  return const AlertDialog(
                     //    title: const Text("Message!!"),
-                    content: const Text(
+                    content: Text(
                       "The combination of email and password is not correct",
                     ),
                   );
