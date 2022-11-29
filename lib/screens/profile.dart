@@ -12,7 +12,8 @@ import '../utils/Glassmorphism.dart';
 
 class Profile extends StatefulWidget {
   final String token;
-  const Profile({super.key, required this.token});
+  final bool? is_superuser;
+  const Profile({super.key, required this.token, this.is_superuser});
 
   @override
   State<Profile> createState() => _Profile();
@@ -25,13 +26,14 @@ class _Profile extends State<Profile> {
   late Map<String, dynamic> pictures;
   XFile userPicture = XFile('/assets/images/icon_sample.jpeg');
 
-
+  late bool? is_superuser;
 
   @override
   void initState() {
     token = widget.token;
     getPic();
     super.initState();
+    is_superuser = widget.is_superuser;
     futureUser = fetchUserProfile(token);
   }
 
@@ -98,6 +100,11 @@ class _Profile extends State<Profile> {
     } else {
       picturePath = "${Constants.BASE_URL}${userPicture.path}";
     }
+    var picProfile;
+    if (is_superuser == true) {
+      picProfile = AssetImage('/assets/images/icon_sample.jpeg');
+    }
+    else picProfile = NetworkImage(picturePath);
     return ListView(children: <Widget>[
       Container(
         height: 250,
@@ -133,7 +140,7 @@ class _Profile extends State<Profile> {
                   minRadius: 60.0,
                   child: CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: NetworkImage(picturePath),
+                    backgroundImage: picProfile,
                   ),
                 ),
                 // CircleAvatar(
