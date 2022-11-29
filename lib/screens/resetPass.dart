@@ -91,15 +91,15 @@ class _resetPasswordState extends State<resetPassword> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: emailController,
-                  cursorColor: Colors.black,
-                  style: const TextStyle(color: Colors.black),
+                  cursorColor: Colors.white,
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    icon: Icon(Icons.email, color: Colors.black),
+                    icon: Icon(Icons.email, color: Colors.white),
                     hintText: 'Enter your Email',
                     border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
+                      borderSide: BorderSide(color: Colors.white),
                     ),
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -127,15 +127,15 @@ class _resetPasswordState extends State<resetPassword> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: keyController,
-                  cursorColor: Colors.black,
-                  style: const TextStyle(color: Colors.black),
+                  cursorColor: Colors.white,
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    icon: Icon(Icons.numbers, color: Colors.black),
+                    icon: Icon(Icons.numbers, color: Colors.white),
                     hintText: 'Enter your Key',
                     border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
+                      borderSide: BorderSide(color: Colors.white),
                     ),
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -152,17 +152,17 @@ class _resetPasswordState extends State<resetPassword> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: passwordController,
-                  cursorColor: Colors.black,
-                  style: const TextStyle(color: Colors.black),
+                  cursorColor: Colors.white,
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    icon: Icon(Icons.text_fields, color: Colors.black),
+                    icon: Icon(Icons.text_fields, color: Colors.white),
                     hintText: 'Enter your new password',
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -190,7 +190,7 @@ class _resetPasswordState extends State<resetPassword> {
             child: const Text(
               'Verify',
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 13.0,
               ),
             ),

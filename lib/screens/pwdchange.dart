@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:rostro_app/models/userlogin.dart';
 import 'package:rostro_app/screens/login_page.dart';
+import '../utils/Glassmorphism.dart';
 import '../utils/constant.dart';
 import 'package:http/http.dart' as http;
 
@@ -52,41 +53,41 @@ class _PasswordChangeState extends State<PasswordChange> {
         children: <Widget>[
           TextFormField(
             controller: oldPasswordController,
-            cursorColor: Colors.black,
-            style: const TextStyle(color: Colors.black),
+            cursorColor: Colors.white,
+            style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.black),
+              icon: Icon(Icons.lock, color: Colors.white),
               hintText: 'Please enter your old password',
               border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
-              hintStyle: TextStyle(color: Colors.black),
+                  borderSide: BorderSide(color: Colors.white)),
+              hintStyle: TextStyle(color: Colors.white),
             ),
           ),
           const SizedBox(height: 30.0),
           TextFormField(
             controller: newPasswordController,
-            cursorColor: Colors.black,
-            style: const TextStyle(color: Colors.black),
+            cursorColor: Colors.white,
+            style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.black),
+              icon: Icon(Icons.lock, color: Colors.white),
               hintText: 'Please enter your new password',
               border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
-              hintStyle: TextStyle(color: Colors.black),
+                  borderSide: BorderSide(color: Colors.white)),
+              hintStyle: TextStyle(color: Colors.white),
             ),
           ),
           const SizedBox(height: 30.0),
           TextFormField(
             controller: confirmNewPasswordController,
-            cursorColor: Colors.black,
-            style: const TextStyle(color: Colors.black),
+            cursorColor: Colors.white,
+            style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.black),
+              icon: Icon(Icons.lock, color: Colors.white),
               hintText: 'Please confirm your new password',
               border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
+                borderSide: BorderSide(color: Colors.white),
               ),
-              hintStyle: TextStyle(color: Colors.black),
+              hintStyle: TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -108,17 +109,31 @@ class _PasswordChangeState extends State<PasswordChange> {
 
   Container confirmButton() {
     return Container(
-      margin: const EdgeInsets.only(top: 30.0),
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: ElevatedButton(
-        child: const Text('Submit'),
-        onPressed: () async {
-          await pwdchg();
-          setState(() {});
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-          );
-        },
+      margin: const EdgeInsets.only(
+        right: 55,
+        left: 55,
+        top: 30.0,
+      ),
+      child: Glassmorphism(
+        blur: 20,
+        opacity: 0.1,
+        radius: 50.0,
+        child: TextButton(
+          child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+              child: const Text('Submit',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 13.0,
+                  ))),
+          onPressed: () async {
+            await pwdchg();
+            setState(() {});
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+            );
+          },
+        ),
       ),
     );
   }
