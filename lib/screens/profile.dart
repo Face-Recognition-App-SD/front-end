@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/firstpage.dart';
 import 'package:rostro_app/screens/login_page.dart';
+import 'package:rostro_app/screens/pwdchange.dart';
 import '../utils/constant.dart';
 import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
@@ -315,7 +316,12 @@ class _Profile extends State<Profile> {
       opacity: 0.1,
       radius: 50.0,
       child: TextButton(
-        onPressed: () {},
+        onPressed: () async {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PasswordChange(token: token)));
+        },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
           child: const Text(
