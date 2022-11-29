@@ -21,7 +21,7 @@ class PatientDetail extends StatefulWidget {
 }
 
 class _PatientDetail extends State<PatientDetail> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   late Map<String, dynamic> pictures;
   late String id;

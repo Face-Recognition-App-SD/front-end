@@ -11,6 +11,7 @@ import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
 import 'package:camera/camera.dart';
 import '../screens/get_patient_pictures.dart';
+
 List<String> genders = <String>[
   'Please select role',
   'Male',
@@ -19,27 +20,34 @@ List<String> genders = <String>[
   'Non-binary/non-conforming',
   'Prefer not to respond'
 ];
- List<String> roles = ['Please select role', 'Doctor', 'Nurse', 'Physical Therapist'];
+List<String> roles = [
+  'Please select role',
+  'Doctor',
+  'Nurse',
+  'Physical Therapist'
+];
 String genero = 'none';
 String roleo = 'none';
 
 class EditUser extends StatefulWidget {
-   final Future<UserLogin?> futureUser;
+  final Future<UserLogin?> futureUser;
   final String token;
   final id;
-  const EditUser({super.key, required this.token, required this.id, required this.futureUser});
+  const EditUser(
+      {super.key,
+      required this.token,
+      required this.id,
+      required this.futureUser});
 
   @override
   State<EditUser> createState() => _EditUser();
 }
 
 class _EditUser extends State<EditUser> {
-  
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   late int? id;
   late Future<UserLogin?> futureUser;
-
 
   @override
   void initState() {
@@ -47,7 +55,6 @@ class _EditUser extends State<EditUser> {
     token = widget.token;
     id = widget.id;
     futureUser = widget.futureUser;
-   
   }
 
   int currentPage = 0;
@@ -58,9 +65,6 @@ class _EditUser extends State<EditUser> {
   String? gender = "";
   bool? is_superuser = false;
 
-
-
-
   List<XFile?> pictures = [];
   // TextEditingController idController = TextEditingController();
   TextEditingController firstnameController = TextEditingController();
@@ -70,15 +74,14 @@ class _EditUser extends State<EditUser> {
   TextEditingController department_idController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile Page'),
-        backgroundColor: Colors.blueAccent,
-        actions: <Widget>[
-         Padding(
+        appBar: AppBar(
+          title: const Text('Profile Page'),
+          backgroundColor: Colors.blueAccent,
+          actions: <Widget>[
+            Padding(
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
@@ -93,18 +96,15 @@ class _EditUser extends State<EditUser> {
                     );
                   }
                 },
-              
-              
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
               ),
             ),
-        ],
-      ),
-      body:  Container(
+          ],
+        ),
+        body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(bg),
@@ -119,25 +119,29 @@ class _EditUser extends State<EditUser> {
               physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                 const SizedBox(height: 10.0),
-               FutureBuilder<UserLogin?>(
-          future: futureUser,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              id = snapshot.data!.id;
-              emailController.text = snapshot.data!.email ?? "Not provided";
-              firstnameController.text = snapshot.data!.first_name ?? "Not provided";
-            lastnameController.text= snapshot.data!.last_name ?? "Not provided";
-           
-              roleController.text = snapshot.data!.role ?? "Not provided";
-              department_idController.text = snapshot.data!.department_id.toString();
-              gender = snapshot.data!.gender;
-              
-          }
-          return textData(context);},),
-            
+                FutureBuilder<UserLogin?>(
+                  future: futureUser,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      id = snapshot.data!.id;
+                      emailController.text =
+                          snapshot.data!.email ?? "Not provided";
+                      firstnameController.text =
+                          snapshot.data!.first_name ?? "Not provided";
+                      lastnameController.text =
+                          snapshot.data!.last_name ?? "Not provided";
 
+                      roleController.text =
+                          snapshot.data!.role ?? "Not provided";
+                      department_idController.text =
+                          snapshot.data!.department_id.toString();
+                      gender = snapshot.data!.gender;
+                    }
+                    return textData(context);
+                  },
+                ),
 
-            //    getImages(context),
+                //    getImages(context),
                 submitButton(context),
               ],
             ),
@@ -145,11 +149,10 @@ class _EditUser extends State<EditUser> {
         ));
   }
 
- delete(int id, String token) async {
+  delete(int id, String token) async {
     var rest = await deleteUser(id, token);
     setState(() {});
   }
-
 
   // Widget getImages(BuildContext context) {
   //   return Container(
@@ -183,7 +186,7 @@ class _EditUser extends State<EditUser> {
 
   Future<bool> editPatientInfo() async {
     print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-   
+
     print(genero);
     print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
     Uri addPatientTextUri = Uri();
@@ -211,11 +214,12 @@ class _EditUser extends State<EditUser> {
       editPatient(addPatientTextUri, 'role', roleController.text);
       flag = true;
     }
-     if (department_idController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'department_id', department_idController.text);
+    if (department_idController.text.isNotEmpty) {
+      editPatient(
+          addPatientTextUri, 'department_id', department_idController.text);
       flag = true;
     }
-   
+
     if (genero != 'none') {
       editPatient(addPatientTextUri, 'gender', genero);
       flag = true;
@@ -227,7 +231,7 @@ class _EditUser extends State<EditUser> {
     if (key == "gender") {
       print("JOIJOJIOJOIJOIJS");
       print(genero);
-    
+
       print(key + "======" + val);
     }
     final res = await http.patch(addPatientTextUri, headers: {
@@ -236,7 +240,6 @@ class _EditUser extends State<EditUser> {
     }, body: {
       key: val,
     });
-
   }
 
   // Future<bool> updateImages() async {
@@ -245,7 +248,7 @@ class _EditUser extends State<EditUser> {
   //     if (Constants.BASE_URL == "api.rostro-authentication.com") {
   //       addPatientPictures = Uri.https(
   //           Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
-            
+
   //     } else {
   //       addPatientPictures = Uri.parse(
   //           "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
@@ -273,19 +276,16 @@ class _EditUser extends State<EditUser> {
   //   return false;
   // }
 
-
   Widget textData(context) {
-    
-
     return Container(
         padding: EdgeInsets.only(left: 15, right: 15),
         child: Column(
             // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-          //     Container(
-          //    
-            
+              //     Container(
+              //
+
               GlassContainer(
                 borderRadius: new BorderRadius.circular(10.0),
                 child: Padding(
@@ -382,7 +382,7 @@ class _EditUser extends State<EditUser> {
                 ),
               ),
               const SizedBox(height: 20.0),
-             GlassContainer(
+              GlassContainer(
                   width: double.infinity,
                   borderRadius: new BorderRadius.circular(10.0),
                   child: Padding(
@@ -506,33 +506,27 @@ class _EditUser extends State<EditUser> {
     );
   }
 
-  Future <http.Response> deleteUser(int id, String token) async {
-      Uri deleteUri = Uri();
-      if(Constants.BASE_URL == "api.rostro-authentication.com"){
-        deleteUri = Uri.https(Constants.BASE_URL,'/api/admin/users/$id/');
-      }
-      else{
-        deleteUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
-      }
-    var response = await http.delete(deleteUri,
-
-    headers: 
-    {
+  Future<http.Response> deleteUser(int id, String token) async {
+    Uri deleteUri = Uri();
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      deleteUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
+    } else {
+      deleteUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
+    }
+    var response = await http.delete(
+      deleteUri,
+      headers: {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.authorizationHeader: 'Token $token',
       },
-     );
-    if(response.statusCode > 200 && response.statusCode < 300){
-      setState(() {
-        
-      });
+    );
+    if (response.statusCode > 200 && response.statusCode < 300) {
+      setState(() {});
       return response;
-    
-    }else{throw "Sorry! Unable to delete this post";}
+    } else {
+      throw "Sorry! Unable to delete this post";
+    }
   }
-
- 
-
 }
 
 class DropDownGender extends StatefulWidget {
@@ -570,9 +564,8 @@ class _DropDownGender extends State<DropDownGender> {
       }).toList(),
     );
   }
-
 }
-  
+
 class DropDownRole extends StatefulWidget {
   const DropDownRole({super.key});
 
@@ -580,7 +573,7 @@ class DropDownRole extends StatefulWidget {
 }
 
 class _DropDownRole extends State<DropDownRole> {
-  String role =  roles.first;
+  String role = roles.first;
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
@@ -608,6 +601,4 @@ class _DropDownRole extends State<DropDownRole> {
       }).toList(),
     );
   }
-
 }
-  

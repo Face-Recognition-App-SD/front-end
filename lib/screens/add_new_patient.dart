@@ -26,7 +26,7 @@ class AddNewPatient extends StatefulWidget {
 }
 
 class _AddNewPatientState extends State<AddNewPatient> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   String? selectedGenderVal = "";
   String? selectedState = "";

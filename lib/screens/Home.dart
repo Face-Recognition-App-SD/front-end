@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String? token;
   late Future<UserLogin?> futureUser;
   late String? fn;

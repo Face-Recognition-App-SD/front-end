@@ -91,7 +91,7 @@ flutter:
     - assets/images/bg.jpeg
     - assets/images/icon_sample.jpeg
     - assets/images/bg2.jpeg
-    - assets/images/bg6.gif
+    - assets/images/bg1.gif
 
   # To add assets to your application, add an assets section, like this:
   # assets:

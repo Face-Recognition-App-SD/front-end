@@ -15,11 +15,11 @@ import '../utils/constant.dart';
 import 'dart:io';
 import '../screens/verifyEmail.dart';
 
-
 class AddNewUser extends StatefulWidget {
   final String token;
- final  bool? is_superuser;
-  const AddNewUser({super.key, required this.token, required this.is_superuser});
+  final bool? is_superuser;
+  const AddNewUser(
+      {super.key, required this.token, required this.is_superuser});
 
   @override
   State<AddNewUser> createState() => _AddNewUserState();
@@ -27,22 +27,22 @@ class AddNewUser extends StatefulWidget {
 
 class _AddNewUserState extends State<AddNewUser> {
   late String token;
-   var bg = './assets/images/bg6.gif';
- 
+  var bg = './assets/images/bg1.gif';
+
   late bool? is_superuser;
-    bool _passwordVisible1 = false;
+  bool _passwordVisible1 = false;
   bool _passwordVisible2 = false;
-  void initState(){
+  void initState() {
     super.initState();
-    token  = widget.token;
+    token = widget.token;
     print("token");
     print(token);
     is_superuser = widget.is_superuser;
-
   }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       // appBar: AppBar(
       //   title: const Text('Sign Up'),
       // ),
@@ -380,7 +380,7 @@ class _AddNewUserState extends State<AddNewUser> {
             String email = emailController.text;
             String password = passwordController.text;
             String cpassword = cpController.text;
-  
+
             if (password.isNotEmpty &&
                 cpassword.isNotEmpty &&
                 password == cpassword) {
@@ -416,7 +416,7 @@ class _AddNewUserState extends State<AddNewUser> {
                     ),
                   );
 
-               //   setState(() {});
+                  //   setState(() {});
                 } else {
                   ShowDialogSucc(context);
 
@@ -424,8 +424,6 @@ class _AddNewUserState extends State<AddNewUser> {
                 }
               } else if (data == null ||
                   (password == null && cpassword == null)) {
-            
-
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
@@ -489,7 +487,6 @@ class _AddNewUserState extends State<AddNewUser> {
     );
   }
 
-
   Future<UserLogin?> fetchDataSignUp(
       String email,
       String password,
@@ -506,8 +503,7 @@ class _AddNewUserState extends State<AddNewUser> {
     }
     var response = await http.post(myRegUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
-       HttpHeaders.authorizationHeader: 'Token $token',
-
+      HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
       "email": email,
       "password": password,
@@ -519,13 +515,12 @@ class _AddNewUserState extends State<AddNewUser> {
     });
     var jsonResponse = null;
     var data = response.body;
-  //  token = data.substring(10, data.length - 2);
-    print ("data insode");
+    //  token = data.substring(10, data.length - 2);
+    print("data insode");
     print(data);
     if (response.statusCode == 201) {
       String responseString = response.body;
 
-    
       return albumFromJson(responseString);
     } else {
       if (response.statusCode == 400) {
@@ -563,6 +558,4 @@ class _AddNewUserState extends State<AddNewUser> {
       },
     );
   }
-
 }
-

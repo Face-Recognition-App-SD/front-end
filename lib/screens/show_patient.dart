@@ -26,7 +26,7 @@ class ShowPatient extends StatefulWidget {
 }
 
 class ShowPatientDetails extends State<ShowPatient> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
   late int id = widget.details['id'];
@@ -89,7 +89,11 @@ class ShowPatientDetails extends State<ShowPatient> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => VerifyPatient(token: token, id: id, isSuperUser: false,),
+                        builder: (_) => VerifyPatient(
+                          token: token,
+                          id: id,
+                          isSuperUser: false,
+                        ),
                       ),
                     );
                   }

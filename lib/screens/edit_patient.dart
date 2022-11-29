@@ -95,7 +95,7 @@ class EditPatient extends StatefulWidget {
 }
 
 class ExtendEditPatient extends State<EditPatient> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
   late String nm = widget.details['first_name'];

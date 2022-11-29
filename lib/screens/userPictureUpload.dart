@@ -16,7 +16,7 @@ class UploadUserPics extends StatefulWidget {
 }
 
 class _UploadUserPics extends State<UploadUserPics> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   late List<XFile?> pictures;
   late int id;

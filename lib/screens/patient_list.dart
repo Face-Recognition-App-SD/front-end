@@ -24,17 +24,16 @@ class PatientList extends StatefulWidget {
 }
 
 class _PatientList extends State<PatientList> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   late List<PatientsData> patients = [];
-   bool _searchBoolean = false;
-   late bool? is_superuser;
+  bool _searchBoolean = false;
+  late bool? is_superuser;
   @override
   void initState() {
     token = widget.token;
     is_superuser = widget.is_superuser;
   }
-
 
   TextEditingController txtQuery = TextEditingController();
 
@@ -43,41 +42,37 @@ class _PatientList extends State<PatientList> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
-         title: !_searchBoolean ? Text("Patient List") : searchBox(),
+        title: !_searchBoolean ? Text("Patient List") : searchBox(),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
-            if (is_superuser == true){
-                  Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AdminHomePage(
-                        token: token,
-                      )),
-            );
+            if (is_superuser == true) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AdminHomePage(
+                          token: token,
+                        )),
+              );
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Homepage(
+                          token: token,
+                        )),
+              );
             }
-            else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Homepage(
-                        token: token,
-                      )),
-            );}
-          
           },
         ),
-        
-        actions:[
+        actions: [
           IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            setState(() {
-              _searchBoolean = true;
-        
-            });
-          }),
-      
+              icon: Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  _searchBoolean = true;
+                });
+              }),
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
@@ -123,25 +118,21 @@ class _PatientList extends State<PatientList> {
 
   TextFormField searchBox() {
     return TextFormField(
-              style: TextStyle(color: Color.fromARGB(255, 243, 240, 241)),
-              controller: txtQuery,
-              // onChanged: search,
-              decoration: InputDecoration(
-                hintText: "Search",
-                hintStyle: TextStyle(fontSize: 16.0, color: Colors.white70),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    txtQuery.text = '';
-                    //   search(txtQuery.text);
-                  },
-                ),
-
-              ),
-              onEditingComplete: showPatients,
-          
-          
-         
+      style: TextStyle(color: Color.fromARGB(255, 243, 240, 241)),
+      controller: txtQuery,
+      // onChanged: search,
+      decoration: InputDecoration(
+        hintText: "Search",
+        hintStyle: TextStyle(fontSize: 16.0, color: Colors.white70),
+        suffixIcon: IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            txtQuery.text = '';
+            //   search(txtQuery.text);
+          },
+        ),
+      ),
+      onEditingComplete: showPatients,
     );
   }
 
@@ -152,7 +143,7 @@ class _PatientList extends State<PatientList> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             http.Response resp = snapshot.data as http.Response;
-          
+
             if (resp.statusCode == 200) {
               final jsonMap = jsonDecode(resp.body);
               patients = (jsonMap as List)
@@ -203,20 +194,19 @@ class _PatientList extends State<PatientList> {
     var text = txtQuery.text;
     Uri myProfileUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/?search=$text');
+      myProfileUri = Uri.https(
+          Constants.BASE_URL, '/api/patients/patientss/?search=$text');
     } else {
-      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/?search=$text');
+      myProfileUri = Uri.parse(
+          '${Constants.BASE_URL}/api/patients/patientss/?search=$text');
     }
     var response;
-  
-      response = await http.get(myProfileUri, headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token $token',
-      });
-   
-    
 
-   
+    response = await http.get(myProfileUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token',
+    });
+
     return response;
   }
 }
