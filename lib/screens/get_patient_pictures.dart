@@ -25,7 +25,7 @@ class Pictures extends State<GetPatientPictures> {
   }
 
   int step = 5;
-  var pictures = List<XFile?>.filled(3, null);
+  var pictures = List<XFile?>.filled(5, null);
 
   void reduceStep() {
     setState(() {
