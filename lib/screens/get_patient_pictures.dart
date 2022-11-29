@@ -15,7 +15,7 @@ class GetPatientPictures extends StatefulWidget {
 }
 
 class Pictures extends State<GetPatientPictures> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   late String token;
 
   @override
@@ -68,7 +68,7 @@ class Pictures extends State<GetPatientPictures> {
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
               child: const Text(
                 'Take Pictures',
-                style: TextStyle(color: Colors.white, fontSize: 13.0),
+                style: TextStyle(color: Colors.black, fontSize: 13.0),
               ),
             ),
             onPressed: () async {
@@ -106,7 +106,7 @@ class Pictures extends State<GetPatientPictures> {
   //           style: const TextStyle(
   //             fontFamily: 'Arial',
   //             fontSize: 30,
-  //             color: Colors.white,
+  //             color: Colors.black,
   //             height: 1,
   //             fontWeight: FontWeight.bold,
   //           ),
@@ -130,7 +130,7 @@ class Pictures extends State<GetPatientPictures> {
               style: const TextStyle(
                   fontFamily: 'Arial',
                   fontSize: 15,
-                  color: Colors.white,
+                  color: Colors.black,
                   height: 1,
                   fontWeight: FontWeight.bold),
             ),

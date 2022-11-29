@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   late String? token;
   late Future<UserLogin?> futureUser;
   late String? fn;
@@ -105,14 +105,14 @@ class _Home extends State<Home> {
                     Text(
                       'Hello $fn $ln!',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                      style: const TextStyle(fontSize: 40, color: Colors.white),
                     ),
                     Container(
                       width: 200,
                       height: 200,
                       child: Column(
                         children: [
-                          const SizedBox(height: 50.0),
+                          const SizedBox(height: 30.0),
                           Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             width: double.infinity,
@@ -139,7 +139,7 @@ class _Home extends State<Home> {
                                     child: const Text(
                                       "My Patient List",
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 13.0),
+                                          color: Colors.black, fontSize: 13.0),
                                     ),
                                   )),
                             ),
@@ -172,7 +172,7 @@ class _Home extends State<Home> {
                                     child: const Text(
                                       "All Patient List",
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 13.0),
+                                          color: Colors.black, fontSize: 13.0),
                                     ),
                                   )),
                             ),

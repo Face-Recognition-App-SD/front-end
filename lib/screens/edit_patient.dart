@@ -95,7 +95,7 @@ class EditPatient extends StatefulWidget {
 }
 
 class ExtendEditPatient extends State<EditPatient> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
   late String nm = widget.details['first_name'];
@@ -163,7 +163,7 @@ class ExtendEditPatient extends State<EditPatient> {
                 // Text(
                 //   "\t\t ID: $id",
                 //   textAlign: TextAlign.center,
-                //   style: const TextStyle(fontSize: 20, color: Colors.white),
+                //   style: const TextStyle(fontSize: 20, color: Colors.black),
                 // ),
                 const SizedBox(height: 10.0),
                 textData(),
@@ -198,7 +198,7 @@ class ExtendEditPatient extends State<EditPatient> {
                   horizontal: 5,
                 ),
                 child: const Text("Update Image",
-                    style: TextStyle(color: Colors.white, fontSize: 13.0)),
+                    style: TextStyle(color: Colors.black, fontSize: 13.0)),
               ),
               onPressed: () async {
                 pictures = await Navigator.push(
@@ -301,20 +301,20 @@ class ExtendEditPatient extends State<EditPatient> {
                         child: Text(
                           "Firstname:",
                           // textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
+                          style: TextStyle(fontSize: 14, color: Colors.black),
                         ),
                       ),
                       TextFormField(
                         controller: firstnameController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 14),
+                        cursorColor: Colors.black,
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 14),
                         decoration: const InputDecoration(
-                          icon: Icon(Icons.person, color: Colors.white70),
+                          icon: Icon(Icons.person, color: Colors.black),
                           // hintText: 'DepartID',
                           border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
+                              borderSide: BorderSide(color: Colors.black)),
+                          hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
                     ],
@@ -333,20 +333,20 @@ class ExtendEditPatient extends State<EditPatient> {
                         child: Text(
                           "\t Lastname:",
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
+                          style: TextStyle(fontSize: 14, color: Colors.black),
                         ),
                       ),
                       TextFormField(
                         controller: lastnameController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 14),
+                        cursorColor: Colors.black,
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 14),
                         decoration: const InputDecoration(
-                          icon: Icon(Icons.person, color: Colors.white70),
+                          icon: Icon(Icons.person, color: Colors.black),
                           // hintText: 'DepartID',
                           border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
+                              borderSide: BorderSide(color: Colors.black)),
+                          hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
                     ],
@@ -365,20 +365,20 @@ class ExtendEditPatient extends State<EditPatient> {
                         child: const Text(
                           "\t Age:",
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
+                          style: TextStyle(fontSize: 14, color: Colors.black),
                         ),
                       ),
                       TextFormField(
                         controller: ageController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 13),
+                        cursorColor: Colors.black,
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 13),
                         decoration: const InputDecoration(
-                          icon: Icon(Icons.person, color: Colors.white70),
+                          icon: Icon(Icons.person, color: Colors.black),
                           // hintText: 'DepartID',
                           border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
+                              borderSide: BorderSide(color: Colors.black)),
+                          hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
                     ],
@@ -397,21 +397,21 @@ class ExtendEditPatient extends State<EditPatient> {
                         child: Text(
                           "\t Medical List:",
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
+                          style: TextStyle(fontSize: 14, color: Colors.black),
                         ),
                       ),
                       TextFormField(
                         controller: medListController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 13),
+                        cursorColor: Colors.black,
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 13),
                         decoration: const InputDecoration(
                           icon: Icon(Icons.local_hospital_outlined,
-                              color: Colors.white70),
+                              color: Colors.black),
                           // hintText: 'DepartID',
                           border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
+                              borderSide: BorderSide(color: Colors.black)),
+                          hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
                     ],
@@ -430,21 +430,21 @@ class ExtendEditPatient extends State<EditPatient> {
                         child: Text(
                           "\t Phone Number:",
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
+                          style: TextStyle(fontSize: 14, color: Colors.black),
                         ),
                       ),
                       TextFormField(
                         controller: phoneNumberController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 13),
+                        cursorColor: Colors.black,
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 13),
                         decoration: const InputDecoration(
                           icon: Icon(Icons.local_hospital_outlined,
-                              color: Colors.white70),
+                              color: Colors.black),
                           // hintText: 'DepartID',
                           border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
+                              borderSide: BorderSide(color: Colors.black)),
+                          hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
                     ],
@@ -465,7 +465,7 @@ class ExtendEditPatient extends State<EditPatient> {
                               "\t State:",
                               textAlign: TextAlign.left,
                               style:
-                                  TextStyle(fontSize: 14, color: Colors.white),
+                                  TextStyle(fontSize: 14, color: Colors.black),
                             ),
                           ),
                           DropDownState(),
@@ -473,7 +473,7 @@ class ExtendEditPatient extends State<EditPatient> {
                           Text(
                             "\t Gender:",
                             textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: 14, color: Colors.white),
+                            style: TextStyle(fontSize: 14, color: Colors.black),
                           ),
                           DropDownGender(),
                         ],

@@ -77,8 +77,7 @@ class _CameraState extends State<Camera> {
             : Container(
                 color: Colors.black,
                 child: const Center(child: CircularProgressIndicator())),
-        cameraOverlay(
-            padding: 50, aspectRatio: 1, color: Color(0x55000000)),
+        cameraOverlay(padding: 50, aspectRatio: 1, color: Color(0x55000000)),
         Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -117,7 +116,11 @@ class _CameraState extends State<Camera> {
       ]),
     ));
   }
-  Widget cameraOverlay({required double padding, required double aspectRatio, required Color color}) {
+
+  Widget cameraOverlay(
+      {required double padding,
+      required double aspectRatio,
+      required Color color}) {
     return LayoutBuilder(builder: (context, constraints) {
       double parentAspectRatio = constraints.maxWidth / constraints.maxHeight;
       double horizontalPadding;
@@ -126,12 +129,12 @@ class _CameraState extends State<Camera> {
       if (parentAspectRatio < aspectRatio) {
         horizontalPadding = padding;
         verticalPadding = (constraints.maxHeight -
-            ((constraints.maxWidth - 2 * padding) / aspectRatio)) /
+                ((constraints.maxWidth - 2 * padding) / aspectRatio)) /
             2;
       } else {
         verticalPadding = padding;
         horizontalPadding = (constraints.maxWidth -
-            ((constraints.maxHeight - 2 * padding) * aspectRatio)) /
+                ((constraints.maxHeight - 2 * padding) * aspectRatio)) /
             2;
       }
       return Stack(fit: StackFit.expand, children: [

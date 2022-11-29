@@ -25,7 +25,7 @@ class resetPassword extends StatefulWidget {
 }
 
 class _resetPasswordState extends State<resetPassword> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   TextEditingController emailController = TextEditingController();
   TextEditingController keyController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -91,15 +91,15 @@ class _resetPasswordState extends State<resetPassword> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: emailController,
-                  cursorColor: Colors.white70,
-                  style: const TextStyle(color: Colors.white70),
+                  cursorColor: Colors.black,
+                  style: const TextStyle(color: Colors.black),
                   decoration: InputDecoration(
-                    icon: Icon(Icons.email, color: Colors.white70),
+                    icon: Icon(Icons.email, color: Colors.black),
                     hintText: 'Enter your Email',
                     border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white70),
+                      borderSide: BorderSide(color: Colors.black),
                     ),
-                    hintStyle: TextStyle(color: Colors.white70),
+                    hintStyle: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -127,15 +127,15 @@ class _resetPasswordState extends State<resetPassword> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: keyController,
-                  cursorColor: Colors.white70,
-                  style: const TextStyle(color: Colors.white70),
+                  cursorColor: Colors.black,
+                  style: const TextStyle(color: Colors.black),
                   decoration: InputDecoration(
-                    icon: Icon(Icons.numbers, color: Colors.white70),
+                    icon: Icon(Icons.numbers, color: Colors.black),
                     hintText: 'Enter your Key',
                     border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white70),
+                      borderSide: BorderSide(color: Colors.black),
                     ),
-                    hintStyle: TextStyle(color: Colors.white70),
+                    hintStyle: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -152,17 +152,17 @@ class _resetPasswordState extends State<resetPassword> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: passwordController,
-                  cursorColor: Colors.white70,
-                  style: const TextStyle(color: Colors.white70),
+                  cursorColor: Colors.black,
+                  style: const TextStyle(color: Colors.black),
                   decoration: InputDecoration(
-                    icon: Icon(Icons.text_fields, color: Colors.white70),
+                    icon: Icon(Icons.text_fields, color: Colors.black),
                     hintText: 'Enter your new password',
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: Colors.white70,
+                        color: Colors.black,
                       ),
                     ),
-                    hintStyle: TextStyle(color: Colors.white70),
+                    hintStyle: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -190,7 +190,7 @@ class _resetPasswordState extends State<resetPassword> {
             child: const Text(
               'Verify',
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 13.0,
               ),
             ),
@@ -240,7 +240,7 @@ class _resetPasswordState extends State<resetPassword> {
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
             child: const Text(
               'Reset',
-              style: TextStyle(color: Colors.white, fontSize: 13.0),
+              style: TextStyle(color: Colors.black, fontSize: 13.0),
             ),
           ),
           onPressed: () async {

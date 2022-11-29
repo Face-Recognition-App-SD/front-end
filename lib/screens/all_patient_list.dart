@@ -23,7 +23,7 @@ class AllPatientList extends StatefulWidget {
 }
 
 class _AllPatientList extends State<AllPatientList> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   late String token;
   late List<PatientsData> patients = [];
   bool _searchBoolean = false;
@@ -41,59 +41,55 @@ class _AllPatientList extends State<AllPatientList> {
     return Scaffold(
       appBar: AppBar(
           title: !_searchBoolean ? Text("All Patient List") : searchBox(),
-           leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {
-            if (is_superuser == true){
-                  Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AdminHomePage(
-                        token: token,
-                      )),
-            );
-            }
-            else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Homepage(
-                        token: token,
-                      )),
-            );}
-          },
-        ),
-
-        actions:[
-          IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            setState(() {
-              _searchBoolean = true;
-
-            });
-          }),
-
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new),
+            onPressed: () {
+              if (is_superuser == true) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => AddNewPatient(
+                      builder: (context) => AdminHomePage(
                             token: token,
                           )),
                 );
-              },
-              child: const Icon(
-                Icons.person_add,
-                color: Color.fromARGB(255, 251, 235, 232),
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Homepage(
+                            token: token,
+                          )),
+                );
+              }
+            },
+          ),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  setState(() {
+                    _searchBoolean = true;
+                  });
+                }),
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => AddNewPatient(
+                              token: token,
+                            )),
+                  );
+                },
+                child: const Icon(
+                  Icons.person_add,
+                  color: Color.fromARGB(255, 251, 235, 232),
+                ),
               ),
             ),
-          ),
-        ]
-      ),
+          ]),
       body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -171,38 +167,35 @@ class _AllPatientList extends State<AllPatientList> {
     );
   }
 
-    TextFormField searchBox() {
+  TextFormField searchBox() {
     return TextFormField(
-              style: TextStyle(color: Color.fromARGB(255, 243, 240, 241)),
-              controller: txtQuery,
-              // onChanged: search,
-              decoration: InputDecoration(
-                hintText: "Search",
-                hintStyle: TextStyle(fontSize: 16.0, color: Colors.white70),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    txtQuery.text = '';
-                    //   search(txtQuery.text);
-                  },
-                ),
-
-              ),
-              onEditingComplete: showPatientList,
-
-
-
+      style: TextStyle(color: Color.fromARGB(255, 243, 240, 241)),
+      controller: txtQuery,
+      // onChanged: search,
+      decoration: InputDecoration(
+        hintText: "Search",
+        hintStyle: TextStyle(fontSize: 16.0, color: Colors.white70),
+        suffixIcon: IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            txtQuery.text = '';
+            //   search(txtQuery.text);
+          },
+        ),
+      ),
+      onEditingComplete: showPatientList,
     );
   }
 
-
   Future<http.Response?> fetchPatients(token) async {
-      var text = txtQuery.text;
+    var text = txtQuery.text;
     Uri myProfileUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/all/?search=$text');
+      myProfileUri =
+          Uri.https(Constants.BASE_URL, '/api/patients/all/?search=$text');
     } else {
-      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/?search=$text');
+      myProfileUri =
+          Uri.parse('${Constants.BASE_URL}/api/patients/all/?search=$text');
     }
     final res = await http.get(
       myProfileUri,

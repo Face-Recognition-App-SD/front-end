@@ -26,7 +26,7 @@ class AddNewPatient extends StatefulWidget {
 }
 
 class _AddNewPatientState extends State<AddNewPatient> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   late String token;
   String? selectedGenderVal = "";
   String? selectedState = "";
@@ -110,7 +110,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: firstNameController,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: const TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.person, color: Colors.white70),
@@ -134,7 +134,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: lastNameController,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: const TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.person, color: Colors.white70),
@@ -157,7 +157,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 child: TextFormField(
                   controller: ageController,
                   keyboardType: TextInputType.number,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: const TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.numbers_rounded, color: Colors.white70),
@@ -179,7 +179,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: med_listController,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.local_hospital_outlined,
@@ -203,7 +203,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 child: TextFormField(
                   keyboardType: TextInputType.number,
                   controller: phone_numberController,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.numbers, color: Colors.white70),
@@ -226,7 +226,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 child: TextFormField(
                   controller: date_of_birthController,
                   keyboardType: TextInputType.datetime,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.date_range, color: Colors.white70),
@@ -297,7 +297,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: street_addressController,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.house, color: Colors.white70),
@@ -319,7 +319,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: city_addressController,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.house, color: Colors.white70),
@@ -342,7 +342,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 child: TextFormField(
                   controller: zipcode_addressController,
                   keyboardType: TextInputType.datetime,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.house, color: Colors.white70),
@@ -380,7 +380,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: TextFormField(
                   controller: emergency_contact_nameController,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: const TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.person, color: Colors.white70),
@@ -403,7 +403,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                 child: TextFormField(
                   controller: emergency_phone_numberController,
                   keyboardType: TextInputType.number,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.black,
                   style: const TextStyle(color: Colors.white70, fontSize: 16),
                   decoration: const InputDecoration(
                     icon: Icon(Icons.numbers, color: Colors.white70),
@@ -436,7 +436,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                     ),
                     child: Text(
                       "Submit",
-                      style: TextStyle(color: Colors.white, fontSize: 13.0),
+                      style: TextStyle(color: Colors.black, fontSize: 13.0),
                     )),
                 // child: const Text('Submit'),
                 onPressed: () async {
@@ -482,7 +482,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
               ),
               child: const Text(
                 "Add Photo",
-                style: TextStyle(color: Colors.white, fontSize: 13.0),
+                style: TextStyle(color: Colors.black, fontSize: 13.0),
               ),
             ),
             onPressed: () async {

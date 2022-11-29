@@ -5,7 +5,7 @@ import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
 
 class FirstPage extends StatelessWidget {
-  var bg = 'assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class FirstPage extends StatelessWidget {
                                     ),
                                     child: const Text("User Login",
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                           fontSize: 20.0,
                                         )))),
                           ),
@@ -130,7 +130,7 @@ class FirstPage extends StatelessWidget {
                                 child: const Text(
                                   "Admin Login",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 20.0,
                                   ),
                                 ),

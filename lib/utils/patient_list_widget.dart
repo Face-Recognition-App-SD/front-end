@@ -47,9 +47,6 @@ class _PatientListWidgetState extends State<PatientListWidget> {
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
           child: GlassContainer(
             borderRadius: new BorderRadius.circular(10.0),
-
- 
-
             child: InkWell(
               onTap: () {
                 Navigator.push(

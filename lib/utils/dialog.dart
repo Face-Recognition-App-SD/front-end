@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+
 class DialogExample extends StatelessWidget {
   const DialogExample({super.key});
 

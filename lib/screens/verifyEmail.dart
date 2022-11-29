@@ -19,7 +19,7 @@ class VerifyEmail extends StatefulWidget {
 }
 
 class _VerifyEmail extends State<VerifyEmail> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   late String email;
   @override
   void initState() {
@@ -74,21 +74,21 @@ class _VerifyEmail extends State<VerifyEmail> {
             Text(
               "Email to verify: $email",
               textAlign: TextAlign.left,
-              style: const TextStyle(fontSize: 14, color: Colors.white),
+              style: const TextStyle(fontSize: 14, color: Colors.black),
             ),
             const SizedBox(height: 20.0),
             TextFormField(
               controller: keyController,
               keyboardType: TextInputType.number,
-              cursorColor: Colors.white,
-              style: const TextStyle(color: Colors.white70, fontSize: 13),
+              cursorColor: Colors.black,
+              style: const TextStyle(color: Colors.black, fontSize: 13),
               decoration: const InputDecoration(
-                icon: Icon(Icons.email, color: Colors.white70),
+                icon: Icon(Icons.email, color: Colors.black),
                 hintText: 'Key',
                 border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70),
+                  borderSide: BorderSide(color: Colors.black),
                 ),
-                hintStyle: TextStyle(color: Colors.white70),
+                hintStyle: TextStyle(color: Colors.black),
               ),
             ),
           ],

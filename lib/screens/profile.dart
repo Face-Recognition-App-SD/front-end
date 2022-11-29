@@ -19,13 +19,11 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   late String token;
   late Future<UserLogin?> futureUser;
   late Map<String, dynamic> pictures;
   XFile userPicture = XFile('/assets/images/icon_sample.jpeg');
-
-
 
   @override
   void initState() {
@@ -55,7 +53,7 @@ class _Profile extends State<Profile> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) =>  FirstPage()),
+                  MaterialPageRoute(builder: (_) => FirstPage()),
                 );
               },
               child: const Icon(Icons.logout_rounded),
@@ -129,7 +127,7 @@ class _Profile extends State<Profile> {
                 //   ),
                 // ),
                 CircleAvatar(
-                  backgroundColor: Colors.white70,
+                  backgroundColor: Colors.white,
                   minRadius: 60.0,
                   child: CircleAvatar(
                     radius: 50.0,
@@ -280,21 +278,26 @@ class _Profile extends State<Profile> {
       throw Exception('Failed to load album');
     }
   }
-  Future<XFile> getPic() async{
+
+  Future<XFile> getPic() async {
     Uri getUserPicUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
-      getUserPicUri = Uri.https("${Constants.BASE_URL}", "/api/user/get_selfimages/");
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      getUserPicUri =
+          Uri.https("${Constants.BASE_URL}", "/api/user/get_selfimages/");
+    } else {
+      getUserPicUri =
+          Uri.parse("${Constants.BASE_URL}/api/user/get_selfimages/");
     }
-    else{
-      getUserPicUri = Uri.parse("${Constants.BASE_URL}/api/user/get_selfimages/");
-    }
-    var response = await http.get(getUserPicUri,
-    headers: {HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token'});
+    var response = await http.get(getUserPicUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token'
+    });
     pictures = json.decode(response.body);
-    userPicture = XFile(pictures['image_lists'][pictures['image_lists'].length-1]['image']);
+    userPicture = XFile(
+        pictures['image_lists'][pictures['image_lists'].length - 1]['image']);
     return userPicture;
   }
+
   Widget changePasswordButton(BuildContext context) {
     // return Container(
     //     margin: const EdgeInsets.only(top: 30.0),

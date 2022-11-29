@@ -28,7 +28,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   // var bg = './assets/images/bg2.jpeg';
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   bool _isLoading = false;
   late String token;
   bool _passwordVisible = false;
@@ -78,17 +78,15 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          GlassText('Welcome!',
-              style: GoogleFonts.inter(fontSize: 45, color: Colors.white70)),
+          Text('Welcome!',
+              style: GoogleFonts.inter(fontSize: 45, color: Colors.white)),
           const SizedBox(
             height: 8,
           ),
-          GlassText(
+          Text(
             'Login to your account',
             style: GoogleFonts.inter(
-                fontSize: 23,
-                color: Colors.white70,
-                fontWeight: FontWeight.w700),
+                fontSize: 23, color: Colors.white, fontWeight: FontWeight.w700),
           ),
           const SizedBox(
             height: 8,
@@ -106,14 +104,14 @@ class _LoginPageState extends State<LoginPage> {
                   keyboardType: TextInputType.emailAddress,
                   controller: emailController,
                   cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white70),
+                  style: TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.email, color: Colors.white70),
+                    icon: Icon(Icons.email, color: Colors.white),
                     hintText: 'Email',
                     border:
                         // UnderlineInputBorder(
                         InputBorder.none,
-                    hintStyle: TextStyle(color: Colors.white70),
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -131,12 +129,12 @@ class _LoginPageState extends State<LoginPage> {
                   controller: passwordController,
                   cursorColor: Colors.white,
                   obscureText: !_passwordVisible,
-                  style: const TextStyle(color: Colors.white70),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: 'Password',
                     border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white70)),
-                    hintStyle: TextStyle(color: Colors.white70),
+                        borderSide: BorderSide(color: Colors.white)),
+                    hintStyle: TextStyle(color: Colors.white),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _passwordVisible
@@ -150,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       },
                     ),
-                    icon: Icon(Icons.lock, color: Colors.white70),
+                    icon: Icon(Icons.lock, color: Colors.white),
                   ),
                 ),
               ),
@@ -194,11 +192,12 @@ class _LoginPageState extends State<LoginPage> {
             var tokenReturn = token.substring(0, 8);
 
             Uri getUserPicUri = Uri();
-            if(Constants.BASE_URL == "api.rostro-authentication.com"){
-              getUserPicUri = Uri.https("${Constants.BASE_URL}", "/api/user/get_selfimages/");
-            }
-            else{
-              getUserPicUri = Uri.parse("${Constants.BASE_URL}/api/user/get_selfimages/");
+            if (Constants.BASE_URL == "api.rostro-authentication.com") {
+              getUserPicUri = Uri.https(
+                  "${Constants.BASE_URL}", "/api/user/get_selfimages/");
+            } else {
+              getUserPicUri =
+                  Uri.parse("${Constants.BASE_URL}/api/user/get_selfimages/");
             }
             //  print(tokenReturn);
             if (tokenReturn == "d_errors") {
@@ -215,9 +214,10 @@ class _LoginPageState extends State<LoginPage> {
                 },
               );
             } else {
-              var response = await http.get(getUserPicUri,
-                  headers: {HttpHeaders.acceptHeader: 'application/json',
-                    HttpHeaders.authorizationHeader: 'Token $token'});
+              var response = await http.get(getUserPicUri, headers: {
+                HttpHeaders.acceptHeader: 'application/json',
+                HttpHeaders.authorizationHeader: 'Token $token'
+              });
               pictures = json.decode(response.body);
 
               if (pictures['image_lists'].length > 0) {
@@ -226,13 +226,12 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (BuildContext context) =>
                             Homepage(token: token)),
                     (Route<dynamic> route) => false);
-              }
-              else{
+              } else {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
                             UploadUserPics(token: token)),
-                        (Route<dynamic> route) => false);
+                    (Route<dynamic> route) => false);
               }
             }
           },
@@ -245,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
             child: const Text(
               "Login",
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 13.0,
               ),
             ),

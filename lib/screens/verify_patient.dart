@@ -22,7 +22,7 @@ class VerifyPatient extends StatefulWidget {
 }
 
 class ExtendVerifyPatient extends State<VerifyPatient> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   late String token;
   late Map<String, dynamic> pictures;
   late int id = widget.id;
@@ -186,7 +186,7 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
             ),
             child: const Text(
               "Take Picture of the Patient",
-              style: TextStyle(color: Colors.white, fontSize: 20.0),
+              style: TextStyle(color: Colors.black, fontSize: 20.0),
             ),
           ),
           onPressed: () async {

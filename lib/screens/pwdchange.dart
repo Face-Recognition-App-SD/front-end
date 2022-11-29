@@ -23,7 +23,7 @@ class _PasswordChangeState extends State<PasswordChange> {
 
   late String token = widget.token;
 
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -52,41 +52,41 @@ class _PasswordChangeState extends State<PasswordChange> {
         children: <Widget>[
           TextFormField(
             controller: oldPasswordController,
-            cursorColor: Colors.white70,
-            style: const TextStyle(color: Colors.white70),
+            cursorColor: Colors.black,
+            style: const TextStyle(color: Colors.black),
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.white70),
+              icon: Icon(Icons.lock, color: Colors.black),
               hintText: 'Please enter your old password',
               border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+                  borderSide: BorderSide(color: Colors.black)),
+              hintStyle: TextStyle(color: Colors.black),
             ),
           ),
           const SizedBox(height: 30.0),
           TextFormField(
             controller: newPasswordController,
-            cursorColor: Colors.white70,
-            style: const TextStyle(color: Colors.white70),
+            cursorColor: Colors.black,
+            style: const TextStyle(color: Colors.black),
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.white70),
+              icon: Icon(Icons.lock, color: Colors.black),
               hintText: 'Please enter your new password',
               border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+                  borderSide: BorderSide(color: Colors.black)),
+              hintStyle: TextStyle(color: Colors.black),
             ),
           ),
           const SizedBox(height: 30.0),
           TextFormField(
             controller: confirmNewPasswordController,
-            cursorColor: Colors.white70,
-            style: const TextStyle(color: Colors.white70),
+            cursorColor: Colors.black,
+            style: const TextStyle(color: Colors.black),
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.white70),
+              icon: Icon(Icons.lock, color: Colors.black),
               hintText: 'Please confirm your new password',
               border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70),
+                borderSide: BorderSide(color: Colors.black),
               ),
-              hintStyle: TextStyle(color: Colors.white70),
+              hintStyle: TextStyle(color: Colors.black),
             ),
           ),
         ],

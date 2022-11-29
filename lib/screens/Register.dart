@@ -30,7 +30,7 @@ class _TRegister extends State<TRegister> {
   TextEditingController departmentIdController = TextEditingController();
   String? selectedValueforGender;
   String? selectedValueforRoles;
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   bool _isLoading = false;
   late String token;
   bool _passwordVisible1 = false;
@@ -92,14 +92,14 @@ class _TRegister extends State<TRegister> {
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   controller: emailController,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  cursorColor: Colors.black,
+                  style: TextStyle(color: Colors.black, fontSize: 13),
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.email, color: Colors.white70),
+                    icon: Icon(Icons.email, color: Colors.black),
                     hintText: 'Email',
                     border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white70)),
-                    hintStyle: TextStyle(color: Colors.white70),
+                        borderSide: BorderSide(color: Colors.black)),
+                    hintStyle: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -116,21 +116,21 @@ class _TRegister extends State<TRegister> {
                   obscureText: !_passwordVisible1,
                   keyboardType: TextInputType.text,
                   controller: passwordController,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  cursorColor: Colors.black,
+                  style: TextStyle(color: Colors.black, fontSize: 13),
                   decoration: InputDecoration(
                     hintText: 'Password',
                     border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white70),
+                      borderSide: BorderSide(color: Colors.black),
                     ),
-                    hintStyle: TextStyle(color: Colors.white70),
+                    hintStyle: TextStyle(color: Colors.black),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _passwordVisible1
                             ? Icons.visibility
                             : Icons.visibility_off,
                         // color: Theme.of(context).primaryColorDark,
-                        color: Colors.white70,
+                        color: Colors.black,
                       ),
                       onPressed: () {
                         setState(() {
@@ -138,7 +138,7 @@ class _TRegister extends State<TRegister> {
                         });
                       },
                     ),
-                    icon: Icon(Icons.lock, color: Colors.white70),
+                    icon: Icon(Icons.lock, color: Colors.black),
                   ),
                 ),
               ),
@@ -155,20 +155,20 @@ class _TRegister extends State<TRegister> {
                   obscureText: !_passwordVisible2,
                   keyboardType: TextInputType.text,
                   controller: cpController,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  cursorColor: Colors.black,
+                  style: TextStyle(color: Colors.black, fontSize: 13),
                   decoration: InputDecoration(
                     hintText: 'Confirm Password',
                     border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white70)),
-                    hintStyle: TextStyle(color: Colors.white70),
+                        borderSide: BorderSide(color: Colors.black)),
+                    hintStyle: TextStyle(color: Colors.black),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _passwordVisible2
                             ? Icons.visibility
                             : Icons.visibility_off,
                         // color: Theme.of(context).primaryColorDark,
-                        color: Colors.white70,
+                        color: Colors.black,
                       ),
                       onPressed: () {
                         setState(() {
@@ -176,7 +176,7 @@ class _TRegister extends State<TRegister> {
                         });
                       },
                     ),
-                    icon: Icon(Icons.lock, color: Colors.white70),
+                    icon: Icon(Icons.lock, color: Colors.black),
                   ),
                 ),
               ),
@@ -192,14 +192,14 @@ class _TRegister extends State<TRegister> {
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   controller: firstNameController,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  cursorColor: Colors.black,
+                  style: TextStyle(color: Colors.black, fontSize: 13),
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.person, color: Colors.white70),
+                    icon: Icon(Icons.person, color: Colors.black),
                     hintText: 'First name',
                     border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white70)),
-                    hintStyle: TextStyle(color: Colors.white70),
+                        borderSide: BorderSide(color: Colors.black)),
+                    hintStyle: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -215,14 +215,14 @@ class _TRegister extends State<TRegister> {
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   controller: lastNameController,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  cursorColor: Colors.black,
+                  style: TextStyle(color: Colors.black, fontSize: 13),
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.person, color: Colors.white70),
+                    icon: Icon(Icons.person, color: Colors.black),
                     hintText: 'Last name',
                     border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white70)),
-                    hintStyle: TextStyle(color: Colors.white70),
+                        borderSide: BorderSide(color: Colors.black)),
+                    hintStyle: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -237,12 +237,12 @@ class _TRegister extends State<TRegister> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: Row(
                   children: [
-                    const Icon(Icons.local_hospital, color: Colors.white70),
+                    const Icon(Icons.local_hospital, color: Colors.black),
                     DropdownButtonHideUnderline(
                       child: DropdownButton2(
                         hint: const Text(
                           '     Roles',
-                          style: TextStyle(fontSize: 14, color: Colors.white70),
+                          style: TextStyle(fontSize: 14, color: Colors.black),
                         ),
                         items: roles
                             .map((roles) => DropdownMenuItem<String>(
@@ -251,7 +251,7 @@ class _TRegister extends State<TRegister> {
                                     roles,
                                     style: const TextStyle(
                                       fontSize: 14,
-                                      color: Colors.white70,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ))
@@ -286,14 +286,14 @@ class _TRegister extends State<TRegister> {
                 child: TextFormField(
                   keyboardType: TextInputType.number,
                   controller: departmentIdController,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  cursorColor: Colors.black,
+                  style: TextStyle(color: Colors.black, fontSize: 13),
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.person, color: Colors.white70),
+                    icon: Icon(Icons.person, color: Colors.black),
                     hintText: 'Department ID',
                     border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white70)),
-                    hintStyle: TextStyle(color: Colors.white70),
+                        borderSide: BorderSide(color: Colors.black)),
+                    hintStyle: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -308,12 +308,12 @@ class _TRegister extends State<TRegister> {
                 padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 child: Row(
                   children: [
-                    const Icon(Icons.person, color: Colors.white70),
+                    const Icon(Icons.person, color: Colors.black),
                     DropdownButtonHideUnderline(
                       child: DropdownButton2(
                         hint: const Text(
                           '     Gender',
-                          style: TextStyle(fontSize: 14, color: Colors.white70),
+                          style: TextStyle(fontSize: 14, color: Colors.black),
                         ),
                         items: genderList
                             .map((item) => DropdownMenuItem<String>(
@@ -322,7 +322,7 @@ class _TRegister extends State<TRegister> {
                                     item,
                                     style: const TextStyle(
                                       fontSize: 14,
-                                      color: Colors.white70,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ))
@@ -471,7 +471,7 @@ class _TRegister extends State<TRegister> {
             child: const Text(
               "Register with Email",
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 13.0,
               ),
             ),
@@ -497,7 +497,7 @@ class _TRegister extends State<TRegister> {
     }
     var response = await http.post(myRegUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Token $token',
+      HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
       "email": email,
       "password": password,

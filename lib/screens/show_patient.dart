@@ -26,7 +26,7 @@ class ShowPatient extends StatefulWidget {
 }
 
 class ShowPatientDetails extends State<ShowPatient> {
-  var bg = './assets/images/bg6.gif';
+  var bg = 'assets/images/bg1.gif';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
   late int id = widget.details['id'];
@@ -41,7 +41,7 @@ class ShowPatientDetails extends State<ShowPatient> {
             'Patient Detail',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
           leading: IconButton(
@@ -208,7 +208,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tID: $id",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -219,7 +219,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tFirst Name: $firstname",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -230,7 +230,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tlast name: $lastname",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -241,7 +241,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tAge: $age",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -252,7 +252,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tDescription: $description",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -263,7 +263,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tMedications List: $medlist",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -274,7 +274,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tPhone Number: $phonenumber",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -285,7 +285,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tDate of Birth: $birthdate",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -296,7 +296,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tStreet: $street",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -307,7 +307,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tCity: $city",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -318,7 +318,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tZip Code: $zipcode",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -329,7 +329,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tState: $state",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -340,7 +340,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tCreation: $creation",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -351,7 +351,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tModified: $modified",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -362,7 +362,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tGender: $gender",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -373,7 +373,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tEmergency Contact Name: $emergencyName",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -384,7 +384,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tEmergency Contact Phone Number: $emergencyPhone",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -395,7 +395,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tRelationship: $relationship",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
@@ -406,7 +406,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 child: Text(
                   "\t\tIs in hospital: $isInHospital",
                   textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 22, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
               ),
             ),
