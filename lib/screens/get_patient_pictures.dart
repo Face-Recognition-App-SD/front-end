@@ -24,7 +24,7 @@ class Pictures extends State<GetPatientPictures> {
     super.initState();
   }
 
-  int step = 3;
+  int step = 5;
   var pictures = List<XFile?>.filled(3, null);
 
   void reduceStep() {
@@ -72,7 +72,7 @@ class Pictures extends State<GetPatientPictures> {
               ),
             ),
             onPressed: () async {
-              pictures[3 - step] = await availableCameras().then((value) =>
+              pictures[5 - step] = await availableCameras().then((value) =>
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -88,34 +88,6 @@ class Pictures extends State<GetPatientPictures> {
       //end of button
     );
   }
-
-  // Container box() {
-  //   return Container(
-  //     margin: const EdgeInsets.only(top: 100.0),
-  //     width: 150.0,
-  //     height: 140.0,
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(24.0),
-  //       color: const Color(0xFF1565C0),
-  //     ),
-  //     alignment: Alignment.topCenter,
-  //     child: SizedBox(
-  //       child: Center(
-  //         child: Text(
-  //           'Patient pictures left to take: $step',
-  //           style: const TextStyle(
-  //             fontFamily: 'Arial',
-  //             fontSize: 30,
-  //             color: Colors.white,
-  //             height: 1,
-  //             fontWeight: FontWeight.bold,
-  //           ),
-  //           textAlign: TextAlign.center,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Padding box() {
     return Padding(
