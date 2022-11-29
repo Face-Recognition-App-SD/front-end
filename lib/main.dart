@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/homepage.dart';
 
-import 'screens/regisnew.dart';
-
 
 import 'screens/firstpage.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
