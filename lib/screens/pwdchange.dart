@@ -23,7 +23,7 @@ class _PasswordChangeState extends State<PasswordChange> {
 
   late String token = widget.token;
 
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(

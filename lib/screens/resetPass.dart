@@ -25,7 +25,7 @@ class resetPassword extends StatefulWidget {
 }
 
 class _resetPasswordState extends State<resetPassword> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   TextEditingController emailController = TextEditingController();
   TextEditingController keyController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

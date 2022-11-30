@@ -11,6 +11,7 @@ import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
 import 'package:camera/camera.dart';
 import '../screens/get_patient_pictures.dart';
+
 List<String> genders = <String>[
   'Please select role',
   'Male',
@@ -19,12 +20,17 @@ List<String> genders = <String>[
   'Non-binary/non-conforming',
   'Prefer not to respond'
 ];
- List<String> roles = ['Please select role', 'Doctor', 'Nurse', 'Physical Therapist'];
+List<String> roles = [
+  'Please select role',
+  'Doctor',
+  'Nurse',
+  'Physical Therapist'
+];
 String genero = 'none';
 String roleo = 'none';
 
 class EditUser extends StatefulWidget {
-   final Future<UserLogin?> futureUser;
+  final Future<UserLogin?> futureUser;
   final String token;
   final int id;
   const EditUser({super.key, required this.token, required this.id, required this.futureUser});
@@ -34,12 +40,10 @@ class EditUser extends StatefulWidget {
 }
 
 class _EditUser extends State<EditUser> {
-  
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   late int? id;
   late Future<UserLogin?> futureUser;
-
 
   @override
   void initState() {
@@ -47,7 +51,6 @@ class _EditUser extends State<EditUser> {
     token = widget.token;
     id = widget.id;
     futureUser = widget.futureUser;
-   
   }
 
   int currentPage = 0;
@@ -59,9 +62,6 @@ class _EditUser extends State<EditUser> {
   String? password = "";
   bool? is_superuser = false;
 
-
-
-
   List<XFile?> pictures = [];
   // TextEditingController idController = TextEditingController();
   TextEditingController firstnameController = TextEditingController();
@@ -71,15 +71,14 @@ class _EditUser extends State<EditUser> {
   TextEditingController department_idController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile Page'),
-        backgroundColor: Colors.blueAccent,
-        actions: <Widget>[
-         Padding(
+        appBar: AppBar(
+          title: const Text('Profile Page'),
+          backgroundColor: Colors.blueAccent,
+          actions: <Widget>[
+            Padding(
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
@@ -94,18 +93,15 @@ class _EditUser extends State<EditUser> {
                     );
                   }
                 },
-              
-              
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
               ),
             ),
-        ],
-      ),
-      body:  Container(
+          ],
+        ),
+        body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(bg),
@@ -138,7 +134,7 @@ class _EditUser extends State<EditUser> {
             
 
 
-            //    getImages(context),
+                //    getImages(context),
                 submitButton(context),
               ],
             ),
@@ -146,15 +142,14 @@ class _EditUser extends State<EditUser> {
         ));
   }
 
- delete(int id, String token) async {
+  delete(int id, String token) async {
     var rest = await deleteUser(id, token);
     setState(() {});
   }
 
   Future<bool> editPatientInfo() async {
-    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-    print(firstnameController.text);
-    print(lastnameController.text);
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+   
     print(genero);
     print(roleo);
     print(emailController.text);
@@ -190,17 +185,15 @@ class _EditUser extends State<EditUser> {
   }
 
   Widget textData(context) {
-    
-
     return Container(
         padding: EdgeInsets.only(left: 15, right: 15),
         child: Column(
             // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-          //     Container(
-          //    
-            
+              //     Container(
+              //
+
               GlassContainer(
                 borderRadius: new BorderRadius.circular(10.0),
                 child: Padding(
@@ -297,7 +290,7 @@ class _EditUser extends State<EditUser> {
                 ),
               ),
               const SizedBox(height: 20.0),
-             GlassContainer(
+              GlassContainer(
                   width: double.infinity,
                   borderRadius: new BorderRadius.circular(10.0),
                   child: Padding(
@@ -401,8 +394,6 @@ class _EditUser extends State<EditUser> {
       child: ElevatedButton(
         child: const Text('Submit'),
         onPressed: () async {
-          print(token);
-          print("BLINEYYYY");
           showDialog(
               context: context,
               builder: (context) {
@@ -410,9 +401,7 @@ class _EditUser extends State<EditUser> {
                   child: CircularProgressIndicator(),
                 );
               });
-          print("JJJJJDSJBBKJSFBKFBHDK");
           var resText = await editPatientInfo();
-          print("ZOOOOKA");
           // if (pictures.isNotEmpty) {
           //   resPics = await updateImages();
           // }
@@ -425,33 +414,27 @@ class _EditUser extends State<EditUser> {
     );
   }
 
-  Future <http.Response> deleteUser(int id, String token) async {
-      Uri deleteUri = Uri();
-      if(Constants.BASE_URL == "api.rostro-authentication.com"){
-        deleteUri = Uri.https(Constants.BASE_URL,'/api/admin/users/$id/');
-      }
-      else{
-        deleteUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
-      }
-    var response = await http.delete(deleteUri,
-
-    headers: 
-    {
+  Future<http.Response> deleteUser(int id, String token) async {
+    Uri deleteUri = Uri();
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      deleteUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
+    } else {
+      deleteUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
+    }
+    var response = await http.delete(
+      deleteUri,
+      headers: {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.authorizationHeader: 'Token $token',
       },
-     );
-    if(response.statusCode > 200 && response.statusCode < 300){
-      setState(() {
-        
-      });
+    );
+    if (response.statusCode > 200 && response.statusCode < 300) {
+      setState(() {});
       return response;
-    
-    }else{throw "Sorry! Unable to delete this post";}
+    } else {
+      throw "Sorry! Unable to delete this post";
+    }
   }
-
- 
-
 }
 
 class DropDownGender extends StatefulWidget {
@@ -489,9 +472,8 @@ class _DropDownGender extends State<DropDownGender> {
       }).toList(),
     );
   }
-
 }
-  
+
 class DropDownRole extends StatefulWidget {
   const DropDownRole({super.key});
 
@@ -499,7 +481,7 @@ class DropDownRole extends StatefulWidget {
 }
 
 class _DropDownRole extends State<DropDownRole> {
-  String role =  roles.first;
+  String role = roles.first;
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
@@ -527,6 +509,4 @@ class _DropDownRole extends State<DropDownRole> {
       }).toList(),
     );
   }
-
 }
-  

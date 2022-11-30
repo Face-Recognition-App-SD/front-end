@@ -15,7 +15,7 @@ class GetPatientPictures extends StatefulWidget {
 }
 
 class Pictures extends State<GetPatientPictures> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
 
   @override

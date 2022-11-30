@@ -30,7 +30,7 @@ class _TRegister extends State<TRegister> {
   TextEditingController departmentIdController = TextEditingController();
   String? selectedValueforGender;
   String? selectedValueforRoles;
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   bool _isLoading = false;
   late String token;
   bool _passwordVisible1 = false;

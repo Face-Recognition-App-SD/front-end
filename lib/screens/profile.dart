@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/screens/firstpage.dart';
 import 'package:rostro_app/screens/login_page.dart';
+import 'package:rostro_app/screens/pwdchange.dart';
 import '../utils/constant.dart';
 import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
@@ -21,7 +22,7 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   late Future<UserLogin?> futureUser;
   late Map<String, dynamic> pictures;
@@ -58,7 +59,7 @@ class _Profile extends State<Profile> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) =>  FirstPage()),
+                  MaterialPageRoute(builder: (_) => FirstPage()),
                 );
               },
               child: const Icon(Icons.logout_rounded),
@@ -272,21 +273,21 @@ class _Profile extends State<Profile> {
       throw Exception('Failed to load album');
     }
   }
-  Future<XFile> getPic() async{
+
+  Future<XFile> getPic() async {
     Uri getUserPicUri = Uri();
     if(Constants.BASE_URL == "api.rostro-authentication.com"){
       getUserPicUri = Uri.https("${Constants.BASE_URL}", "/api/user/get_selfimages/");
     }
-    else{
-      getUserPicUri = Uri.parse("${Constants.BASE_URL}/api/user/get_selfimages/");
-    }
-    var response = await http.get(getUserPicUri,
-    headers: {HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token'});
+    var response = await http.get(getUserPicUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token'
+    });
     pictures = json.decode(response.body);
     userPicture = XFile(pictures['image_lists'][pictures['image_lists'].length-1]['image']);
     return userPicture;
   }
+
   Widget changePasswordButton(BuildContext context) {
     // return Container(
     //     margin: const EdgeInsets.only(top: 30.0),
@@ -304,7 +305,13 @@ class _Profile extends State<Profile> {
       opacity: 0.1,
       radius: 50.0,
       child: TextButton(
-        onPressed: () {},
+        onPressed: () async {
+          print("anything");
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PasswordChange(token: token)));
+        },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
           child: const Text(

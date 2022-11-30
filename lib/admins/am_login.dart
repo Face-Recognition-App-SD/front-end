@@ -26,7 +26,7 @@ class AdminLoginPage extends StatefulWidget {
 
 class _AdminLoginPage extends State<AdminLoginPage> {
   // var bg = './assets/images/bg2.jpeg';
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   bool _isLoading = false;
   late String token;
   bool _is_superuser = false;
@@ -47,7 +47,6 @@ class _AdminLoginPage extends State<AdminLoginPage> {
             headerSection(),
             textSection(),
             loginButtonSection(),
-            
           ],
         ),
       ),
@@ -76,7 +75,8 @@ class _AdminLoginPage extends State<AdminLoginPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           GlassText('Welcome to Admin Site!',
-              style: GoogleFonts.inter(fontSize: 25, color: Color.fromARGB(255, 228, 242, 32))),
+              style: GoogleFonts.inter(
+                  fontSize: 25, color: Color.fromARGB(255, 228, 242, 32))),
           const SizedBox(
             height: 8,
           ),
@@ -233,7 +233,6 @@ class _AdminLoginPage extends State<AdminLoginPage> {
     //end of button
     // );
   }
-
 
   Future<UserLogin?> fetchDataLogin(String email, String password) async {
     showDialog(
