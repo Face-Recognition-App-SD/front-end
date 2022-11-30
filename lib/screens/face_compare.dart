@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:rostro_app/admins/am_user_detail.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
 import './camera.dart';
@@ -131,7 +132,7 @@ class ExtendedCompareFace extends State<CompareFace> {
             print(respues);
             print("ZOZOZOZOZOZOZOZOZOZOOZOZOZOZOZZOZOOZ");
             Navigator.of(context).pop();
-            if (respues['T'] == -1 || respues['T'] == 'None') {
+            if (respues['T'] == -1 || respues['T'] == 'Not Found') {
               const snackbar = SnackBar(
                 content: Text(
                   "No Match",
@@ -178,17 +179,28 @@ class ExtendedCompareFace extends State<CompareFace> {
               var decodedPatient = jsonDecode(patientRes.body);
               pictures = json.decode(imageRes.body);
               XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => ShowPatient(
-                    token: token,
-                    details: decodedPatient,
-                    picture: retrievedPicture,
-                    isFromAll: true,
+              if(isSuperUser){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => UserDetail(token: token,
+                        id: id)
                   ),
-                ),
-              );
+                );
+              }
+              else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ShowPatient(
+                      token: token,
+                      details: decodedPatient,
+                      picture: retrievedPicture,
+                      isFromAll: true,
+                    ),
+                  ),
+                );
+              }
             }
             // child:Container()
           },
