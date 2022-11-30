@@ -110,7 +110,7 @@ class _VerifyEmail extends State<VerifyEmail> {
               email,
               keyController.text,
             );
-            if (data != null) {
+            if (data != null && data.body != '{"status":false}') {
               var result = data.body.toString();
               result = result.substring(10, data.body.length - 1);
               if (result == 'true') ShowDialogSucc(context);
