@@ -62,12 +62,14 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
 
   Container cameraButtonSection() {
     return Container(
-      margin: const EdgeInsets.only(top: 50.0),
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      height: 400,
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 230.0),
+      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
       child: Glassmorphism(
         blur: 20,
-        opacity: 0.1,
-        radius: 50.0,
+        opacity: 0.0,
+        radius: 200.0,
         child: TextButton(
           // child: const Text('Take Picture of Patient'),
           child: Container(
@@ -77,7 +79,7 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
             ),
             child: const Text(
               "Take Picture of the Patient",
-              style: TextStyle(color: Colors.black, fontSize: 20.0),
+              style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
           ),
           onPressed: () async {
