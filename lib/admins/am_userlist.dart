@@ -39,7 +39,7 @@ class _PatientList extends State<UserList> {
   late bool? is_superuser;
   @override
   void initState() {
-    super.initState();
+ //   super.initState();
     token = widget.token;
     is_superuser = widget.is_superuser;
   }
@@ -133,7 +133,7 @@ class _PatientList extends State<UserList> {
           },
         ),
       ),
-      onEditingComplete: showUsers,
+   //   onEditingComplete: showUsers,
     );
   }
 
