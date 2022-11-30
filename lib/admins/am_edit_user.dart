@@ -56,6 +56,7 @@ class _EditUser extends State<EditUser> {
   String? lastName = "";
   String? role = "";
   String? gender = "";
+  String? password = "";
   bool? is_superuser = false;
 
 
@@ -127,11 +128,11 @@ class _EditUser extends State<EditUser> {
               emailController.text = snapshot.data!.email ?? "Not provided";
               firstnameController.text = snapshot.data!.first_name ?? "Not provided";
             lastnameController.text= snapshot.data!.last_name ?? "Not provided";
-           
               roleController.text = snapshot.data!.role ?? "Not provided";
               department_idController.text = snapshot.data!.department_id.toString();
               gender = snapshot.data!.gender;
-              
+              password = snapshot.data!.password;
+              role = snapshot.data!.role;
           }
           return textData(context);},),
             
@@ -152,6 +153,19 @@ class _EditUser extends State<EditUser> {
 
   Future<bool> editPatientInfo() async {
     print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+    print(firstnameController.text);
+    print(lastnameController.text);
+    print(genero);
+    print(roleo);
+    print(emailController.text);
+    if(genero == 'none'){
+      genero = gender!;
+    }
+    if(roleo == 'none' || roleo.isEmpty){
+      print(role);
+      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+      roleo = role!;
+    }
     Uri addPatientTextUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       addPatientTextUri =
@@ -169,8 +183,9 @@ class _EditUser extends State<EditUser> {
       'last_name': lastnameController.text,
       'gender': genero,
       'role': roleo,
-      'email': emailController.text
+      'email': emailController.text,
     });
+    print(res.body);
     return true;
   }
 

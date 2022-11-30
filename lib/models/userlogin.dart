@@ -50,6 +50,7 @@ bool? is_superuser;
       role: json['role'],
       cpassword: json['cpassword'],
       is_superuser: json['is_superuser'],
+      password: json['password']
       // cpass: json['cpass'],
       // ssn: json['ssn'],
       // address: json['address'],
