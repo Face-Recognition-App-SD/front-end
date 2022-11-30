@@ -19,7 +19,7 @@ class VerifyEmail extends StatefulWidget {
 }
 
 class _VerifyEmail extends State<VerifyEmail> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String email;
   @override
   void initState() {

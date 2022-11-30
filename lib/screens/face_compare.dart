@@ -19,7 +19,7 @@ class CompareFace extends StatefulWidget {
 }
 
 class ExtendedCompareFace extends State<CompareFace> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   late Map<String, dynamic> pictures;
   late int id;

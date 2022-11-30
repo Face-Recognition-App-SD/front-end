@@ -15,8 +15,6 @@ import '../utils/Glassmorphism.dart';
 import '../admins/am_deactivate.dart';
 import 'package:camera/camera.dart';
 
-
-
 class UserDetail extends StatefulWidget {
   final String token;
   final id;
@@ -27,11 +25,11 @@ class UserDetail extends StatefulWidget {
 }
 
 class _UserDetail extends State<UserDetail> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   late int id;
   late Future<UserLogin?> futureUser;
-    late Map<String, dynamic> pictures;
+  late Map<String, dynamic> pictures;
   XFile userPicture = XFile('/assets/images/icon_sample.jpeg');
   @override
   void initState() {
@@ -39,7 +37,7 @@ class _UserDetail extends State<UserDetail> {
     token = widget.token;
     id = widget.id;
     futureUser = fetchUserProfile(token, id);
-     getPic();
+    getPic();
   }
 
   int currentPage = 0;
@@ -56,53 +54,45 @@ class _UserDetail extends State<UserDetail> {
         title: const Text('Profile Page'),
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
-         Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  {
-                    delete(id!, token);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => UserList(
-                                token: token,
-                              )),
-                    );
-                  }
-                },
-              
-              
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                {
+                  delete(id!, token);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => UserList(
+                              token: token,
+                            )),
+                  );
+                }
+              },
+              child: const Icon(
+                Icons.delete,
+                color: Colors.red,
               ),
             ),
-
-Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () { 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) =>
-                            EditUser(id: id, token: token, futureUser: futureUser),
-                      ),
-                    );
-                  },
-                
-                
-                  child: const Icon(
-                    Icons.edit,
-                    color: Color.fromARGB(255, 243, 236, 235),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        EditUser(id: id, token: token, futureUser: futureUser),
                   ),
-                
+                );
+              },
+              child: const Icon(
+                Icons.edit,
+                color: Color.fromARGB(255, 243, 236, 235),
               ),
             ),
-
+          ),
         ],
       ),
       body: Container(
@@ -120,7 +110,6 @@ Padding(
               role = snapshot.data!.role;
               gender = snapshot.data!.gender;
               is_superuser = snapshot.data!.is_superuser;
-            
 
               return displayProfile();
             } else if (snapshot.hasError) {
@@ -134,13 +123,14 @@ Padding(
       ),
     );
   }
- delete(int id, String token) async {
+
+  delete(int id, String token) async {
     var rest = await deleteUser(id, token);
     setState(() {});
   }
 
   Widget displayProfile() {
-       String picturePath = "";
+    String picturePath = "";
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       picturePath = userPicture.path;
     } else {
@@ -170,8 +160,6 @@ Padding(
                 ),
               ],
             ),
-  
-          
             const SizedBox(
               height: 10,
             ),
@@ -193,31 +181,31 @@ Padding(
           ],
         ),
       ),
-        const Divider(),
-          AdminDeactivate(id: widget.id, token:token),
-            Padding(
-               padding: EdgeInsets.only(left: 20, right: 20),
-              child: GlassContainer(
-                borderRadius: new BorderRadius.circular(15.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 5),
-                  child: ListTile(
-                    title: const Text(
-                      'ID',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$id',
-                      style: const TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
+      const Divider(),
+      AdminDeactivate(id: widget.id, token: token),
+      Padding(
+        padding: EdgeInsets.only(left: 20, right: 20),
+        child: GlassContainer(
+          borderRadius: new BorderRadius.circular(15.0),
+          child: Padding(
+            padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+            child: ListTile(
+              title: const Text(
+                'ID',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+              subtitle: Text(
+                '$id',
+                style: const TextStyle(fontSize: 18, color: Colors.white),
+              ),
             ),
+          ),
+        ),
+      ),
       Divider(),
       Container(
         padding: EdgeInsets.only(left: 20, right: 20),
@@ -295,21 +283,19 @@ Padding(
               ),
             ),
             Divider(),
-      Padding(
-               padding: EdgeInsets.only(top: 10),
+            Padding(
+              padding: EdgeInsets.only(top: 10),
               child: GlassContainer(
                 borderRadius: new BorderRadius.circular(15.0),
                 child: Padding(
                   padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                   child: ListTile(
-                    title: const Text(
-                      'Is Admin',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      )
-                    ),
+                    title: const Text('Is Admin',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
                     subtitle: Text(
                       '$is_superuser',
                       style: const TextStyle(fontSize: 18, color: Colors.white),
@@ -354,44 +340,45 @@ Padding(
       throw Exception('Failed to load user info');
     }
   }
-Future <http.Response> deleteUser(int id, String token) async {
-      Uri deleteUri = Uri();
-      if(Constants.BASE_URL == "api.rostro-authentication.com"){
-        deleteUri = Uri.https(Constants.BASE_URL,'/api/admin/users/$id/');
-      }
-      else{
-        deleteUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
-      }
-    var response = await http.delete(deleteUri,
 
-    headers: 
-    {
+  Future<http.Response> deleteUser(int id, String token) async {
+    Uri deleteUri = Uri();
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      deleteUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
+    } else {
+      deleteUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
+    }
+    var response = await http.delete(
+      deleteUri,
+      headers: {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.authorizationHeader: 'Token $token',
       },
-     );
-    if(response.statusCode > 200 && response.statusCode < 300){
-      setState(() {
-        
-      });
+    );
+    if (response.statusCode > 200 && response.statusCode < 300) {
+      setState(() {});
       return response;
-    
-    }else{throw "Sorry! Unable to delete this post";}
+    } else {
+      throw "Sorry! Unable to delete this post";
+    }
   }
 
-   Future<XFile> getPic() async{
+  Future<XFile> getPic() async {
     Uri getUserPicUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
-      getUserPicUri = Uri.https("${Constants.BASE_URL}", "/api/admin/users/$id/get_images/");
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      getUserPicUri = Uri.https(
+          "${Constants.BASE_URL}", "/api/admin/users/$id/get_images/");
+    } else {
+      getUserPicUri =
+          Uri.parse("${Constants.BASE_URL}/api/admin/users/$id/get_images/");
     }
-    else{
-      getUserPicUri = Uri.parse("${Constants.BASE_URL}/api/admin/users/$id/get_images/");
-    }
-    var response = await http.get(getUserPicUri,
-    headers: {HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token'});
+    var response = await http.get(getUserPicUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Token $token'
+    });
     pictures = json.decode(response.body);
-    userPicture = XFile(pictures['image_lists'][pictures['image_lists'].length-1]['image']);
+    userPicture = XFile(
+        pictures['image_lists'][pictures['image_lists'].length - 1]['image']);
     return userPicture;
   }
 }

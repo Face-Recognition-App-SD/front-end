@@ -32,14 +32,14 @@ class UserList extends StatefulWidget {
 }
 
 class _PatientList extends State<UserList> {
-  var bg = './assets/images/bg6.gif';
+  var bg = './assets/images/bg1.gif';
   late String token;
   late List<UserLogin> users = [];
   bool _searchBoolean = false;
   late bool? is_superuser;
   @override
   void initState() {
-    super.initState();
+ //   super.initState();
     token = widget.token;
     is_superuser = widget.is_superuser;
   }
@@ -58,10 +58,9 @@ class _PatientList extends State<UserList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => AdminHomePage
-                  (
+                  builder: (context) => AdminHome(
                         token: token,
-                        
+
                       )),
             );
           },
@@ -134,27 +133,25 @@ class _PatientList extends State<UserList> {
           },
         ),
       ),
-      onEditingComplete: showUsers,
+   //   onEditingComplete: showUsers,
     );
   }
 
   Container showUsers() {
     return Container(
       child: FutureBuilder(
-        
         future: fetchUser(token, is_superuser),
         builder: (context, snapshot) {
-             
           if (snapshot.hasData) {
             http.Response resp = snapshot.data as http.Response;
 
             if (resp.statusCode == 200) {
               final jsonMap = jsonDecode(resp.body);
-           
+
               users = (jsonMap as List)
                   .map((patientItem) => UserLogin.fromJson(patientItem))
                   .toList();
-                
+
               return users.isNotEmpty
                   ? userListView(context)
                   : const Center(
@@ -205,11 +202,11 @@ class _PatientList extends State<UserList> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => UserDetail(
-                          token: token,
-                          id: users[index].id,
-                          ),),
-                        
+                    builder: (context) => UserDetail(
+                      token: token,
+                      id: users[index].id,
+                    ),
+                  ),
                 );
               },
               child: ListTile(
@@ -225,7 +222,7 @@ class _PatientList extends State<UserList> {
                     color: Colors.blueAccent,
                   ),
                 ),
-                subtitle:  Row(
+                subtitle: Row(
                   children: [
                     Text(
                       users[index].first_name.toString().toUpperCase(),
@@ -234,8 +231,8 @@ class _PatientList extends State<UserList> {
                         color: Colors.blueAccent,
                       ),
                     ),
-                      Text(" "),
-                      Text(
+                    Text(" "),
+                    Text(
                       users[index].last_name.toString().toUpperCase(),
                       style: const TextStyle(
                         fontFamily: 'Roboto',
@@ -244,8 +241,7 @@ class _PatientList extends State<UserList> {
                     ),
                   ],
                 ),
-                 trailing: verify(context, index),
-               
+                trailing: verify(context, index),
               ),
             ),
           ),
@@ -254,20 +250,21 @@ class _PatientList extends State<UserList> {
     );
   }
 
-
   Widget verify(context, index) {
     return TextButton(
       onPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (Context) => VerifyPatient(token: token, id: users[index].id!, isSuperUser: true),
+            builder: (Context) => VerifyPatient(
+                token: token, id: users[index].id!, isSuperUser: true),
           ),
         );
       },
       child: const Text('Verify User'),
     );
   }
+
   Future<http.Response?> fetchUser(token, is_superuser) async {
     var text = txtQuery.text;
     Uri myProfileUri = Uri();
@@ -284,7 +281,7 @@ class _PatientList extends State<UserList> {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
     });
-  //  response.body("is_superuser", is_superuser);
+    //  response.body("is_superuser", is_superuser);
 
     return response;
   }

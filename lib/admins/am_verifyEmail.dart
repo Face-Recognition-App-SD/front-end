@@ -22,16 +22,15 @@ class AdminVerifyEmail extends StatefulWidget {
 }
 
 class _AdminVerifyEmail extends State<AdminVerifyEmail> {
-  var bg = './assets/images/bg.jpeg';
+  var bg = './assets/images/bg1.gif';
   late String email;
-  String token ="";
+  String token = "";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     email = widget.email;
     token = widget.token;
-    
   }
 
   @override
@@ -148,21 +147,17 @@ class _AdminVerifyEmail extends State<AdminVerifyEmail> {
 
   Future<http.Response> fetchVerify(email, key) async {
     Uri myfetchUri = Uri();
-    if(Constants.BASE_URL == "api.rostro-authentication.com"){
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
       myfetchUri = Uri.https(Constants.BASE_URL, '/api/user/email/verify/');
-    }
-    else{
+    } else {
       myfetchUri = Uri.parse('${Constants.BASE_URL}/api/user/email/verify/');
     }
-    var response = await http.post(
-        myfetchUri,
-        headers: {
-          HttpHeaders.acceptHeader: 'application/json',
-        },
-        body: {
-          "email": email,
-          "key": key,
-        });
+    var response = await http.post(myfetchUri, headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+    }, body: {
+      "email": email,
+      "key": key,
+    });
 
     if (response.statusCode > 200 && response.statusCode < 300) {
       return response;
@@ -171,30 +166,32 @@ class _AdminVerifyEmail extends State<AdminVerifyEmail> {
     }
   }
 
-
-Widget? ShowDialogSucc(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      print ("token in dialog");
-      print(token);
-      print("what");
-      return AlertDialog(
-        title: const Text("Message!"),
-        content: const Text("Your account has been verified."),
-        actions: <Widget>[
-          TextButton(
-            child: const Text("Back to HomePage"),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) =>  AdminHomePage(token: token,)),
-              );
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+  Widget? ShowDialogSucc(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        print("token in dialog");
+        print(token);
+        print("what");
+        return AlertDialog(
+          title: const Text("Message!"),
+          content: const Text("Your account has been verified."),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Back to HomePage"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => AdminHomePage(
+                            token: token,
+                          )),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
