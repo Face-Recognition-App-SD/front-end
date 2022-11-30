@@ -158,7 +158,7 @@ class _EditUser extends State<EditUser> {
     print(genero);
     print(roleo);
     print(emailController.text);
-    if(genero == 'none'){
+    if(genero == 'none' || genero.isEmpty){
       genero = gender!;
     }
     if(roleo == 'none' || roleo.isEmpty){
