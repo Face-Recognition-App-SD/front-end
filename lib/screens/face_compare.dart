@@ -131,7 +131,7 @@ class ExtendedCompareFace extends State<CompareFace> {
             print(respues);
             print("ZOZOZOZOZOZOZOZOZOZOOZOZOZOZOZZOZOOZ");
             Navigator.of(context).pop();
-            if (respues['T'] == -1 || respues['T'] == 'None') {
+            if (respues['T'] == -1 || respues['T'] == 'Not Found') {
               const snackbar = SnackBar(
                 content: Text(
                   "No Match",

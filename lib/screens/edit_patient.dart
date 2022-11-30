@@ -212,6 +212,12 @@ class ExtendEditPatient extends State<EditPatient> {
 
   Future<bool> editPatientInfo() async {
     Uri addPatientTextUri = Uri();
+    if(genero == 'none' || genero.isEmpty){
+      genero = details['gender'];
+    }
+    if(estado == 'none' || estado.isEmpty){
+      estado = details['state_address'];
+    }
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       addPatientTextUri =
           Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
@@ -232,6 +238,8 @@ class ExtendEditPatient extends State<EditPatient> {
       'gender': genero,
       'state_address': estado
     });
+    print("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+    print(res.body);
     return true;
   }
 
