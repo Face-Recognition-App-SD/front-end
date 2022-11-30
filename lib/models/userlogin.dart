@@ -4,7 +4,7 @@ UserLogin albumFromJson(String str) => UserLogin.fromJson(json.decode(str));
 String albumToJson(UserLogin data) => json.encode(data.toJson());
 
 class UserLogin {
-  int? id;
+  int id;
   String? email;
   String? first_name;
   String? last_name;
@@ -22,7 +22,7 @@ bool? is_superuser;
   // final String? org;
 
   UserLogin({
-    this.id,
+    required this.id,
     this.email,
     this.first_name,
     this.last_name,

@@ -26,7 +26,7 @@ String roleo = 'none';
 class EditUser extends StatefulWidget {
    final Future<UserLogin?> futureUser;
   final String token;
-  final id;
+  final int id;
   const EditUser({super.key, required this.token, required this.id, required this.futureUser});
 
   @override
@@ -150,42 +150,8 @@ class _EditUser extends State<EditUser> {
     setState(() {});
   }
 
-
-  // Widget getImages(BuildContext context) {
-  //   return Container(
-  //       margin: const EdgeInsets.only(top: 30.0, left: 20, right: 20),
-  //       child: Glassmorphism(
-  //           blur: 20,
-  //           opacity: 0.1,
-  //           radius: 50.0,
-  //           child:
-  //               // padding: const EdgeInsets.symmetric(horizontal: 20.0),
-
-  //               TextButton(
-  //             // child: const Text('Update Images'),
-  //             child: Container(
-  //               padding: EdgeInsets.symmetric(
-  //                 vertical: 5,
-  //                 horizontal: 5,
-  //               ),
-  //               child: const Text("Update Image",
-  //                   style: TextStyle(color: Colors.white, fontSize: 13.0)),
-  //             ),
-  //             onPressed: () async {
-  //               pictures = await Navigator.push(
-  //                   context,
-  //                   MaterialPageRoute(
-  //                       builder: (context) =>
-  //                           GetPatientPictures(token: token)));
-  //             },
-  //           )));
-  // }
-
   Future<bool> editPatientInfo() async {
-    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-   
-    print(genero);
-    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
     Uri addPatientTextUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       addPatientTextUri =
@@ -194,85 +160,19 @@ class _EditUser extends State<EditUser> {
       addPatientTextUri =
           Uri.parse("${Constants.BASE_URL}/api/admin/users/$id/");
     }
-    bool flag = false;
-    if (firstnameController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'first_name', firstnameController.text);
-      flag = true;
-    }
-    if (lastnameController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'last_name', lastnameController.text);
-      flag = true;
-    }
-    if (emailController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'email', emailController.text);
-      flag = true;
-    }
-    if (roleController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'role', roleController.text);
-      flag = true;
-    }
-     if (department_idController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'department_id', department_idController.text);
-      flag = true;
-    }
-   
-    if (genero != 'none') {
-      editPatient(addPatientTextUri, 'gender', genero);
-      flag = true;
-    }
-    return flag;
-  }
-
-  Future<UserList?> editPatient(addPatientTextUri, key, val) async {
-    if (key == "gender") {
-      print("JOIJOJIOJOIJOIJS");
-      print(genero);
-    
-      print(key + "======" + val);
-    }
+    print(addPatientTextUri);
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
-      key: val,
+      'first_name': firstnameController.text,
+      'last_name': lastnameController.text,
+      'gender': genero,
+      'role': roleo,
+      'email': emailController.text
     });
-
+    return true;
   }
-
-  // Future<bool> updateImages() async {
-  //   if (pictures.isNotEmpty) {
-  //     Uri addPatientPictures = Uri();
-  //     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-  //       addPatientPictures = Uri.https(
-  //           Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
-            
-  //     } else {
-  //       addPatientPictures = Uri.parse(
-  //           "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
-  //     }
-  //     var request = http.MultipartRequest("POST", addPatientPictures);
-  //     request.headers.addAll({"Authorization": "Token $token"});
-  //     request.fields['id'] = id.toString();
-  //     var image1 =
-
-  //         await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
-  //     request.files.add(image1);
-  //     var image2 =
-  //         await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
-  //     request.files.add(image2);
-  //     var image3 =
-  //         await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
-  //     request.files.add(image3);
-
-  //     http.StreamedResponse response = await request.send();
-
-  //     if (response.statusCode > 199 && response.statusCode < 300) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
 
   Widget textData(context) {
     
@@ -486,6 +386,8 @@ class _EditUser extends State<EditUser> {
       child: ElevatedButton(
         child: const Text('Submit'),
         onPressed: () async {
+          print(token);
+          print("BLINEYYYY");
           showDialog(
               context: context,
               builder: (context) {
@@ -493,7 +395,9 @@ class _EditUser extends State<EditUser> {
                   child: CircularProgressIndicator(),
                 );
               });
+          print("JJJJJDSJBBKJSFBKFBHDK");
           var resText = await editPatientInfo();
+          print("ZOOOOKA");
           // if (pictures.isNotEmpty) {
           //   resPics = await updateImages();
           // }

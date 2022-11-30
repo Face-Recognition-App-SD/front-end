@@ -150,7 +150,7 @@ class ExtendedCompareFace extends State<CompareFace> {
                 getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
               }else{
                 print("JJOJOJOJOJOJOJOJOJOJO");
-                getPatientUri = Uri.parse('${Constants.BASE_URL}/api/admin/patients/$id/');
+                getPatientUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
               }
               Uri getImagesUri = Uri();
               if (Constants.BASE_URL == "api.rostro-authentication.com") {
