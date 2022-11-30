@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rostro_app/admins/am_userlist.dart';
+import 'package:rostro_app/screens/add_new_patient.dart';
 import 'package:rostro_app/screens/firstpage.dart';
 import 'package:rostro_app/screens/login_page.dart';
 import 'package:rostro_app/screens/pwdchange.dart';
@@ -12,15 +14,15 @@ import '../utils/Glassmorphism.dart';
 import 'package:camera/camera.dart';
 import '../screens/get_patient_pictures.dart';
 
-List<String> genders = <String>[
+final List<String> genders = <String>[
   'Please select role',
   'Male',
   'Female',
   'Transgender',
   'Non-binary/non-conforming',
-  'Prefer not to respond'
+  'Prefer not to respond',
 ];
-List<String> roles = [
+final List<String> roles = [
   'Please select role',
   'Doctor',
   'Nurse',
@@ -77,76 +79,76 @@ class _EditUser extends State<EditUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile Page'),
-          backgroundColor: Colors.blueAccent,
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  {
-                    delete(id!, token);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => UserList(
-                                token: token,
-                              )),
-                    );
-                  }
-                },
-                child: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ),
+      appBar: AppBar(
+        title: const Text('Profile Page'),
+        backgroundColor: Colors.blueAccent,
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                {
+                  delete(id!, token);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => UserList(
+                              token: token,
+                            )),
+                  );
+                }
+              },
+              child: const Icon(
+                Icons.delete,
+                color: Colors.red,
               ),
             ),
-          ],
+          ),
+        ],
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(bg),
+            fit: BoxFit.cover,
+          ),
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(bg),
-              fit: BoxFit.cover,
-            ),
-          ),
-          constraints: const BoxConstraints.expand(), //background image
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: ListView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                const SizedBox(height: 10.0),
-                FutureBuilder<UserLogin?>(
-                  future: futureUser,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      id = snapshot.data!.id;
-                      emailController.text =
-                          snapshot.data!.email ?? "Not provided";
-                      firstnameController.text =
-                          snapshot.data!.first_name ?? "Not provided";
-                      lastnameController.text =
-                          snapshot.data!.last_name ?? "Not provided";
+        constraints: const BoxConstraints.expand(), //background image
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              const SizedBox(height: 10.0),
+              FutureBuilder<UserLogin?>(
+                future: futureUser,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    id = snapshot.data!.id;
+                    emailController.text =
+                        snapshot.data!.email ?? "Not provided";
+                    firstnameController.text =
+                        snapshot.data!.first_name ?? "Not provided";
+                    lastnameController.text =
+                        snapshot.data!.last_name ?? "Not provided";
+                    roleController.text = snapshot.data!.role ?? "Not provided";
+                    department_idController.text =
+                        snapshot.data!.department_id.toString();
+                    genderController.text =
+                        snapshot.data!.gender ?? "Not provided";
+                  }
+                  return textData(context);
+                },
+              ),
 
-                      roleController.text =
-                          snapshot.data!.role ?? "Not provided";
-                      department_idController.text =
-                          snapshot.data!.department_id.toString();
-                      gender = snapshot.data!.gender;
-                    }
-                    return textData(context);
-                  },
-                ),
-
-                //    getImages(context),
-                submitButton(context),
-              ],
-            ),
+              //    getImages(context),
+              submitButton(context),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   delete(int id, String token) async {
@@ -184,271 +186,181 @@ class _EditUser extends State<EditUser> {
   //           )));
   // }
 
-  Future<bool> editPatientInfo() async {
-    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-
-    print(genero);
-    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-    Uri addPatientTextUri = Uri();
-    if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      addPatientTextUri =
-          Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
-    } else {
-      addPatientTextUri =
-          Uri.parse("${Constants.BASE_URL}/api/admin/users/$id/");
-    }
-    bool flag = false;
-    if (firstnameController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'first_name', firstnameController.text);
-      flag = true;
-    }
-    if (lastnameController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'last_name', lastnameController.text);
-      flag = true;
-    }
-    if (emailController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'email', emailController.text);
-      flag = true;
-    }
-    if (roleController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'role', roleController.text);
-      flag = true;
-    }
-    if (department_idController.text.isNotEmpty) {
-      editPatient(
-          addPatientTextUri, 'department_id', department_idController.text);
-      flag = true;
-    }
-
-    if (genero != 'none') {
-      editPatient(addPatientTextUri, 'gender', genero);
-      flag = true;
-    }
-    return flag;
-  }
-
-  Future<UserList?> editPatient(addPatientTextUri, key, val) async {
-    if (key == "gender") {
-      print("JOIJOJIOJOIJOIJS");
-      print(genero);
-
-      print(key + "======" + val);
-    }
-    final res = await http.patch(addPatientTextUri, headers: {
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Token $token',
-    }, body: {
-      key: val,
-    });
-  }
-
-  // Future<bool> updateImages() async {
-  //   if (pictures.isNotEmpty) {
-  //     Uri addPatientPictures = Uri();
-  //     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-  //       addPatientPictures = Uri.https(
-  //           Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
-
-  //     } else {
-  //       addPatientPictures = Uri.parse(
-  //           "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
-  //     }
-  //     var request = http.MultipartRequest("POST", addPatientPictures);
-  //     request.headers.addAll({"Authorization": "Token $token"});
-  //     request.fields['id'] = id.toString();
-  //     var image1 =
-
-  //         await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
-  //     request.files.add(image1);
-  //     var image2 =
-  //         await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
-  //     request.files.add(image2);
-  //     var image3 =
-  //         await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
-  //     request.files.add(image3);
-
-  //     http.StreamedResponse response = await request.send();
-
-  //     if (response.statusCode > 199 && response.statusCode < 300) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
   Widget textData(context) {
     return Container(
-        padding: EdgeInsets.only(left: 15, right: 15),
-        child: Column(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              //     Container(
-              //
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          //     Container(
+          //
 
-              GlassContainer(
-                borderRadius: new BorderRadius.circular(10.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Text(
-                          "Firstname:",
-                          // textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        ),
-                      ),
-                      TextFormField(
-                        controller: firstnameController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 14),
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.person, color: Colors.white70),
-                          // hintText: 'DepartID',
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
-                        ),
-                      ),
-                    ],
+          GlassContainer(
+            borderRadius: new BorderRadius.circular(10.0),
+            child: Padding(
+              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+              child: Column(
+                children: <Widget>[
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      "Firstname:",
+                      // textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              GlassContainer(
-                borderRadius: new BorderRadius.circular(10.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Text(
-                          "\t Lastname:",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        ),
-                      ),
-                      TextFormField(
-                        controller: lastnameController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 14),
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.person, color: Colors.white70),
-                          // hintText: 'DepartID',
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
-                        ),
-                      ),
-                    ],
+                  TextFormField(
+                    controller: firstnameController,
+                    cursorColor: Colors.white,
+                    style: const TextStyle(color: Colors.white70, fontSize: 14),
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.person, color: Colors.white70),
+                      // hintText: 'DepartID',
+                      border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white70)),
+                      hintStyle: TextStyle(color: Colors.white70),
+                    ),
                   ),
-                ),
+                ],
               ),
-              const SizedBox(height: 20.0),
-              GlassContainer(
-                borderRadius: new BorderRadius.circular(10.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Text(
-                          "\t Email:",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        ),
-                      ),
-                      TextFormField(
-                        controller: emailController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 13),
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.person, color: Colors.white70),
-                          // hintText: 'DepartID',
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
-                        ),
-                      ),
-                    ],
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          GlassContainer(
+            borderRadius: new BorderRadius.circular(10.0),
+            child: Padding(
+              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+              child: Column(
+                children: <Widget>[
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      "\t Lastname:",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              GlassContainer(
-                  width: double.infinity,
-                  borderRadius: new BorderRadius.circular(10.0),
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                      child: Column(
-                        children: const <Widget>[
-                          SizedBox(height: 20.0),
-                          Text(
-                            "\t Role:",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: 14, color: Colors.white),
-                          ),
-                          DropDownRole(),
-                        ],
-                      ))),
-              const SizedBox(height: 20.0),
-              GlassContainer(
-                borderRadius: new BorderRadius.circular(10.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Text(
-                          "\t Department_id:",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        ),
-                      ),
-                      TextFormField(
-                        controller: department_idController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 13),
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.local_hospital_outlined,
-                              color: Colors.white70),
-                          // hintText: 'DepartID',
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white70)),
-                          hintStyle: TextStyle(color: Colors.white70),
-                        ),
-                      ),
-                    ],
+                  TextFormField(
+                    controller: lastnameController,
+                    cursorColor: Colors.white,
+                    style: const TextStyle(color: Colors.white70, fontSize: 14),
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.person, color: Colors.white70),
+                      // hintText: 'DepartID',
+                      border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white70)),
+                      hintStyle: TextStyle(color: Colors.white70),
+                    ),
                   ),
-                ),
+                ],
               ),
-              const SizedBox(height: 20.0),
-              GlassContainer(
-                  width: double.infinity,
-                  borderRadius: new BorderRadius.circular(10.0),
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                      child: Column(
-                        children: const <Widget>[
-                          SizedBox(height: 20.0),
-                          Text(
-                            "\t Gender:",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: 14, color: Colors.white),
-                          ),
-                          DropDownGender(),
-                        ],
-                      )))
-            ]));
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          GlassContainer(
+            borderRadius: new BorderRadius.circular(10.0),
+            child: Padding(
+              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+              child: Column(
+                children: <Widget>[
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      "\t Email:",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: emailController,
+                    cursorColor: Colors.white,
+                    style: const TextStyle(color: Colors.white70, fontSize: 13),
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.person, color: Colors.white70),
+                      // hintText: 'DepartID',
+                      border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white70)),
+                      hintStyle: TextStyle(color: Colors.white70),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          GlassContainer(
+            width: double.infinity,
+            borderRadius: new BorderRadius.circular(10.0),
+            child: Padding(
+              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+              child: Column(
+                children: const <Widget>[
+                  SizedBox(height: 20.0),
+                  Text(
+                    "\t Role:",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  ),
+                  DropDownRole(),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          GlassContainer(
+            borderRadius: new BorderRadius.circular(10.0),
+            child: Padding(
+              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+              child: Column(
+                children: <Widget>[
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      "\t Department_id:",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: department_idController,
+                    cursorColor: Colors.white,
+                    style: const TextStyle(color: Colors.white70, fontSize: 13),
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.local_hospital_outlined,
+                          color: Colors.white70),
+                      // hintText: 'DepartID',
+                      border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white70)),
+                      hintStyle: TextStyle(color: Colors.white70),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          GlassContainer(
+            width: double.infinity,
+            borderRadius: new BorderRadius.circular(10.0),
+            child: Padding(
+              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+              child: Column(
+                children: const <Widget>[
+                  SizedBox(height: 20.0),
+                  Text(
+                    "\t Gender:",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  ),
+                  DropDownGender(),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget? _showDialog(BuildContext context, String token) {
@@ -466,9 +378,10 @@ class _EditUser extends State<EditUser> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => UserList(
-                            token: token,
-                          )),
+                    builder: (_) => UserList(
+                      token: token,
+                    ),
+                  ),
                 );
               },
             ),
@@ -527,6 +440,101 @@ class _EditUser extends State<EditUser> {
       throw "Sorry! Unable to delete this post";
     }
   }
+
+  Future<bool> editPatientInfo() async {
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+
+    print(genero);
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+    Uri addPatientTextUri = Uri();
+    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      addPatientTextUri =
+          Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
+    } else {
+      addPatientTextUri =
+          Uri.parse("${Constants.BASE_URL}/api/admin/users/$id/");
+    }
+    bool flag = false;
+    if (firstnameController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'first_name', firstnameController.text);
+      flag = true;
+    }
+    if (lastnameController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'last_name', lastnameController.text);
+      flag = true;
+    }
+    if (emailController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'email', emailController.text);
+      flag = true;
+    }
+    if (roleController.text.isNotEmpty) {
+      editPatient(addPatientTextUri, 'role', roleController.text);
+      flag = true;
+    }
+    if (department_idController.text.isNotEmpty) {
+      editPatient(
+          addPatientTextUri, 'department_id', department_idController.text);
+      flag = true;
+    }
+
+    if (genero != 'none') {
+      editPatient(addPatientTextUri, 'gender', genero);
+      flag = true;
+    }
+    return flag;
+  }
+
+  Future<UserList?> editPatient(addPatientTextUri, key, val) async {
+    if (key == "gender") {
+      print("JOIJOJIOJOIJOIJS");
+      print(genero);
+
+      print(key + "======" + val);
+    }
+    final res = await http.patch(
+      addPatientTextUri,
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Token $token',
+      },
+      body: {
+        key: val,
+      },
+    );
+  }
+
+  // Future<bool> updateImages() async {
+  //   if (pictures.isNotEmpty) {
+  //     Uri addPatientPictures = Uri();
+  //     if (Constants.BASE_URL == "api.rostro-authentication.com") {
+  //       addPatientPictures = Uri.https(
+  //           Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
+
+  //     } else {
+  //       addPatientPictures = Uri.parse(
+  //           "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
+  //     }
+  //     var request = http.MultipartRequest("POST", addPatientPictures);
+  //     request.headers.addAll({"Authorization": "Token $token"});
+  //     request.fields['id'] = id.toString();
+  //     var image1 =
+
+  //         await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
+  //     request.files.add(image1);
+  //     var image2 =
+  //         await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
+  //     request.files.add(image2);
+  //     var image3 =
+  //         await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
+  //     request.files.add(image3);
+
+  //     http.StreamedResponse response = await request.send();
+
+  //     if (response.statusCode > 199 && response.statusCode < 300) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
 }
 
 class DropDownGender extends StatefulWidget {
@@ -536,32 +544,64 @@ class DropDownGender extends StatefulWidget {
 }
 
 class _DropDownGender extends State<DropDownGender> {
+  var genderList = Constants.genderList;
+  String? selectedValueforGender;
   String gender = genders.first;
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: gender,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.black),
-      underline: Container(
-        height: 2,
-        color: Colors.black,
+    return DropdownButton2(
+      hint: const Text(
+        'Gender',
+        style: TextStyle(fontSize: 14, color: Colors.white70),
       ),
-      onChanged: (String? value) {
-        // This is called when the user selects an item.
+      items: genderList
+          .map((item) => DropdownMenuItem<String>(
+              value: item,
+              child: Text(item,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                  ))))
+          .toList(),
+      value: selectedValueforGender,
+      onChanged: (value) {
         setState(() {
-          gender = value!;
-          genero = value;
+          selectedValueforGender = value as String;
         });
       },
-      items: genders.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-          alignment: Alignment.centerRight,
-        );
-      }).toList(),
+      buttonHeight: 30,
+      buttonWidth: 200,
+      itemHeight: 30,
+      dropdownDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Color.fromARGB(236, 9, 96, 168),
+      ),
+      // value: gender,
+      // icon: const Icon(Icons.arrow_downward),
+      // elevation: 16,
+      // style: const TextStyle(color: Colors.black),
+      // underline: Container(
+      //   height: 2,
+      //   color: Colors.black,
+      // ),
+      // onChanged: (String? value) {
+      //   // This is called when the user selects an item.
+      //   setState(
+      //     () {
+      //       gender = value!;
+      //       genero = value;
+      //     },
+      //   );
+      // },
+      // items: genders.map<DropdownMenuItem<String>>(
+      //   (String value) {
+      //     return DropdownMenuItem<String>(
+      //       value: value,
+      //       child: Text(value),
+      //       alignment: Alignment.centerRight,
+      //     );
+      //   },
+      // ).toList(),
     );
   }
 }
@@ -573,32 +613,64 @@ class DropDownRole extends StatefulWidget {
 }
 
 class _DropDownRole extends State<DropDownRole> {
+  String? selectedValueforRoles;
   String role = roles.first;
+
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: role,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.black),
-      underline: Container(
-        height: 2,
-        color: Colors.black,
+    return DropdownButton2(
+      hint: const Text(
+        'Role',
+        style: TextStyle(fontSize: 14, color: Colors.white70),
       ),
-      onChanged: (String? value) {
-        // This is called when the user selects an item.
+      items: roles
+          .map((item) => DropdownMenuItem<String>(
+              value: item,
+              child: Text(item,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                  ))))
+          .toList(),
+      value: selectedValueforRoles,
+      onChanged: (value) {
         setState(() {
-          role = value!;
-          roleo = value;
+          selectedValueforRoles = value as String;
         });
       },
-      items: roles.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-          alignment: Alignment.centerRight,
-        );
-      }).toList(),
+      buttonHeight: 30,
+      buttonWidth: 200,
+      itemHeight: 30,
+      dropdownDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Color.fromARGB(236, 9, 96, 168),
+      ),
+      // value: role,
+      // icon: const Icon(Icons.arrow_downward),
+      // elevation: 16,
+      // style: const TextStyle(color: Colors.black),
+      // underline: Container(
+      //   height: 2,
+      //   color: Colors.black,
+      // ),
+      // onChanged: (String? value) {
+      //   // This is called when the user selects an item.
+      //   setState(
+      //     () {
+      //       role = value!;
+      //       roleo = value;
+      //     },
+      //   );
+      // },
+      // items: roles.map<DropdownMenuItem<String>>(
+      //   (String value) {
+      //     return DropdownMenuItem<String>(
+      //       value: value,
+      //       child: Text(value),
+      //       alignment: Alignment.centerRight,
+      //     );
+      //   },
+      // ).toList(),
     );
   }
 }
