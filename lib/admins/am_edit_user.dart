@@ -32,12 +32,8 @@ String roleo = 'none';
 class EditUser extends StatefulWidget {
   final Future<UserLogin?> futureUser;
   final String token;
-  final id;
-  const EditUser(
-      {super.key,
-      required this.token,
-      required this.id,
-      required this.futureUser});
+  final int id;
+  const EditUser({super.key, required this.token, required this.id, required this.futureUser});
 
   @override
   State<EditUser> createState() => _EditUser();
@@ -63,6 +59,7 @@ class _EditUser extends State<EditUser> {
   String? lastName = "";
   String? role = "";
   String? gender = "";
+  String? password = "";
   bool? is_superuser = false;
 
   List<XFile?> pictures = [];
@@ -119,27 +116,23 @@ class _EditUser extends State<EditUser> {
               physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                 const SizedBox(height: 10.0),
-                FutureBuilder<UserLogin?>(
-                  future: futureUser,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      id = snapshot.data!.id;
-                      emailController.text =
-                          snapshot.data!.email ?? "Not provided";
-                      firstnameController.text =
-                          snapshot.data!.first_name ?? "Not provided";
-                      lastnameController.text =
-                          snapshot.data!.last_name ?? "Not provided";
+               FutureBuilder<UserLogin?>(
+          future: futureUser,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              id = snapshot.data!.id;
+              emailController.text = snapshot.data!.email ?? "Not provided";
+              firstnameController.text = snapshot.data!.first_name ?? "Not provided";
+            lastnameController.text= snapshot.data!.last_name ?? "Not provided";
+              roleController.text = snapshot.data!.role ?? "Not provided";
+              department_idController.text = snapshot.data!.department_id.toString();
+              gender = snapshot.data!.gender;
+              password = snapshot.data!.password;
+              role = snapshot.data!.role;
+          }
+          return textData(context);},),
+            
 
-                      roleController.text =
-                          snapshot.data!.role ?? "Not provided";
-                      department_idController.text =
-                          snapshot.data!.department_id.toString();
-                      gender = snapshot.data!.gender;
-                    }
-                    return textData(context);
-                  },
-                ),
 
                 //    getImages(context),
                 submitButton(context),
@@ -154,41 +147,20 @@ class _EditUser extends State<EditUser> {
     setState(() {});
   }
 
-  // Widget getImages(BuildContext context) {
-  //   return Container(
-  //       margin: const EdgeInsets.only(top: 30.0, left: 20, right: 20),
-  //       child: Glassmorphism(
-  //           blur: 20,
-  //           opacity: 0.1,
-  //           radius: 50.0,
-  //           child:
-  //               // padding: const EdgeInsets.symmetric(horizontal: 20.0),
-
-  //               TextButton(
-  //             // child: const Text('Update Images'),
-  //             child: Container(
-  //               padding: EdgeInsets.symmetric(
-  //                 vertical: 5,
-  //                 horizontal: 5,
-  //               ),
-  //               child: const Text("Update Image",
-  //                   style: TextStyle(color: Colors.white, fontSize: 13.0)),
-  //             ),
-  //             onPressed: () async {
-  //               pictures = await Navigator.push(
-  //                   context,
-  //                   MaterialPageRoute(
-  //                       builder: (context) =>
-  //                           GetPatientPictures(token: token)));
-  //             },
-  //           )));
-  // }
-
   Future<bool> editPatientInfo() async {
     print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-
+   
     print(genero);
-    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+    print(roleo);
+    print(emailController.text);
+    if(genero == 'none' || genero.isEmpty){
+      genero = gender!;
+    }
+    if(roleo == 'none' || roleo.isEmpty){
+      print(role);
+      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+      roleo = role!;
+    }
     Uri addPatientTextUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       addPatientTextUri =
@@ -197,84 +169,20 @@ class _EditUser extends State<EditUser> {
       addPatientTextUri =
           Uri.parse("${Constants.BASE_URL}/api/admin/users/$id/");
     }
-    bool flag = false;
-    if (firstnameController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'first_name', firstnameController.text);
-      flag = true;
-    }
-    if (lastnameController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'last_name', lastnameController.text);
-      flag = true;
-    }
-    if (emailController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'email', emailController.text);
-      flag = true;
-    }
-    if (roleController.text.isNotEmpty) {
-      editPatient(addPatientTextUri, 'role', roleController.text);
-      flag = true;
-    }
-    if (department_idController.text.isNotEmpty) {
-      editPatient(
-          addPatientTextUri, 'department_id', department_idController.text);
-      flag = true;
-    }
-
-    if (genero != 'none') {
-      editPatient(addPatientTextUri, 'gender', genero);
-      flag = true;
-    }
-    return flag;
-  }
-
-  Future<UserList?> editPatient(addPatientTextUri, key, val) async {
-    if (key == "gender") {
-      print("JOIJOJIOJOIJOIJS");
-      print(genero);
-
-      print(key + "======" + val);
-    }
+    print(addPatientTextUri);
     final res = await http.patch(addPatientTextUri, headers: {
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Token $token',
     }, body: {
-      key: val,
+      'first_name': firstnameController.text,
+      'last_name': lastnameController.text,
+      'gender': genero,
+      'role': roleo,
+      'email': emailController.text,
     });
+    print(res.body);
+    return true;
   }
-
-  // Future<bool> updateImages() async {
-  //   if (pictures.isNotEmpty) {
-  //     Uri addPatientPictures = Uri();
-  //     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-  //       addPatientPictures = Uri.https(
-  //           Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
-
-  //     } else {
-  //       addPatientPictures = Uri.parse(
-  //           "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
-  //     }
-  //     var request = http.MultipartRequest("POST", addPatientPictures);
-  //     request.headers.addAll({"Authorization": "Token $token"});
-  //     request.fields['id'] = id.toString();
-  //     var image1 =
-
-  //         await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
-  //     request.files.add(image1);
-  //     var image2 =
-  //         await http.MultipartFile.fromPath("image_lists", pictures[1]!.path);
-  //     request.files.add(image2);
-  //     var image3 =
-  //         await http.MultipartFile.fromPath("image_lists", pictures[2]!.path);
-  //     request.files.add(image3);
-
-  //     http.StreamedResponse response = await request.send();
-
-  //     if (response.statusCode > 199 && response.statusCode < 300) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
 
   Widget textData(context) {
     return Container(

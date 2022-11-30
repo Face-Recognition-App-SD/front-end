@@ -12,7 +12,6 @@ import '../utils/constant.dart';
 import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
-import '../admins/am_edit_user.dart';
 import '../admins/am_deactivate.dart';
 import 'package:camera/camera.dart';
 
@@ -28,7 +27,7 @@ class UserDetail extends StatefulWidget {
 class _UserDetail extends State<UserDetail> {
   var bg = './assets/images/bg1.gif';
   late String token;
-  late int? id;
+  late int id;
   late Future<UserLogin?> futureUser;
   late Map<String, dynamic> pictures;
   XFile userPicture = XFile('/assets/images/icon_sample.jpeg');

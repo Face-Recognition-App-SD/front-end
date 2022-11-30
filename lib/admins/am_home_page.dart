@@ -30,8 +30,8 @@ class _AdminHomePage extends State<AdminHomePage> {
     pages = [
       AdminHome(token: token),
       CompareFace(token: token, isSuperUser: true,),
-      PatientList(token: token),
-      Profile(token: token),
+      PatientList(token: token,is_superuser: true,),
+      Profile(token: token,is_superuser: true,),
     ];
   }
 
@@ -80,7 +80,7 @@ class _AdminHomePage extends State<AdminHomePage> {
           child: const Text('PatientList'),
           onPressed: () async {
             Navigator.push(context,
-                MaterialPageRoute(builder: (_) => PatientList(token: token)));
+                MaterialPageRoute(builder: (_) => PatientList(token: token, is_superuser: true,)));
           },
         ));
   }
@@ -95,7 +95,7 @@ class _AdminHomePage extends State<AdminHomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => AddNewPatient(token: token)));
+                    builder: (_) => AddNewPatient(token: token,)));
           },
         ));
   }
