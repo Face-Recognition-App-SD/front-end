@@ -9,6 +9,7 @@ import '../utils/constant.dart';
 import '../models/userlogin.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import '../utils/Glassmorphism.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   final String token;
@@ -24,7 +25,7 @@ class _Profile extends State<Profile> {
   late String token;
   late Future<UserLogin?> futureUser;
   late Map<String, dynamic> pictures;
-  XFile userPicture = XFile('/assets/images/icon_sample.jpeg');
+ late XFile userPicture;// = XFile('/assets/images/icon_sample.jpeg');
 
   late bool? is_superuser;
 
@@ -92,22 +93,20 @@ class _Profile extends State<Profile> {
       ),
     );
   }
-
+//pictures['image_lists][pictures.length-1]
   Widget displayProfile() {
     String picturePath = "";
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       picturePath = userPicture.path;
     } else {
       picturePath = "${Constants.BASE_URL}${userPicture.path}";
+    
     }
-    var picProfile;
-    if (is_superuser == true) {
-      picProfile = AssetImage('/assets/images/icon_sample.jpeg');
-    }
-    else picProfile = NetworkImage(picturePath);
+
+
     return ListView(children: <Widget>[
       Container(
-        height: 250,
+        height: 400,
         decoration: const BoxDecoration(
           // gradient: LinearGradient(
           //   colors: [
@@ -135,22 +134,8 @@ class _Profile extends State<Profile> {
                 //     size: 30.0
                 //   ),
                 // ),
-                CircleAvatar(
-                  backgroundColor: Colors.white70,
-                  minRadius: 60.0,
-                  child: CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage: picProfile,
-                  ),
-                ),
-                // CircleAvatar(
-                //   backgroundColor: Color.fromARGB(255, 50, 181, 109),
-                //   minRadius: 35.0,
-                //   child: Icon(
-                //     Icons.message,
-                //     size: 30.0
-                //   ),
-                // ),
+                Image.network(picturePath, fit: BoxFit.fill, width: 200, height: 300, colorBlendMode: BlendMode.colorDodge,),
+                
               ],
             ),
             const SizedBox(
