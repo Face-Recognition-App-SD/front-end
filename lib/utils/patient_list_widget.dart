@@ -13,11 +13,13 @@ class PatientListWidget extends StatefulWidget {
   final List<PatientsData> patientList;
   final String token;
   final bool isFromAll;
+  final bool? is_superuser;
 
   const PatientListWidget(
       {Key? key,
       required this.patientList,
       required this.token,
+      this.is_superuser,
       required this.isFromAll})
       : super(key: key);
 
@@ -28,10 +30,12 @@ class PatientListWidget extends StatefulWidget {
 class _PatientListWidgetState extends State<PatientListWidget> {
   late String token;
   late int id;
+  late bool? is_superuser;
 
   late bool isFromAll = widget.isFromAll;
   void initState() {
     token = widget.token;
+    is_superuser = widget.is_superuser;
   }
 
   @override
@@ -99,7 +103,7 @@ class _PatientListWidgetState extends State<PatientListWidget> {
             builder: (context) => VerifyPatient(
               token: token,
               id: widget.patientList[index].id!,
-              isSuperUser: false,
+              isSuperUser: is_superuser!,
             ),
           ),
         );

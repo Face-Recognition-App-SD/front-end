@@ -12,8 +12,9 @@ class AdminHomePage extends StatefulWidget {
   final String token;
   final String? firstname;
   final String? lastname;
+  final bool? is_superuser;
   const AdminHomePage(
-      {super.key, required this.token, this.firstname, this.lastname});
+      {super.key, required this.token, this.firstname, this.lastname, this.is_superuser});
 
   @override
   State<AdminHomePage> createState() => _AdminHomePage();
@@ -23,9 +24,11 @@ class _AdminHomePage extends State<AdminHomePage> {
   static String token = "";
 
   var patientPictures;
+  late bool? is_superuser;
   var pages;
   void initState() {
     token = widget.token;
+    is_superuser = widget.is_superuser;
 
     pages = [
       AdminHome(token: token),
@@ -95,7 +98,7 @@ class _AdminHomePage extends State<AdminHomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => AddNewPatient(token: token,)));
+                    builder: (_) => AddNewPatient(token: token,is_superuser: true,)));
           },
         ));
   }

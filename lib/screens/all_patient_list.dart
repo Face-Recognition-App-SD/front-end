@@ -32,7 +32,7 @@ class _AllPatientList extends State<AllPatientList> {
   void initState() {
     token = widget.token;
     is_superuser = widget.is_superuser;
-    print('is suprt $is_superuser');
+    print('is super user $is_superuser');
   }
 
   TextEditingController txtQuery = TextEditingController();
@@ -51,6 +51,7 @@ class _AllPatientList extends State<AllPatientList> {
                   MaterialPageRoute(
                       builder: (context) => AdminHomePage(
                             token: token,
+                            is_superuser: is_superuser,
                           )),
                 );
               } else {
@@ -80,7 +81,7 @@ class _AllPatientList extends State<AllPatientList> {
                     context,
                     MaterialPageRoute(
                         builder: (_) => AddNewPatient(
-                              token: token,
+                              token: token,is_superuser: is_superuser,
                             )),
                   );
                 },
@@ -134,6 +135,7 @@ class _AllPatientList extends State<AllPatientList> {
                         token: token,
                         patientList: patients,
                         isFromAll: true,
+                        is_superuser: is_superuser,
                       ))
                   : const Center(
                       child: Padding(

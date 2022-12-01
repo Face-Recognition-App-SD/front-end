@@ -11,8 +11,8 @@ import '../utils/Glassmorphism.dart';
 
 class CompareFace extends StatefulWidget {
   final String token;
-  final bool isSuperUser;
-  const CompareFace({super.key, required this.token, required this.isSuperUser});
+  final bool? isSuperUser;
+  const CompareFace({super.key, required this.token,  this.isSuperUser});
 
   @override
   State<CompareFace> createState() => ExtendedCompareFace();
@@ -23,7 +23,7 @@ class ExtendedCompareFace extends State<CompareFace> {
   late String token;
   late Map<String, dynamic> pictures;
   late int id;
-  late bool isSuperUser = widget.isSuperUser;
+  late bool? isSuperUser = widget.isSuperUser;
   XFile? picture;
   @override
   void initState() {
@@ -82,12 +82,12 @@ class ExtendedCompareFace extends State<CompareFace> {
             print(isSuperUser);
             print("HOHOHOHOHOHOHOOHOHOHOOHH");
             Uri faceCompareUri = Uri();
-            if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser){
+            if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser!){
               faceCompareUri = Uri.https(Constants.BASE_URL, '/api/admin/user/face_recognize/');
             }
             else if (Constants.BASE_URL == "api.rostro-authentication.com") {
               faceCompareUri = Uri.https(Constants.BASE_URL, '/api/user/faceCompare/');
-            } else if(!isSuperUser) {
+            } else if(!isSuperUser!) {
               faceCompareUri = Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
             }
             else{
@@ -141,24 +141,24 @@ class ExtendedCompareFace extends State<CompareFace> {
             } else {
               id = int.parse(respues['T'].toString(),);
               Uri getPatientUri = Uri();
-              if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser){
+              if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser!){
                 getPatientUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
               }
               else if (Constants.BASE_URL == "api.rostro-authentication.com") {
                 getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
-              } else if(!isSuperUser){
+              } else if(!isSuperUser!){
                 getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
               }else{
                 print("JJOJOJOJOJOJOJOJOJOJO");
                 getPatientUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
               }
               Uri getImagesUri = Uri();
-              if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser){
+              if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser!){
                 getImagesUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/get_images/');
               }
               else if (Constants.BASE_URL == "api.rostro-authentication.com") {
                 getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
-              } else if(!isSuperUser){
+              } else if(!isSuperUser!){
                 getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
               }
               else{
@@ -181,11 +181,11 @@ class ExtendedCompareFace extends State<CompareFace> {
               var decodedPatient = jsonDecode(patientRes.body);
               pictures = json.decode(imageRes.body);
               XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
-              if(isSuperUser){
+              if(isSuperUser!){
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => UserDetail(token: token,
+                    builder: (_) => UserDetail(token: token,is_superuser: isSuperUser,
                         id: id)
                   ),
                 );

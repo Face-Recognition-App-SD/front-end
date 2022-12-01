@@ -29,7 +29,7 @@ class _AdminLoginPage extends State<AdminLoginPage> {
   var bg = './assets/images/bg1.gif';
   bool _isLoading = false;
   late String token;
-  bool _is_superuser = false;
+  bool? _is_superuser = true;
   bool _passwordVisible = false;
 
   @override
@@ -208,7 +208,7 @@ class _AdminLoginPage extends State<AdminLoginPage> {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          AdminHomePage(token: token)),
+                          AdminHomePage(token: token,)),
                   (Route<dynamic> route) => false);
             }
           },

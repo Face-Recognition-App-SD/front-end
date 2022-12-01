@@ -13,9 +13,11 @@ class ShowPatient extends StatefulWidget {
   final Map<String, dynamic> details;
   final XFile picture;
   final bool isFromAll;
+  final bool? is_superuser;
 
   const ShowPatient(
       {super.key,
+      this.is_superuser,
       required this.token,
       required this.details,
       required this.picture,
@@ -32,6 +34,7 @@ class ShowPatientDetails extends State<ShowPatient> {
   late int id = widget.details['id'];
   late XFile picture = widget.picture;
   late bool isFromAll = widget.isFromAll;
+  late bool? is_superuser = widget.is_superuser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +55,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                 MaterialPageRoute(
                     builder: (context) => PatientList(
                           token: token,
+                          is_superuser: is_superuser,
                         )),
               );
             },
@@ -92,7 +96,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                         builder: (_) => VerifyPatient(
                           token: token,
                           id: id,
-                          isSuperUser: false,
+                          isSuperUser: is_superuser!,
                         ),
                       ),
                     );

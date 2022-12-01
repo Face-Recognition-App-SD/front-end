@@ -17,8 +17,9 @@ import 'package:camera/camera.dart';
 
 class UserDetail extends StatefulWidget {
   final String token;
-  final id;
-  const UserDetail({super.key, required this.token, required this.id});
+  final id; 
+  final bool? is_superuser;
+  const UserDetail({super.key, required this.token, required this.id, this.is_superuser});
 
   @override
   State<UserDetail> createState() => _UserDetail();
@@ -30,11 +31,13 @@ class _UserDetail extends State<UserDetail> {
   late int id;
   late Future<UserLogin?> futureUser;
   late Map<String, dynamic> pictures;
+  late bool? is_superuser;
   XFile userPicture = XFile('/assets/images/icon_sample.jpeg');
   @override
   void initState() {
     super.initState();
     token = widget.token;
+    is_superuser = widget.is_superuser;
     id = widget.id;
     futureUser = fetchUserProfile(token, id);
     getPic();
@@ -46,7 +49,7 @@ class _UserDetail extends State<UserDetail> {
   String? lastName = "";
   String? role = "";
   String? gender = "";
-  bool? is_superuser = false;
+ // bool? is_superuser = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

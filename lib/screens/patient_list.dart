@@ -35,10 +35,13 @@ class _PatientList extends State<PatientList> {
     is_superuser = widget.is_superuser;
   }
 
+
   TextEditingController txtQuery = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+      print("is user in patient list");
+  print(is_superuser);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
@@ -52,6 +55,7 @@ class _PatientList extends State<PatientList> {
                 MaterialPageRoute(
                     builder: (context) => AdminHomePage(
                           token: token,
+                       //   is_superuser: is_superuser,
                         )),
               );
             } else {
@@ -82,6 +86,7 @@ class _PatientList extends State<PatientList> {
                   MaterialPageRoute(
                       builder: (_) => AddNewPatient(
                             token: token,
+                            is_superuser: is_superuser,
                           )),
                 );
               },
@@ -132,7 +137,7 @@ class _PatientList extends State<PatientList> {
           },
         ),
       ),
-      onEditingComplete: showPatients,
+  //    onEditingComplete: showPatients,
     );
   }
 
