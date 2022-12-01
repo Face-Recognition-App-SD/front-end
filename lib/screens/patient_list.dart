@@ -55,7 +55,7 @@ class _PatientList extends State<PatientList> {
                 MaterialPageRoute(
                     builder: (context) => AdminHomePage(
                           token: token,
-                       //   is_superuser: is_superuser,
+                          is_superuser: is_superuser,
                         )),
               );
             } else {
