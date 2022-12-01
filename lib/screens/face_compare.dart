@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:rostro_app/admins/am_user_detail.dart';
 import 'package:rostro_app/screens/show_patient.dart';
 import '../utils/constant.dart';
 import './camera.dart';
@@ -81,9 +82,11 @@ class ExtendedCompareFace extends State<CompareFace> {
             print(isSuperUser);
             print("HOHOHOHOHOHOHOOHOHOHOOHH");
             Uri faceCompareUri = Uri();
-            if (Constants.BASE_URL == "api.rostro-authentication.com") {
-              faceCompareUri =
-                  Uri.https(Constants.BASE_URL, '/api/user/faceCompare/');
+            if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser){
+              faceCompareUri = Uri.https(Constants.BASE_URL, '/api/admin/user/face_recognize/');
+            }
+            else if (Constants.BASE_URL == "api.rostro-authentication.com") {
+              faceCompareUri = Uri.https(Constants.BASE_URL, '/api/user/faceCompare/');
             } else if(!isSuperUser) {
               faceCompareUri = Uri.parse("${Constants.BASE_URL}/api/user/faceCompare/");
             }
@@ -119,11 +122,6 @@ class ExtendedCompareFace extends State<CompareFace> {
 
             var image = await http.MultipartFile.fromPath("image1", path);
             request.files.add(image);
-            print(request.fields);
-            print(request.files);
-            print(request.url);
-            print(path);
-            print(request.headers);
             http.StreamedResponse response = await request.send();
             var responseData = await response.stream.toBytes();
             var responseString = String.fromCharCodes(responseData);
@@ -143,9 +141,11 @@ class ExtendedCompareFace extends State<CompareFace> {
             } else {
               id = int.parse(respues['T'].toString(),);
               Uri getPatientUri = Uri();
-              if (Constants.BASE_URL == "api.rostro-authentication.com") {
-                getPatientUri = Uri.https(
-                    Constants.BASE_URL, '/api/patients/patientss/$id/');
+              if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser){
+                getPatientUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
+              }
+              else if (Constants.BASE_URL == "api.rostro-authentication.com") {
+                getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
               } else if(!isSuperUser){
                 getPatientUri = Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');
               }else{
@@ -153,7 +153,10 @@ class ExtendedCompareFace extends State<CompareFace> {
                 getPatientUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
               }
               Uri getImagesUri = Uri();
-              if (Constants.BASE_URL == "api.rostro-authentication.com") {
+              if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser){
+                getImagesUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/get_images/');
+              }
+              else if (Constants.BASE_URL == "api.rostro-authentication.com") {
                 getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
               } else if(!isSuperUser){
                 getImagesUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/$id/get_images/');
@@ -178,17 +181,28 @@ class ExtendedCompareFace extends State<CompareFace> {
               var decodedPatient = jsonDecode(patientRes.body);
               pictures = json.decode(imageRes.body);
               XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => ShowPatient(
-                    token: token,
-                    details: decodedPatient,
-                    picture: retrievedPicture,
-                    isFromAll: true,
+              if(isSuperUser){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => UserDetail(token: token,
+                        id: id)
                   ),
-                ),
-              );
+                );
+              }
+              else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ShowPatient(
+                      token: token,
+                      details: decodedPatient,
+                      picture: retrievedPicture,
+                      isFromAll: true,
+                    ),
+                  ),
+                );
+              }
             }
             // child:Container()
           },

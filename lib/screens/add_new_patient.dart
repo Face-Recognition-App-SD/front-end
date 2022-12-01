@@ -536,8 +536,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
     id = data['id'];
     Uri addPatientPictures = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      addPatientPictures = Uri.https(
-          Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
+      addPatientPictures = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/upload-image/');
     } else {
       addPatientPictures = Uri.parse(
           "${Constants.BASE_URL}/api/patients/patientss/$id/upload-image/");
@@ -545,6 +544,8 @@ class _AddNewPatientState extends State<AddNewPatient> {
     var request = http.MultipartRequest("POST", addPatientPictures);
     request.headers.addAll({"Authorization": "Token $token"});
     request.fields['id'] = id.toString();
+    print("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
+    print(pictures);
     var image1 =
         await http.MultipartFile.fromPath("image_lists", pictures[0]!.path);
     request.files.add(image1);
@@ -562,7 +563,8 @@ class _AddNewPatientState extends State<AddNewPatient> {
     request.files.add(image5);
 
     http.StreamedResponse response = await request.send();
-
+    print(request.fields);
+    print(request.files);
     var responseData = await response.stream.toBytes();
     var responseString = String.fromCharCodes(responseData);
     Navigator.of(context).pop();

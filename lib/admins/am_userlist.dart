@@ -270,10 +270,10 @@ class _PatientList extends State<UserList> {
     Uri myProfileUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
       myProfileUri =
-          Uri.https(Constants.BASE_URL, '/api/admin/users/?search=$text');
+          Uri.https(Constants.BASE_URL, '/api/admin/users/');
     } else {
       myProfileUri =
-          Uri.parse('${Constants.BASE_URL}/api/admin/users/?search=$text');
+          Uri.parse('${Constants.BASE_URL}/api/admin/users/');
     }
     var response;
 
