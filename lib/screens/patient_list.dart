@@ -16,9 +16,9 @@ import '../admins/am_home_page.dart';
 
 class PatientList extends StatefulWidget {
   final String token;
-  final bool? is_superuser;
+  final bool is_superuser;
 
-  const PatientList({super.key, required this.token, this.is_superuser});
+  const PatientList({super.key, required this.token, required this.is_superuser});
   @override
   State<PatientList> createState() => _PatientList();
 }
@@ -28,7 +28,7 @@ class _PatientList extends State<PatientList> {
   late String token;
   late List<PatientsData> patients = [];
   bool _searchBoolean = false;
-  late bool? is_superuser;
+  late bool is_superuser;
   @override
   void initState() {
     token = widget.token;
@@ -162,6 +162,7 @@ class _PatientList extends State<PatientList> {
                         token: token,
                         patientList: patients,
                         isFromAll: false,
+                        is_superuser: is_superuser,
                       ))
                   : const Center(
                       child: Padding(

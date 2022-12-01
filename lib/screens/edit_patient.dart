@@ -83,9 +83,10 @@ String estado = 'none';
 class EditPatient extends StatefulWidget {
   final String token;
   final Map<String, dynamic> details;
-
+  final bool isSuperUser;
   const EditPatient({
     super.key,
+    required this.isSuperUser,
     required this.token,
     required this.details,
   });
@@ -98,6 +99,7 @@ class ExtendEditPatient extends State<EditPatient> {
   var bg = './assets/images/bg1.gif';
   late Map<String, dynamic> details = widget.details;
   late String token = widget.token;
+  late bool isSuperUser = widget.isSuperUser;
   late String nm = widget.details['first_name'];
   late int id = widget.details['id'];
   List<XFile?> pictures = [];
@@ -134,6 +136,7 @@ class ExtendEditPatient extends State<EditPatient> {
                     MaterialPageRoute(
                         builder: (_) => PatientList(
                               token: token,
+                              is_superuser: isSuperUser,
                             )),
                   );
                 },
@@ -506,6 +509,7 @@ class ExtendEditPatient extends State<EditPatient> {
                   MaterialPageRoute(
                       builder: (_) => PatientList(
                             token: token,
+                            is_superuser: isSuperUser,
                           )),
                 );
               },

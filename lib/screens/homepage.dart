@@ -27,9 +27,9 @@ class _HomeState extends State<Homepage> {
     token1 = widget.token;
 
     pages = [
-      Home(token: token1),
+      Home(token: token1, isSuperUser: false,),
       CompareFace(token: token1, isSuperUser: false,),
-      PatientList(token: token1),
+      PatientList(token: token1, is_superuser: false,),
       Profile(token: token1),
     ];
   }
@@ -93,7 +93,7 @@ class _HomeState extends State<Homepage> {
           child: const Text('PatientList'),
           onPressed: () async {
             Navigator.push(context,
-                MaterialPageRoute(builder: (_) => PatientList(token: token1)));
+                MaterialPageRoute(builder: (_) => PatientList(token: token1, is_superuser: false,)));
           },
         ));
   }
@@ -108,7 +108,7 @@ class _HomeState extends State<Homepage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => AddNewPatient(token: token1)));
+                    builder: (_) => AddNewPatient(token: token1, is_superuser: false,)));
           },
         ));
   }

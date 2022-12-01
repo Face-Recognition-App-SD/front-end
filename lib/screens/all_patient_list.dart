@@ -16,8 +16,8 @@ import '../admins/am_home_page.dart';
 
 class AllPatientList extends StatefulWidget {
   final String token;
-  final bool? is_superuser;
-  const AllPatientList({super.key, required this.token, this.is_superuser});
+  final bool is_superuser;
+  const AllPatientList({super.key, required this.token, required this.is_superuser});
   @override
   State<AllPatientList> createState() => _AllPatientList();
 }
@@ -27,7 +27,7 @@ class _AllPatientList extends State<AllPatientList> {
   late String token;
   late List<PatientsData> patients = [];
   bool _searchBoolean = false;
-  late bool? is_superuser;
+  late bool is_superuser;
   @override
   void initState() {
     token = widget.token;
@@ -193,7 +193,11 @@ class _AllPatientList extends State<AllPatientList> {
   Future<http.Response?> fetchPatients(token) async {
     var text = txtQuery.text;
     Uri myProfileUri = Uri();
-    if (Constants.BASE_URL == "api.rostro-authentication.com") {
+    if(Constants.BASE_URL == "api.rostro-authentication.com" && is_superuser){
+      print("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+      myProfileUri = Uri.https(Constants.BASE_URL, '/api/admin/patients/');
+    }
+    else if (Constants.BASE_URL == "api.rostro-authentication.com") {
       myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/all/');
     } else {
       myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/');

@@ -12,7 +12,8 @@ class Home extends StatefulWidget {
   final String? token;
   final String? firstname;
   final String? lastname;
-  const Home({super.key, this.token, this.firstname, this.lastname});
+  final bool isSuperUser;
+  const Home({super.key, this.token, this.firstname, this.lastname, required this.isSuperUser});
   @override
   State<Home> createState() => _Home();
 }
@@ -24,6 +25,7 @@ class _Home extends State<Home> {
   late String? fn;
   late String? ln;
   var patientPictures;
+  late bool isSuperUser = widget.isSuperUser;
   @override
   void initState() {
     token = widget.token;
@@ -129,7 +131,7 @@ class _Home extends State<Home> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (_) =>
-                                                PatientList(token: token!)));
+                                                PatientList(token: token!, is_superuser: false,)));
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -161,7 +163,7 @@ class _Home extends State<Home> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (_) =>
-                                              AllPatientList(token: token!),
+                                              AllPatientList(token: token!, is_superuser: isSuperUser,),
                                         ));
                                   },
                                   child: Container(

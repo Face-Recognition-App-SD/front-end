@@ -10,10 +10,10 @@ class PatientDetail extends StatefulWidget {
   final String token;
   final String id;
   final bool isFromALl;
-  final bool? is_superuser;
+  final bool is_superuser;
   const PatientDetail(
       {super.key,
-     this.is_superuser,
+      required this.is_superuser,
       required this.token,
       required this.id,
       required this.isFromALl});
@@ -29,7 +29,7 @@ class _PatientDetail extends State<PatientDetail> {
   late String id;
   XFile? picture;
   late bool isFromAll = widget.isFromALl;
-  late bool? is_superuser = widget.is_superuser;
+  late bool is_superuser = widget.is_superuser;
   @override
   void initState() {
     super.initState();
@@ -58,9 +58,11 @@ class _PatientDetail extends State<PatientDetail> {
       id = any;
     });
     Uri getPatientUri = Uri();
-    if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      getPatientUri =
-          Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
+    if(Constants.BASE_URL == "api.rostro-authentication.com" && is_superuser){
+      getPatientUri = Uri.https(Constants.BASE_URL, '/api/admin/patients/$id/');
+    }
+    else if (Constants.BASE_URL == "api.rostro-authentication.com") {
+      getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
     } else {
       getPatientUri =
           Uri.parse('${Constants.BASE_URL}/api/patients/patientss/$id/');

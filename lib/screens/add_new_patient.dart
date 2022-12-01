@@ -19,9 +19,9 @@ String? selectedValueforState;
 
 class AddNewPatient extends StatefulWidget {
   final String token;
-  final bool? is_superuser;
+  final bool is_superuser;
 
-  const AddNewPatient({super.key, required this.token, this.is_superuser});
+  const AddNewPatient({super.key, required this.token, required this.is_superuser});
 
   @override
   State<AddNewPatient> createState() => _AddNewPatientState();
@@ -29,7 +29,7 @@ class AddNewPatient extends StatefulWidget {
 
 class _AddNewPatientState extends State<AddNewPatient> {
   var bg = './assets/images/bg1.gif';
-  late bool? is_superuser = widget.is_superuser;
+  late bool is_superuser = widget.is_superuser;
   late String token;
   String? selectedGenderVal = "";
   String? selectedState = "";
@@ -596,6 +596,7 @@ class _AddNewPatientState extends State<AddNewPatient> {
                   MaterialPageRoute(
                       builder: (_) => PatientList(
                             token: token,
+                            is_superuser: is_superuser,
                           )),
                 );
               },

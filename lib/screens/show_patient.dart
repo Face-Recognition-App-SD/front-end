@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:rostro_app/screens/all_patient_list.dart';
 import 'package:rostro_app/screens/patient_list.dart';
 import 'package:rostro_app/screens/verify_patient.dart';
 
@@ -13,11 +14,11 @@ class ShowPatient extends StatefulWidget {
   final Map<String, dynamic> details;
   final XFile picture;
   final bool isFromAll;
-  final bool? is_superuser;
+  final bool is_superuser;
 
   const ShowPatient(
       {super.key,
-      this.is_superuser,
+      required this.is_superuser,
       required this.token,
       required this.details,
       required this.picture,
@@ -34,7 +35,7 @@ class ShowPatientDetails extends State<ShowPatient> {
   late int id = widget.details['id'];
   late XFile picture = widget.picture;
   late bool isFromAll = widget.isFromAll;
-  late bool? is_superuser = widget.is_superuser;
+  late bool is_superuser = widget.is_superuser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,14 +51,28 @@ class ShowPatientDetails extends State<ShowPatient> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PatientList(
-                          token: token,
-                          is_superuser: is_superuser,
-                        )),
-              );
+              if(!isFromAll) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          PatientList(
+                            token: token,
+                            is_superuser: is_superuser,
+                          )),
+                );
+              }
+              else{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          AllPatientList(
+                            token: token,
+                            is_superuser: is_superuser,
+                          )),
+                );
+              }
             },
           ),
           actions: <Widget>[
@@ -72,6 +87,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                       MaterialPageRoute(
                           builder: (_) => PatientList(
                                 token: token,
+                                is_superuser: is_superuser,
                               )),
                     );
                   }
@@ -120,7 +136,7 @@ class ShowPatientDetails extends State<ShowPatient> {
                       context,
                       MaterialPageRoute(
                         builder: (_) =>
-                            EditPatient(token: token, details: details),
+                            EditPatient(token: token, details: details, isSuperUser: is_superuser,),
                       ),
                     );
                   }

@@ -11,8 +11,8 @@ import '../utils/Glassmorphism.dart';
 
 class CompareFace extends StatefulWidget {
   final String token;
-  final bool? isSuperUser;
-  const CompareFace({super.key, required this.token,  this.isSuperUser});
+  final bool isSuperUser;
+  const CompareFace({super.key, required this.token, required this.isSuperUser});
 
   @override
   State<CompareFace> createState() => ExtendedCompareFace();
@@ -23,7 +23,7 @@ class ExtendedCompareFace extends State<CompareFace> {
   late String token;
   late Map<String, dynamic> pictures;
   late int id;
-  late bool? isSuperUser = widget.isSuperUser;
+  late bool isSuperUser = widget.isSuperUser;
   XFile? picture;
   @override
   void initState() {
@@ -199,6 +199,7 @@ class ExtendedCompareFace extends State<CompareFace> {
                       details: decodedPatient,
                       picture: retrievedPicture,
                       isFromAll: true,
+                      is_superuser: isSuperUser,
                     ),
                   ),
                 );

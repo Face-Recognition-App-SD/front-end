@@ -198,7 +198,8 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                                 token: token,
                                 details: decodedPatient,
                                 picture: retrievedPicture,
-                                isFromAll: true,)));
+                                isFromAll: true,
+                                is_superuser: isSuperUser,)));
                 }
                 else{
                   Navigator.push(
