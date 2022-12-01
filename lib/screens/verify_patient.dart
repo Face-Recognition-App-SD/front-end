@@ -101,13 +101,17 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                       child: CircularProgressIndicator(),
                     );
                   });
-              var image = await http.MultipartFile.fromPath("image", file.path);
+              print(path);
+              print("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
+              var image = await http.MultipartFile.fromPath("image", path);
               request.files.add(image);
               request.fields['id'] = id.toString();
               http.StreamedResponse response = await request.send();
               var responseData = await response.stream.toBytes();
               var responseString = String.fromCharCodes(responseData);
               var respues = jsonDecode(responseString);
+              print(request);
+              print(respues);
               Navigator.of(context).pop();
               if (respues['status'] == false) {
                 const snackbar = SnackBar(
@@ -122,7 +126,10 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                 const snackbar = SnackBar(content: Text("Match Found!", textAlign: TextAlign.center, style: TextStyle(fontSize: 20),));
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
                 Uri  getPatientUri = Uri();
-                if(Constants.BASE_URL == "api.rostro-authentication.com"){
+                if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser){
+                  getPatientUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/');
+                }
+                else if(Constants.BASE_URL == "api.rostro-authentication.com"){
                   getPatientUri = Uri.https(Constants.BASE_URL, '/api/patients/patientss/$id/');
                 }
                 else if(!isSuperUser){
@@ -132,7 +139,10 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                   getPatientUri = Uri.parse('${Constants.BASE_URL}/api/admin/users/$id/');
                 }
                 Uri getImagesUri = Uri();
-                if(Constants.BASE_URL == "api.rostro-authentication.com"){
+                if(Constants.BASE_URL == "api.rostro-authentication.com" && isSuperUser){
+                  getImagesUri = Uri.https(Constants.BASE_URL, '/api/admin/users/$id/get_images/');
+                }
+                else if(Constants.BASE_URL == "api.rostro-authentication.com"){
                   getImagesUri = Uri.https(Constants.BASE_URL, '/api/patients/all/$id/get_images/');
                 }
                 else if(!isSuperUser){
@@ -160,6 +170,7 @@ class ExtendVerifyPatient extends State<VerifyPatient> {
                 pictures = json.decode(imageRes.body);
 
                 XFile retrievedPicture = XFile(pictures['image_lists'][0]['image']);
+                print("HEREHERHEHREHRHERHEHRHERHHR");
                 if (!isSuperUser) {
                   Navigator.push(
                       context,

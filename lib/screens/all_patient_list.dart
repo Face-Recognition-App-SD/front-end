@@ -201,9 +201,9 @@ class _AllPatientList extends State<AllPatientList> {
       var text = txtQuery.text;
     Uri myProfileUri = Uri();
     if (Constants.BASE_URL == "api.rostro-authentication.com") {
-      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/all/?search=$text');
+      myProfileUri = Uri.https(Constants.BASE_URL, '/api/patients/all/');
     } else {
-      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/?search=$text');
+      myProfileUri = Uri.parse('${Constants.BASE_URL}/api/patients/all/');
     }
     final res = await http.get(
       myProfileUri,
